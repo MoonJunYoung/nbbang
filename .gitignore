@@ -1,4 +1,4 @@
 .DS_Store
-backend/test.py
+test.py
 __pycache__/
 .env
