@@ -9,5 +9,6 @@ class UserRepository:
             id=None,
             identifier=user.identifier,
             password=user.password,
+            salt=user.salt,
         )
         MysqlCreate(user_model).run()
