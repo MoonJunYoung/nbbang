@@ -14,9 +14,9 @@ class UserData(BaseModel):
 
 
 class UserPresentation:
-    router = APIRouter(prefix="/api/")
+    router = APIRouter(prefix="/api")
 
-    @router.post("sign-up", status_code=201)
+    @router.post("/sign-up", status_code=201)
     async def sign_up(user_data: UserData):
         try:
             user_service.sign_up(
@@ -26,7 +26,7 @@ class UserPresentation:
         except IdentifierAlreadyException as e:
             raise HTTPException(status_code=409, detail=f"{e}")
 
-    @router.post("sign-in", status_code=201)
+    @router.post("/sign-in", status_code=201)
     async def sign_in(user_data: UserData):
         try:
             return user_service.sign_in(
