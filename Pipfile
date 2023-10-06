@@ -9,6 +9,7 @@ pymysql = "1.1.0"
 python-dotenv = "1.0.0"
 bcrypt = "4.0.1"
 fastapi = "0.103.2"
+pyjwt = "2.8.0"
 
 [dev-packages]
 

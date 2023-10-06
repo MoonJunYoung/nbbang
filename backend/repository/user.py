@@ -9,12 +9,16 @@ class UserRepository(MysqlSession):
             id=None,
             identifier=user.identifier,
             password=user.password,
-            salt=user.salt,
         )
         MysqlCreate(user_model).run()
 
-    def check_duplicate_identifier(self, user: User):
-        user_model = self.session.query(UserModel).filter(UserModel.identifier == user.identifier).first()
+    def read_by_identifier(self, identifier):
+        user_model = self.session.query(UserModel).filter(UserModel.identifier == identifier).first()
         if user_model:
-            return True
+            return User(
+                id=user_model.id,
+                identifier=user_model.identifier,
+                password=user_model.password,
+                token=None,
+            )
         return False

@@ -10,10 +10,8 @@ class UserModel(Base):
     id = Column("id", Integer, primary_key=True)
     identifier = Column(String)
     password = Column(String)
-    salt = Column(String)
 
-    def __init__(self, id, identifier, password, salt):
+    def __init__(self, id, identifier, password):
         self.id = id
         self.identifier = identifier
         self.password = password
-        self.salt = salt
