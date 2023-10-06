@@ -18,6 +18,7 @@ class UserPresentation:
 
     @router.post("/sign-up", status_code=201)
     async def sign_up(user_data: UserData):
+        print(user_data.__dict__)
         try:
             user_service.sign_up(
                 identifier=user_data.identifier,
