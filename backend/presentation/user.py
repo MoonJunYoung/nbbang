@@ -18,6 +18,8 @@ class UserPresentation:
 
     @router.post("/sign-up", status_code=201)
     async def sign_up(user_data: UserData):
+        if not user_data.identifier or not user_data.password:
+            raise HTTPException(status_code=422, detail="empty value")
         try:
             user_service.sign_up(
                 identifier=user_data.identifier,
@@ -28,6 +30,8 @@ class UserPresentation:
 
     @router.post("/sign-in", status_code=201)
     async def sign_in(user_data: UserData):
+        if not user_data.identifier or not user_data.password:
+            raise HTTPException(status_code=422, detail="empty value")
         try:
             return user_service.sign_in(
                 identifier=user_data.identifier,
