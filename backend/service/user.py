@@ -18,7 +18,7 @@ class UserService:
             raise IdentifierAlreadyException(identifier=identifier)
         user.password_encryption()
         self.user_repository.create(user=user)
-        user.create_token
+        user.create_token()
         return user.token
 
     def sign_in(self, identifier, password):
