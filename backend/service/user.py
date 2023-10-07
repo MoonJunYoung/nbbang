@@ -18,6 +18,8 @@ class UserService:
             raise IdentifierAlreadyException(identifier=identifier)
         user.password_encryption()
         self.user_repository.create(user=user)
+        user.create_token
+        return user.token
 
     def sign_in(self, identifier, password):
         db_user = self.user_repository.read_by_identifier(identifier)
@@ -33,3 +35,12 @@ class UserService:
             raise PasswordNotMatchException(identifier=identifier, password=password)
         db_user.create_token()
         return db_user.token
+
+    def get_user(self, token):
+        user = User(
+            id=None,
+            identifier=None,
+            password=None,
+            token=token,
+        )
+        user.get_user_id_by_token()
