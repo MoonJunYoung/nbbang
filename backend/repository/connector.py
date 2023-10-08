@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import os
 from dotenv import load_dotenv
-from abc import ABC, abstractmethod
+
 
 load_dotenv()
 
@@ -17,40 +17,9 @@ class MysqlConnector:
     Session = scoped_session(sessionmaker(bind=engine))
 
 
-class MysqlSession(MysqlConnector, ABC):
+class MysqlSession(MysqlConnector):
     def __init__(self) -> None:
         self.session = self.Session()
 
-    def close(self):
+    def __del__(self):
         self.session.close()
-
-
-class MysqlCRUDTemplate(MysqlSession):
-    def __init__(self, model) -> None:
-        self.model = model
-        super().__init__()
-
-    @abstractmethod
-    def execute(self):
-        pass
-
-    def run(self):
-        self.execute()
-        self.close()
-
-
-class MysqlCreate(MysqlCRUDTemplate):
-    def execute(self):
-        self.session.add(self.model)
-        self.session.commit()
-
-
-class MysqlUpdate(MysqlCRUDTemplate):
-    def execute(self):
-        self.session.commit()
-
-
-class MysqlDelete(MysqlCRUDTemplate):
-    def execute(self):
-        self.session.delete(self.model)
-        self.session.commit()

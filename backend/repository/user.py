@@ -1,5 +1,5 @@
 from backend.domain.user import User
-from backend.repository.connector import MysqlCreate, MysqlSession
+from backend.repository.connector import MysqlSession
 from backend.repository.model import UserModel
 
 
@@ -10,7 +10,9 @@ class UserRepository(MysqlSession):
             identifier=user.identifier,
             password=user.password,
         )
-        MysqlCreate(user_model).run()
+        self.session.add(user_model)
+        self.session.commit()
+        user.id = user_model.id
 
     def read_by_identifier(self, identifier):
         user_model = self.session.query(UserModel).filter(UserModel.identifier == identifier).first()
