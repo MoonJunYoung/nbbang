@@ -1,6 +1,11 @@
 from fastapi import APIRouter, HTTPException, Header
 from pydantic import BaseModel
-from backend.exception import IdentifierAlreadyException, IdentifierNotFoundException, PasswordNotMatchException
+from backend.exception import (
+    IdentifierAlreadyException,
+    IdentifierNotFoundException,
+    InvalidTokenException,
+    PasswordNotMatchException,
+)
 
 from backend.service.user import UserService
 from backend.presentation.token import Token
@@ -54,7 +59,5 @@ class UserPresentation:
         try:
             user_id = Token.get_user_id_by_token(token)
             return user_service.get_user(user_id)
-        except IdentifierNotFoundException:
-            raise HTTPException(status_code=401, detail="incorrect identifier or password")
-        except PasswordNotMatchException:
-            raise HTTPException(status_code=401, detail="incorrect identifier or password")
+        except InvalidTokenException as e:
+            raise HTTPException(status_code=401, detail=f"{e}")
