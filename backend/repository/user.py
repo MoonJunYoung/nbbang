@@ -21,7 +21,6 @@ class UserRepository(MysqlSession):
                 id=user_model.id,
                 identifier=user_model.identifier,
                 password=user_model.password,
-                token=None,
             )
         return False
 
@@ -32,6 +31,5 @@ class UserRepository(MysqlSession):
                 id=user_model.id,
                 identifier=user_model.identifier,
                 password=user_model.password,
-                token=None,
             )
         return False

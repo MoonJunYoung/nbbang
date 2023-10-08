@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from backend.exception import IdentifierAlreadyException, IdentifierNotFoundException, PasswordNotMatchException
 
 from backend.service.user import UserService
-
+from backend.presentation.token import Token
 
 user_service = UserService()
 
@@ -21,10 +21,12 @@ class UserPresentation:
         if not user_data.identifier or not user_data.password:
             raise HTTPException(status_code=422, detail="empty value")
         try:
-            return user_service.sign_up(
+            user_id = user_service.sign_up(
                 identifier=user_data.identifier,
                 password=user_data.password,
             )
+            return Token.create_token_by_user_id(user_id)
+
         except IdentifierAlreadyException as e:
             raise HTTPException(status_code=409, detail=f"{e}")
 
@@ -33,10 +35,12 @@ class UserPresentation:
         if not user_data.identifier or not user_data.password:
             raise HTTPException(status_code=422, detail="empty value")
         try:
-            return user_service.sign_in(
+            user_id = user_service.sign_in(
                 identifier=user_data.identifier,
                 password=user_data.password,
             )
+            return Token.create_token_by_user_id(user_id)
+
         except IdentifierNotFoundException:
             raise HTTPException(status_code=401, detail="incorrect identifier or password")
         except PasswordNotMatchException:
@@ -44,10 +48,11 @@ class UserPresentation:
 
     @router.get("/user", status_code=200)
     async def get_user(authToken: str = Cookie(None)):
-        # if not user_data.identifier or not user_data.password:
-        #     raise HTTPException(status_code=422, detail="empty value")
+        if not authToken:
+            raise HTTPException(status_code=401, detail="authToken is missing")
         try:
-            return user_service.get_user(token=authToken)
+            user_id = Token.get_user_id_by_token(authToken)
+            return user_service.get_user(user_id)
         except IdentifierNotFoundException:
             raise HTTPException(status_code=401, detail="incorrect identifier or password")
         except PasswordNotMatchException:
