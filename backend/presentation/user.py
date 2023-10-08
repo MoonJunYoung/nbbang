@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Cookie
 from pydantic import BaseModel
 from backend.exception import IdentifierAlreadyException, IdentifierNotFoundException, PasswordNotMatchException
 
@@ -37,6 +37,17 @@ class UserPresentation:
                 identifier=user_data.identifier,
                 password=user_data.password,
             )
+        except IdentifierNotFoundException:
+            raise HTTPException(status_code=401, detail="incorrect identifier or password")
+        except PasswordNotMatchException:
+            raise HTTPException(status_code=401, detail="incorrect identifier or password")
+
+    @router.get("/user", status_code=200)
+    async def get_user(authToken: str = Cookie(None)):
+        # if not user_data.identifier or not user_data.password:
+        #     raise HTTPException(status_code=422, detail="empty value")
+        try:
+            return user_service.get_user(token=authToken)
         except IdentifierNotFoundException:
             raise HTTPException(status_code=401, detail="incorrect identifier or password")
         except PasswordNotMatchException:

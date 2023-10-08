@@ -44,3 +44,9 @@ class UserService:
             token=token,
         )
         user.get_user_id_by_token()
+        print(user.__dict__)
+        db_user = self.user_repository.read_by_id(user.id)
+        print(db_user.__dict__)
+        del db_user.password
+        del db_user.token
+        return db_user

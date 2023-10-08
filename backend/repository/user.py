@@ -22,3 +22,14 @@ class UserRepository(MysqlSession):
                 token=None,
             )
         return False
+
+    def read_by_id(self, id):
+        user_model = self.session.query(UserModel).filter(UserModel.id == id).first()
+        if user_model:
+            return User(
+                id=user_model.id,
+                identifier=user_model.identifier,
+                password=user_model.password,
+                token=None,
+            )
+        return False
