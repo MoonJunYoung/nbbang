@@ -15,6 +15,11 @@ import {
   SingdMessge,
 } from "./SigndPage.styled";
 
+const InputField = {
+  Identifier: "identifier",
+  Password: "password",
+};
+
 const SigndPage = () => {
   const [formData, setFormData] = useState({
     identifier: "",
@@ -33,13 +38,13 @@ const SigndPage = () => {
       [name]: value,
     });
 
-    if (name === "identifier") {
+    if (name === InputField.Identifier) {
       const identifierRegex = /^[a-z0-9]{5,15}$/;
       const isValid = identifierRegex.test(value);
       setIsIdentifierValid(isValid);
     }
 
-    if (name === "password") {
+    if (name === InputField.password) {
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
       const isValid = passwordRegex.test(value);
       setIsPasswordValid(isValid);
@@ -91,7 +96,7 @@ const SigndPage = () => {
           <InputBox>
             <Input
               type="text"
-              name="identifier"
+              name={InputField.identifier}
               placeholder=" 아이디를 입력해주세요"
               value={formData.identifier}
               onChange={handleInputChange}
@@ -105,7 +110,7 @@ const SigndPage = () => {
           <InputBox>
             <Input
               type="password"
-              name="password"
+              name={InputField.Password}
               placeholder=" 비밀번호를 입력해주세요"
               value={formData.password}
               onChange={handleInputChange}
