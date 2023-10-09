@@ -24,3 +24,11 @@ class MeetingService:
             date=date,
         )
         self.meeting_repository.update(meeting)
+
+    def delete(self, id):
+        meeting = Meeting(
+            id=id,
+            name=None,
+            date=None,
+        )
+        self.meeting_repository.delete(meeting)

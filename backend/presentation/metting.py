@@ -40,3 +40,15 @@ class MeetingPresentation:
             date=meeting_date.date,
         )
         return meeting
+
+    @router.delete("/{meeting_id}", status_code=200)
+    async def delete(user_id: int, meeting_id: int, Authorization=Header(None)):
+        token = Authorization
+        if not token:
+            raise HTTPException(status_code=401, detail="authToken is missing")
+        token_user_id = Token.get_user_id_by_token(token)
+        if user_id != token_user_id:
+            raise HTTPException(status_code=403, detail="not permission to resource")
+        meeting_service.delete(
+            id=meeting_id,
+        )

@@ -22,6 +22,11 @@ class MeetingRepository(MysqlSession):
         meeting_model.date = meeting.date
         self.session.commit()
 
+    def delete(self, meeting: Meeting):
+        meeting_model = self.session.query(MeetingModel).filter(MeetingModel.id == meeting.id).first()
+        self.session.delete(meeting_model)
+        self.session.commit()
+
     def read_meetings_by_user_id(self, user_id):
         meetings = list()
         meeting_models = self.session.query(MeetingModel).filter(MeetingModel.user_id == user_id).all()
