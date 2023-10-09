@@ -22,6 +22,7 @@ class MeetingService:
             id=id,
             name=name,
             date=date,
+            user_id=None,
         )
         self.meeting_repository.update(meeting)
 
@@ -30,5 +31,6 @@ class MeetingService:
             id=id,
             name=None,
             date=None,
+            user_id=None,
         )
         self.meeting_repository.delete(meeting)
