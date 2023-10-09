@@ -3,18 +3,18 @@ import { useNavigate } from "react-router-dom";
 import Nav from "../../components/Nav";
 
 import { Container } from "./MainPage.styled";
-import { tokenStorage } from "../../shared/storage";
+import { useIsMember } from "../../hooks/use-is-member";
 
 const MainPage = () => {
   const navigate = useNavigate();
 
-  const authToken = React.useMemo(() => tokenStorage.getToken(), []);
+  const isMember = useIsMember();
 
   useEffect(() => {
-    if (!authToken) {
+    if (!isMember) {
       navigate("/signd");
     }
-  }, [authToken, navigate]);
+  }, [isMember]);
 
   return (
     <Container>
