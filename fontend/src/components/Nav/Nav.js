@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
-import { tokenStorage } from "../../shared/storage";
 import { NavContainer, Logo, UserId } from "./Nav.styled";
+import { getUserInfo } from "../../shared/services/user";
 
 const Nav = () => {
-  const authToken = React.useMemo(() => tokenStorage.getToken(), []);
-
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -15,15 +12,9 @@ const Nav = () => {
 
   const fetchData = async () => {
     try {
-      const axiosInstance = axios.create({
-        baseURL: "http://15.164.99.251/api/",
-        // withCredentials: true,
-        headers: {
-          Authorization: authToken,
-        },
-      });
-      const response = await axiosInstance.get("user");
-      setUser(response.data);
+      const userInfo = await getUserInfo();
+
+      setUser(userInfo);
     } catch (error) {
       console.log("Api 요청 실패");
     }

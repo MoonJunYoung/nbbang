@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Nav from "../../components/Nav";
 
@@ -14,6 +13,7 @@ import {
   SingdMessge,
 } from "./SigndPage.styled";
 import { tokenStorage } from "../../shared/storage";
+import { signIn, signUp } from "../../shared/services/user";
 
 const InputField = {
   Identifier: "identifier",
@@ -51,21 +51,16 @@ const SigndPage = () => {
     }
   };
 
-  const SignInApi = "http://15.164.99.251/api/sign-in";
-  const SignUpApi = "http://15.164.99.251/api/sign-up";
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (isIdentifierValid && isPasswordValid) {
       try {
-        const response = await axios.post(
-          Signd ? SignInApi : SignUpApi,
-          formData
-        );
-        console.log("성공!", response.data);
+        const ensureSignIn = Signd ? signIn : signUp;
 
-        tokenStorage.setToken(response.data);
+        const newToken = await ensureSignIn(formData);
+
+        tokenStorage.setToken(newToken);
 
         navigate("/");
       } catch (error) {
