@@ -17,23 +17,13 @@ class MeetingPresentation:
 
     @router.post("", status_code=201)
     async def create(user_id: int, Authorization=Header(None)):
-        token = Authorization
-        if not token:
-            raise HTTPException(status_code=401, detail="authToken is missing")
-        token_user_id = Token.get_user_id_by_token(token)
-        if user_id != token_user_id:
-            raise HTTPException(status_code=403, detail="not permission to resource")
+        Token.check_token(token=Authorization, user_id=user_id)
         meeting = meeting_service.create(user_id)
         return meeting
 
     @router.put("/{meeting_id}", status_code=200)
     async def update(user_id: int, meeting_id: int, Authorization=Header(None), meeting_date=MeetingData):
-        token = Authorization
-        if not token:
-            raise HTTPException(status_code=401, detail="authToken is missing")
-        token_user_id = Token.get_user_id_by_token(token)
-        if user_id != token_user_id:
-            raise HTTPException(status_code=403, detail="not permission to resource")
+        Token.check_token(token=Authorization, user_id=user_id)
         meeting = meeting_service.update(
             id=meeting_id,
             name=meeting_date.name,
@@ -43,12 +33,7 @@ class MeetingPresentation:
 
     @router.delete("/{meeting_id}", status_code=200)
     async def delete(user_id: int, meeting_id: int, Authorization=Header(None)):
-        token = Authorization
-        if not token:
-            raise HTTPException(status_code=401, detail="authToken is missing")
-        token_user_id = Token.get_user_id_by_token(token)
-        if user_id != token_user_id:
-            raise HTTPException(status_code=403, detail="not permission to resource")
+        Token.check_token(token=Authorization, user_id=user_id)
         meeting_service.delete(
             id=meeting_id,
         )
