@@ -16,3 +16,11 @@ class MeetingService:
         meeting.set_template()
         self.meeting_repository.create(meeting)
         return meeting
+
+    def update(self, id, name, date):
+        meeting = Meeting(
+            id=id,
+            name=name,
+            date=date,
+        )
+        self.meeting_repository.update(meeting)

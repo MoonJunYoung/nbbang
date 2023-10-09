@@ -15,3 +15,6 @@ class User:
 
     def check_password(self, password):
         return bcrypt.checkpw(password.encode(), self.password.encode())
+
+    def set_meetings(self, meetings):
+        self.meetings = meetings
