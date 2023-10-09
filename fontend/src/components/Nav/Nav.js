@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import axios from "axios";
 
+import { tokenStorage } from "../../shared/storage";
 import { NavContainer, Logo, UserId } from "./Nav.styled";
 
 const Nav = () => {
-  const authToken = Cookies.get("authToken");
-  console.log(authToken);
+  const authToken = React.useMemo(() => tokenStorage.getToken(), []);
+
   const [user, setUser] = useState({});
 
   useEffect(() => {

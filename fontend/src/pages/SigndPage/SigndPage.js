@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Nav from "../../components/Nav";
 
@@ -14,6 +13,7 @@ import {
   SingUpButton,
   SingdMessge,
 } from "./SigndPage.styled";
+import { tokenStorage } from "../../shared/storage";
 
 const InputField = {
   Identifier: "identifier",
@@ -64,12 +64,9 @@ const SigndPage = () => {
           formData
         );
         console.log("성공!", response.data);
-        Cookies.set("authToken", response.data, {
-          expires: 30,
-          path: "/",
-          secure: true,
-          sameSite: "strict",
-        });
+
+        tokenStorage.setToken(response.data);
+
         navigate("/");
       } catch (error) {
         alert("실패했습니다. 다시 시도하세요.");

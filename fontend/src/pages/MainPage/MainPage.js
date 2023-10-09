@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import Nav from "../../components/Nav";
 
 import { Container } from "./MainPage.styled";
+import { tokenStorage } from "../../shared/storage";
 
 const MainPage = () => {
   const navigate = useNavigate();
-  const authToken = Cookies.get("authToken");
+
+  const authToken = React.useMemo(() => tokenStorage.getToken(), []);
+
   useEffect(() => {
     if (!authToken) {
       navigate("/signd");
