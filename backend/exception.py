@@ -21,3 +21,13 @@ class EmptyValueException(Exception):
 class InvalidTokenException(Exception):
     def __init__(self) -> None:
         super().__init__(f"invalid authorization token")
+
+
+class MissingTokenException(Exception):
+    def __init__(self) -> None:
+        super().__init__(f"authorization token is missing")
+
+
+class TokenNotPermissionException(Exception):
+    def __init__(self) -> None:
+        super().__init__(f"that token not permission to resource")

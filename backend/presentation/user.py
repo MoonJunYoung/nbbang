@@ -53,11 +53,9 @@ class UserPresentation:
 
     @router.get("/user", status_code=200)
     async def get_user(Authorization: str = Header(None)):
-        token = Authorization
-        if not Authorization:
-            raise HTTPException(status_code=401, detail="authToken is missing")
+        Token.check_token(Authorization)
         try:
-            user_id = Token.get_user_id_by_token(token)
+            user_id = Token.get_user_id_by_token(Authorization)
             return user_service.get_user(user_id)
-        except InvalidTokenException as e:
+        except Exception as e:
             raise HTTPException(status_code=401, detail=f"{e}")
