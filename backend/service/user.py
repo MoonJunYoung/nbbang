@@ -34,9 +34,7 @@ class UserService:
             raise PasswordNotMatchException(identifier=identifier, password=password)
         return user.id
 
-    def get_user(self, user_id):
+    def read(self, user_id):
         user = self.user_repository.read_by_id(user_id)
-        meetings = self.meeting_repository.read_meetings_by_user_id(user.id)
-        user.set_meetings(meetings)
         del user.password
         return user

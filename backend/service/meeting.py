@@ -17,20 +17,24 @@ class MeetingService:
         self.meeting_repository.create(meeting)
         return meeting
 
-    def update(self, id, name, date):
+    def update(self, id, name, date, user_id):
         meeting = Meeting(
             id=id,
             name=name,
             date=date,
-            user_id=None,
+            user_id=user_id,
         )
         self.meeting_repository.update(meeting)
 
-    def delete(self, id):
+    def delete(self, id, user_id):
         meeting = Meeting(
             id=id,
             name=None,
             date=None,
-            user_id=None,
+            user_id=user_id,
         )
         self.meeting_repository.delete(meeting)
+
+    def read(self, user_id):
+        meetings = self.meeting_repository.read_meetings_by_user_id(user_id)
+        return meetings

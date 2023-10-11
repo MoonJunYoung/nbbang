@@ -3,7 +3,7 @@ import datetime
 import jwt
 from dotenv import load_dotenv
 import os
-from backend.exception import InvalidTokenException, MissingTokenException, TokenNotPermissionException
+from backend.exception import InvalidTokenException, MissingTokenException
 
 load_dotenv()
 secret_key = os.environ.get("JWT_SECRET_KEY")
@@ -19,18 +19,11 @@ class Token:
         return token
 
     def get_user_id_by_token(token):
-        token_info = jwt.decode(token, secret_key, algorithms="HS256")
-        token_user_id = token_info.get("id")
-        return token_user_id
-
-    def check_token(token, user_id=None):
         if not token:
             raise MissingTokenException
         try:
             token_info = jwt.decode(token, secret_key, algorithms="HS256")
         except jwt.exceptions.DecodeError:
             raise InvalidTokenException
-        if user_id:
-            token_user_id = token_info.get("id")
-            if user_id != token_user_id:
-                raise TokenNotPermissionException
+        token_user_id = token_info.get("id")
+        return token_user_id
