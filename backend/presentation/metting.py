@@ -13,36 +13,46 @@ class MeetingData(BaseModel):
 
 
 class MeetingPresentation:
-    router = APIRouter(prefix="/api/user/{user_id}/meeting")
+    router = APIRouter(prefix="/api/meeting")
 
     @router.post("", status_code=201)
-    async def create(user_id: int, Authorization=Header(None)):
+    async def create(Authorization=Header(None)):
         try:
-            Token.check_token(token=Authorization, user_id=user_id)
+            user_id = Token.get_user_id_by_token(token=Authorization)
             meeting = meeting_service.create(user_id)
             return meeting
         except Exception as e:
             raise HTTPException(status_code=401, detail=f"{e}")
 
-    @router.put("/{meeting_id}", status_code=200)
-    async def update(user_id: int, meeting_id: int, Authorization=Header(None), meeting_date=MeetingData):
-        Token.check_token(token=Authorization, user_id=user_id)
+    @router.get("", status_code=200)
+    async def read(Authorization=Header(None)):
         try:
-            meeting = meeting_service.update(
+            user_id = Token.get_user_id_by_token(token=Authorization)
+            meetings = meeting_service.read(user_id)
+            return meetings
+        except Exception as e:
+            raise HTTPException(status_code=401, detail=f"{e}")
+
+    @router.put("/{meeting_id}", status_code=200)
+    async def update(meeting_id: int, meeting_date: MeetingData, Authorization=Header(None)):
+        try:
+            user_id = Token.get_user_id_by_token(token=Authorization)
+            meeting_service.update(
                 id=meeting_id,
                 name=meeting_date.name,
                 date=meeting_date.date,
+                user_id=user_id,
             )
-            return meeting
         except Exception as e:
             raise HTTPException(status_code=401, detail=f"{e}")
 
     @router.delete("/{meeting_id}", status_code=200)
-    async def delete(user_id: int, meeting_id: int, Authorization=Header(None)):
+    async def delete(meeting_id: int, Authorization=Header(None)):
         try:
-            Token.check_token(token=Authorization, user_id=user_id)
+            user_id = Token.get_user_id_by_token(token=Authorization)
             meeting_service.delete(
                 id=meeting_id,
+                user_id=user_id,
             )
         except Exception as e:
             raise HTTPException(status_code=401, detail=f"{e}")

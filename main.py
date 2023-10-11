@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from backend.presentation.metting import MeetingPresentation
-
 from backend.presentation.user import UserPresentation
 
 
