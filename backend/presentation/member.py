@@ -10,6 +10,7 @@ member_service = MemberService()
 
 class MemberData(BaseModel):
     name: str = None
+    leader: bool = None
 
 
 class MemberPresentation:

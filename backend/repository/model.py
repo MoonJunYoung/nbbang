@@ -41,3 +41,15 @@ class MemberModel(Base):
         self.id = id
         self.name = name
         self.meeting_id = meeting_id
+
+
+class LeaderModel(Base):
+    __tablename__ = "leader"
+    id = Column("id", Integer, primary_key=True)
+    meeting_id = Column(Integer)
+    member_id = Column(Integer)
+
+    def __init__(self, id, meeting_id, member_id):
+        self.id = id
+        self.meeting_id = meeting_id
+        self.member_id = member_id
