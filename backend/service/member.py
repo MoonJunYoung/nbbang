@@ -29,12 +29,13 @@ class MemberService:
             self.member_repository.create_leader_member(member)
         return member
 
-    def update(self, id, name, meeting_id, user_id):
+    def update(self, id, name, leader, meeting_id, user_id):
         meeting = self.meeting_repository.read_by_id(meeting_id)
         meeting.is_user_of_meeting(user_id)
         member = Member(
             id=id,
             name=name,
+            leader=leader,
             meeting_id=meeting_id,
         )
         if member.leader:
@@ -47,6 +48,7 @@ class MemberService:
         member = Member(
             id=id,
             name=None,
+            leader=None,
             meeting_id=meeting_id,
         )
         self.member_repository.delete(member)
