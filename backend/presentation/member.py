@@ -22,6 +22,7 @@ class MemberPresentation:
             user_id = Token.get_user_id_by_token(token=Authorization)
             member_service.create(
                 name=member_data.name,
+                leader=member_data.leader,
                 meeting_id=meeting_id,
                 user_id=user_id,
             )
@@ -47,6 +48,7 @@ class MemberPresentation:
             member_service.update(
                 id=member_id,
                 name=member_data.name,
+                leader=member_data.leader,
                 meeting_id=meeting_id,
                 user_id=user_id,
             )
