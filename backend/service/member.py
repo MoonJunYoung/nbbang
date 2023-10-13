@@ -23,6 +23,7 @@ class MemberService:
             if self.member_repository.read_leader_member_by_meeting_id(member.meeting_id):
                 raise LeaderAlreadyExcetion
             self.member_repository.create(member)
+            print(member.__dict__, "1111111111111111111111")
             self.member_repository.create_leader_member(member)
         else:
             self.member_repository.create(member)
