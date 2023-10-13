@@ -76,6 +76,7 @@ const SingdMessge = styled.p`
   margin: 5px 0 5px 25px;
 `
 
+
 const SigndPage = () => {
   const [formData, setFormData] = useState({
     identifier: "",
@@ -108,8 +109,8 @@ const SigndPage = () => {
     }
   };
 
-  const SignInApi = "http://15.164.99.251/user/sign-in"
-  const SignUpApi = "http://15.164.99.251/user/sign-up"
+  const SignInApi = "http://15.164.99.251/api/user/sign-in"
+  const SignUpApi = "http://15.164.99.251/api/user/sign-up"
 
 
   const handleSubmit = async (e) => {
