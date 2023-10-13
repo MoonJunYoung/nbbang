@@ -27,3 +27,4 @@ class Token:
             raise InvalidTokenException
         token_user_id = token_info.get("id")
         return token_user_id
+        return 1

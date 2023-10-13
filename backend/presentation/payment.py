@@ -1,0 +1,71 @@
+from fastapi import APIRouter, HTTPException, Header
+from pydantic import BaseModel
+
+from backend.presentation.token import Token
+from backend.service.payment import PaymentService
+
+
+payment_service = PaymentService()
+
+
+class PaymentData(BaseModel):
+    place: str = None
+    price: int = None
+    attend_member_ids: list[int] = None
+
+
+class PaymentPresentation:
+    router = APIRouter(prefix="/api/meeting/{meeting_id}/payment")
+
+    @router.post("", status_code=201)
+    async def create(meeting_id, payment_data: PaymentData, Authorization=Header(None)):
+        try:
+            user_id = Token.get_user_id_by_token(token=Authorization)
+            payment_service.create(
+                place=payment_data.place,
+                price=payment_data.price,
+                attend_member_ids=payment_data.attend_member_ids,
+                meeting_id=meeting_id,
+                user_id=user_id,
+            )
+        except Exception as e:
+            raise HTTPException(status_code=401, detail=f"{e}")
+
+    @router.get("", status_code=200)
+    async def read(meeting_id, Authorization=Header(None)):
+        try:
+            user_id = Token.get_user_id_by_token(token=Authorization)
+            payments = payment_service.read(
+                meeting_id=meeting_id,
+                user_id=user_id,
+            )
+            return payments
+        except Exception as e:
+            raise HTTPException(status_code=401, detail=f"{e}")
+
+    @router.put("/{payment_id}", status_code=200)
+    async def update(meeting_id: int, payment_id: int, payment_data: PaymentData, Authorization=Header(None)):
+        try:
+            user_id = Token.get_user_id_by_token(token=Authorization)
+            payment_service.update(
+                id=payment_id,
+                place=payment_data.place,
+                price=payment_data.price,
+                attend_member_ids=payment_data.attend_member_ids,
+                meeting_id=meeting_id,
+                user_id=user_id,
+            )
+        except Exception as e:
+            raise HTTPException(status_code=401, detail=f"{e}")
+
+    @router.delete("/{payment_id}", status_code=200)
+    async def delete(meeting_id: int, payment_id: int, Authorization=Header(None)):
+        try:
+            user_id = Token.get_user_id_by_token(token=Authorization)
+            payment_service.delete(
+                id=payment_id,
+                meeting_id=meeting_id,
+                user_id=user_id,
+            )
+        except Exception as e:
+            raise HTTPException(status_code=401, detail=f"{e}")
