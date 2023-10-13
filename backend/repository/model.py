@@ -53,3 +53,19 @@ class LeaderModel(Base):
         self.id = id
         self.meeting_id = meeting_id
         self.member_id = member_id
+
+
+class PaymentModel(Base):
+    __tablename__ = "payment"
+    id = Column("id", Integer, primary_key=True)
+    place = Column(String)
+    price = Column(Integer)
+    attend_member_ids = Column(String)
+    meeting_id = Column(Integer)
+
+    def __init__(self, id, place, price, attend_member_ids, meeting_id):
+        self.id = id
+        self.place = place
+        self.price = price
+        self.attend_member_ids = attend_member_ids
+        self.meeting_id = meeting_id

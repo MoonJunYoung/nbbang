@@ -4,12 +4,6 @@ from backend.repository.meeting import MeetingRepository
 from backend.repository.member import MemberRepository
 
 
-class MemberDTO:
-    def execute(member: Member):
-        result = dict()
-        result["member_id"] = member.id
-
-
 class MemberService:
     def __init__(self) -> None:
         self.meeting_repository = MeetingRepository()
