@@ -3,20 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components' 
 import Nav from '../../components/Nav';
 import Meeting from '../../components/Meeting';
-import { axiosInstance , Token } from '../../api/api'
+import { axiosData , Token } from '../../api/api'
+
 
 
 const Container = styled.div`
   width: 100%;
   margin: auto;
-  max-width: 900px;
+
 `
 
 const MainPage = () => {
   const navigate = useNavigate();
-  const authToken = Token;
+  const authToken = Token();
   const [user, setUser] = useState([]); 
-
+  const axiosInstance = axiosData()
+  
   useEffect(() => {
     if (!authToken) {
       navigate("/signd");

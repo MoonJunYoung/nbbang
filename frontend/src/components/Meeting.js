@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { axiosInstance } from '../api/api';
+import { axiosData } from '../api/api';
 
 const MeetingContainer = styled.div`
   margin-top: 20px;
@@ -40,13 +41,14 @@ const UserId = styled.p`
 
 
 const Meeting = ({ user }) => {
+  const axiosInstance = axiosData()
   const [meetings, setMeetings] = useState([]);
 
   useEffect(() => {
-    fetchData();
+    handleGetData();
   },[]);
 
-  const fetchData = async () => {
+  const handleGetData = async () => {
     try {
       const responseGetData = await axiosInstance.get("meeting")
       setMeetings(responseGetData.data)
@@ -57,19 +59,19 @@ const Meeting = ({ user }) => {
 
   const handleAddBilling = async () => {
     try {
-      const response = await axiosInstance.post(`http://15.164.99.251/api/meeting`);
+      const response = await axiosInstance.post("meeting");
       if (response.status === 201) {
-        fetchData();
+        handleGetData();
       }
     } catch (error) {
       console.log("Api 데이터 보내기 실패");
     }
   };
 
-  const handelDeleteBilling = async (MeetingId) => {
+  const handelDeleteBilling = async (meetingid) => {
     try {
-      await axiosInstance.delete(`http://15.164.99.251/api/meeting/${MeetingId}`);
-      setMeetings(meetings.filter(data => data.id !== MeetingId));
+      await axiosInstance.delete(`meeting/${meetingid}`);
+      setMeetings(meetings.filter(data => data.id !== meetingid));
     } catch (error) {
       console.log("Api 데이터 삭제 실패");
     }
@@ -81,16 +83,19 @@ const Meeting = ({ user }) => {
       <MeetingAddButton onClick={handleAddBilling}>결제 내역 추가하기</MeetingAddButton>
       <MeetingContainer> 
         {meetings.map(data => 
-          <Billing 
-            key={data.id}
-          >
-            <BillingDeleteButton onClick={() => handelDeleteBilling(data.id)}>X</BillingDeleteButton>
+        <Link to={`meeting/${data.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Billing key={data.id}>
+            <BillingDeleteButton 
+              onClick={(e) => {
+                e.preventDefault();
+                handelDeleteBilling(data.id)
+            }}>X</BillingDeleteButton>
             <BillingDate>{data.date}</BillingDate>
             <BillingName>
               {data.name}
             </BillingName>
-            {/* <BillingOpenButton onClick={()=>handelClick(data)}>모임내용추가하기</BillingOpenButton> */}
           </Billing>
+        </Link>
         )}
       </MeetingContainer>
     </>
