@@ -18,6 +18,7 @@ class MemberService:
             leader=leader,
             meeting_id=meeting_id,
         )
+        print(member.__dict__, "==================================")
         if member.leader:
             if self.member_repository.read_leader_member_by_meeting_id(member.meeting_id):
                 raise LeaderAlreadyExcetion
