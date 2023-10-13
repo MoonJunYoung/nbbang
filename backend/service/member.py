@@ -24,11 +24,11 @@ class MemberService:
             leader=leader,
             meeting_id=meeting_id,
         )
-        self.member_repository.create(member)
         if member.leader:
             if self.member_repository.read_leader_member_by_meeting_id(member.meeting_id):
                 raise LeaderAlreadyExcetion
             self.member_repository.create_leader_member(member)
+        self.member_repository.create(member)
         return member
 
     def update(self, id, name, leader, meeting_id, user_id):
