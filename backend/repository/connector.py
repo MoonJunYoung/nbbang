@@ -21,5 +21,5 @@ class MysqlSession(MysqlConnector):
     def __init__(self) -> None:
         self.session = self.Session()
 
-    def __del__(self):
+    def colse(self):
         self.session.close()

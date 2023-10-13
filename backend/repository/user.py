@@ -13,9 +13,11 @@ class UserRepository(MysqlSession):
         self.session.add(user_model)
         self.session.commit()
         user.id = user_model.id
+        self.colse()
 
     def read_by_identifier(self, identifier):
         user_model = self.session.query(UserModel).filter(UserModel.identifier == identifier).first()
+        self.colse()
         if user_model:
             return User(
                 id=user_model.id,
@@ -26,6 +28,7 @@ class UserRepository(MysqlSession):
 
     def read_by_id(self, id):
         user_model = self.session.query(UserModel).filter(UserModel.id == id).first()
+        self.colse()
         if user_model:
             return User(
                 id=user_model.id,

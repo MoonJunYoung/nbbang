@@ -24,6 +24,7 @@ class PaymentRepository(MysqlSession):
         self.session.add(payment_model)
         self.session.commit()
         payment.id = payment_model.id
+        self.colse()
 
     def update(self, payment: Payment):
         payment_model = self.session.query(PaymentModel).filter(PaymentModel.id == payment.id).first()
@@ -31,17 +32,21 @@ class PaymentRepository(MysqlSession):
         payment_model.price = payment.price
         payment_model.attend_member_ids = self.json_encoding_attend_member_ids(payment.attend_member_ids)
         self.session.commit()
+        self.colse()
 
     def delete(self, payment: Payment):
         payment_model = self.session.query(PaymentModel).filter(PaymentModel.id == payment.id).first()
         self.session.delete(payment_model)
         self.session.commit()
+        self.colse()
 
     def read_payments_by_meeting_id(self, meeting_id):
         payments = list()
         payment_models: list[PaymentModel] = (
             self.session.query(PaymentModel).filter(PaymentModel.meeting_id == meeting_id).all()
         )
+        self.colse()
+
         for payment_model in payment_models:
             payment = Payment(
                 id=payment_model.id,

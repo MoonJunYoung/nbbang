@@ -15,21 +15,25 @@ class MeetingRepository(MysqlSession):
         self.session.add(meeting_model)
         self.session.commit()
         meeting.id = meeting_model.id
+        self.colse()
 
     def update(self, meeting: Meeting):
         meeting_model = self.session.query(MeetingModel).filter(MeetingModel.id == meeting.id).first()
         meeting_model.name = meeting.name
         meeting_model.date = meeting.date
         self.session.commit()
+        self.colse()
 
     def delete(self, meeting: Meeting):
         meeting_model = self.session.query(MeetingModel).filter(MeetingModel.id == meeting.id).first()
         self.session.delete(meeting_model)
         self.session.commit()
+        self.colse()
 
     def read_meetings_by_user_id(self, user_id):
         meetings = list()
         meeting_models = self.session.query(MeetingModel).filter(MeetingModel.user_id == user_id).all()
+        self.colse()
         for meeting_model in meeting_models:
             meeting = Meeting(
                 id=meeting_model.id,
@@ -42,6 +46,7 @@ class MeetingRepository(MysqlSession):
 
     def read_by_id(self, meeting_id):
         meeting_model = self.session.query(MeetingModel).filter(MeetingModel.id == meeting_id).first()
+        self.colse()
         if meeting_model:
             return Meeting(
                 id=meeting_model.id,
