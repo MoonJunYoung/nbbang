@@ -39,3 +39,14 @@ class MeetingRepository(MysqlSession):
             )
             meetings.append(meeting)
         return meetings
+
+    def read_by_id(self, meeting_id):
+        meeting_model = self.session.query(MeetingModel).filter(MeetingModel.id == meeting_id).first()
+        if meeting_model:
+            return Meeting(
+                id=meeting_model.id,
+                name=meeting_model.name,
+                date=meeting_model.date,
+                user_id=meeting_model.user_id,
+            )
+        return False

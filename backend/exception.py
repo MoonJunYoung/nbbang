@@ -26,3 +26,13 @@ class InvalidTokenException(Exception):
 class MissingTokenException(Exception):
     def __init__(self) -> None:
         super().__init__(f"authorization token is missing")
+
+
+class MeetingUserMismatchException(Exception):
+    def __init__(self) -> None:
+        super().__init__(f"this user does not own the meeting")
+
+
+class LeaderAlreadyExcetion(Exception):
+    def __init__(self) -> None:
+        super().__init__(f"this meeting already has a leader.")

@@ -29,3 +29,27 @@ class MeetingModel(Base):
         self.name = name
         self.date = date
         self.user_id = user_id
+
+
+class MemberModel(Base):
+    __tablename__ = "member"
+    id = Column("id", Integer, primary_key=True)
+    name = Column(String)
+    meeting_id = Column(Integer)
+
+    def __init__(self, id, name, meeting_id):
+        self.id = id
+        self.name = name
+        self.meeting_id = meeting_id
+
+
+class LeaderModel(Base):
+    __tablename__ = "leader"
+    id = Column("id", Integer, primary_key=True)
+    meeting_id = Column(Integer)
+    member_id = Column(Integer)
+
+    def __init__(self, id, meeting_id, member_id):
+        self.id = id
+        self.meeting_id = meeting_id
+        self.member_id = member_id
