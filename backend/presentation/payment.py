@@ -9,9 +9,9 @@ payment_service = PaymentService()
 
 
 class PaymentData(BaseModel):
-    place: str = None
-    price: int = None
-    attend_member_ids: list[int] = None
+    place: str
+    price: int
+    attend_member_ids: list[int]
 
 
 class PaymentPresentation:

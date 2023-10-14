@@ -8,8 +8,8 @@ meeting_service = MeetingService()
 
 
 class MeetingData(BaseModel):
-    name: str = None
-    date: str = None
+    name: str
+    date: str
 
 
 class MeetingPresentation:
