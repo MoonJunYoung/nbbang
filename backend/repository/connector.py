@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import os
@@ -21,5 +22,43 @@ class MysqlSession(MysqlConnector):
     def __init__(self) -> None:
         self.session = self.Session()
 
-    def colse(self):
+    def close(self):
         self.session.close()
+
+    def rollback(self):
+        self.session.rollback()
+
+
+class MysqlCRUDTemplate(MysqlSession):
+    @abstractmethod
+    def execute(self):
+        pass
+
+    def run(self):
+        try:
+            return self.execute()
+        except Exception as e:
+            print(e)
+            self.rollback()
+        finally:
+            self.close()
+
+
+# class MysqlCreate(MysqlCRUDTemplate):
+#     def execute(self):
+#         self.session.add(self.model)
+
+
+# class MysqlRead(MysqlCRUDTemplate):
+#     def execute(self):
+#         pass
+
+
+# class MysqlUpdate(MysqlCRUDTemplate):
+#     def execute(self):
+#         pass
+
+
+# class MysqlDelete(MysqlCRUDTemplate):
+#     def execute(self):
+#         pass

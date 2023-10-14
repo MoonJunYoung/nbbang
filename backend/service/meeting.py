@@ -14,7 +14,7 @@ class MeetingService:
             user_id=user_id,
         )
         meeting.set_template()
-        self.meeting_repository.create(meeting)
+        self.meeting_repository.Create(meeting).run()
         return meeting
 
     def update(self, id, name, date, user_id):
@@ -24,7 +24,7 @@ class MeetingService:
             date=date,
             user_id=user_id,
         )
-        self.meeting_repository.update(meeting)
+        self.meeting_repository.Update(meeting).run()
 
     def delete(self, id, user_id):
         meeting = Meeting(
@@ -33,8 +33,8 @@ class MeetingService:
             date=None,
             user_id=user_id,
         )
-        self.meeting_repository.delete(meeting)
+        self.meeting_repository.Delete(meeting).run()
 
     def read(self, user_id):
-        meetings = self.meeting_repository.read_meetings_by_user_id(user_id)
+        meetings = self.meeting_repository.ReadByUserID(user_id).run()
         return meetings

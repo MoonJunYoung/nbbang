@@ -1,3 +1,4 @@
+from backend.domain.meeting import Meeting
 from backend.domain.payment import Payment
 from backend.repository.meeting import MeetingRepository
 from backend.repository.payment import PaymentRepository
@@ -9,7 +10,7 @@ class PaymentService:
         self.payment_repository = PaymentRepository()
 
     def create(self, place, price, attend_member_ids, meeting_id, user_id):
-        meeting = self.meeting_repository.read_by_id(meeting_id)
+        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
         meeting.is_user_of_meeting(user_id)
         payment = Payment(
             id=None,
@@ -18,11 +19,11 @@ class PaymentService:
             attend_member_ids=attend_member_ids,
             meeting_id=meeting_id,
         )
-        self.payment_repository.create(payment)
+        self.payment_repository.Create(payment).run()
         return payment
 
     def update(self, id, place, price, attend_member_ids, meeting_id, user_id):
-        meeting = self.meeting_repository.read_by_id(meeting_id)
+        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
         meeting.is_user_of_meeting(user_id)
         payment = Payment(
             id=id,
@@ -31,10 +32,10 @@ class PaymentService:
             attend_member_ids=attend_member_ids,
             meeting_id=meeting_id,
         )
-        self.payment_repository.update(payment)
+        self.payment_repository.Update(payment).run()
 
     def delete(self, id, meeting_id, user_id):
-        meeting = self.meeting_repository.read_by_id(meeting_id)
+        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
         meeting.is_user_of_meeting(user_id)
         payment = Payment(
             id=id,
@@ -43,10 +44,10 @@ class PaymentService:
             attend_member_ids=None,
             meeting_id=meeting_id,
         )
-        self.payment_repository.delete(payment)
+        self.payment_repository.Delete(payment).run()
 
     def read(self, meeting_id, user_id):
-        meeting = self.meeting_repository.read_by_id(meeting_id)
+        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
         meeting.is_user_of_meeting(user_id)
-        payments: list[Payment] = self.payment_repository.read_payments_by_meeting_id(meeting_id)
+        payments: list[Payment] = self.payment_repository.ReadByMeetingID(meeting_id).run()
         return payments
