@@ -25,6 +25,7 @@ class PaymentRepository:
                 id=None,
                 place=self.payment.place,
                 price=self.payment.price,
+                pay_member_id=self.payment.pay_member_id,
                 attend_member_ids=_json_encoding_attend_member_ids(self.payment.attend_member_ids),
                 meeting_id=self.payment.meeting_id,
             )
@@ -41,6 +42,7 @@ class PaymentRepository:
             payment_model = self.session.query(PaymentModel).filter(PaymentModel.id == self.payment.id).first()
             payment_model.place = self.payment.place
             payment_model.price = self.payment.price
+            payment_model.pay_member_id = self.payment.pay_member_id
             payment_model.attend_member_ids = _json_encoding_attend_member_ids(self.payment.attend_member_ids)
             self.session.commit()
 
@@ -69,6 +71,7 @@ class PaymentRepository:
                     id=payment_model.id,
                     place=payment_model.place,
                     price=payment_model.price,
+                    pay_member_id=payment_model.pay_member_id,
                     attend_member_ids=_json_decoding_attend_member_ids(payment_model.attend_member_ids),
                     meeting_id=payment_model.meeting_id,
                 )

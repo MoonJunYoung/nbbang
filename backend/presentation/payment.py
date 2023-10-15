@@ -11,6 +11,7 @@ payment_service = PaymentService()
 class PaymentData(BaseModel):
     place: str
     price: int
+    pay_member_id = int
     attend_member_ids: list[int]
 
 
@@ -24,6 +25,7 @@ class PaymentPresentation:
             payment_service.create(
                 place=payment_data.place,
                 price=payment_data.price,
+                pay_member_id=payment_data.pay_member_id,
                 attend_member_ids=payment_data.attend_member_ids,
                 meeting_id=meeting_id,
                 user_id=user_id,
@@ -51,6 +53,7 @@ class PaymentPresentation:
                 id=payment_id,
                 place=payment_data.place,
                 price=payment_data.price,
+                pay_member_id=payment_data.pay_member_id,
                 attend_member_ids=payment_data.attend_member_ids,
                 meeting_id=meeting_id,
                 user_id=user_id,
