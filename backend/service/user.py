@@ -15,10 +15,10 @@ class UserService:
             identifier=identifier,
             password=password,
         )
-        if self.user_repository.read_by_identifier(identifier=user.identifier):
+        if self.user_repository.ReadByIdentifier(identifier=user.identifier).run():
             raise IdentifierAlreadyException(identifier=identifier)
         user.password_encryption()
-        self.user_repository.create(user=user)
+        self.user_repository.Create(user).run()
         return user.id
 
     def sign_in(self, identifier, password):
@@ -27,7 +27,7 @@ class UserService:
             identifier=identifier,
             password=password,
         )
-        user = self.user_repository.read_by_identifier(in_user.identifier)
+        user: User = self.user_repository.ReadByIdentifier(in_user.identifier).run()
         if not user:
             raise IdentifierNotFoundException(identifier=identifier)
         if not user.check_password(in_user.password):
@@ -35,6 +35,6 @@ class UserService:
         return user.id
 
     def read(self, user_id):
-        user = self.user_repository.read_by_id(user_id)
+        user: User = self.user_repository.ReadByID(user_id).run()
         del user.password
         return user
