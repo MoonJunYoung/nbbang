@@ -51,6 +51,8 @@ class MemberRepository:
                 member = Member(
                     id=member_model.id,
                     name=member_model.name,
+                    leader=False,
+                    meeting_id=member_model.meeting_id,
                 )
                 members.append(member)
             return members
