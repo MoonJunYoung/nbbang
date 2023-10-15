@@ -4,12 +4,12 @@ from backend.repository.connector import MysqlCRUDTemplate, MysqlSession
 from backend.repository.model import PaymentModel
 
 
-def _json_encoding_attend_member_ids(self, attend_member_ids):
+def _json_encoding_attend_member_ids(attend_member_ids):
     encode_data = json.dumps(attend_member_ids)
     return encode_data
 
 
-def _json_decoding_attend_member_ids(self, attend_member_ids):
+def _json_decoding_attend_member_ids(attend_member_ids):
     decode_data = json.loads(attend_member_ids)
     return decode_data
 
