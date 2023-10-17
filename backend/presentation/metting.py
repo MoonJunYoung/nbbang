@@ -21,7 +21,7 @@ class MeetingPresentation:
             user_id = Token.get_user_id_by_token(token=Authorization)
             meeting = meeting_service.create(user_id)
 
-            response.headers["Location"] = f"api/meeting/{meeting.id}"
+            response.headers["Location"] = f"meeting/{meeting.id}"
         except Exception as e:
             print(e)
             raise HTTPException(status_code=401, detail=f"{e}")
