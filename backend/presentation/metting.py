@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Header
+from fastapi import APIRouter, HTTPException, Header, Response, Request
 from pydantic import BaseModel
 from backend.presentation.token import Token
 from backend.service.meeting import MeetingService
@@ -16,12 +16,15 @@ class MeetingPresentation:
     router = APIRouter(prefix="/api/meeting")
 
     @router.post("", status_code=201)
-    async def create(Authorization=Header(None)):
+    async def create(request: Request, response: Response, Authorization=Header(None)):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
             meeting = meeting_service.create(user_id)
-            return meeting
+
+            base_url = str(request.base_url)
+            response.headers["Location"] = f"{base_url}api/meeting/{meeting.id}"
         except Exception as e:
+            print(e)
             raise HTTPException(status_code=401, detail=f"{e}")
 
     @router.get("", status_code=200)
