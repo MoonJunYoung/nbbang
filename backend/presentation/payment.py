@@ -11,7 +11,7 @@ payment_service = PaymentService()
 class PaymentData(BaseModel):
     place: str
     price: int
-    pay_member_id = int
+    pay_member_id: int
     attend_member_ids: list[int]
 
 
