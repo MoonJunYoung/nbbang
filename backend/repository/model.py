@@ -60,12 +60,14 @@ class PaymentModel(Base):
     id = Column("id", Integer, primary_key=True)
     place = Column(String)
     price = Column(Integer)
+    pay_member_id = Column(Integer)
     attend_member_ids = Column(String)
     meeting_id = Column(Integer)
 
-    def __init__(self, id, place, price, attend_member_ids, meeting_id):
+    def __init__(self, id, place, price, pay_member_id, attend_member_ids, meeting_id):
         self.id = id
         self.place = place
         self.price = price
+        self.pay_member_id = pay_member_id
         self.attend_member_ids = attend_member_ids
         self.meeting_id = meeting_id

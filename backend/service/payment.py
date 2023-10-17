@@ -9,26 +9,28 @@ class PaymentService:
         self.meeting_repository = MeetingRepository()
         self.payment_repository = PaymentRepository()
 
-    def create(self, place, price, attend_member_ids, meeting_id, user_id):
+    def create(self, place, price, pay_member_id, attend_member_ids, meeting_id, user_id):
         meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
         meeting.is_user_of_meeting(user_id)
         payment = Payment(
             id=None,
             place=place,
             price=price,
+            pay_member_id=pay_member_id,
             attend_member_ids=attend_member_ids,
             meeting_id=meeting_id,
         )
         self.payment_repository.Create(payment).run()
         return payment
 
-    def update(self, id, place, price, attend_member_ids, meeting_id, user_id):
+    def update(self, id, place, price, pay_member_id, attend_member_ids, meeting_id, user_id):
         meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
         meeting.is_user_of_meeting(user_id)
         payment = Payment(
             id=id,
             place=place,
             price=price,
+            pay_member_id=pay_member_id,
             attend_member_ids=attend_member_ids,
             meeting_id=meeting_id,
         )
@@ -41,6 +43,7 @@ class PaymentService:
             id=id,
             place=None,
             price=None,
+            pay_member_id=None,
             attend_member_ids=None,
             meeting_id=meeting_id,
         )

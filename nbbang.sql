@@ -73,6 +73,7 @@ CREATE TABLE `payment` (
   `id` int NOT NULL AUTO_INCREMENT,
   `place` varchar(45) NOT NULL,
   `price` int NOT NULL,
+  `pay_member_id` int NOT NULL,
   `attend_member_ids` varchar(100) NOT NULL,
   `meeting_id` int NOT NULL,
   PRIMARY KEY (`id`)
@@ -103,4 +104,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-13 14:38:30
+-- Dump completed on 2023-10-15 15:16:29
