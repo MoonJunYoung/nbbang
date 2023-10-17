@@ -11,7 +11,7 @@ class Meeting:
         self.user_id = user_id
 
     def set_template(self):
-        self.name = "모임명을 입력해주세요"
+        self.name = "모임명을 설정해주세요"
         self.date = datetime.date.isoformat(datetime.date.today())
 
     def is_user_of_meeting(self, user_id):
