@@ -23,10 +23,7 @@ class MemberService:
         if member.leader:
             if self.member_repository.ReadLeaderByMeetingID(member.meeting_id).run():
                 raise LeaderAlreadyException
-            self.member_repository.Create(member).run()
-            self.member_repository.CreateLeader(member).run()
-        else:
-            self.member_repository.Create(member).run()
+        self.member_repository.Create(member).run()
         return member
 
     def update(self, id, name, leader, meeting_id, user_id):
@@ -39,7 +36,9 @@ class MemberService:
             meeting_id=meeting_id,
         )
         if member.leader:
-            self.member_repository.UpdateLeader(member).run()
+            pre_leader_member: Member = self.member_repository.ReadLeaderByMeetingID(member.meeting_id).run()
+            pre_leader_member.leader = False
+            self.member_repository.Update(pre_leader_member).run()
         self.member_repository.Update(member).run()
 
     def delete(self, id, meeting_id, user_id):
@@ -57,9 +56,4 @@ class MemberService:
         meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
         meeting.is_user_of_meeting(user_id)
         members: list[Member] = self.member_repository.ReadByMeetingID(meeting_id).run()
-        leader_member = self.member_repository.ReadLeaderByMeetingID(meeting_id).run()
-        if not leader_member:
-            return members
-        for member in members:
-            member.set_leader(leader_member)
         return members
