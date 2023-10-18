@@ -4,7 +4,3 @@ class Member:
         self.name = name
         self.leader = leader
         self.meeting_id = meeting_id
-
-    def set_leader(self, leader_member):
-        if self.id == leader_member.id:
-            self.leader = True

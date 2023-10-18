@@ -1,6 +1,6 @@
 from backend.domain.member import Member
 from backend.repository.connector import MysqlCRUDTemplate, MysqlSession
-from backend.repository.model import LeaderModel, MemberModel
+from backend.repository.model import MemberModel
 
 
 class MemberRepository:
@@ -13,6 +13,7 @@ class MemberRepository:
             member_model = MemberModel(
                 id=None,
                 name=self.member.name,
+                leader=self.member.leader,
                 meeting_id=self.member.meeting_id,
             )
             self.session.add(member_model)
@@ -27,6 +28,7 @@ class MemberRepository:
         def execute(self):
             member_model = self.session.query(MemberModel).filter(MemberModel.id == self.member.id).first()
             member_model.name = self.member.name
+            member_model.leader = self.member.leader
             self.session.commit()
 
     class Delete(MysqlCRUDTemplate):
@@ -51,37 +53,11 @@ class MemberRepository:
                 member = Member(
                     id=member_model.id,
                     name=member_model.name,
-                    leader=False,
+                    leader=member_model.leader,
                     meeting_id=member_model.meeting_id,
                 )
                 members.append(member)
             return members
-
-    class CreateLeader(MysqlCRUDTemplate):
-        def __init__(self, member: Member) -> None:
-            self.member = member
-            super().__init__()
-
-        def execute(self):
-            leader_model = LeaderModel(
-                id=None,
-                meeting_id=self.member.meeting_id,
-                member_id=self.member.id,
-            )
-            self.session.add(leader_model)
-            self.session.commit()
-
-    class UpdateLeader(MysqlCRUDTemplate):
-        def __init__(self, member: Member) -> None:
-            self.member = member
-            super().__init__()
-
-        def execute(self):
-            leader_model = (
-                self.session.query(LeaderModel).filter(LeaderModel.meeting_id == self.member.meeting_id).first()
-            )
-            leader_model.member_id = self.member.id
-            self.session.commit()
 
     class ReadLeaderByMeetingID(MysqlCRUDTemplate):
         def __init__(self, meeting_id) -> None:
@@ -89,14 +65,16 @@ class MemberRepository:
             super().__init__()
 
         def execute(self):
-            leader_model = self.session.query(LeaderModel).filter(LeaderModel.meeting_id == self.meeting_id).first()
-            if not leader_model:
-                return False
-            member_model = self.session.query(MemberModel).filter(MemberModel.id == leader_model.member_id).first()
+            member_model = (
+                self.session.query(MemberModel)
+                .filter(MemberModel.meeting_id == self.meeting_id)
+                .filter(MemberModel.leader == True)
+                .first()
+            )
             member = Member(
                 id=member_model.id,
                 name=member_model.name,
-                leader=True,
+                leader=member_model.leader,
                 meeting_id=member_model.meeting_id,
             )
             return member

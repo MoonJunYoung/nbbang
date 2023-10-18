@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -35,24 +35,14 @@ class MemberModel(Base):
     __tablename__ = "member"
     id = Column("id", Integer, primary_key=True)
     name = Column(String)
+    leader = Column(Boolean)
     meeting_id = Column(Integer)
 
-    def __init__(self, id, name, meeting_id):
+    def __init__(self, id, name, leader, meeting_id):
         self.id = id
         self.name = name
+        self.leader = leader
         self.meeting_id = meeting_id
-
-
-class LeaderModel(Base):
-    __tablename__ = "leader"
-    id = Column("id", Integer, primary_key=True)
-    meeting_id = Column(Integer)
-    member_id = Column(Integer)
-
-    def __init__(self, id, meeting_id, member_id):
-        self.id = id
-        self.meeting_id = meeting_id
-        self.member_id = member_id
 
 
 class PaymentModel(Base):
