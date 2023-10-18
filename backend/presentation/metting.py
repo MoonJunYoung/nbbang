@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Header, Response, Request
 from pydantic import BaseModel
+from backend.exceptions import catch_exception
 from backend.presentation.token import Token
 from backend.service.meeting import MeetingService
 
@@ -23,8 +24,7 @@ class MeetingPresentation:
 
             response.headers["Location"] = f"meeting/{meeting.id}"
         except Exception as e:
-            print(e)
-            raise HTTPException(status_code=401, detail=f"{e}")
+            catch_exception(e)
 
     @router.get("", status_code=200)
     async def read(Authorization=Header(None)):
@@ -33,7 +33,7 @@ class MeetingPresentation:
             meetings = meeting_service.read(user_id)
             return meetings
         except Exception as e:
-            raise HTTPException(status_code=401, detail=f"{e}")
+            catch_exception(e)
 
     @router.put("/{meeting_id}", status_code=200)
     async def update(meeting_id: int, meeting_date: MeetingData, Authorization=Header(None)):
@@ -46,7 +46,7 @@ class MeetingPresentation:
                 user_id=user_id,
             )
         except Exception as e:
-            raise HTTPException(status_code=401, detail=f"{e}")
+            catch_exception(e)
 
     @router.delete("/{meeting_id}", status_code=200)
     async def delete(meeting_id: int, Authorization=Header(None)):
@@ -57,4 +57,4 @@ class MeetingPresentation:
                 user_id=user_id,
             )
         except Exception as e:
-            raise HTTPException(status_code=401, detail=f"{e}")
+            catch_exception(e)

@@ -37,28 +37,7 @@ class MysqlCRUDTemplate(MysqlSession):
     def run(self):
         try:
             return self.execute()
-        except Exception as e:
-            print(e)
+        except:
             self.rollback()
         finally:
             self.close()
-
-
-# class MysqlCreate(MysqlCRUDTemplate):
-#     def execute(self):
-#         self.session.add(self.model)
-
-
-# class MysqlRead(MysqlCRUDTemplate):
-#     def execute(self):
-#         pass
-
-
-# class MysqlUpdate(MysqlCRUDTemplate):
-#     def execute(self):
-#         pass
-
-
-# class MysqlDelete(MysqlCRUDTemplate):
-#     def execute(self):
-#         pass

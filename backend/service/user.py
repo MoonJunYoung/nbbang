@@ -1,5 +1,5 @@
 from backend.domain.user import User
-from backend.exception import IdentifierAlreadyException, IdentifierNotFoundException, PasswordNotMatchException
+from backend.exceptions import IdentifierAlreadyException, IdentifierNotFoundException, PasswordNotMatchException
 from backend.repository.meeting import MeetingRepository
 from backend.repository.user import UserRepository
 

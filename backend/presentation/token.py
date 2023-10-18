@@ -3,7 +3,7 @@ import datetime
 import jwt
 from dotenv import load_dotenv
 import os
-from backend.exception import InvalidTokenException, MissingTokenException
+from backend.exceptions import InvalidTokenException, MissingTokenException
 
 load_dotenv()
 secret_key = os.environ.get("JWT_SECRET_KEY")
