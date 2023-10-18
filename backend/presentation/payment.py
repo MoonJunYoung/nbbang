@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Header
 from pydantic import BaseModel
+from backend.exceptions import catch_exception
 
 from backend.presentation.token import Token
 from backend.service.payment import PaymentService
@@ -31,7 +32,7 @@ class PaymentPresentation:
                 user_id=user_id,
             )
         except Exception as e:
-            raise HTTPException(status_code=401, detail=f"{e}")
+            catch_exception(e)
 
     @router.get("", status_code=200)
     async def read(meeting_id, Authorization=Header(None)):
@@ -43,7 +44,7 @@ class PaymentPresentation:
             )
             return payments
         except Exception as e:
-            raise HTTPException(status_code=401, detail=f"{e}")
+            catch_exception(e)
 
     @router.put("/{payment_id}", status_code=200)
     async def update(meeting_id: int, payment_id: int, payment_data: PaymentData, Authorization=Header(None)):
@@ -59,7 +60,7 @@ class PaymentPresentation:
                 user_id=user_id,
             )
         except Exception as e:
-            raise HTTPException(status_code=401, detail=f"{e}")
+            catch_exception(e)
 
     @router.delete("/{payment_id}", status_code=200)
     async def delete(meeting_id: int, payment_id: int, Authorization=Header(None)):
@@ -71,4 +72,4 @@ class PaymentPresentation:
                 user_id=user_id,
             )
         except Exception as e:
-            raise HTTPException(status_code=401, detail=f"{e}")
+            catch_exception(e)

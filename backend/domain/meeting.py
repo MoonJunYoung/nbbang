@@ -1,6 +1,6 @@
 import datetime
 
-from backend.exception import MeetingUserMismatchException
+from backend.exceptions import MeetingUserMismatchException
 
 
 class Meeting:
@@ -16,4 +16,4 @@ class Meeting:
 
     def is_user_of_meeting(self, user_id):
         if not self.user_id == user_id:
-            raise MeetingUserMismatchException
+            raise MeetingUserMismatchException(user_id, self.id)

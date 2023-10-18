@@ -1,6 +1,7 @@
 from backend.domain.meeting import Meeting
 from backend.domain.member import Member
-from backend.exception import LeaderAlreadyExcetion, MeetingUserMismatchException
+from backend.exceptions import LeaderAlreadyException
+
 from backend.repository.meeting import MeetingRepository
 from backend.repository.member import MemberRepository
 
@@ -21,7 +22,7 @@ class MemberService:
         )
         if member.leader:
             if self.member_repository.ReadLeaderByMeetingID(member.meeting_id).run():
-                raise LeaderAlreadyExcetion
+                raise LeaderAlreadyException
             self.member_repository.Create(member).run()
             self.member_repository.CreateLeader(member).run()
         else:
