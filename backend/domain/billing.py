@@ -29,12 +29,14 @@ class Billing:
             place = payment.place
             price = payment.price
             pay_member = self._get_member_data(payment.pay_member_id)
+            attend_members = self._get_attend_member_data(payment.attend_member_ids)
             attend_member_count = len(payment.attend_member_ids)
             split_price = self._split_price(price, attend_member_count)
             result = {
                 "place": place,
                 "price": price,
                 "pay_member": pay_member,
+                "attend_members": attend_members,
                 "attend_member_count": attend_member_count,
                 "split_price": split_price,
             }
@@ -56,3 +58,10 @@ class Billing:
         for member in self.members:
             if member_id == member.id:
                 return member.name
+
+    def _get_attend_member_data(self, attend_member_ids):
+        attend_members = list()
+        for attend_meeber_id in attend_member_ids:
+            member_name = self._get_member_data(attend_meeber_id)
+            attend_members.append(member_name)
+        return attend_members
