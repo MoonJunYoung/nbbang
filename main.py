@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from backend.presentation.billing import BillingPresentation
 from backend.presentation.member import MemberPresentation
 from backend.presentation.metting import MeetingPresentation
 from backend.presentation.payment import PaymentPresentation
@@ -22,3 +23,4 @@ app.include_router(UserPresentation.router)
 app.include_router(MeetingPresentation.router)
 app.include_router(MemberPresentation.router)
 app.include_router(PaymentPresentation.router)
+app.include_router(BillingPresentation.router)
