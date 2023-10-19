@@ -1,0 +1,58 @@
+from backend.domain.member import Member
+from backend.domain.payment import Payment
+
+
+class Billing:
+    def __init__(self, payments: list[Payment], members: list[Member]) -> None:
+        self.result = {
+            "payments": {},
+            "billing": {},
+        }
+        self.payments = payments
+        self.members = members
+
+    def set_member_result(self):
+        for member in self.members:
+            id = member.id
+            name = member.name
+            leader = member.leader
+            result = {
+                "member": name,
+                "leader": leader,
+                "amount": 0,
+            }
+            self.result["billing"][id] = result
+
+    def set_paymnet_result(self):
+        for payment in self.payments:
+            id = payment.id
+            place = payment.place
+            price = payment.price
+            pay_member = self._get_member_data(payment.pay_member_id)
+            attend_member_count = len(payment.attend_member_ids)
+            split_price = self._split_price(price, attend_member_count)
+            result = {
+                "place": place,
+                "price": price,
+                "pay_member": pay_member,
+                "attend_member_count": attend_member_count,
+                "split_price": split_price,
+            }
+            self.result["payments"][id] = result
+
+            member = self.result["billing"][payment.pay_member_id]
+            self.result["billing"][payment.pay_member_id]["amount"] = member["amount"] - price
+
+            for attend_member_id in payment.attend_member_ids:
+                member = self.result["billing"][attend_member_id]
+                self.result["billing"][attend_member_id]["amount"] = member["amount"] + split_price
+
+    def _split_price(self, price, attend_member_count):
+        if price % attend_member_count:
+            return price // attend_member_count + 1
+        return price / attend_member_count
+
+    def _get_member_data(self, member_id):
+        for member in self.members:
+            if member_id == member.id:
+                return member.name
