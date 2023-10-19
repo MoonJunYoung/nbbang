@@ -1,11 +1,17 @@
 from fastapi import HTTPException
+import traceback
 
 
 def catch_exception(exce):
     if issubclass(exce.__class__, CustomException):
-        print("A custom error occurred. ", "===", exce, "===")
+        print(f"=== A custom error occurred. : {exce} ===")
         raise HTTPException(status_code=exce.status_code, detail=exce.detail)
-    print("An unexpected error occurred. ", "===", exce, "===")
+    print(f"=== An unexpected error occurred. : {exce} ===")
+    print(f"=== detail : {traceback.format_exc()} ===")
+    raise HTTPException(
+        status_code=500,
+        detail="An internal server error occurred. If the problem persists, please contact our support team.",
+    )
 
 
 class CustomException(Exception):

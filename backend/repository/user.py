@@ -26,6 +26,8 @@ class UserRepository:
 
         def execute(self):
             user_model = self.session.query(UserModel).filter(UserModel.identifier == self.identifier).first()
+            if not user_model:
+                return False
             user = User(
                 id=user_model.id,
                 identifier=user_model.identifier,
@@ -40,6 +42,8 @@ class UserRepository:
 
         def execute(self):
             user_model = self.session.query(UserModel).filter(UserModel.id == self.id).first()
+            if not user_model:
+                return False
             user = User(
                 id=user_model.id,
                 identifier=user_model.identifier,

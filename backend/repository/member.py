@@ -71,6 +71,8 @@ class MemberRepository:
                 .filter(MemberModel.leader == True)
                 .first()
             )
+            if not member_model:
+                return False
             member = Member(
                 id=member_model.id,
                 name=member_model.name,
