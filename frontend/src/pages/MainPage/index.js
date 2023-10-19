@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components' 
 import Nav from '../../components/Nav';
 import Meeting from '../../components/Meeting';
-import { axiosData , Token } from '../../api/api'
+import { getUserData , Token } from '../../api/api'
 
 
 
@@ -17,7 +17,6 @@ const MainPage = () => {
   const navigate = useNavigate();
   const authToken = Token();
   const [user, setUser] = useState([]); 
-  const axiosInstance = axiosData()
   
   useEffect(() => {
     if (!authToken) {
@@ -32,7 +31,7 @@ const MainPage = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axiosInstance.get("user");
+      const response = await getUserData("user");
       setUser(response.data); 
     } catch (error) {
       console.log("Api 요청 실패");

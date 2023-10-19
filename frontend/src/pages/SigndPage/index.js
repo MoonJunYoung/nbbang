@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components' 
-import axios from 'axios'
+
 import Cookies from 'js-cookie'
 import { useNavigate } from "react-router-dom";
 import Nav from '../../components/Nav';
+import { postSigndData } from '../../api/api';
 
 const SigndContainer = styled.div`
   height: 100vh;
@@ -118,7 +119,7 @@ const SigndPage = () => {
 
     if (isIdentifierValid && isPasswordValid) {
       try {
-        const response = await axios.post(Signd ? SignInApi : SignUpApi , formData);
+        const response = await postSigndData(Signd ? SignInApi : SignUpApi , formData);
         console.log("성공!", response.data);
         Cookies.set('authToken', response.data, { expires: 30, path: '/', secure: true, sameSite: 'strict' });
         navigate("/");

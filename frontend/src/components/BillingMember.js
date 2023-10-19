@@ -1,55 +1,102 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { axiosData } from '../api/api'
+import { getMemberData, postMemberData, deleteMemberData } from '../api/api'
 import BillingInputBox from './BillingInputBox'
 import BillingMemberFix from './BillingModal/BillingMemberFix'
+import { truncate } from './Meeting'
 
 const BillingMemberContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+`
+
+const FormContainer = styled.form`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
 `
 
 const BillingAddMember = styled.button`
-  
+  width: 200px;
+  height: 30px;
+  border: 1px solid #CCE5FF;
+  border-radius: 10px;
 `
 
 const MemberContainer = styled.div`
-  
+  display: grid;
+  width: 475px;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  margin: 30px;
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2 ,1fr);
+    width: 250px;
+    gap: 6px;
+  }
+`
+
+const Leader = styled.span`
+  font-weight: 600;
+  font-size: 14px;
+`
+
+const MemberList = styled.div`
+  cursor: pointer;
+  padding: 10px;
+  background-color: powderblue;
+  border-radius: 10px;
+  &:hover {
+    transition: all 0.2s;
+    transform: scale(1.1);
+  }
 `
 
 const Members = styled.span`
-  cursor: pointer;
+  font-size: 14px;
+  color: black;
+  padding: 10px;
 `
 
 const MemberDelete = styled.span`
+  color: white;
   cursor: pointer;
 `
 
 
 
 
-const BillingMember = () => {
+const BillingMember = ({member,setMember}) => {
   const { meetingId } = useParams();
-  const axiosInstance = axiosData()
   const [openModal, setOpenModal] = useState(false);
-  const [member, setMember] = useState([]);
   const [memberSelected, setMemberSelected] = useState({});
   const [notAllow, setNotAllow] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
   });
 
-  useEffect(() => {
-    handleGetData();
-  }, []);
-
   const handleGetData = async () => {
     try {
-      const responseGetData = await axiosInstance.get(`meeting/${meetingId}/member`);
+      const responseGetData = await getMemberData(meetingId);
       setMember(responseGetData.data);
     } catch (error) {
       console.log('Api 데이터 불러오기 실패');
     }
   };
+
+  useEffect(() => {
+    handleGetData()
+  }, [])
+  
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -61,17 +108,13 @@ const BillingMember = () => {
 
   const handleAddMember = async (e) => {
     e.preventDefault();
-
     try {
-      
       const leaderValue = member.length === 0 ? true : false;
-
       const updatedFormData = {
         name: formData.name,
         leader: leaderValue,
       };
-
-      const response = await axiosInstance.post(`meeting/${meetingId}/member`, updatedFormData);
+      const response = await postMemberData(meetingId, updatedFormData);
       if (response.status === 201) {
         setFormData({ name: '' });
         handleGetData();
@@ -83,7 +126,7 @@ const BillingMember = () => {
 
   const handleDeleteMember = async (memberId) => {
     try {
-      await axiosInstance.delete(`meeting/${meetingId}/member/${memberId}`);
+      await deleteMemberData(meetingId, memberId);
       setMember(member.filter((data) => data.id !== memberId));
     } catch (error) {
       console.log('Api 데이터 삭제 실패');
@@ -105,25 +148,32 @@ const BillingMember = () => {
 
   return (
     <BillingMemberContainer>
-      <form onSubmit={handleAddMember}>
+      <FormContainer onSubmit={handleAddMember}>
         <BillingInputBox
           type="text"
           name="name"
           value={formData.name}
           onChange={handleInputChange}
           placeholder="멤버추가하기"
+          maxlength="22"
         />
         <BillingAddMember type="submit" disabled={notAllow}>
           멤버추가하기
         </BillingAddMember>
-      </form>
-      {member.map((data) => (
-        <MemberContainer key={data.id}>
-          {data.leader === true && <span>총무</span>}
-          <Members onClick={() => handleClick(data)}>{data.name}</Members>
-          <MemberDelete onClick={() => handleDeleteMember(data.id)}>X</MemberDelete>
-        </MemberContainer>
-      ))}
+      </FormContainer>
+      <MemberContainer>
+        {member.map((data) => (
+          <MemberList key={data.id} >
+            {data.leader === true && <Leader>총무</Leader>}
+            <Members onClick={() => handleClick(data)}>{truncate(data.name,5)}</Members>
+            <MemberDelete 
+              onClick={(e) =>{ 
+                e.preventDefault();
+                handleDeleteMember(data.id);
+              }}>X</MemberDelete>
+          </MemberList>
+        ))}
+      </MemberContainer>
       {openModal && (
         <BillingMemberFix
           {...memberSelected}

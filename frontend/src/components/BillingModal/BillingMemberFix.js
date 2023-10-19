@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { axiosData } from '../../api/api'
+import { PutMemberNameData } from '../../api/api'
+import useOnClickOutside from '../../hooks/useOnClickOutside'
+
+
+
 
 const BillingMemberFixContainer = styled.div`
   z-index: 1;
@@ -18,7 +22,11 @@ const WrapperModal = styled.div`
 
 const Modal = styled.div`
   position: relative;
-  height: 250px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row-reverse;
+  align-items: center;
+  height: 150px;
   width: 200px;
   background: white;
   overflow: hidden;
@@ -40,21 +48,36 @@ const Modal = styled.div`
 
 const ModalClose = styled.span`
   cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 8px;
 `
 
 const MemberNameFixInput = styled.input`
+  border: none;
 `
 
 const MemberNameFixInputBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 170px;
+  height: 30px;
+  border: 1px solid #CCE5FF;
+  border-radius: 10px;
 `
 
 const MemberFix = styled.button`
+  border: 1px solid #CCE5FF;
+  border-radius: 8px;
 `
 
 const LeaderCheck = styled.input`
+
 `
 
 const Label = styled.div`
+  margin: 10px;
 `
 
 const Leader = styled.span`
@@ -67,7 +90,7 @@ const BillingMemberFix = ({
   setOpenModal,
   handleGetData,
 }) => {
-  const axiosInstance = axiosData()
+  const ref = useRef()
   const [leader, setLeader] = useState(false);
   const [notAllow, setNotAllow] = useState(true)
   const [formData, setFormData] = useState({
@@ -87,9 +110,10 @@ const BillingMemberFix = ({
     e.preventDefault();
     formData.leader = leader;
     try {
-      const response = await axiosInstance.put(`meeting/${meeting_id}/member/${id}`, formData);
+      const response = await PutMemberNameData(meeting_id, id , formData);
       if (response.status === 200) {
           setFormData({ name: '' });
+          setOpenModal(false)
           handleGetData();
       }
     } catch (error) {
@@ -105,11 +129,14 @@ const BillingMemberFix = ({
     setNotAllow(true)
   }, [formData.name])
 
+  useOnClickOutside(ref, ()=>{
+    setOpenModal(false)
+  })
 
   return (
     <BillingMemberFixContainer>
       <WrapperModal>
-        <Modal>
+        <Modal ref={ref}>
           <ModalClose onClick={() => setOpenModal(false)}>X</ModalClose>
           <form onSubmit={handlePutData}>
             <MemberNameFixInputBox>
@@ -130,7 +157,7 @@ const BillingMemberFix = ({
               />
               <Leader>총무로 변경하기</Leader>
             </Label>
-            <MemberFix type="submit" disabled={notAllow}>
+            <MemberFix type="submit" disabled={notAllow} >
               저장하기
             </MemberFix>
           </form>
