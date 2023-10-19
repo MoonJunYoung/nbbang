@@ -37,7 +37,8 @@ class MysqlCRUDTemplate(MysqlSession):
     def run(self):
         try:
             return self.execute()
-        except:
+        except Exception as e:
             self.rollback()
+            raise e
         finally:
             self.close()
