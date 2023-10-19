@@ -79,3 +79,12 @@ class PaymentRepository:
                 payments.append(payment)
 
             return payments
+
+    class DeleteByMeetingID(MysqlCRUDTemplate):
+        def __init__(self, meeting_id) -> None:
+            self.meeting_id = meeting_id
+            super().__init__()
+
+        def execute(self):
+            self.session.query(PaymentModel).filter(PaymentModel.meeting_id == self.meeting_id).delete()
+            self.session.commit()
