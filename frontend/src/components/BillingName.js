@@ -3,18 +3,39 @@ import { useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
-import { axiosData } from '../api/api';
+import { getMeetingData, PutMeetingNameData } from '../api/api';
 import BillingInputBox from './BillingInputBox';
 
 const BillngNameContainer = styled.div`
   height: 200px;
 `;
 
-const BillingPixButton = styled.button`
+const FormContainer = styled.form`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+`
 
+const BillingPixButton = styled.button`
+  width: 200px;
+  height: 30px;
+  border: 1px solid #CCE5FF;
+  border-radius: 10px;
 `;
 
+const StyledDatePickerBox = styled.div`
+  width: 100px;
+  border-radius: 10px;
+  border: 1px solid #CCE5FF;
+  background-color: white;
+`
+
 const StyledDatePicker = styled(DatePicker)`
+  width: 70px;
+  background-color: white;
+  border: none;
 `;
 
 const BillingName = () => {  
@@ -22,7 +43,6 @@ const BillingName = () => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth() + 1; 
   const day = currentDate.getDate();
-  const axiosInstance = axiosData()
   const { meetingId } = useParams();
   const [formData, setFormData] = useState({
     name: "",
@@ -40,13 +60,17 @@ const BillingName = () => {
     });
   };
 
+
   const handlePutData = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axiosInstance.put(`meeting/${meetingId}`, formData);
+      const response = await PutMeetingNameData(meetingId, formData);
       if(response.status === 200){
-        setFormData({ name: '' });
+        setFormData(prevData => ({
+          ...prevData,
+          name: '',
+        }));
+
       };
     } catch (error) {
       console.log("Api 데이터 수정 실패");
@@ -64,17 +88,24 @@ const BillingName = () => {
 
   return (
     <BillngNameContainer>
-      <form onSubmit={handlePutData}>
+      <h1>{formData.name}</h1>
+      <FormContainer onSubmit={handlePutData}>
         <BillingInputBox 
           type='text'
           name='name'
           value={formData.name} 
           onChange={handleInputChange}
           placeholder='모임명수정'
+          maxlength="22"
         />
-        <StyledDatePicker selected={new Date()} onChange={date => setFormData({ ...formData, date: date.toISOString().split('T')[0] })} />
+        <StyledDatePickerBox>
+          <StyledDatePicker
+            selected={new Date(formData.date)}
+            onChange={date => setFormData({ ...formData, date: date.toISOString().split('T')[0] })}
+          />
+        </StyledDatePickerBox>
         <BillingPixButton type='submit' disabled={notAllow}>수정하기</BillingPixButton>
-      </form>
+      </FormContainer>
     </BillngNameContainer>
   );
 };
