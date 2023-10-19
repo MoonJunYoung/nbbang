@@ -1,10 +1,14 @@
 from backend.domain.meeting import Meeting
 from backend.repository.meeting import MeetingRepository
+from backend.repository.member import MemberRepository
+from backend.repository.payment import PaymentRepository
 
 
 class MeetingService:
     def __init__(self) -> None:
         self.meeting_repository = MeetingRepository()
+        self.member_repository = MemberRepository()
+        self.payment_repository = PaymentRepository()
 
     def create(self, user_id):
         meeting = Meeting(
@@ -34,6 +38,8 @@ class MeetingService:
             user_id=user_id,
         )
         self.meeting_repository.Delete(meeting).run()
+        self.member_repository.DeleteByMeetingID(meeting.id).run()
+        self.payment_repository.DeleteByMeetingID(meeting.id).run()
 
     def read(self, user_id):
         meetings = self.meeting_repository.ReadByUserID(user_id).run()
