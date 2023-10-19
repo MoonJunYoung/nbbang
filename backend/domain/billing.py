@@ -60,7 +60,8 @@ class Billing:
                 return member.name
 
     def _get_attend_member_data(self, attend_member_ids):
-        result = list()
+        attend_members = list()
         for attend_meeber_id in attend_member_ids:
             member_name = self._get_member_data(attend_meeber_id)
-            result.append(member_name)
+            attend_members.append(member_name)
+        return attend_members
