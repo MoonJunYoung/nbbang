@@ -11,7 +11,28 @@ class Billing:
         self.payments = payments
         self.members = members
 
-    def set_member_result(self):
+    def create(self):
+        self._set_memebers()
+        self._set_payments()
+
+    def _split_price(self, price, attend_member_count):
+        if price % attend_member_count:
+            return price // attend_member_count + 1
+        return price / attend_member_count
+
+    def _get_member_data(self, member_id):
+        for member in self.members:
+            if member_id == member.id:
+                return member.name
+
+    def _get_attend_member_data(self, attend_member_ids):
+        attend_members = list()
+        for attend_meeber_id in attend_member_ids:
+            member_name = self._get_member_data(attend_meeber_id)
+            attend_members.append(member_name)
+        return attend_members
+
+    def _set_memebers(self):
         for member in self.members:
             id = member.id
             name = member.name
@@ -23,7 +44,7 @@ class Billing:
             }
             self.result["billing"][id] = result
 
-    def set_paymnet_result(self):
+    def _set_payments(self):
         for payment in self.payments:
             id = payment.id
             place = payment.place
@@ -48,20 +69,3 @@ class Billing:
             for attend_member_id in payment.attend_member_ids:
                 member = self.result["billing"][attend_member_id]
                 self.result["billing"][attend_member_id]["amount"] = member["amount"] + split_price
-
-    def _split_price(self, price, attend_member_count):
-        if price % attend_member_count:
-            return price // attend_member_count + 1
-        return price / attend_member_count
-
-    def _get_member_data(self, member_id):
-        for member in self.members:
-            if member_id == member.id:
-                return member.name
-
-    def _get_attend_member_data(self, attend_member_ids):
-        attend_members = list()
-        for attend_meeber_id in attend_member_ids:
-            member_name = self._get_member_data(attend_meeber_id)
-            attend_members.append(member_name)
-        return attend_members
