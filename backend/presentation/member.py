@@ -1,10 +1,9 @@
-from fastapi import APIRouter, HTTPException, Header
+from fastapi import APIRouter, Header
 from pydantic import BaseModel
-from backend.exceptions import catch_exception
 
+from backend.exceptions import catch_exception
 from backend.presentation.token import Token
 from backend.service.member import MemberService
-
 
 member_service = MemberService()
 

@@ -1,5 +1,6 @@
-from fastapi import HTTPException
 import traceback
+
+from fastapi import HTTPException
 
 
 def catch_exception(exce):

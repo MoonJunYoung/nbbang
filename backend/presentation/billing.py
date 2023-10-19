@@ -1,10 +1,8 @@
-from fastapi import APIRouter, HTTPException, Header
-from pydantic import BaseModel
-from backend.exceptions import catch_exception
+from fastapi import APIRouter, Header
 
+from backend.exceptions import catch_exception
 from backend.presentation.token import Token
 from backend.service.billing import BillingService
-
 
 billing_service = BillingService()
 

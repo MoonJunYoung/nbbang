@@ -1,10 +1,9 @@
-from fastapi import APIRouter, HTTPException, Header
+from fastapi import APIRouter, Header, HTTPException
 from pydantic import BaseModel
-from backend.exceptions import CustomException, catch_exception
 
-
-from backend.service.user import UserService
+from backend.exceptions import catch_exception
 from backend.presentation.token import Token
+from backend.service.user import UserService
 
 user_service = UserService()
 

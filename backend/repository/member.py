@@ -1,5 +1,5 @@
 from backend.domain.member import Member
-from backend.repository.connector import MysqlCRUDTemplate, MysqlSession
+from backend.repository.connector import MysqlCRUDTemplate
 from backend.repository.model import MemberModel
 
 

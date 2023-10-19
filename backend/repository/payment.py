@@ -1,6 +1,7 @@
 import json
+
 from backend.domain.payment import Payment
-from backend.repository.connector import MysqlCRUDTemplate, MysqlSession
+from backend.repository.connector import MysqlCRUDTemplate
 from backend.repository.model import PaymentModel
 
 

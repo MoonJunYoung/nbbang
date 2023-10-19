@@ -1,8 +1,9 @@
 import datetime
+import os
 
 import jwt
 from dotenv import load_dotenv
-import os
+
 from backend.exceptions import InvalidTokenException, MissingTokenException
 
 load_dotenv()

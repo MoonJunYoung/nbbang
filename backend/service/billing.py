@@ -1,8 +1,5 @@
 from backend.domain.billing import Billing
 from backend.domain.meeting import Meeting
-from backend.domain.member import Member
-from backend.exceptions import LeaderAlreadyException
-
 from backend.repository.meeting import MeetingRepository
 from backend.repository.member import MemberRepository
 from backend.repository.payment import PaymentRepository
