@@ -17,6 +17,5 @@ class BillingService:
         members = self.member_repository.ReadByMeetingID(meeting.id).run()
         payments = self.payment_repository.ReadByMeetingID(meeting.id).run()
         billing = Billing(payments=payments, members=members)
-        billing.set_member_result()
-        billing.set_paymnet_result()
+        billing.create()
         return billing.result
