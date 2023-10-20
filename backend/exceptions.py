@@ -74,3 +74,11 @@ class LeaderAlreadyException(CustomException):
 
     status_code = 409
     detail = "this meeting already has a leader."
+
+
+class PaymentInMemberDeleteExcption(CustomException):
+    def __init__(self) -> None:
+        super().__init__(f"member included in payment cannot be deleted.")
+
+    status_code = 409
+    detail = "it is not possible to delete the member you want to delete because it is included in the payment."

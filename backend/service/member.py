@@ -3,12 +3,14 @@ from backend.domain.member import Member
 from backend.exceptions import LeaderAlreadyException
 from backend.repository.meeting import MeetingRepository
 from backend.repository.member import MemberRepository
+from backend.repository.payment import PaymentRepository
 
 
 class MemberService:
     def __init__(self) -> None:
         self.meeting_repository = MeetingRepository()
         self.member_repository = MemberRepository()
+        self.payment_repository = PaymentRepository()
 
     def create(self, name, leader, meeting_id, user_id):
         meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
@@ -49,6 +51,8 @@ class MemberService:
             leader=None,
             meeting_id=meeting_id,
         )
+        payments = self.payment_repository.ReadByMeetingID(meeting_id).run()
+        member.check_in_payment(payments)
         self.member_repository.Delete(member).run()
 
     def read(self, meeting_id, user_id):
