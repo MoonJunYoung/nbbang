@@ -49,6 +49,8 @@ class MeetingRepository:
         def execute(self):
             meetings = list()
             meeting_models = self.session.query(MeetingModel).filter(MeetingModel.user_id == self.user_id).all()
+            if not meeting_models:
+                return None
             for meeting_model in meeting_models:
                 meeting = Meeting(
                     id=meeting_model.id,
@@ -66,6 +68,8 @@ class MeetingRepository:
 
         def execute(self):
             meeting_model = self.session.query(MeetingModel).filter(MeetingModel.id == self.id).first()
+            if not meeting_model:
+                return None
             meeting = Meeting(
                 id=meeting_model.id,
                 name=meeting_model.name,

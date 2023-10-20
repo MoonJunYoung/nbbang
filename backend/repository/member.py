@@ -49,6 +49,8 @@ class MemberRepository:
         def execute(self):
             members = list()
             member_models = self.session.query(MemberModel).filter(MemberModel.meeting_id == self.meeting_id).all()
+            if not member_models:
+                return None
             for member_model in member_models:
                 member = Member(
                     id=member_model.id,
@@ -72,7 +74,7 @@ class MemberRepository:
                 .first()
             )
             if not member_model:
-                return False
+                return None
             member = Member(
                 id=member_model.id,
                 name=member_model.name,

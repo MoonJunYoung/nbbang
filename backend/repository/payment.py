@@ -67,6 +67,8 @@ class PaymentRepository:
             payment_models: list[PaymentModel] = (
                 self.session.query(PaymentModel).filter(PaymentModel.meeting_id == self.meeting_id).all()
             )
+            if not payment_models:
+                return None
             for payment_model in payment_models:
                 payment = Payment(
                     id=payment_model.id,
