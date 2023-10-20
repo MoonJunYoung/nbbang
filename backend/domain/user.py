@@ -12,5 +12,5 @@ class User:
         encrypted = bcrypt.hashpw(self.password.encode("utf-8"), salt)
         self.password = encrypted.decode("utf-8")
 
-    def check_password(self, password):
+    def check_password_match(self, password):
         return bcrypt.checkpw(password.encode(), self.password.encode())

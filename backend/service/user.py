@@ -34,7 +34,7 @@ class UserService:
         user: User = self.user_repository.ReadByIdentifier(in_user.identifier).run()
         if not user:
             raise IdentifierNotFoundException(identifier=identifier)
-        if not user.check_password(in_user.password):
+        if not user.check_password_match(in_user.password):
             raise PasswordNotMatchException(identifier=identifier, password=password)
         return user.id
 
