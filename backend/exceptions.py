@@ -82,3 +82,11 @@ class PaymentInMemberDeleteExcption(CustomException):
 
     status_code = 409
     detail = "it is not possible to delete the member you want to delete because it is included in the payment."
+
+
+class MemberIsLeaderDeleteExcption(CustomException):
+    def __init__(self) -> None:
+        super().__init__(f"the leader member cannot be deleted.")
+
+    status_code = 409
+    detail = "the leader member cannot be deleted."

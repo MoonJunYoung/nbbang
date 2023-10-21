@@ -41,6 +41,23 @@ class MemberRepository:
             self.session.delete(member_model)
             self.session.commit()
 
+    class ReadByID(MysqlCRUDTemplate):
+        def __init__(self, id) -> None:
+            self.id = id
+            super().__init__()
+
+        def execute(self):
+            member_model = self.session.query(MemberModel).filter(MemberModel.id == self.id).first()
+            if not member_model:
+                return None
+            member = Member(
+                id=member_model.id,
+                name=member_model.name,
+                leader=member_model.leader,
+                meeting_id=member_model.meeting_id,
+            )
+            return member
+
     class ReadByMeetingID(MysqlCRUDTemplate):
         def __init__(self, meeting_id) -> None:
             self.meeting_id = meeting_id

@@ -1,5 +1,8 @@
 from backend.domain.payment import Payment
-from backend.exceptions import PaymentInMemberDeleteExcption
+from backend.exceptions import (
+    MemberIsLeaderDeleteExcption,
+    PaymentInMemberDeleteExcption,
+)
 
 
 class Member:
@@ -14,3 +17,7 @@ class Member:
             for attend_member_id in payment.attend_member_ids:
                 if self.id == attend_member_id:
                     raise PaymentInMemberDeleteExcption
+
+    def delete_member_if_not_leader(self):
+        if self.leader:
+            raise MemberIsLeaderDeleteExcption
