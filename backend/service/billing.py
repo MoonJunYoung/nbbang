@@ -17,8 +17,7 @@ class BillingService:
         members = self.member_repository.ReadByMeetingID(meeting.id).run()
         payments = self.payment_repository.ReadByMeetingID(meeting.id).run()
         if not members or not payments:
-            billing = Billing(payments=None, members=None)
-            return billing.result
+            return None
         billing = Billing(payments=payments, members=members)
         billing.create()
         return billing.result
