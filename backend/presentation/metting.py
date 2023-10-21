@@ -27,11 +27,23 @@ class MeetingPresentation:
             catch_exception(e)
 
     @router.get("", status_code=200)
-    async def read(Authorization=Header(None)):
+    async def read_by_user_id(Authorization=Header(None)):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            meetings = meeting_service.read(user_id)
+            meetings = meeting_service.read_by_user_id(user_id)
             return meetings
+        except Exception as e:
+            catch_exception(e)
+
+    @router.get("/{meeting_id}", status_code=200)
+    async def read(meeting_id: int, Authorization=Header(None)):
+        try:
+            user_id = Token.get_user_id_by_token(token=Authorization)
+            meeting = meeting_service.read(
+                id=meeting_id,
+                user_id=user_id,
+            )
+            return meeting
         except Exception as e:
             catch_exception(e)
 
