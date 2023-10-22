@@ -41,6 +41,11 @@ class MeetingService:
         self.member_repository.DeleteByMeetingID(meeting.id).run()
         self.payment_repository.DeleteByMeetingID(meeting.id).run()
 
-    def read(self, user_id):
+    def read_by_user_id(self, user_id):
         meetings = self.meeting_repository.ReadByUserID(user_id).run()
         return meetings
+
+    def read(self, id, user_id):
+        meeting: Meeting = self.meeting_repository.ReadByID(id).run()
+        meeting.is_user_of_meeting(user_id)
+        return meeting
