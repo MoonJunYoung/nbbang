@@ -50,7 +50,7 @@ class MeetingRepository:
             meetings = list()
             meeting_models = self.session.query(MeetingModel).filter(MeetingModel.user_id == self.user_id).all()
             if not meeting_models:
-                return None
+                return meetings
             for meeting_model in meeting_models:
                 meeting = Meeting(
                     id=meeting_model.id,

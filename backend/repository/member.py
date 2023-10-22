@@ -67,7 +67,7 @@ class MemberRepository:
             members = list()
             member_models = self.session.query(MemberModel).filter(MemberModel.meeting_id == self.meeting_id).all()
             if not member_models:
-                return None
+                return members
             for member_model in member_models:
                 member = Member(
                     id=member_model.id,
