@@ -113,7 +113,7 @@ const StyledCheckboxDiv = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   justify-content: center;
-  gap: 5px;
+  gap: 13px;
 `
 
 const StyledCheckboxLabel = styled.label`
@@ -121,7 +121,7 @@ const StyledCheckboxLabel = styled.label`
   align-items: center;
   margin-bottom: 10px;
   cursor: pointer;
-  padding: 5px;
+  padding: 7px 10px;
 
   span {
     position: relative;
