@@ -126,10 +126,16 @@ const BillingMember = ({member,setMember}) => {
 
   const handleDeleteMember = async (memberId) => {
     try {
-      await deleteMemberData(meetingId, memberId);
+      const response = await deleteMemberData(meetingId, memberId);
       setMember(member.filter((data) => data.id !== memberId));
     } catch (error) {
       console.log('Api 데이터 삭제 실패');
+      if (error.response.data.detail === 'the leader member cannot be deleted.') {
+        alert('총무인 멤버는 삭제할수 없습니다.');
+      }
+      if (error.response.data.detail === 'it is not possible to delete the member you want to delete because it is included in the payment.') {
+        alert('결제내역의 포함 된 멤버는 삭제 할 수 없습니다.');
+      }
     }
   };
 

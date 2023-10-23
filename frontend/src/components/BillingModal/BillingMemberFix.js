@@ -1,10 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+ import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { PutMemberNameData } from '../../api/api'
 import useOnClickOutside from '../../hooks/useOnClickOutside'
-
-
-
 
 const BillingMemberFixContainer = styled.div`
   z-index: 1;

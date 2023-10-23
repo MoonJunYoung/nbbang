@@ -3,12 +3,20 @@ import { useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
-import { getMeetingData, PutMeetingNameData } from '../api/api';
+import { GetMeetingNameData, PutMeetingNameData } from '../api/api';
 import BillingInputBox from './BillingInputBox';
 
 const BillngNameContainer = styled.div`
   height: 200px;
 `;
+
+const MeetingName = styled.p`
+
+`
+
+const MeetingDate = styled.p`
+
+`
 
 const FormContainer = styled.form`
   display: flex;
@@ -44,12 +52,27 @@ const BillingName = () => {
   const month = currentDate.getMonth() + 1; 
   const day = currentDate.getDate();
   const { meetingId } = useParams();
+  const [meetingName, setMeetingName] = useState([])
   const [formData, setFormData] = useState({
     name: "",
     date: `${year}-${month}-${day}` 
   });
 
   const [notAllow, setNotAllow] = useState(true)
+
+  const handleGetData = async () => {
+    try {
+      const responseGetData = await GetMeetingNameData(meetingId);
+      setMeetingName(responseGetData.data)
+    } catch (error) {
+      console.log('Api 데이터 불러오기 실패');
+    }
+  };
+
+  useEffect(() => {
+    handleGetData()
+  }, [])
+
 
   
   const handleInputChange = (e) => {
@@ -70,7 +93,7 @@ const BillingName = () => {
           ...prevData,
           name: '',
         }));
-
+        handleGetData()
       };
     } catch (error) {
       console.log("Api 데이터 수정 실패");
@@ -87,26 +110,29 @@ const BillingName = () => {
 
 
   return (
-    <BillngNameContainer>
-      <h1>{formData.name}</h1>
-      <FormContainer onSubmit={handlePutData}>
-        <BillingInputBox 
-          type='text'
-          name='name'
-          value={formData.name} 
-          onChange={handleInputChange}
-          placeholder='모임명수정'
-          maxlength="22"
-        />
-        <StyledDatePickerBox>
-          <StyledDatePicker
-            selected={new Date(formData.date)}
-            onChange={date => setFormData({ ...formData, date: date.toISOString().split('T')[0] })}
+    <>
+      <MeetingName>{meetingName.name}</MeetingName>
+      <MeetingDate>{meetingName.date}</MeetingDate>
+      <BillngNameContainer>
+        <FormContainer onSubmit={handlePutData}>
+          <BillingInputBox 
+            type='text'
+            name='name'
+            value={formData.name} 
+            onChange={handleInputChange}
+            placeholder='모임명수정'
+            maxlength="22"
           />
-        </StyledDatePickerBox>
-        <BillingPixButton type='submit' disabled={notAllow}>수정하기</BillingPixButton>
-      </FormContainer>
-    </BillngNameContainer>
+          <StyledDatePickerBox>
+            <StyledDatePicker
+              selected={new Date(formData.date)}
+              onChange={date => setFormData({ ...formData, date: date.toISOString().split('T')[0] })}
+            />
+          </StyledDatePickerBox>
+          <BillingPixButton type='submit' disabled={notAllow}>수정하기</BillingPixButton>
+        </FormContainer>
+      </BillngNameContainer>
+    </>
   );
 };
 
