@@ -45,6 +45,11 @@ export const PutMeetingNameData = (meetingId , data) => {
   return axiosData().put(`meeting/${meetingId}`, data);
 };
 
+export const GetMeetingNameData = (meetingId) => {
+  return axiosData().get(`meeting/${meetingId}`);
+};
+
+
 
 // member
 
@@ -86,6 +91,12 @@ export const putPaymentData = (meetingId, paymentId, data) => {
 
 //Billing
 
-export const getBillingData = (meetingId, paymentId, data) => {
-  return axiosData().put(`/meeting/${meetingId}/billing/`);
+export const getBillingData = (meetingId) => {
+  return axiosData().get(`/meeting/${meetingId}/billing`);
 };
+
+//BillingResult 
+
+export const getBillingResult = (meetingId) => {
+  return axiosData().get(`meeting/${meetingId}/billing/share`)
+}

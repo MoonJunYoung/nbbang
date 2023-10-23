@@ -22,9 +22,6 @@ const Modal = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: row-reverse;
-  align-items: center;
-  height: 150px;
-  width: 200px;
   background: white;
   overflow: hidden;
   border-radius: 8px;
@@ -58,7 +55,8 @@ const PayMentFixInputBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 170px;
+  margin: 5px;
+  width: 185px;
   height: 30px;
   border: 1px solid #CCE5FF;
   border-radius: 10px;
@@ -67,6 +65,65 @@ const PayMentFixInputBox = styled.div`
 const PayMentFix = styled.button`
   border: 1px solid #CCE5FF;
   border-radius: 8px;
+  margin-top: 15px;
+`
+const PayMentMemberFix = styled.p`
+  margin: 0;
+`
+const StyledCheckboxDiv = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+`
+
+const StyledCheckboxLabel = styled.label`
+  position: relative;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  padding: 5px;
+
+  span {
+    position: relative;
+    color: white;
+    font-size: 13px;
+  }
+
+  input[type="checkbox"]:not(:checked) {
+    position: absolute;
+    top: -2px;
+    left: -5px;
+    background-color: lightgrey;
+    width: 100%;
+    height: 100%;
+    appearance: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  input[type="checkbox"]:checked {
+    position: absolute;
+    top: -2px;
+    left: -5px;
+    background-color: cornflowerblue;
+    width: 100%;
+    height: 100%;
+    appearance: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+`;
+
+const StyledSelect = styled.select`
+  margin: 10px 0;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
 `
 
 
@@ -170,7 +227,7 @@ const PaymentFix = ({
       <WrapperModal>
         <Modal ref={ref}>
           <ModalClose onClick={() => setOpenModal(false)}>X</ModalClose>
-          <form onSubmit={handlePutData}>
+          <Form onSubmit={handlePutData}>
             <PayMentFixInputBox>
               <PayMentFixInput
                 type="text"
@@ -191,29 +248,32 @@ const PaymentFix = ({
                 autoComplete="off"
               />
             </PayMentFixInputBox>
-            <select value={selectedMember} onChange={handleMemberDropBoxSelect}>
+            <PayMentMemberFix>결제자 수정</PayMentMemberFix>
+            <StyledSelect value={selectedMember} onChange={handleMemberDropBoxSelect}>
               {member.map((memberdata) => (
                 <option key={memberdata.id} value={memberdata.id}>
                   {memberdata.name}
                 </option>
               ))}
-            </select>
-            {member.map((memberdata) => (
-              <div key={memberdata.id}>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={memberSelection[memberdata.id]}
-                    onChange={(e) => handleMemberSelect(e, memberdata.id)}
-                  />
-                  {memberdata.name}
-                </label>
-              </div>
-            ))}
+            </StyledSelect>
+            <StyledCheckboxDiv>
+              {member.map((memberdata) => (
+                <div key={memberdata.id} style={{ margin: '5px' }}>
+                  <StyledCheckboxLabel>
+                    <input
+                      type="checkbox"
+                      checked={memberSelection[memberdata.id]}
+                      onChange={(e) => handleMemberSelect(e, memberdata.id)}
+                    />
+                    <span>{memberdata.name}</span>
+                  </StyledCheckboxLabel>
+                </div>
+              ))}
+            </StyledCheckboxDiv>
             <PayMentFix type="submit" disabled={notAllow}>
               저장하기
             </PayMentFix>
-          </form>
+          </Form>
         </Modal>
       </WrapperModal>
     </PayMentFixContainer>

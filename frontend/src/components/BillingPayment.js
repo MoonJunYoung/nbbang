@@ -12,6 +12,7 @@ import { truncate } from './Meeting'
 const BillingPaymentContainer = styled.div`
   height: 200px;
   display: ${(props) => props.member ? 'block' : 'none'};
+  height: 100%;
 `
 
 
@@ -40,7 +41,6 @@ const PaymentContainer = styled.div`
 const PaymentList = styled.div`
   position: relative;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-top: 20px;
   width: 500px;
@@ -89,7 +89,9 @@ const PaymentHistory = styled.span`
 `
 
 const Payment = styled.div`
+  padding : 20px;                        
   @media (max-width: 768px) {
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -100,16 +102,16 @@ const Payment = styled.div`
 
 const Attend = styled.span`
   position: absolute;
-  right: 100px;
+  right: 9px;
   @media (max-width: 768px) {
-    right: 77px;
+    right: 3px;
+    font-size: 12px;
   }
 `
 
 
-const BillingPayment = ({ member }) => {
+const BillingPayment = ({ member ,payment ,setPayment }) => {
   const { meetingId } = useParams();
-  const [payment, setPayment] = useState([])
   const [notAllow, setNotAllow] = useState(true);
   const [selectedMember, setSelectedMember] = useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -253,12 +255,12 @@ const BillingPayment = ({ member }) => {
       </FormContainer>
       <PaymentContainer>
         {payment.map((paymentdata) => (
-          <PaymentList key={paymentdata.id} onClick={() => handleClick(paymentdata)}>
-            <Payment>
+          <PaymentList key={paymentdata.id}>
+            <Payment onClick={() => handleClick(paymentdata)} >
               <PaymentPlace>결제내역</PaymentPlace>
               <PaymentHistory>{truncate(paymentdata.place,10)}</PaymentHistory>
             </Payment>
-            <Payment>
+            <Payment onClick={() => handleClick(paymentdata)} >
               <PaymentPrice>사용금액</PaymentPrice>
               <PaymentHistory>{truncate(paymentdata.price.toLocaleString().toString()+"원",12)}</PaymentHistory>
               <Attend>{paymentdata.attend_member_ids.length}명</Attend>
