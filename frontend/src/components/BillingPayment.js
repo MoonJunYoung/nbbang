@@ -109,8 +109,53 @@ const Attend = styled.span`
   }
 `
 
+const StyledCheckboxDiv = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
+  gap: 5px;
+`
 
-const BillingPayment = ({ member ,payment ,setPayment }) => {
+const StyledCheckboxLabel = styled.label`
+  position: relative;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  padding: 5px;
+
+  span {
+    position: relative;
+    color: white;
+    font-size: 13px;
+  }
+
+  input[type="checkbox"]:not(:checked) {
+    position: absolute;
+    top: -2px;
+    left: -5px;
+    background-color: lightgrey;
+    width: 100%;
+    height: 100%;
+    appearance: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  input[type="checkbox"]:checked {
+    position: absolute;
+    top: -2px;
+    left: -5px;
+    background-color: cornflowerblue;
+    width: 100%;
+    height: 100%;
+    appearance: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+`;
+
+
+const BillingPayment = ({ member, payment, setPayment }) => {
   const { meetingId } = useParams();
   const [notAllow, setNotAllow] = useState(true);
   const [selectedMember, setSelectedMember] = useState(null);
@@ -118,29 +163,37 @@ const BillingPayment = ({ member ,payment ,setPayment }) => {
   const [paymentSelected, setPayMentSelected] = useState({});
 
   const firstPayMemberId = useMemo(() => {
-    return selectedMember
+    return selectedMember;
   }, [selectedMember]);
 
-  const firstMember = useMemo(()=> {
-    return member.map(data => data.id)
-  },[member])
 
+  useEffect(() => {
+    const updatedInitialMemberSelection = member.reduce((selection, memberdata) => {
+      selection[memberdata.id] = true;
+      return selection;
+    }, {});
+    setMemberSelection(updatedInitialMemberSelection);
+  }, [member]);
+
+  const [memberSelection, setMemberSelection] = useState({});
 
   const [formData, setFormData] = useState({
     place: '',
     price: '',
-    attend_member_ids: firstMember,
-    pay_member_id: firstPayMemberId
+    attend_member_ids: [],
+    pay_member_id: null,
   });
 
   useEffect(() => {
-    setFormData(prev => ({
-        ...prev,
-        attend_member_ids: firstMember,
-        pay_member_id: firstPayMemberId
-      }
-    ))
-  }, [firstMember,firstPayMemberId]);
+    setFormData((prev) => ({
+      ...prev,
+      attend_member_ids: Object.keys(memberSelection).filter(
+        (key) => memberSelection[key]
+      ),
+      pay_member_id: firstPayMemberId,
+    }
+  ));
+  }, [firstPayMemberId,memberSelection]);
 
 
   const handleGetData = async () => {
@@ -173,9 +226,10 @@ const BillingPayment = ({ member ,payment ,setPayment }) => {
         setFormData ({ 
           place: '',
           price: '',
-          attend_member_ids: firstMember,
+          attend_member_ids: Object.keys(memberSelection).filter((key) => memberSelection[key]),
           pay_member_id: firstPayMemberId
         })
+  
         handleGetData();
       }else {
         alert("가격 입력 최대 값이 초과하였습니다.")
@@ -205,6 +259,14 @@ const BillingPayment = ({ member ,payment ,setPayment }) => {
   const handleMemberSelect = (e) => {
     const selectedValue = Number(e.target.value);
     setSelectedMember(selectedValue);
+  };
+
+  const handleMemberCheckSelect = (e, memberId) => {
+    const isChecked = e.target.checked;
+    setMemberSelection((prevSelection) => ({
+      ...prevSelection,
+      [memberId]: isChecked,
+    }));
   };
 
   useEffect(() => {
@@ -249,6 +311,20 @@ const BillingPayment = ({ member ,payment ,setPayment }) => {
             </option>
           ))}
         </select>
+        <StyledCheckboxDiv>
+          {member.map((memberdata) => (
+            <div key={memberdata.id} style={{ margin: '5px' }}>
+              <StyledCheckboxLabel>
+                <input
+                  type="checkbox"
+                  checked={memberSelection[memberdata.id]}
+                  onChange={(e) => handleMemberCheckSelect(e, memberdata.id)}
+                />
+                <span>{memberdata.name}</span>
+              </StyledCheckboxLabel>
+            </div>
+          ))}
+        </StyledCheckboxDiv>
         <BillingAddPayment type="submit" disabled={notAllow}>
           결제내역 추가하기
         </BillingAddPayment>

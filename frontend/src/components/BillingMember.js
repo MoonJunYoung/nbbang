@@ -126,7 +126,7 @@ const BillingMember = ({member,setMember}) => {
 
   const handleDeleteMember = async (memberId) => {
     try {
-      const response = await deleteMemberData(meetingId, memberId);
+      await deleteMemberData(meetingId, memberId);
       setMember(member.filter((data) => data.id !== memberId));
     } catch (error) {
       console.log('Api 데이터 삭제 실패');

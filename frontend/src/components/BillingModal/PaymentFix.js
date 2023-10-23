@@ -130,23 +130,26 @@ const Form = styled.form`
 const PaymentFix = ({
   id,
   meeting_id,
+  place,
+  price,
   attend_member_ids,
   member,
   setOpenModal,
   handleGetData,
 }) => {
   const ref = useRef()
-  const [notAllow, setNotAllow] = useState(true)
   const initialMemberSelection = member.reduce((selection, memberdata) => {
     selection[memberdata.id] = attend_member_ids.includes(memberdata.id);
     return selection;
   }, {});
   const [memberSelection, setMemberSelection] = useState(initialMemberSelection); 
+  console.log(memberSelection,"--------")
+
   const [selectedMember, setSelectedMember] = useState(null);
 
   const [formData, setFormData] = useState({
-    place: '',
-    price: '',
+    place: place,
+    price: price,
     attend_member_ids: [],
     pay_member_id: null,
   });
@@ -190,13 +193,6 @@ const PaymentFix = ({
     }
   };
 
-  useEffect(() => {
-    if (formData.place.length > 0 && formData.price.length > 0) {
-      setNotAllow(false);
-    } else {
-      setNotAllow(true);
-    }
-  }, [formData.place ,formData.price]);
 
 
   useOnClickOutside(ref, ()=>{
@@ -232,7 +228,7 @@ const PaymentFix = ({
               <PayMentFixInput
                 type="text"
                 name="place"
-                value={formData.palce}
+                value={formData.place}
                 placeholder='결제내역을 수정하기'
                 onChange={handleInputChange}
                 autoComplete="off"
@@ -270,7 +266,7 @@ const PaymentFix = ({
                 </div>
               ))}
             </StyledCheckboxDiv>
-            <PayMentFix type="submit" disabled={notAllow}>
+            <PayMentFix type="submit">
               저장하기
             </PayMentFix>
           </Form>

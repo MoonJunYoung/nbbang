@@ -139,7 +139,6 @@ const BillingMemberFix = ({
             <MemberNameFixInputBox>
               <MemberNameFixInput
                 type="text"
-                name="name"
                 value={formData.name}
                 placeholder='이름을 입력해주세요'
                 onChange={handleInputChange}
