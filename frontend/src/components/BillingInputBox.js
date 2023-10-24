@@ -29,8 +29,8 @@ const Input = styled.input`
 
   @media (max-width: 768px) {
     position: absolute;
-    left: 14px;
-    top: 4px;
+    left: 13px;
+    top: 3px;
     width: 220px;
     height: 30px;
     border: none;

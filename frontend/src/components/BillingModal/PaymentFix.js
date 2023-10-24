@@ -92,7 +92,7 @@ const StyledCheckboxLabel = styled.label`
   input[type="checkbox"]:not(:checked) {
     position: absolute;
     top: -2px;
-    left: -5px;
+    left: -3px;
     background-color: lightgrey;
     width: 100%;
     height: 100%;
@@ -143,7 +143,6 @@ const PaymentFix = ({
     return selection;
   }, {});
   const [memberSelection, setMemberSelection] = useState(initialMemberSelection); 
-  console.log(memberSelection,"--------")
 
   const [selectedMember, setSelectedMember] = useState(null);
 
