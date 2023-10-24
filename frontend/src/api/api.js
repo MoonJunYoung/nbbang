@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export let Token = () => Cookies.get('authToken');
 const axiosData = () => axios.create({
-  baseURL: "http://15.164.99.251/api/",
+  baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
     'Authorization': Token()
   },
