@@ -43,8 +43,8 @@ const BillingResultCopyButton = ({ payment }) => {
     try {
       const response = await getBillingResult(meetingId);
       if (response.status === 200) {
-        const billingResult = response.data; // 최신 데이터를 가져와서 변수에 저장
-        await navigator.clipboard.writeText(billingResult); // 변수를 사용하여 클립보드에 복사
+        const billingResult = response.data; 
+        await navigator.clipboard.writeText(billingResult); 
         alert('텍스트가 클립보드에 복사되었습니다.');
       }
     } catch (error) {
