@@ -146,6 +146,8 @@ const SigndPage = () => {
               value={formData.identifier}
               onChange={handleInputChange}
               autocomplete="off"
+              onTouchStart={(e) => e.preventDefault()} 
+              onTouchMove={(e) => e.preventDefault()}  
             />
           </InputBox>
           {!isIdentifierValid && formData.identifier.length > 0 && 
@@ -158,6 +160,8 @@ const SigndPage = () => {
               placeholder=" 비밀번호를 입력해주세요"
               value={formData.password}
               onChange={handleInputChange}
+              onTouchStart={(e) => e.preventDefault()} 
+              onTouchMove={(e) => e.preventDefault()}  
             />
           </InputBox>
           {!isPasswordValid && formData.password.length > 0 &&

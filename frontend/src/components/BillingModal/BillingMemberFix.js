@@ -143,6 +143,8 @@ const BillingMemberFix = ({
                 placeholder='이름을 입력해주세요'
                 onChange={handleInputChange}
                 autoComplete="off"
+                onTouchStart={(e) => e.preventDefault()} 
+                onTouchMove={(e) => e.preventDefault()} 
               />
             </MemberNameFixInputBox>
             <Label>
