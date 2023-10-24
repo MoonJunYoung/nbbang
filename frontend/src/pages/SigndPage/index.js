@@ -131,14 +131,6 @@ const SigndPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (isIdentifierValid && isPasswordValid) {
-      setNotAllow(false);
-      return
-    }
-    setNotAllow(true)
-  }, [isIdentifierValid, isPasswordValid])
-  
 
   return (
     <SigndContainer>
@@ -170,8 +162,8 @@ const SigndPage = () => {
           </InputBox>
           {!isPasswordValid && formData.password.length > 0 &&
           (<Valid>비밀번호는 대문자, 소문자, 숫자를 포함하고 8자 이상이어야 합니다.</Valid>)}
-          <SignInButton onClick={()=>setSignd(true)} type="submit" disabled={notAllow}>로그인</SignInButton>
-          <SingUpButton onClick={()=>setSignd(false)} type="submit" disabled={notAllow}>회원가입</SingUpButton>
+          <SignInButton onClick={()=>setSignd(true)} type="submit">로그인</SignInButton>
+          <SingUpButton onClick={()=>setSignd(false)} type="submit">회원가입</SingUpButton>
         </form>
       </SigndBox>
     </SigndContainer>
