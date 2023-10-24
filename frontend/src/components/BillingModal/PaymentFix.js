@@ -231,6 +231,8 @@ const PaymentFix = ({
                 placeholder='결제내역을 수정하기'
                 onChange={handleInputChange}
                 autoComplete="off"
+                onTouchStart={(e) => e.preventDefault()} 
+                onTouchMove={(e) => e.preventDefault()}  
               />
             </PayMentFixInputBox>
             <PayMentFixInputBox>
@@ -241,6 +243,8 @@ const PaymentFix = ({
                 placeholder='결제금액을 수정하기'
                 onChange={handleInputChange}
                 autoComplete="off"
+                onTouchStart={(e) => e.preventDefault()} 
+                onTouchMove={(e) => e.preventDefault()} 
               />
             </PayMentFixInputBox>
             <PayMentMemberFix>결제자 수정</PayMentMemberFix>
