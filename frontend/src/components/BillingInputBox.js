@@ -34,6 +34,7 @@ const Input = styled.input`
     width: 220px;
     height: 30px;
     border: none;
+    touch-action: none;
   }
 `
 
