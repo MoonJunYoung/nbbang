@@ -36,6 +36,7 @@ const Input = styled.input`
   width: 20rem;
   height: 25px;
   border: none;
+  touch-action: none;
 `
 
 const InputBox = styled.div`
@@ -116,12 +117,11 @@ const SigndPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (isIdentifierValid && isPasswordValid) {
       try {
         const response = await postSigndData(Signd ? SignInApi : SignUpApi , formData);
         console.log("성공!", response.data);
-        Cookies.set('authToken', response.data, { expires: 30, path: '/', secure: true, sameSite: 'strict' });
+        Cookies.set('authToken', response.data, { expires: 30 });
         navigate("/");
       } catch (error) {
         alert("실패했습니다. 다시 시도하세요.");
