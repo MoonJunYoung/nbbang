@@ -25,11 +25,12 @@ const Input = styled.input`
   border: none;
   width: 400px;
   height: 30px;
+  touch-action: none;
 
   @media (max-width: 768px) {
     position: absolute;
-    left: 15px;
-    top: 5px;
+    left: 14px;
+    top: 4px;
     width: 220px;
     height: 30px;
     border: none;
