@@ -22,7 +22,7 @@ const Modal = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: row-reverse;
-  height: 300px;
+  height: 270px;
   width: 200px;
   background: white;
   overflow: hidden;
