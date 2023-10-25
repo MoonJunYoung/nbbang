@@ -124,6 +124,16 @@ const LeaderBilling = styled.div`
   }
 `
 
+const BillingHistory = styled(PaymentsHistory)`
+  color: white;
+  background-color: cornflowerblue;
+  border: 3px solid skyblue;
+  @media (max-width: 768px) {
+    position: relative;
+    width: 395px;   
+    height: 100%;
+  }
+`
 const LeaderBillingMoney = styled.span`
   font-size: 14px;
 `
