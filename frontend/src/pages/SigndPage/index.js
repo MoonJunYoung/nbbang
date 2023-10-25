@@ -105,7 +105,7 @@ const SigndPage = () => {
     }
 
     if (name === "password") {
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+      const passwordRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&*!])[a-z\d@#$%^&*!]{8,}$/;
       const isValid = passwordRegex.test(value);
       setIsPasswordValid(isValid);
     }
@@ -165,7 +165,7 @@ const SigndPage = () => {
             />
           </InputBox>
           {!isPasswordValid && formData.password.length > 0 &&
-          (<Valid>비밀번호는 대문자, 소문자, 숫자를 포함하고 8자 이상이어야 합니다.</Valid>)}
+          (<Valid>비밀번호는 소문자, 숫자, 특수문자를 포함하고 8자 이상이어야 합니다.</Valid>)}
           <SignInButton onClick={()=>setSignd(true)} type="submit">로그인</SignInButton>
           <SingUpButton onClick={()=>setSignd(false)} type="submit">회원가입</SingUpButton>
         </form>
