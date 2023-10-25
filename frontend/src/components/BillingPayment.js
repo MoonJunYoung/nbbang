@@ -97,6 +97,8 @@ const Payment = styled.div`
     align-items: center;
     width: 125px;
     font-size: 14px;
+    flex-direction: column;
+    gap: 5px;
   }
 `
 

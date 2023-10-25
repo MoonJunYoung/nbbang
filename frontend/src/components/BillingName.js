@@ -127,6 +127,7 @@ const BillingName = () => {
             <StyledDatePicker
               selected={new Date(formData.date)}
               onChange={date => setFormData({ ...formData, date: date.toISOString().split('T')[0] })}
+              readOnly
             />
           </StyledDatePickerBox>
           <BillingPixButton type='submit' disabled={notAllow}>수정하기</BillingPixButton>

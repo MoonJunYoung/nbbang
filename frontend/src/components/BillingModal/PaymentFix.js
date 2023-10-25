@@ -22,6 +22,8 @@ const Modal = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: row-reverse;
+  height: 300px;
+  width: 200px;
   background: white;
   overflow: hidden;
   border-radius: 8px;
@@ -48,6 +50,7 @@ const ModalClose = styled.span`
 `
 
 const PayMentFixInput = styled.input`
+  width: 115px;
   border: none;
 `
 
@@ -56,7 +59,7 @@ const PayMentFixInputBox = styled.div`
   justify-content: center;
   align-items: center;
   margin: 5px;
-  width: 185px;
+  width: 150px;
   height: 30px;
   border: 1px solid #CCE5FF;
   border-radius: 10px;

@@ -52,13 +52,14 @@ const ModalClose = styled.span`
 
 const MemberNameFixInput = styled.input`
   border: none;
+  width: 115px;
 `
 
 const MemberNameFixInputBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 170px;
+  width: 150px;
   height: 30px;
   border: 1px solid #CCE5FF;
   border-radius: 10px;
