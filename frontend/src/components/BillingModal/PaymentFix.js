@@ -23,7 +23,7 @@ const Modal = styled.div`
   justify-content: center;
   flex-direction: row-reverse;
   height: 270px;
-  width: 200px;
+  width: 250px;
   background: white;
   overflow: hidden;
   border-radius: 8px;
@@ -127,6 +127,7 @@ const Form = styled.form`
   justify-content: center;
   align-items: center;
   padding: 10px;
+  height: 100%;
 `
 
 
