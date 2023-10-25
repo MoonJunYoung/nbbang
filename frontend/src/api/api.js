@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export let Token = () => Cookies.get('authToken');
 const axiosData = () => axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: "https://nbbang.shop/api/",
   headers: {
     'Authorization': Token()
   },

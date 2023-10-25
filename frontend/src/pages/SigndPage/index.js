@@ -111,8 +111,8 @@ const SigndPage = () => {
     }
   };
 
-  const SignInApi = "http://15.164.99.251/api/user/sign-in"
-  const SignUpApi = "http://15.164.99.251/api/user/sign-up"
+  const SignInApi = "https://nbbang.shop/api/user/sign-in"
+  const SignUpApi = "https://nbbang.shop/api/user/sign-up"
 
 
   const handleSubmit = async (e) => {
