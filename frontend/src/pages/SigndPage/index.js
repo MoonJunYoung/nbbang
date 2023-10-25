@@ -141,7 +141,7 @@ const SigndPage = () => {
           <InputBox>
             <Input
               type="text"
-              name="identifier"
+              name="identifier"ㅑ
               placeholder=" 아이디를 입력해주세요"
               value={formData.identifier}
               onChange={handleInputChange}
