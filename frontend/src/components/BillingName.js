@@ -123,11 +123,11 @@ const BillingName = () => {
             placeholder='모임명수정'
             maxlength="22"
           />
-          <StyledDatePickerBox>
+         <StyledDatePickerBox>
             <StyledDatePicker
               selected={new Date(formData.date)}
               onChange={date => setFormData({ ...formData, date: date.toISOString().split('T')[0] })}
-              readOnly
+              inputMode="none" 
             />
           </StyledDatePickerBox>
           <BillingPixButton type='submit' disabled={notAllow}>수정하기</BillingPixButton>
