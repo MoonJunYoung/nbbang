@@ -59,23 +59,40 @@ const Price = styled.span`
     left: -13px;
   }
   @media (max-width: 768px) {
+    &::before {
+      content: ''; 
+    }
     margin-top: 25px;
   }
-`
-const PayMember = styled(Price)``
-const AttendMemberCount = styled(Price)``
-const SplitPrice = styled(Price)``
+`;
 
-const BillingHistory = styled(PaymentsHistory)`
-  color: white;
-  background-color: cornflowerblue;
-  border: 3px solid skyblue;
-  @media (max-width: 768px) {
-    position: relative;
-    width: 395px;   
-    height: 100%;
+const PayMember = styled(Price)`
+  &::before {
+    content: '|';
+    color: dodgerblue;
+    position: absolute;
+    left: -13px;
   }
-`
+`;
+
+const AttendMemberCount = styled(Price)`
+ &::before {
+    content: '|';
+    color: dodgerblue;
+    position: absolute;
+    left: -13px;
+  }
+`;
+
+const SplitPrice = styled(Price)`
+ &::before {
+    content: '|';
+    color: dodgerblue;
+    position: absolute;
+    left: -13px;
+  }
+`;
+
 
 const Member = styled.p`
   font-size: 15px;
