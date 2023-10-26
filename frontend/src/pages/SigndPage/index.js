@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components' 
 
 import Cookies from 'js-cookie'
@@ -36,7 +36,9 @@ const Input = styled.input`
   width: 20rem;
   height: 25px;
   border: none;
-  touch-action: none;
+  input[type="text"] {
+  touch-action: manipulation;
+}
 `
 
 const InputBox = styled.div`
@@ -57,6 +59,8 @@ const SignInButton = styled.button`
   background-color: white;
   border: 1px solid white;
   cursor: pointer;
+  color: black;
+  font-weight: 700;
 `
 
 const Valid = styled.div`
@@ -66,7 +70,6 @@ const Valid = styled.div`
 
 const SingUpButton = styled(SignInButton)`
   margin-top: 5px;
-  text-decoration: none;
   color: black;
   cursor: pointer;
 `
