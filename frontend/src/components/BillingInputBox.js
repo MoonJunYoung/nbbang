@@ -25,7 +25,10 @@ const Input = styled.input`
   border: none;
   width: 400px;
   height: 30px;
-  touch-action: none;
+
+  input[type="text"] {
+  touch-action: manipulation;
+  }
 
   @media (max-width: 768px) {
     position: absolute;

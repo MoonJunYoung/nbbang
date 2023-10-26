@@ -22,14 +22,13 @@ const Modal = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: row-reverse;
-  height: 270px;
+  max-height: 400px;
+  overflow-y: scroll;
   width: 250px;
   background: white;
-  overflow: hidden;
   border-radius: 8px;
   transition: all 400ms ease-in-out 2s;
   animation: fadeIn 400ms;
-
   @keyframes fadeIn {
     from {
       opacity: 0;
