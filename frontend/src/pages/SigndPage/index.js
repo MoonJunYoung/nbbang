@@ -24,8 +24,8 @@ const SigndBox = styled.div`
   border-radius: 15px;
   background-color: #375B89;
 
-  @media (max-width: 768px) {
-    margin: 0 15px;
+  @media (max-width: 650px) {
+    width: 330px;
   };
 `
 
@@ -38,7 +38,10 @@ const Input = styled.input`
   border: none;
   input[type="text"] {
   touch-action: manipulation;
-}
+  }
+  @media (max-width: 768px) {
+    width: 280px;
+  };
 `
 
 const InputBox = styled.div`
@@ -49,6 +52,9 @@ const InputBox = styled.div`
   border: none;
   display: inline-block;
   background-color: white;
+  @media (max-width: 650px) {
+    width: 300px;
+  };
 `
 
 const SignInButton = styled.button`
@@ -61,6 +67,9 @@ const SignInButton = styled.button`
   cursor: pointer;
   color: black;
   font-weight: 700;
+  @media (max-width: 650px) {
+    width: 300px;
+  };
 `
 
 const Valid = styled.div`
