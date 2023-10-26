@@ -52,7 +52,7 @@ const PaymentList = styled.div`
     transform: scale(1.05);
   }
   @media (max-width: 768px) {
-    width: 395px;   
+    width: 100%;   
     height: 80px;
   }
 `
@@ -91,7 +91,7 @@ const PaymentHistory = styled.span`
 const Payment = styled.div`
   padding : 20px;                        
   @media (max-width: 768px) {
-    padding: 10px;
+    padding: 10px 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -102,11 +102,12 @@ const Payment = styled.div`
   }
 `
 
+const AttendBox = styled.div`
+  width: 35px;
+`
+
 const Attend = styled.span`
-  position: absolute;
-  right: 9px;
   @media (max-width: 768px) {
-    right: 3px;
     font-size: 12px;
   }
 `
@@ -341,8 +342,10 @@ const BillingPayment = ({ member, payment, setPayment }) => {
             <Payment onClick={() => handleClick(paymentdata)} >
               <PaymentPrice>사용금액</PaymentPrice>
               <PaymentHistory>{truncate(paymentdata.price.toLocaleString().toString()+"원",12)}</PaymentHistory>
-              <Attend>{paymentdata.attend_member_ids.length}명</Attend>
             </Payment>
+            <AttendBox>
+              <Attend>{paymentdata.attend_member_ids.length}명</Attend>
+            </AttendBox>
             <PaymentDelete 
               onClick={(e) => {
                 e.preventDefault();
