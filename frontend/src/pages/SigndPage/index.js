@@ -40,7 +40,10 @@ const Input = styled.input`
   touch-action: manipulation;
   }
   @media (max-width: 768px) {
-    width: 280px;
+    width: 275px;
+    position: absolute;
+    left: 8px;
+    top: 5px;
   };
 `
 

@@ -24,7 +24,7 @@ const Modal = styled.div`
   flex-direction: row-reverse;
   max-height: 400px;
   overflow-y: scroll;
-  width: 250px;
+  width: 220px;
   background: white;
   border-radius: 8px;
   transition: all 400ms ease-in-out 2s;
@@ -68,13 +68,15 @@ const PayMentFix = styled.button`
   border: 1px solid #CCE5FF;
   border-radius: 8px;
   margin-top: 15px;
+  width: 80px;
+  height: 25px;
 `
 const PayMentMemberFix = styled.p`
   margin: 0;
 `
 const StyledCheckboxDiv = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 5px;
 `
 
@@ -106,7 +108,7 @@ const StyledCheckboxLabel = styled.label`
   input[type="checkbox"]:checked {
     position: absolute;
     top: -2px;
-    left: -5px;
+    left: -3px;
     background-color: cornflowerblue;
     width: 100%;
     height: 100%;
@@ -118,6 +120,8 @@ const StyledCheckboxLabel = styled.label`
 
 const StyledSelect = styled.select`
   margin: 10px 0;
+  width: 80px;
+  height: 20px;
 `;
 
 const Form = styled.form`

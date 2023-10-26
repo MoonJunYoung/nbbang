@@ -31,6 +31,7 @@ const BillingResultCopyButton = ({ payment }) => {
   const { meetingId } = useParams();
   const [paymentState, setPaymentState] = useState(false);
   const [billingResult, setBillingResult] = useState(''); 
+  console.log(billingResult)
 
   useEffect(() => {
     if (payment.length > 0) {
@@ -56,9 +57,8 @@ const BillingResultCopyButton = ({ payment }) => {
     try {
       if (navigator.share) {
         await navigator.share({
-          title: '정산 결과',
-          text: '정산 결과를 확인하세요.',
-          url: billingResult, 
+          title: 'create by nbbang',
+          text: billingResult,
         });
       } else {
         console.log('Web Share API를 지원하지 않는 브라우저입니다.');
