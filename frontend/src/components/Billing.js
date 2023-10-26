@@ -32,7 +32,7 @@ const PaymentsHistory = styled.div`
   border-radius: 10px;
   @media (max-width: 768px) {
     position: relative;
-    width: 100%;   
+    width: 97%;   
     height: 80px;
   }
 `
@@ -78,7 +78,7 @@ const PayMember = styled(Price)`
     content: '|';
     color: dodgerblue;
     position: absolute;
-    left: -8px;
+    left: -11px;
   }
   }
 `;
@@ -95,7 +95,7 @@ const AttendMemberCount = styled(Price)`
     content: '|';
     color: dodgerblue;
     position: absolute;
-    left: -8px;
+    left: -11px;
   }
   }
 `;
@@ -112,7 +112,7 @@ const SplitPrice = styled(Price)`
     content: '|';
     color: dodgerblue;
     position: absolute;
-    left: -8px;
+    left: -11px;
   }
 }
 `;
@@ -154,7 +154,7 @@ const BillingHistory = styled(PaymentsHistory)`
   border: 3px solid skyblue;
   @media (max-width: 768px) {
     position: relative;
-    width: 100%;   
+    width: 97%;   
     height: 100%;
   }
 `

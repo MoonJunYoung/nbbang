@@ -68,6 +68,8 @@ const MemberNameFixInputBox = styled.div`
 const MemberFix = styled.button`
   border: 1px solid #CCE5FF;
   border-radius: 8px;
+  width: 80px;
+  height: 25px;
 `
 
 const LeaderCheck = styled.input`
