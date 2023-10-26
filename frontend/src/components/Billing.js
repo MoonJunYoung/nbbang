@@ -32,7 +32,7 @@ const PaymentsHistory = styled.div`
   border-radius: 10px;
   @media (max-width: 768px) {
     position: relative;
-    width: 395px;   
+    width: 100%;   
     height: 80px;
   }
 `
@@ -73,6 +73,14 @@ const PayMember = styled(Price)`
     position: absolute;
     left: -13px;
   }
+  @media (max-width: 768px) {
+    &::before {
+    content: '|';
+    color: dodgerblue;
+    position: absolute;
+    left: -8px;
+  }
+  }
 `;
 
 const AttendMemberCount = styled(Price)`
@@ -81,6 +89,14 @@ const AttendMemberCount = styled(Price)`
     color: dodgerblue;
     position: absolute;
     left: -13px;
+  }
+  @media (max-width: 768px) {
+    &::before {
+    content: '|';
+    color: dodgerblue;
+    position: absolute;
+    left: -8px;
+  }
   }
 `;
 
@@ -91,6 +107,14 @@ const SplitPrice = styled(Price)`
     position: absolute;
     left: -13px;
   }
+  @media (max-width: 768px) {
+    &::before {
+    content: '|';
+    color: dodgerblue;
+    position: absolute;
+    left: -8px;
+  }
+}
 `;
 
 
@@ -130,7 +154,7 @@ const BillingHistory = styled(PaymentsHistory)`
   border: 3px solid skyblue;
   @media (max-width: 768px) {
     position: relative;
-    width: 395px;   
+    width: 100%;   
     height: 100%;
   }
 `
