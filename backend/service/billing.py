@@ -11,13 +11,29 @@ class BillingService:
         self.member_repository = MemberRepository()
         self.payment_repository = PaymentRepository()
 
-    def read(self, meeting_id, user_id):
+    def create(self, meeting_id, user_id):
+        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
+        meeting.is_user_of_meeting(user_id)
+        members = self.member_repository.ReadByMeetingID(meeting.id).run()
+        payments = self.payment_repository.ReadByMeetingID(meeting.id).run()
+        if not members or not payments:
+            result = Billing(meeting=None, payments=None, members=None).result
+            del result["total_amount"]
+            return result
+        billing = Billing(meeting=meeting, payments=payments, members=members)
+        billing.create()
+        result = billing.result
+        del result["total_amount"]
+        return result
+
+    def share(self, meeting_id, user_id):
         meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
         meeting.is_user_of_meeting(user_id)
         members = self.member_repository.ReadByMeetingID(meeting.id).run()
         payments = self.payment_repository.ReadByMeetingID(meeting.id).run()
         if not members or not payments:
             return None
-        billing = Billing(payments=payments, members=members)
+        billing = Billing(meeting=meeting, payments=payments, members=members)
         billing.create()
-        return billing.result
+        print("====", billing.create_share_text(), "====")
+        return billing.create_share_text()
