@@ -18,7 +18,6 @@ class BillingPresentation:
                 meeting_id,
                 user_id=user_id,
             )
-            print("===", billing, "===")
             return billing
         except Exception as e:
             catch_exception(e)

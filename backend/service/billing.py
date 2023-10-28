@@ -35,5 +35,4 @@ class BillingService:
             return None
         billing = Billing(meeting=meeting, payments=payments, members=members)
         billing.create()
-        print("====", billing.create_share_text(), "====")
         return billing.create_share_text()
