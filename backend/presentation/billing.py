@@ -14,7 +14,20 @@ class BillingPresentation:
     async def read(meeting_id, Authorization=Header(None)):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            billing = billing_service.read(
+            billing = billing_service.create(
+                meeting_id,
+                user_id=user_id,
+            )
+            print("===", billing, "===")
+            return billing
+        except Exception as e:
+            catch_exception(e)
+
+    @router.get("/share", status_code=200)
+    async def share(meeting_id, Authorization=Header(None)):
+        try:
+            user_id = Token.get_user_id_by_token(token=Authorization)
+            billing = billing_service.share(
                 meeting_id,
                 user_id=user_id,
             )
