@@ -20,6 +20,13 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["Location"],
 )
+
+
+@app.get("/", status_code=200)
+def haelth_check():
+    return "haelth_check"
+
+
 app.include_router(UserPresentation.router)
 app.include_router(MeetingPresentation.router)
 app.include_router(MemberPresentation.router)
