@@ -92,7 +92,7 @@ class Billing:
         billing_text = billing_template.format(
             meeting=meeting_text,
             payments=payments_text,
-            total_amount=total_amount,
+            total_amount=format(int(total_amount), ","),
             leader=leader_text,
             members=members_text,
         )
