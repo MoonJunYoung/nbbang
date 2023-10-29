@@ -21,3 +21,9 @@ class Member:
     def delete_member_if_not_leader(self):
         if self.leader:
             raise MemberIsLeaderDeleteExcption
+
+    def set_amount(self):
+        self.amount = 0
+
+    def add_amount(self, amont):
+        self.amount = self.amount + amont

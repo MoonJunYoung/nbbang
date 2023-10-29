@@ -34,5 +34,5 @@ class BillingService:
         if not members or not payments:
             return None
         billing = Billing(meeting=meeting, payments=payments, members=members)
-        billing.create()
-        return billing.create_share_text()
+        share_text = billing.create_share_text()
+        return share_text
