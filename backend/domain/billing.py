@@ -104,7 +104,7 @@ class Billing:
         return meeting_text
 
     def _set_payments_text(self):
-        payment_template = """{id}. {place} (결제금액 : {price} 원)\n참석 멤버 : {attend_members}\n결제 멤버 : {pay_member}\n"""
+        payment_template = """{id}. {place} (결제금액 : {price} 원)\n참석 멤버 : {attend_members}\n결제 멤버 : {pay_member}\n\n"""
         payments_text = ""
         for i, payment in enumerate(self.payments):
             id = i + 1
