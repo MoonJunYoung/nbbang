@@ -30,7 +30,6 @@ const Button = styled.button`
 const BillingResultCopyButton = ({ payment }) => {
   const { meetingId } = useParams();
   const [paymentState, setPaymentState] = useState(false);
-  const [billingResult, setBillingResult] = useState(''); 
 
   useEffect(() => {
     if (payment.length > 0) {
@@ -40,42 +39,48 @@ const BillingResultCopyButton = ({ payment }) => {
     }
   }, [payment]);
 
-  const getApiData = async () => {
+  const getApiDataCopy = async () => {
     try {
       const response = await getBillingResult(meetingId);
       if (response.status === 200) {
-        const result = response.data;
-        setBillingResult(result);
+        const billingResult = response.data;
+        await navigator.clipboard.writeText(billingResult);
+        alert('텍스트가 클립보드에 복사되었습니다.');
       }
     } catch (error) {
-      console.log('Api 데이터 불러오기 실패');
+      console.log("Api 데이터 불러오기 실패");
     }
   };
 
-  const handleShare = async () => {
+  const getApiDataShare = async () => {
     try {
-      if (navigator.share) {
-        await navigator.share({
-          title: '정산 결과',
-          text: '정산 결과를 확인하세요.',
-          url: billingResult, 
-        });
-      } else {
-        console.log('Web Share API를 지원하지 않는 브라우저입니다.');
+      const response = await getBillingResult(meetingId);
+      if (response.status === 200) {
+        const billingResult = response.data;
+        if (navigator.share) {
+          await navigator.share({
+            text: billingResult,
+          });
+        } else {
+          alert('Web Share API를 지원하지 않는 브라우저이므로 텍스트를 복사합니다.');
+          getApiDataCopy();
+        }
       }
     } catch (error) {
       console.error('공유 실패:', error);
+    
     }
-  };
+  }
+
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   return (
     <ButtonBox paymentState={paymentState}>
-      <Button onClick={() => {
-        getApiData(); 
-        handleShare(); 
-      }}>
-        정산결과 공유하기
-      </Button>
+      {isMobile.share ? (
+        <Button onClick={getApiDataShare}>정산 결과 공유하기</Button>
+      ) : (
+        <Button onClick={getApiDataCopy}>정산 결과 복사하기</Button>
+      )}
     </ButtonBox>
   );
 };

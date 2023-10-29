@@ -39,11 +39,10 @@ const PaymentContainer = styled.div`
 
 
 const PaymentList = styled.div`
-  position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-top: 20px;
-  width: 500px;
   height: 60px;
   border: 1px solid #CCE5FF;
   border-radius: 10px; 
@@ -51,8 +50,7 @@ const PaymentList = styled.div`
     transition: all 0.2s;
     transform: scale(1.05);
   }
-  @media (max-width: 768px) {
-    width: 100%;   
+  @media (max-width: 768px) {  
     height: 80px;
   }
 `
@@ -147,7 +145,7 @@ const StyledCheckboxLabel = styled.label`
   input[type="checkbox"]:checked {
     position: absolute;
     top: -2px;
-    left: -5px;
+    left: -3px;
     background-color: cornflowerblue;
     width: 100%;
     height: 100%;
