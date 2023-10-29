@@ -41,6 +41,7 @@ const PaymentContainer = styled.div`
 const PaymentList = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-top: 20px;
   height: 60px;
   border: 1px solid #CCE5FF;

@@ -72,10 +72,11 @@ const BillingResultCopyButton = ({ payment }) => {
     
     }
   }
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   return (
     <ButtonBox paymentState={paymentState}>
-      {navigator.share ? (
+      {isMobile ? (
         <Button onClick={getApiDataShare}>정산 결과 공유하기</Button>
       ) : (
         <Button onClick={getApiDataCopy}>정산 결과 복사하기</Button>
