@@ -78,7 +78,7 @@ const PayMember = styled(Price)`
     content: '|';
     color: dodgerblue;
     position: absolute;
-    left: -11px;
+    left: -8px;
   }
   }
 `;
@@ -95,7 +95,7 @@ const AttendMemberCount = styled(Price)`
     content: '|';
     color: dodgerblue;
     position: absolute;
-    left: -11px;
+    left: -8px;
   }
   }
 `;
@@ -112,7 +112,7 @@ const SplitPrice = styled(Price)`
     content: '|';
     color: dodgerblue;
     position: absolute;
-    left: -11px;
+    left: -8px;
   }
 }
 `;
@@ -135,7 +135,7 @@ const LeaderBillingContainer = styled.div`
 
 const LeaderAmount = styled(Member)`
    @media (max-width: 768px) {
-    width: 130px;
+    width: 115px;
   }
 `
 
