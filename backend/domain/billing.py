@@ -1,3 +1,5 @@
+import datetime
+
 from backend.domain.meeting import Meeting
 from backend.domain.member import Member
 from backend.domain.payment import Payment
@@ -100,7 +102,11 @@ class Billing:
 
     def _set_meeting_text(self):
         meeting_template = """{date} {name}"""
-        meeting_text = meeting_template.format(date=self.meeting.date, name=self.meeting.name)
+        date = datetime.datetime.fromisoformat(self.meeting.date).strftime("%Y/%m/%d")
+        meeting_text = meeting_template.format(
+            date=date,
+            name=self.meeting.name,
+        )
         return meeting_text
 
     def _set_payments_text(self):
