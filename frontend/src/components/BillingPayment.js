@@ -289,7 +289,7 @@ const BillingPayment = ({ member, payment, setPayment }) => {
           name="place"
           value={formData.place}
           onChange={handleInputChange}
-          placeholder="결제내역추가하기"
+          placeholder="결제 장소를 입력해주세요"
           autocomplete="off"
           maxLength={22}
         />
@@ -298,7 +298,7 @@ const BillingPayment = ({ member, payment, setPayment }) => {
           name="price"
           value={formData.price}
           onChange={handleInputChange}
-          placeholder="결제금액추가하기"
+          placeholder="결제 금액을 입력해주세요"
           autocomplete="off"
         />
         <span>결제 한 사람</span>
