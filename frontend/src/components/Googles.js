@@ -2,17 +2,17 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import styled from 'styled-components' 
+import styled from "styled-components";
 import axios from "axios";
 
 const GooglesContainer = styled.div`
-    margin-top: 60px;
+  margin-top: 60px;
 `;
 
 const Googles = () => {
-  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  console.log(googleClientId)
   const navigate = useNavigate();
-
   const handlePostData = async (res) => {
     const updatedFormData = { token: res.credential };
     try {
@@ -39,7 +39,7 @@ const Googles = () => {
 
   return (
     <GooglesContainer>
-      <GoogleOAuthProvider clientId={clientId}>
+      <GoogleOAuthProvider clientId={googleClientId}>
         <GoogleLogin onSuccess={handlePostData} onFailure={handleFailure} />
       </GoogleOAuthProvider>
     </GooglesContainer>
