@@ -59,7 +59,6 @@ const BillingResultCopyButton = ({ payment }) => {
         const billingResult = response.data;
         if (navigator.share) {
           await navigator.share({
-            title: 'create by nbbang',
             text: billingResult,
           });
         } else {
