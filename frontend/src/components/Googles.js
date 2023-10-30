@@ -10,8 +10,7 @@ const GooglesContainer = styled.div`
 `;
 
 const Googles = () => {
-  const clientId =
-    "470039216193-568hnttd1011ddmc5j22nqia9rcjm1ah.apps.googleusercontent.com";
+  const clientId = process.env.GOOGLE_CLIENT_ID;
   const navigate = useNavigate();
 
   const handlePostData = async (res) => {
