@@ -86,7 +86,7 @@ class Billing:
         self.result["total_amount"] = format(int(total_amount), ",")
 
     def create_share_text(self):
-        billing_template = """{meeting}의 정산결과입니다.\n\n결제내역\n============\n{payments}\n정산결과\n============\n이번 모임의 총 사용 금액은 {total_amount}원 입니다.\n{leader}\n\n{members}\ncreate by nbbang.shop"""
+        billing_template = """{meeting}의 정산결과입니다.\n\n결제내역\n============\n{payments}\n정산결과\n============\n이번 모임의 총 사용 금액은 {total_amount}원 입니다.\n{leader}\n\n{members}\ncreated by nbbang.shop"""
         meeting_text = self._set_meeting_text()
         payments_text = self._set_payments_text()
         leader_text, members_text = self._set_members_text()
