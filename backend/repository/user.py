@@ -12,26 +12,26 @@ class UserRepository:
         def execute(self):
             user_model = UserModel(
                 id=None,
-                identifier=self.user.identifier,
-                password=self.user.password,
+                name=self.user.name,
+                email=self.user.email,
             )
             self.session.add(user_model)
             self.session.commit()
             self.user.id = user_model.id
 
-    class ReadByIdentifier(MysqlCRUDTemplate):
-        def __init__(self, identifier) -> None:
-            self.identifier = identifier
+    class ReadByEamil(MysqlCRUDTemplate):
+        def __init__(self, email) -> None:
+            self.email = email
             super().__init__()
 
         def execute(self):
-            user_model = self.session.query(UserModel).filter(UserModel.identifier == self.identifier).first()
+            user_model = self.session.query(UserModel).filter(UserModel.email == self.email).first()
             if not user_model:
                 return None
             user = User(
                 id=user_model.id,
-                identifier=user_model.identifier,
-                password=user_model.password,
+                name=user_model.name,
+                email=user_model.email,
             )
             return user
 
@@ -46,7 +46,7 @@ class UserRepository:
                 return None
             user = User(
                 id=user_model.id,
-                identifier=user_model.identifier,
-                password=user_model.password,
+                name=user_model.name,
+                email=user_model.email,
             )
             return user

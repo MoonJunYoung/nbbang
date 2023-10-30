@@ -1,9 +1,4 @@
 from backend.domain.user import User
-from backend.exceptions import (
-    IdentifierAlreadyException,
-    IdentifierNotFoundException,
-    PasswordNotMatchException,
-)
 from backend.repository.meeting import MeetingRepository
 from backend.repository.user import UserRepository
 
@@ -13,32 +8,18 @@ class UserService:
         self.user_repository = UserRepository()
         self.meeting_repository = MeetingRepository()
 
-    def sign_up(self, identifier, password):
+    def google_login(self, name, email):
         user = User(
             id=None,
-            identifier=identifier,
-            password=password,
+            name=name,
+            email=email,
         )
-        if self.user_repository.ReadByIdentifier(identifier=user.identifier).run():
-            raise IdentifierAlreadyException(identifier=identifier)
-        user.password_encryption()
+        existing_user: User = self.user_repository.ReadByEamil(email=user.email).run()
+        if existing_user:
+            return existing_user.id
         self.user_repository.Create(user).run()
-        return user.id
-
-    def sign_in(self, identifier, password):
-        in_user = User(
-            id=None,
-            identifier=identifier,
-            password=password,
-        )
-        user: User = self.user_repository.ReadByIdentifier(in_user.identifier).run()
-        if not user:
-            raise IdentifierNotFoundException(identifier=identifier)
-        if not user.check_password_match(in_user.password):
-            raise PasswordNotMatchException(identifier=identifier, password=password)
         return user.id
 
     def read(self, user_id):
         user: User = self.user_repository.ReadByID(user_id).run()
-        del user.password
         return user

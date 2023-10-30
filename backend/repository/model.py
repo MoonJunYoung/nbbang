@@ -7,13 +7,13 @@ Base = declarative_base()
 class UserModel(Base):
     __tablename__ = "user"
     id = Column("id", Integer, primary_key=True)
-    identifier = Column(String)
-    password = Column(String)
+    name = Column(String)
+    email = Column(String)
 
-    def __init__(self, id, identifier, password):
+    def __init__(self, id, name, email):
         self.id = id
-        self.identifier = identifier
-        self.password = password
+        self.name = name
+        self.email = email
 
 
 class MeetingModel(Base):
