@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Header
 from pydantic import BaseModel
 
 from backend.exceptions import catch_exception
@@ -8,9 +8,8 @@ from backend.service.user import UserService
 user_service = UserService()
 
 
-class UserData(BaseModel):
-    identifier: str
-    password: str
+class GoogleTokenData(BaseModel):
+    token: str
 
 
 class UserPresentation:
@@ -25,25 +24,11 @@ class UserPresentation:
         except Exception as e:
             catch_exception(e)
 
-    @router.post("/sign-up", status_code=201)
-    async def sign_up(user_data: UserData):
+    @router.post("/google-login", status_code=201)
+    async def google_login(google_data: GoogleTokenData):
         try:
-            user_id = user_service.sign_up(
-                identifier=user_data.identifier,
-                password=user_data.password,
-            )
-            return Token.create_token_by_user_id(user_id)
-
-        except Exception as e:
-            catch_exception(e)
-
-    @router.post("/sign-in", status_code=201)
-    async def sign_in(user_data: UserData):
-        try:
-            user_id = user_service.sign_in(
-                identifier=user_data.identifier,
-                password=user_data.password,
-            )
+            name, email = Token.get_user_name_and_email_by_google_Oauth(google_data.token)
+            user_id = user_service.google_login(name, email)
             return Token.create_token_by_user_id(user_id)
 
         except Exception as e:

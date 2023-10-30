@@ -28,3 +28,7 @@ class Token:
             raise InvalidTokenException
         token_user_id = token_info.get("id")
         return token_user_id
+
+    def get_user_name_and_email_by_google_Oauth(token):
+        paylode = jwt.decode(token, algorithms=["RS256"], options={"verify_signature": False})
+        return paylode["name"], paylode["email"]
