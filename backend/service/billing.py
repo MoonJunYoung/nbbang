@@ -17,14 +17,13 @@ class BillingService:
         members = self.member_repository.ReadByMeetingID(meeting.id).run()
         payments = self.payment_repository.ReadByMeetingID(meeting.id).run()
         if not members or not payments:
-            result = Billing(meeting=None, payments=None, members=None).result
-            del result["total_amount"]
-            return result
+            billing = Billing(meeting=None, payments=None, members=None)
+            print(billing.__dict__)
+            del billing.meeting
+            return billing.__dict__
         billing = Billing(meeting=meeting, payments=payments, members=members)
-        billing.create()
-        result = billing.result
-        del result["total_amount"]
-        return result
+        del billing.meeting
+        return billing.__dict__
 
     def share(self, meeting_id, user_id):
         meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
