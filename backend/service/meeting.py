@@ -16,8 +16,10 @@ class MeetingService:
             name=None,
             date=None,
             user_id=user_id,
+            uuid=None,
         )
         meeting.set_template()
+        meeting.set_uuid()
         self.meeting_repository.Create(meeting).run()
         return meeting
 
@@ -27,6 +29,7 @@ class MeetingService:
             name=name,
             date=date,
             user_id=user_id,
+            uuid=None,
         )
         self.meeting_repository.Update(meeting).run()
 
@@ -36,6 +39,7 @@ class MeetingService:
             name=None,
             date=None,
             user_id=user_id,
+            uuid=None,
         )
         self.meeting_repository.Delete(meeting).run()
         self.member_repository.DeleteByMeetingID(meeting.id).run()
@@ -49,3 +53,6 @@ class MeetingService:
         meeting: Meeting = self.meeting_repository.ReadByID(id).run()
         meeting.is_user_of_meeting(user_id)
         return meeting
+
+    def create_share(self):
+        pass

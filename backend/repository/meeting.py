@@ -15,6 +15,7 @@ class MeetingRepository:
                 name=self.meeting.name,
                 date=self.meeting.date,
                 user_id=self.meeting.user_id,
+                uuid=self.meeting.uuid,
             )
             self.session.add(meeting_model)
             self.session.commit()
@@ -57,6 +58,7 @@ class MeetingRepository:
                     name=meeting_model.name,
                     date=meeting_model.date,
                     user_id=meeting_model.user_id,
+                    uuid=meeting_model.uuid,
                 )
                 meetings.append(meeting)
             return meetings
@@ -75,5 +77,6 @@ class MeetingRepository:
                 name=meeting_model.name,
                 date=meeting_model.date,
                 user_id=meeting_model.user_id,
+                uuid=meeting_model.uuid,
             )
             return meeting

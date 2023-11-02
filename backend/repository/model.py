@@ -22,12 +22,14 @@ class MeetingModel(Base):
     name = Column(String)
     date = Column(String)
     user_id = Column(Integer)
+    uuid = Column(String)
 
-    def __init__(self, id, name, date, user_id):
+    def __init__(self, id, name, date, user_id, uuid):
         self.id = id
         self.name = name
         self.date = date
         self.user_id = user_id
+        self.uuid = uuid
 
 
 class MemberModel(Base):
