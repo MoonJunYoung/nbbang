@@ -53,6 +53,3 @@ class MeetingService:
         meeting: Meeting = self.meeting_repository.ReadByID(id).run()
         meeting.is_user_of_meeting(user_id)
         return meeting
-
-    def create_share(self):
-        pass

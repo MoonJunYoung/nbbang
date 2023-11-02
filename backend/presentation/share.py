@@ -14,8 +14,17 @@ class SharePresentation:
     @router.get("/text", status_code=200)
     async def read_text(uuid: str):
         try:
-            share_text = share_service.read_text(uuid)
+            share_text = share_service.create_text(uuid)
             return share_text
+        except Exception as e:
+            catch_exception(e)
+
+    @router.get("/link", status_code=200)
+    async def read_link(uuid: str):
+        try:
+            share_link = share_service.create_link(uuid)
+            return share_link
+
         except Exception as e:
             catch_exception(e)
 
