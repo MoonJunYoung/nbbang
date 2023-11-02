@@ -67,16 +67,17 @@ const BillingNameTopLineComent = styled.span`
 `
 
 const BillingName = () => {  
-  const currentDate = new Date(); 
+  const currentDate = new Date();
   const year = currentDate.getFullYear();
-  const month = currentDate.getMonth() + 1; 
+  const month = currentDate.getMonth() + 1;
   const day = currentDate.getDate();
-  const { meetingId } = useParams();
-  const [meetingName, setMeetingName] = useState([])
+  const initialDate = `${year}-${month}-${day}`;
   const [formData, setFormData] = useState({
     name: "",
-    date: `${year}-${month}-${day}` 
+    date: initialDate,
   });
+  const { meetingId } = useParams();
+  const [meetingName, setMeetingName] = useState([])
 
 
   const [notAllow, setNotAllow] = useState(true)
