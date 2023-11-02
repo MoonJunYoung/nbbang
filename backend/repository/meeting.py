@@ -80,3 +80,21 @@ class MeetingRepository:
                 uuid=meeting_model.uuid,
             )
             return meeting
+
+    class ReadByUUID(MysqlCRUDTemplate):
+        def __init__(self, uuid) -> None:
+            self.uuid = uuid
+            super().__init__()
+
+        def execute(self):
+            meeting_model = self.session.query(MeetingModel).filter(MeetingModel.uuid == self.uuid).first()
+            if not meeting_model:
+                return None
+            meeting = Meeting(
+                id=meeting_model.id,
+                name=meeting_model.name,
+                date=meeting_model.date,
+                user_id=meeting_model.user_id,
+                uuid=meeting_model.uuid,
+            )
+            return meeting
