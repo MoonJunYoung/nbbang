@@ -78,6 +78,9 @@ const BillingName = () => {
   });
   const { meetingId } = useParams();
   const [meetingName, setMeetingName] = useState([])
+  const dateParts = formData.date.split('-');
+  const selectedDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+
 
   const [notAllow, setNotAllow] = useState(true)
 
@@ -126,6 +129,9 @@ const BillingName = () => {
     setNotAllow(true)
   }, [formData.name])
 
+
+
+
   return (
     <>
       <MeetingName>{meetingName.name}</MeetingName>
@@ -147,8 +153,9 @@ const BillingName = () => {
           />
          <StyledDatePickerBox>
             <StyledDatePicker
-              selected={new Date(formData.date)} 
+              selected={selectedDate} 
               onChange={date => setFormData({ ...formData, date: date.toISOString().split('T')[0] })}
+              inputMode="none" 
             />
           </StyledDatePickerBox>
           <BillingPixButton type='submit' disabled={notAllow}>수정하기</BillingPixButton>
