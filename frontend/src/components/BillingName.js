@@ -79,7 +79,6 @@ const BillingName = () => {
   const { meetingId } = useParams();
   const [meetingName, setMeetingName] = useState([])
 
-
   const [notAllow, setNotAllow] = useState(true)
 
   const handleGetData = async () => {
@@ -95,8 +94,6 @@ const BillingName = () => {
     handleGetData()
   }, [])
 
-
-  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -104,7 +101,6 @@ const BillingName = () => {
       [name]: value,
     });
   };
-
 
   const handlePutData = async (e) => {
     e.preventDefault();
@@ -130,7 +126,6 @@ const BillingName = () => {
     setNotAllow(true)
   }, [formData.name])
 
-
   return (
     <>
       <MeetingName>{meetingName.name}</MeetingName>
@@ -148,13 +143,12 @@ const BillingName = () => {
             value={formData.name} 
             onChange={handleInputChange}
             placeholder='모임명수정'
-            maxlength="22"
+            maxLength="22" 
           />
          <StyledDatePickerBox>
             <StyledDatePicker
-              selected={new Date(formData.date)}
+              selected={new Date(formData.date)} 
               onChange={date => setFormData({ ...formData, date: date.toISOString().split('T')[0] })}
-              inputMode="none" 
             />
           </StyledDatePickerBox>
           <BillingPixButton type='submit' disabled={notAllow}>수정하기</BillingPixButton>
