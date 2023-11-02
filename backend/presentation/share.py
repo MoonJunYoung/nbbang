@@ -8,7 +8,7 @@ from backend.service.share import ShareService
 share_service = ShareService()
 
 
-class sharePresentation:
+class SharePresentation:
     router = APIRouter(prefix="/api/share")
 
     @router.get("/text", status_code=200)
