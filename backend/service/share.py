@@ -27,4 +27,4 @@ class ShareService:
 
     def read_page(self, uuid):
         share = self._make_share(uuid)
-        return share
+        return share.billing
