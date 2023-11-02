@@ -12,8 +12,7 @@ class SharePresentation:
     router = APIRouter(prefix="/api/share")
 
     @router.get("/text", status_code=200)
-    async def read_text(meeting: str):
-        uuid = meeting
+    async def read_text(uuid: str):
         try:
             share_text = share_service.read_text(uuid)
             return share_text
@@ -21,8 +20,7 @@ class SharePresentation:
             catch_exception(e)
 
     @router.get("/page", status_code=200)
-    async def read_page(meeting: str):
-        uuid = meeting
+    async def read_page(uuid: str):
         try:
             share_page = share_service.read_page(uuid)
             return share_page

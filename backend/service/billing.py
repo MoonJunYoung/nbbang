@@ -24,14 +24,3 @@ class BillingService:
         billing = Billing(meeting=meeting, payments=payments, members=members)
         del billing.meeting
         return billing.__dict__
-
-    def share(self, meeting_id, user_id):
-        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
-        meeting.is_user_of_meeting(user_id)
-        members = self.member_repository.ReadByMeetingID(meeting.id).run()
-        payments = self.payment_repository.ReadByMeetingID(meeting.id).run()
-        if not members or not payments:
-            return None
-        billing = Billing(meeting=meeting, payments=payments, members=members)
-        share_text = billing.create_share_text()
-        return share_text
