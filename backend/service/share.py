@@ -17,7 +17,7 @@ class ShareService:
         members = self.member_repository.ReadByMeetingID(meeting.id).run()
         payments = self.payment_repository.ReadByMeetingID(meeting.id).run()
         billing = Billing(meeting=meeting, payments=payments, members=members)
-        share = Share(billing)
+        share = Share(billing=billing, toss_send=None)
         return share
 
     def read_text(self, uuid):
