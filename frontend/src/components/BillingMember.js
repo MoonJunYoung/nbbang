@@ -71,6 +71,27 @@ const MemberDelete = styled.span`
   cursor: pointer;
 `
 
+const BillingMemberTopLine = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+`
+
+const BillingMemberLine = styled.div`
+  border-top: 1px solid silver;
+  width: 115px;
+  margin-top: 10px;
+  @media (max-width: 768px) {
+    width: 25px;
+  }
+`
+
+const BillingMemberTopLineComent = styled.span`
+  margin: 0 10px;
+  font-size: 14px;
+  color: silver;
+  font-weight: 800;
+`
 
 
 
@@ -154,6 +175,11 @@ const BillingMember = ({member,setMember}) => {
 
   return (
     <BillingMemberContainer>
+      <BillingMemberTopLine>
+        <BillingMemberLine></BillingMemberLine>
+        <BillingMemberTopLineComent>모임에 참석한 멤버들은 누구인가요?</BillingMemberTopLineComent>
+        <BillingMemberLine></BillingMemberLine>
+      </BillingMemberTopLine>
       <FormContainer onSubmit={handleAddMember}>
         <BillingInputBox
           type="text"

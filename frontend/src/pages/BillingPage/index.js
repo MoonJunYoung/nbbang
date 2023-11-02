@@ -18,7 +18,6 @@ const BillingPage = () => {
       <BillingMember member={member} setMember={setMember} />
       <BillingPayment member={member} payment={payment} setPayment={setPayment} />
       <Billing  payment={payment}/>
-      <BillingResultButton  payment={payment}/>
     </div>
   )
 }
