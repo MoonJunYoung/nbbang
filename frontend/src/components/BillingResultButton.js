@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getBillingResult } from '../api/api';
 
 const ButtonBox = styled.div`
-  display: ${props => props.paymentState ? 'flex' : 'none'};
+  display: 'flex';
   height: 150px;
   justify-content: center;
   align-items: center;
@@ -27,17 +26,8 @@ const Button = styled.button`
   }
 `;
 
-const BillingResultCopyButton = ({ payment }) => {
+const BillingResultButton = () => {
   const { meetingId } = useParams();
-  const [paymentState, setPaymentState] = useState(false);
-
-  useEffect(() => {
-    if (payment.length > 0) {
-      setPaymentState(true);
-    } else {
-      setPaymentState(false);
-    }
-  }, [payment]);
 
   const getApiDataCopy = async () => {
     try {
@@ -74,14 +64,14 @@ const BillingResultCopyButton = ({ payment }) => {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   return (
-    <ButtonBox paymentState={paymentState}>
+    <ButtonBox>
       {isMobile ? (
-        <Button onClick={getApiDataShare}>정산 결과 공유하기</Button>
+        <Button onClick={getApiDataShare}>텍스트로 공유하기</Button>
       ) : (
-        <Button onClick={getApiDataCopy}>정산 결과 복사하기</Button>
+        <Button onClick={getApiDataCopy}>텍스트로 복사하기</Button>
       )}
     </ButtonBox>
   );
 };
 
-export default BillingResultCopyButton;
+export default BillingResultButton;

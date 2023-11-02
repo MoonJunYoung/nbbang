@@ -11,11 +11,9 @@ const BillngNameContainer = styled.div`
 `;
 
 const MeetingName = styled.p`
-
 `
 
 const MeetingDate = styled.p`
-
 `
 
 const FormContainer = styled.form`
@@ -46,6 +44,28 @@ const StyledDatePicker = styled(DatePicker)`
   border: none;
 `;
 
+const BillingNameTopLine = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 30px 0 15px 0;
+`
+
+const BillingNameLine = styled.div`
+  border-top: 1px solid silver;
+  width: 167px;
+  margin-top: 10px;
+  @media (max-width: 768px) {
+    width: 75px;
+  }
+`
+
+const BillingNameTopLineComent = styled.span`
+  margin: 0 10px;
+  font-size: 14px;
+  color: silver;
+  font-weight: 800;
+`
+
 const BillingName = () => {  
   const currentDate = new Date(); 
   const year = currentDate.getFullYear();
@@ -57,6 +77,7 @@ const BillingName = () => {
     name: "",
     date: `${year}-${month}-${day}` 
   });
+
 
   const [notAllow, setNotAllow] = useState(true)
 
@@ -113,6 +134,11 @@ const BillingName = () => {
     <>
       <MeetingName>{meetingName.name}</MeetingName>
       <MeetingDate>{meetingName.date}</MeetingDate>
+      <BillingNameTopLine>
+        <BillingNameLine></BillingNameLine>
+        <BillingNameTopLineComent>어떤 모임인가요?</BillingNameTopLineComent>
+        <BillingNameLine></BillingNameLine>
+      </BillingNameTopLine>
       <BillngNameContainer>
         <FormContainer onSubmit={handlePutData}>
           <BillingInputBox 

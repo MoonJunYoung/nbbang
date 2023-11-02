@@ -165,12 +165,13 @@ const Meeting = ({ user }) => {
       <UserId>{user.name}🧑🏻‍💻 님의 정산 내역입니다.</UserId>
       <Link>
         <MeetingAddButton onClick={handleAddBilling}>
-          결제 내역 추가하기
+          모임 추가하기
         </MeetingAddButton>
       </Link>
       <MeetingContainer>
         {meetings.map((data) => (
-          <Link
+          <Link 
+            key={data.id}
             to={`meeting/${data.id}`}
             style={{ textDecoration: "none", color: "inherit" }}
           >

@@ -24,6 +24,7 @@ const FormContainer = styled.form`
   gap: 10px;
 `
 const BillingAddPayment = styled.button`
+  margin: 20px;
   width: 200px;
   height: 30px;
   border: 1px solid #CCE5FF;
@@ -155,6 +156,28 @@ const StyledCheckboxLabel = styled.label`
   }
 `;
 
+const BillingPaymentTopLine = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+`
+
+const BillingPaymentLine = styled.div`
+  border-top: 1px solid silver;
+  width: 190px;
+  margin-top: 10px;
+  @media (max-width: 768px) {
+    width: 88px;
+  }
+`
+
+const BillingPaymentTopLineComent = styled.span`
+  margin: 0 10px;
+  font-size: 14px;
+  color: silver;
+  font-weight: 800;
+`
+
 
 const BillingPayment = ({ member, payment, setPayment }) => {
   const { meetingId } = useParams();
@@ -283,6 +306,11 @@ const BillingPayment = ({ member, payment, setPayment }) => {
 
   return (
     <BillingPaymentContainer member={member && member.length > 1}>
+      <BillingPaymentTopLine>
+        <BillingPaymentLine></BillingPaymentLine>
+        <BillingPaymentTopLineComent>결제 내역</BillingPaymentTopLineComent>
+        <BillingPaymentLine></BillingPaymentLine>
+      </BillingPaymentTopLine>
       <FormContainer onSubmit={handleAddMember}>
         <BillingInputBox
           type="text"
