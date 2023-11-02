@@ -10,7 +10,7 @@ const GooglesContainer = styled.div`
 `;
 
 const Googles = () => {
-  const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
   const navigate = useNavigate();
   const handlePostData = async (res) => {
     const updatedFormData = { token: res.credential };
