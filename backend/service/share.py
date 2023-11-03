@@ -12,12 +12,12 @@ class ShareService:
         self.member_repository = MemberRepository()
         self.payment_repository = PaymentRepository()
 
-    def _make_share(self, uuid, toss_send=None):
+    def _make_share(self, uuid):
         meeting: Meeting = self.meeting_repository.ReadByUUID(uuid).run()
         members = self.member_repository.ReadByMeetingID(meeting.id).run()
         payments = self.payment_repository.ReadByMeetingID(meeting.id).run()
         billing = Billing(meeting=meeting, payments=payments, members=members)
-        share = Share(billing=billing, toss_send=toss_send)
+        share = Share(billing=billing)
         return share
 
     def create_text(self, uuid):
@@ -25,8 +25,8 @@ class ShareService:
         sahre_text = share.create_share_text()
         return sahre_text
 
-    def create_link(self, uuid, toss_send):
-        share = self._make_share(uuid, toss_send)
+    def create_link(self, uuid):
+        share = self._make_share(uuid)
         share_link = share.create_share_page_link(uuid)
         return share_link
 

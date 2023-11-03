@@ -4,12 +4,11 @@ from backend.domain.billing import Billing
 
 
 class Share:
-    def __init__(self, billing: Billing, toss_send: bool) -> None:
+    def __init__(self, billing: Billing) -> None:
         self.billing = billing
-        self.toss_send = toss_send
 
     def create_share_page_link(self, uuid):
-        return f"https://nbbang.shpp/share?meeting={uuid}&toss_send={self.toss_send}"
+        return f"https://nbbang.shpp/share?meeting={uuid}"
 
     def create_share_text(self):
         billing_template = """{meeting}의 정산결과입니다.\n\n결제내역\n============\n{payments}\n정산결과\n============\n이번 모임의 총 사용 금액은 {total_amount}원 입니다.\n{leader}\n\n{members}\ncreated by nbbang.shop"""
