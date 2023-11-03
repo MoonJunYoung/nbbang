@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Integer, String
+from sqlalchemy import Boolean, Column, Integer, LargeBinary, String
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -23,13 +23,17 @@ class MeetingModel(Base):
     date = Column(String)
     user_id = Column(Integer)
     uuid = Column(String)
+    account_number = Column(LargeBinary)
+    bank = Column(LargeBinary)
 
-    def __init__(self, id, name, date, user_id, uuid):
+    def __init__(self, id, name, date, user_id, uuid, account_number, bank):
         self.id = id
         self.name = name
         self.date = date
         self.user_id = user_id
         self.uuid = uuid
+        self.account_number = account_number
+        self.bank = bank
 
 
 class MemberModel(Base):

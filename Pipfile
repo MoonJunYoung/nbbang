@@ -11,6 +11,7 @@ bcrypt = "4.0.1"
 fastapi = "0.103.2"
 pyjwt = "2.8.0"
 uvicorn = "0.23.2"
+pycryptodome = "3.19.0"
 
 [dev-packages]
 

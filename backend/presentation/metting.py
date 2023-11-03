@@ -9,8 +9,10 @@ meeting_service = MeetingService()
 
 
 class MeetingData(BaseModel):
-    name: str
-    date: str
+    name: str = None
+    date: str = None
+    bank: str = None
+    account_number: str = None
 
 
 class MeetingPresentation:
@@ -48,14 +50,16 @@ class MeetingPresentation:
             catch_exception(e)
 
     @router.put("/{meeting_id}", status_code=200)
-    async def update(meeting_id: int, meeting_date: MeetingData, Authorization=Header(None)):
+    async def update(meeting_id: int, meeting_data: MeetingData, Authorization=Header(None)):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
             meeting_service.update(
                 id=meeting_id,
-                name=meeting_date.name,
-                date=meeting_date.date,
+                name=meeting_data.name,
+                date=meeting_data.date,
                 user_id=user_id,
+                bank=meeting_data.bank,
+                account_number=meeting_data.account_number,
             )
         except Exception as e:
             catch_exception(e)
