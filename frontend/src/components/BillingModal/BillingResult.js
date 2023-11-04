@@ -78,7 +78,7 @@ const Input = styled.input`
 const Button = styled.button`
   border: 1px solid #cce5ff;
   border-radius: 8px;
-  width: 105px;
+  width: 110px;
   height: 25px;
 `;
 const Message = styled.p`
@@ -104,7 +104,7 @@ const BillingResult = ({ setModalOpen }) => {
   const ref = useRef();
   const { meetingId } = useParams();
   const [formData, setFormData] = useState({
-    acccount_number: "",
+    account_number: "",
     bank: UsersBankData.length > 0 ? UsersBankData[0].bank : "",
   });
 
@@ -136,12 +136,12 @@ const BillingResult = ({ setModalOpen }) => {
   };
 
   useEffect(() => {
-    if (formData.acccount_number.length > 0) {
+    if (formData.account_number.length > 0) {
       setNotAllow(false);
     } else {
       setNotAllow(true);
     }
-  }, [formData.acccount_number]);
+  }, [formData.account_number]);
 
   useOnClickOutside(ref, () => {
     setModalOpen(false);
@@ -163,7 +163,7 @@ const BillingResult = ({ setModalOpen }) => {
             <InputBox>
               <Input
                 type="number"
-                name="acccount_number"
+                name="account_number"
                 value={formData.acccount_number}
                 placeholder="계좌번호를 입력해주세요"
                 onChange={handleInputChange}
@@ -190,7 +190,7 @@ const BillingResult = ({ setModalOpen }) => {
               ))}
             </select>
             <Button type="submit" disabled={notAllow}>
-              아이디 추가하기
+              계좌번호 저장하기
             </Button>
           </Form>
           <BillingResultButton />

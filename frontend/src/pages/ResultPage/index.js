@@ -164,8 +164,9 @@ const LeaderBillingMoney = styled.span`
 `;
 
 const TossPayContanerNull = styled.div`
-  width: 65px;
-  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const TossPayContaner = styled.div`
@@ -175,9 +176,6 @@ const TossPayContaner = styled.div`
   background-color: white;
   border-radius: 12px;
   border: 1px solid;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
   a {
     font-size: 16px;
     text-decoration: none;
@@ -186,6 +184,10 @@ const TossPayContaner = styled.div`
   span {
     color: blue;
     font-weight: 700;
+  }
+  &:hover {
+    transition: all 0.2s;
+    transform: scale(1.15);
   }
   @media (max-width: 768px) {
     display: flex;
@@ -312,7 +314,7 @@ function SharePage() {
                         })
                         .toString()} 원`}
                 </Amount>
-                {members[key].amount > 0 ? (
+                {members[key].amount > 0 && isMobile && members[key].toss_send_link !== "" ? (
                   <TossPayContaner>
                     <a href={members[key].toss_send_link}>
                       <span>toss</span>송금
