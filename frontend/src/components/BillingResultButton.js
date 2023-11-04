@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { getBillingResult } from '../api/api';
+import { getBillingResultText, GetMeetingNameData } from '../api/api';
+import React, { useEffect, useState } from "react";
 
 const ButtonBox = styled.div`
   display: 'flex';
-  height: 150px;
   justify-content: center;
   align-items: center;
 `;
@@ -20,18 +20,34 @@ const Button = styled.button`
   &:hover {
     border: 3px solid skyblue;
     transition: all 0.2s;
-    transform: scale(1.15);
+    transform: scale(1.10);
     font-weight: 600;
     background-color: lightskyblue;
   }
 `;
 
 const BillingResultButton = () => {
+
   const { meetingId } = useParams();
+
+  const [meetingName, setMeetingName] = useState({}); 
+
+  useEffect(() => {
+    const handleGetData = async () => {
+      try {
+        const responseGetData = await GetMeetingNameData(meetingId);
+        setMeetingName (responseGetData.data.uuid); 
+      } catch (error) {
+        console.log('Api 데이터 불러오기 실패');
+      }
+    };
+    handleGetData();
+  }, [meetingId]);
+    
 
   const getApiDataCopy = async () => {
     try {
-      const response = await getBillingResult(meetingId);
+      const response = await getBillingResultText(meetingName);
       if (response.status === 200) {
         const billingResult = response.data;
         await navigator.clipboard.writeText(billingResult);
@@ -44,7 +60,7 @@ const BillingResultButton = () => {
 
   const getApiDataShare = async () => {
     try {
-      const response = await getBillingResult(meetingId);
+      const response = await getBillingResultText(meetingName);
       if (response.status === 200) {
         const billingResult = response.data;
         if (navigator.share) {

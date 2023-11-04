@@ -14,7 +14,7 @@ function App() {
           <Route path="/signd" element={<SigndPage />} />
           <Route index element={<MainPage />} />
           <Route path="/meeting/:meetingId" element={<BillingPage />} />
-          <Route path="/api/share" element={<ResultPage />} />
+          <Route path="/share" element={<ResultPage />} />
         </Routes>
       </Router>
     </div>
