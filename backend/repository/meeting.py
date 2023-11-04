@@ -17,6 +17,7 @@ class MeetingRepository:
                 user_id=self.meeting.user_id,
                 uuid=self.meeting.uuid,
                 account_number=self.meeting.account_number,
+                bank=self.meeting.bank,
             )
             self.session.add(meeting_model)
             self.session.commit()
