@@ -26,24 +26,8 @@ const Button = styled.button`
   }
 `;
 
-const BillingResultButton = () => {
+const BillingResultButton = ({ meetingName }) => {
 
-  const { meetingId } = useParams();
-
-  const [meetingName, setMeetingName] = useState({}); 
-
-  useEffect(() => {
-    const handleGetData = async () => {
-      try {
-        const responseGetData = await GetMeetingNameData(meetingId);
-        setMeetingName (responseGetData.data.uuid); 
-      } catch (error) {
-        console.log('Api 데이터 불러오기 실패');
-      }
-    };
-    handleGetData();
-  }, [meetingId]);
-    
 
   const getApiDataCopy = async () => {
     try {
