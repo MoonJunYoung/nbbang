@@ -26,7 +26,7 @@ class MeetingService:
         return meeting
 
     def update(self, id, name, date, user_id, account_number, bank):
-        meeting: Meeting = self.meeting_repository.ReadByID(id)
+        meeting: Meeting = self.meeting_repository.ReadByID(id).run()
         meeting.is_user_of_meeting(user_id)
         meeting = Meeting(
             id=id,
