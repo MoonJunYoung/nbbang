@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import UsersBankData from "../UsersBankData";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import { useParams } from "react-router-dom";
-import { putBillingResultPage } from "../../api/api";
+import { putBillingResultPage, GetMeetingNameData } from "../../api/api";
 
 const BillingResultContainer = styled.div`
   z-index: 1;
@@ -78,7 +78,7 @@ const Input = styled.input`
 const Button = styled.button`
   border: 1px solid #cce5ff;
   border-radius: 8px;
-  width: 110px;
+  width: 115px;
   height: 25px;
 `;
 const Message = styled.p`
@@ -103,10 +103,28 @@ const BillingResult = ({ setModalOpen }) => {
   const [notAllow, setNotAllow] = useState(true);
   const ref = useRef();
   const { meetingId } = useParams();
+  const [meetingName, setMeetingName] = useState({}); 
   const [formData, setFormData] = useState({
-    account_number: "",
-    bank: UsersBankData.length > 0 ? UsersBankData[0].bank : "",
+    account_number: '',
+    bank: '',
   });
+
+
+  useEffect(() => {
+    const handleGetData = async () => {
+      try {
+        const responseGetData = await GetMeetingNameData(meetingId);
+        setMeetingName(responseGetData.data.uuid);
+        setFormData({
+          account_number: responseGetData.data.account_number || '',
+          bank: responseGetData.data.bank || '',
+        });
+      } catch (error) {
+        console.log('Api 데이터 불러오기 실패');
+      }
+    };
+    handleGetData();
+  }, [meetingId]);
 
   const handlePutBankData = async (e) => {
     e.preventDefault();
@@ -164,7 +182,7 @@ const BillingResult = ({ setModalOpen }) => {
               <Input
                 type="number"
                 name="account_number"
-                value={formData.acccount_number}
+                value={formData.account_number}
                 placeholder="계좌번호를 입력해주세요"
                 onChange={handleInputChange}
                 maxlength="20"
@@ -193,8 +211,8 @@ const BillingResult = ({ setModalOpen }) => {
               계좌번호 저장하기
             </Button>
           </Form>
-          <BillingResultButton />
-          <BillingResultShare />
+          <BillingResultButton meetingName={meetingName} />
+          <BillingResultShare meetingName={meetingName} />
         </Modal>
       </WrapperModal>
     </BillingResultContainer>
