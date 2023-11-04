@@ -163,6 +163,11 @@ const LeaderBillingMoney = styled.span`
   font-size: 14px;
 `;
 
+const TossPayContanerNull = styled.div`
+  width: 65px;
+  height: 20px;
+`
+
 const TossPayContaner = styled.div`
   width: 80px;
   height: 20px;
@@ -307,14 +312,15 @@ function SharePage() {
                         })
                         .toString()} 원`}
                 </Amount>
-                {isMobile ? (
+                {members[key].amount > 0 ? (
                   <TossPayContaner>
                     <a href={members[key].toss_send_link}>
                       <span>toss</span>송금
                     </a>
                   </TossPayContaner>
                 ) : (
-                  ""
+                  <TossPayContanerNull>
+                  </TossPayContanerNull>
                 )}
               </>
             )}
