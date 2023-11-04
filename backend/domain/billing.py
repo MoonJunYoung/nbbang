@@ -24,10 +24,14 @@ class Billing:
         name = self.meeting.name
         date = self.meeting.date
         total_amount = 0
+        bank = self.meeting.bank
+        account_number = self.meeting.account_number
         meeting_dict = {
             "name": name,
             "date": date,
             "total_amount": total_amount,
+            "bank": bank,
+            "account_number": account_number,
         }
         self.meeting = meeting_dict
 

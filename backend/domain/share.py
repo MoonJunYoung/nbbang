@@ -1,4 +1,5 @@
 import datetime
+from urllib import parse
 
 from backend.domain.billing import Billing
 
@@ -6,6 +7,30 @@ from backend.domain.billing import Billing
 class Share:
     def __init__(self, billing: Billing) -> None:
         self.billing = billing
+
+    def set_toss_send_link(self):
+        bank = self.billing.meeting["bank"]
+        account_number = self.billing.meeting["account_number"]
+        for member in self.billing.members.values():
+            amount = member["amount"]
+            if amount > 0:
+                toss_send_link = self._create_toss_send_link(
+                    bank=bank,
+                    account_number=account_number,
+                    amount=amount,
+                )
+                member["toss_send_link"] = toss_send_link
+
+    def _create_toss_send_link(self, bank, account_number, amount):
+        base_url = "supertoss://send"
+        params = {
+            "amount": amount,
+            "bank": bank,
+            "accountNo": account_number,
+        }
+        encoded_params = parse.urlencode(params)
+        encoded_url = f"{base_url}?{encoded_params}"
+        return encoded_url
 
     def create_share_page_link(self, uuid):
         return f"https://nbbang.shpp/share?meeting={uuid}"

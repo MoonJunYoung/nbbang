@@ -32,4 +32,5 @@ class ShareService:
 
     def read_page(self, uuid):
         share = self._make_share(uuid)
+        share.set_toss_send_link()
         return share.billing
