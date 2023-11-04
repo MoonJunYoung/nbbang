@@ -24,7 +24,7 @@ class Share:
     def _create_toss_send_link(self, bank, account_number, amount):
         base_url = "supertoss://send"
         params = {
-            "amount": amount,
+            "amount": int(amount),
             "bank": bank,
             "accountNo": account_number,
         }
