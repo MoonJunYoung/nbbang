@@ -12,14 +12,17 @@ class Share:
         bank = self.billing.meeting["bank"]
         account_number = self.billing.meeting["account_number"]
         for member in self.billing.members.values():
-            amount = member["amount"]
-            if amount > 0:
-                toss_send_link = self._create_toss_send_link(
-                    bank=bank,
-                    account_number=account_number,
-                    amount=amount,
-                )
-                member["toss_send_link"] = toss_send_link
+            if bank and account_number:
+                amount = member["amount"]
+                if amount > 0:
+                    toss_send_link = self._create_toss_send_link(
+                        bank=bank,
+                        account_number=account_number,
+                        amount=amount,
+                    )
+                    member["toss_send_link"] = toss_send_link
+            else:
+                member["toss_send_link"] = ""
 
     def _create_toss_send_link(self, bank, account_number, amount):
         base_url = "supertoss://send"
@@ -36,10 +39,11 @@ class Share:
         return f"https://nbbang.shpp/share?meeting={uuid}"
 
     def create_share_text(self):
-        billing_template = """{meeting}의 정산결과입니다.\n\n결제내역\n============\n{payments}\n정산결과\n============\n이번 모임의 총 사용 금액은 {total_amount}원 입니다.\n{leader}\n\n{members}\ncreated by nbbang.shop"""
+        billing_template = """{meeting}의 정산결과입니다.\n\n결제내역\n============\n{payments}\n정산결과\n============\n이번 모임의 총 사용 금액은 {total_amount}원 입니다.\n{leader}\n\n{members}\n\n{account_number}created by nbbang.shop"""
         meeting_text = self._set_meeting_text()
         payments_text = self._set_payments_text()
         leader_text, members_text = self._set_members_text()
+        account_number_text = self._set_account_number_text()
         total_amount = self.billing.meeting["total_amount"]
         billing_text = billing_template.format(
             meeting=meeting_text,
@@ -47,6 +51,7 @@ class Share:
             total_amount=format(int(total_amount), ","),
             leader=leader_text,
             members=members_text,
+            account_number=account_number_text,
         )
         return billing_text
 
@@ -58,6 +63,19 @@ class Share:
             name=self.billing.meeting["name"],
         )
         return meeting_text
+
+    def _set_account_number_text(self):
+        account_number_text_template = """입금계좌\n============\n{bank} {account_number}\n\n\n"""
+        bank = self.billing.meeting["bank"]
+        account_number = self.billing.meeting["account_number"]
+        if bank or account_number:
+            account_number_text = account_number_text_template.format(
+                bank=bank,
+                account_number=account_number,
+            )
+        else:
+            account_number_text = ""
+        return account_number_text
 
     def _set_payments_text(self):
         payment_template = """{id}. {place} (결제금액 : {price} 원)\n참석 멤버 : {attend_members}\n결제 멤버 : {pay_member}\n\n"""
