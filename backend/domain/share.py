@@ -36,7 +36,7 @@ class Share:
         return encoded_url
 
     def create_share_page_link(self, uuid):
-        return f"https://nbbang.shpp/share?meeting={uuid}"
+        return f"https://nbbang.shop/share?meeting={uuid}"
 
     def create_share_text(self):
         billing_template = """{meeting}의 정산결과입니다.\n\n결제내역\n============\n{payments}\n정산결과\n============\n이번 모임의 총 사용 금액은 {total_amount}원 입니다.\n{leader}\n\n{members}\n\n{account_number}created by nbbang.shop"""
