@@ -42,15 +42,7 @@ class MeetingService:
             self.meeting_repository.UpdateAccountNumber(meeting).run()
 
     def delete(self, id, user_id):
-        meeting = Meeting(
-            id=id,
-            name=None,
-            date=None,
-            user_id=None,
-            uuid=None,
-            account_number=None,
-            bank=None,
-        )
+        meeting: Meeting = self.meeting_repository.ReadByID(id).run()
         meeting.is_user_of_meeting(user_id)
         self.meeting_repository.Delete(meeting).run()
         self.member_repository.DeleteByMeetingID(meeting.id).run()
