@@ -24,7 +24,7 @@ const Modal = styled.div`
   flex-direction: row-reverse;
   max-height: 400px;
   overflow-y: scroll;
-  width: 220px;
+  width: 250px;
   background: white;
   border-radius: 8px;
   transition: all 400ms ease-in-out 2s;
@@ -255,7 +255,13 @@ const PaymentFix = ({
               />
             </PayMentFixInputBox>
             <PayMentMemberFix>결제자 수정</PayMentMemberFix>
-            <StyledSelect value={selectedMember} onChange={handleMemberDropBoxSelect}>
+            <StyledSelect value={selectedMember} onChange={handleMemberDropBoxSelect}     
+            style={{
+                width: '80px',
+                height: '20px',
+                borderRadius: '15px',
+                border: '1px solid skyblue',
+              }}>
               {member.map((memberdata) => (
                 <option key={memberdata.id} value={memberdata.id}>
                   {memberdata.name}

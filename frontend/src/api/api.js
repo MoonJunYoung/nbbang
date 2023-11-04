@@ -97,6 +97,19 @@ export const getBillingData = (meetingId) => {
 
 //BillingResult 
 
-export const getBillingResult = (meetingId) => {
-  return axiosData().get(`meeting/${meetingId}/billing/share`)
+export const getBillingResultText = (uuid) => {
+  return axiosData().get(`/share/text?uuid=${uuid}`)
 }
+
+export const getBillingResultLink = (uuid) => {
+  return axiosData().get(`/share/link?uuid=${uuid}`)
+}
+
+export const getBillingResultPage = (uuid) => {
+  return axiosData().get(`/share/page?uuid=${uuid}`)
+}
+
+export const putBillingResultPage = (meetingId , data) => {
+  return axiosData().put(`/meeting/${meetingId}`, data)
+}
+

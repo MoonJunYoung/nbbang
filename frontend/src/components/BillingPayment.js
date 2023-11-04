@@ -330,7 +330,16 @@ const BillingPayment = ({ member, payment, setPayment }) => {
           autocomplete="off"
         />
         <span>결제 한 사람</span>
-        <select value={selectedMember} onChange={handleMemberSelect}>
+        <select 
+        value={selectedMember} 
+        onChange={handleMemberSelect}
+        style={{
+          width: '60px',
+          height: '20px',
+          borderRadius: '15px',
+          border: '1px solid skyblue',
+        }}
+        >
           {[
             ...member.filter((memberdata) => memberdata.leader === true),
             ...member.filter((memberdata) => memberdata.leader === false)
