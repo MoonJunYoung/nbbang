@@ -30,11 +30,12 @@ class MeetingService:
             id=id,
             name=name,
             date=date,
-            user_id=user_id,
+            user_id=None,
             uuid=None,
             account_number=account_number,
             bank=bank,
         )
+        meeting.is_user_of_meeting(user_id)
         if meeting.name and meeting.date:
             self.meeting_repository.UpdateInFo(meeting).run()
         elif meeting.account_number and meeting.bank:
@@ -45,11 +46,12 @@ class MeetingService:
             id=id,
             name=None,
             date=None,
-            user_id=user_id,
+            user_id=None,
             uuid=None,
             account_number=None,
             bank=None,
         )
+        meeting.is_user_of_meeting(user_id)
         self.meeting_repository.Delete(meeting).run()
         self.member_repository.DeleteByMeetingID(meeting.id).run()
         self.payment_repository.DeleteByMeetingID(meeting.id).run()
