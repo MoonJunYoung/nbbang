@@ -26,6 +26,8 @@ class MeetingService:
         return meeting
 
     def update(self, id, name, date, user_id, account_number, bank):
+        meeting: Meeting = self.meeting_repository.ReadByID(id)
+        meeting.is_user_of_meeting(user_id)
         meeting = Meeting(
             id=id,
             name=name,
@@ -35,7 +37,6 @@ class MeetingService:
             account_number=account_number,
             bank=bank,
         )
-        meeting.is_user_of_meeting(user_id)
         if meeting.name and meeting.date:
             self.meeting_repository.UpdateInFo(meeting).run()
         elif meeting.account_number and meeting.bank:
