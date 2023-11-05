@@ -34,5 +34,5 @@ class Token:
     def get_user_name_and_email_by_google_oauth(token):
         payload = json.loads(requests.get(f"https://www.googleapis.com/oauth2/v1/userinfo?access_token={token}").text)
         name = payload.get("name")
-        email = payload.get("eamil")
+        email = payload.get("email")
         return name, email
