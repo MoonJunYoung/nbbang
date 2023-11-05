@@ -27,7 +27,7 @@ class UserPresentation:
     @router.post("/google-login", status_code=201)
     async def google_login(google_data: GoogleTokenData):
         try:
-            name, email = Token.get_user_name_and_email_by_google_Oauth(google_data.token)
+            name, email = Token.get_user_name_and_email_by_google_oauth(google_data.token)
             user_id = user_service.google_login(name, email)
             return Token.create_token_by_user_id(user_id)
 

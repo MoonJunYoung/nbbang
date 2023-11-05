@@ -1,7 +1,9 @@
 import datetime
+import json
 import os
 
 import jwt
+import requests
 from dotenv import load_dotenv
 
 from backend.exceptions import InvalidTokenException, MissingTokenException
@@ -29,6 +31,8 @@ class Token:
         token_user_id = token_info.get("id")
         return token_user_id
 
-    def get_user_name_and_email_by_google_Oauth(token):
-        paylode = jwt.decode(token, algorithms=["RS256"], options={"verify_signature": False})
-        return paylode["name"], paylode["email"]
+    def get_user_name_and_email_by_google_oauth(token):
+        payload = json.loads(requests.get(f"https://www.googleapis.com/oauth2/v1/userinfo?access_token={token}").text)
+        name = payload.get("name")
+        email = payload.get("email")
+        return name, email
