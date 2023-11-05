@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Nav from "../../components/Nav";
 import Meeting from "../../components/Meeting";
 import { getUserData, Token } from "../../api/api";
-import Googles from "../../components/GoogleLogin";
+
 
 const Container = styled.div`
   width: 100%;

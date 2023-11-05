@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Nav from "../../components/Nav";
-import GoogleLogin from "../../components/GoogleLogin";
+import Googles from "../../components/GoogleLogin";
 
 const SigndContainer = styled.div`
   height: 100vh;
@@ -12,7 +12,7 @@ const SigndPage = () => {
   return (
     <SigndContainer>
       <Nav />
-      <GoogleLogin />
+      <Googles />
     </SigndContainer>
   );
 };

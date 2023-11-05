@@ -167,9 +167,12 @@ const TossPayContanerNull = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const TossPayContaner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 80px;
   height: 20px;
   color: paleturquoise;
@@ -180,6 +183,10 @@ const TossPayContaner = styled.div`
     font-size: 16px;
     text-decoration: none;
     color: blue;
+  }
+  img{
+    width: 50px;
+    height: 30px;
   }
   span {
     color: blue;
@@ -314,15 +321,20 @@ function SharePage() {
                         })
                         .toString()} 원`}
                 </Amount>
-                {members[key].amount > 0 && isMobile && members[key].toss_send_link !== "" ? (
+                {members[key].amount > 0 &&
+                members[key].toss_send_link !== "" ? (
                   <TossPayContaner>
                     <a href={members[key].toss_send_link}>
-                      <span>toss</span>송금
+                      <img
+                        alt="Toss"
+                        src="/images/TossLogo.png"
+                        onClick={() => (window.location.href = "/")}
+                      />
+                      <p>송금</p>
                     </a>
                   </TossPayContaner>
                 ) : (
-                  <TossPayContanerNull>
-                  </TossPayContanerNull>
+                  <TossPayContanerNull></TossPayContanerNull>
                 )}
               </>
             )}
