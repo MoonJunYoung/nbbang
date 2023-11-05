@@ -1,8 +1,8 @@
 
 import styled from 'styled-components'
-import { getBillingResultLink, GetMeetingNameData} from '../api/api';
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { getBillingResultLink} from '../api/api';
+import React from "react";
+
 
 const ShareButton = styled.div`
   display: 'flex';
