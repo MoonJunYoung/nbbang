@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Nav from "../../components/Nav";
 import Googles from "../../components/GoogleLogin";
+import GoogleRedirect from "../../components/GoogleRedirect";
 
 const SigndContainer = styled.div`
   height: 100vh;
@@ -13,6 +14,7 @@ const SigndPage = () => {
     <SigndContainer>
       <Nav />
       <Googles />
+      <GoogleRedirect />
     </SigndContainer>
   );
 };
