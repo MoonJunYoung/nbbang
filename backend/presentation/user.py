@@ -45,3 +45,14 @@ class UserPresentation:
 
         except Exception as e:
             catch_exception(e)
+
+    @router.post("/naver-login", status_code=201)
+    async def naver_login(oauth: OauthData):
+        try:
+            platform = "naver"
+            name, platform_id = Token.get_user_name_and_platform_id_by_naver_oauth(oauth.token)
+            user_id = user_service.oauth_login(name, platform_id, platform)
+            return Token.create_token_by_user_id(user_id)
+
+        except Exception as e:
+            catch_exception(e)
