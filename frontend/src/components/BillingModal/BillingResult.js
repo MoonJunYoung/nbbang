@@ -83,7 +83,7 @@ const Button = styled.button`
 `;
 const Message = styled.p`
   font-size: 12px;
-  width: 175px;
+  width: 176px;
   margin: 0;
   font-weight: 600;
   color: lightslategrey;
@@ -170,9 +170,9 @@ const BillingResult = ({ setModalOpen }) => {
       <WrapperModal>
         <Modal ref={ref}>
           <ModalClose onClick={() => setModalOpen(false)}>X</ModalClose>
-          <Message>
+          {/* <Message>
             <PopUp>?</PopUp>텍스트로 공유할떄 하단에 계좌번호도 같이 공유 돼요!
-          </Message>
+          </Message> */}
           <Message>
             <PopUp>?</PopUp>링크로 공유할때 해당 계좌로 토스 송금하기 기능이
             추가 돼요!
@@ -211,7 +211,7 @@ const BillingResult = ({ setModalOpen }) => {
               계좌번호 저장하기
             </Button>
           </Form>
-          <BillingResultButton meetingName={meetingName} />
+          {/* <BillingResultButton meetingName={meetingName} /> */}
           <BillingResultShare meetingName={meetingName} />
         </Modal>
       </WrapperModal>

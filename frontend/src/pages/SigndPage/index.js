@@ -1,7 +1,9 @@
+import React from "react";
 import styled from "styled-components";
 import Nav from "../../components/Nav";
 import Googles from "../../components/GoogleLogin";
-import GoogleRedirect from "../../components/GoogleRedirect";
+import KakaoLogin from "../../components/KakaoLogin";
+import NaverLogin from "../../components/NaverLogin";
 
 const SigndContainer = styled.div`
   height: 100vh;
@@ -10,11 +12,13 @@ const SigndContainer = styled.div`
 `;
 
 const SigndPage = () => {
+
   return (
     <SigndContainer>
       <Nav />
       <Googles />
-      <GoogleRedirect />
+      <KakaoLogin />
+      <NaverLogin />
     </SigndContainer>
   );
 };

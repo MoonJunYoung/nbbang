@@ -77,7 +77,7 @@ const PayMember = styled(Price)`
       content: "|";
       color: dodgerblue;
       position: absolute;
-      left: -8px;
+      left: -7px;
     }
   }
 `;
@@ -94,7 +94,7 @@ const AttendMemberCount = styled(Price)`
       content: "|";
       color: dodgerblue;
       position: absolute;
-      left: -8px;
+      left: -7px;
     }
   }
 `;
@@ -111,7 +111,7 @@ const SplitPrice = styled(Price)`
       content: "|";
       color: dodgerblue;
       position: absolute;
-      left: -8px;
+      left: -7px;
     }
   }
 `;
@@ -179,7 +179,7 @@ const BillingTopLineComent = styled.span`
   font-weight: 800;
 `
 
-const ResultButton = styled.button`
+const ShareButton = styled.button`
   width: 200px;
   height: 30px;
   border: 1px solid skyblue;
@@ -196,6 +196,19 @@ const ResultButton = styled.button`
     background-color: lightskyblue;
   }
 `;
+
+const RemittanceModalContaner = styled.div`
+
+  img {
+
+  }
+`
+
+const RemittanceModalbutton = styled.button`
+`
+
+const RemittanceId = styled.p`
+`
 
 
 const Billing = ({ payment }) => {
@@ -320,7 +333,19 @@ const Billing = ({ payment }) => {
           </BillingHistory>
         ))}
       </BillingContainer>
-      <ResultButton onClick={handleModal}>정산 결과 공유하기</ResultButton>
+      <RemittanceModalContaner>
+        <img alt="kakao" src="/images/kakao.png" />
+        <RemittanceModalbutton>카카오 입급아이디</RemittanceModalbutton>
+        <RemittanceId>등록</RemittanceId>
+      </RemittanceModalContaner>
+      <RemittanceModalContaner>
+        <img alt="kakao" src="/images/TossLogo.png" />
+        <RemittanceModalbutton> 입급아이디</RemittanceModalbutton>
+        <RemittanceId>등록</RemittanceId>
+      </RemittanceModalContaner>
+
+
+      <ShareButton onClick={handleModal}>정산 결과 공유하기</ShareButton>
       {modalOpen && (
         <BillingResult 
         setModalOpen={setModalOpen}

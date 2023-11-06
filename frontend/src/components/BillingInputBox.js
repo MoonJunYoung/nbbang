@@ -32,7 +32,7 @@ const Input = styled.input`
 
   @media (max-width: 768px) {
     position: absolute;
-    left: 13px;
+    left: 12px;
     top: 3px;
     width: 220px;
     height: 30px;
