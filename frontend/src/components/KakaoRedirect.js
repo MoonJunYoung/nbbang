@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const GooglesRedirect = () => {
+const KakaoRedirect = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const parsedHash = new URLSearchParams(window.location.hash.substring(1));
-    const accessToken = parsedHash.get("access_token");
-
+    const queryParams = new URLSearchParams(window.location.search);
+    const accessToken = queryParams.get("code");
+    
     if (accessToken) {
       sendAccessTokenToServer(accessToken);
     } 
@@ -18,7 +18,7 @@ const GooglesRedirect = () => {
   const sendAccessTokenToServer = async (accessToken) => {
     try {
       const response = await axios.post(
-        "https://nbbang.shop/api/user/google-logind",
+        "https://nbbang.shop/api/user/kakao-login",
         { token: accessToken }
       );
 
@@ -40,4 +40,4 @@ const GooglesRedirect = () => {
   );
 };
 
-export default GooglesRedirect;
+export default KakaoRedirect;
