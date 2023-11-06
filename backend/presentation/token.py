@@ -10,6 +10,11 @@ from backend.exceptions import InvalidTokenException, MissingTokenException
 
 load_dotenv()
 secret_key = os.environ.get("JWT_SECRET_KEY")
+kakao_cilent_id = os.environ.get("KAKAO_CLIENT_ID")
+kakao_redirect_url = os.environ.get("KAKAO_REDIRECT_URL")
+naver_client_id = os.environ.get("NAVER_CLIENT_ID")
+naver_client_secret = os.environ.get("NAVER_CLIENT_SECRET")
+naver_state = os.environ.get("NAVER_STATE")
 
 
 class Token:
@@ -43,8 +48,8 @@ class Token:
         def _get_user_access_token_by_kakao_oauth(token):
             data = {
                 "grant_type": "authorization_code",
-                "client_id": "3d14355e2c9679326b4c15d249b82bc5",
-                "redirect_uri": "https://nbbang.shop/kakao-redirect",
+                "client_id": kakao_cilent_id,
+                "redirect_uri": kakao_redirect_url,
                 "code": token,
             }
             kakao_token_data = json.loads(requests.post(url=f"https://kauth.kakao.com/oauth/token", data=data).text)
@@ -56,4 +61,21 @@ class Token:
         kakao_user_data = json.loads(requests.get(url="https://kapi.kakao.com/v2/user/me", headers=headers).text)
         platform_id = kakao_user_data.get("id")
         name = kakao_user_data.get("kakao_account").get("profile").get("nickname")
+        return name, platform_id
+
+    def get_user_name_and_platform_id_by_naver_oauth(token):
+        def _get_user_access_token_by_naver_oauth(token):
+            naver_token_data = json.loads(
+                requests.post(
+                    url=f"https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id={naver_client_id}&client_secret={naver_client_secret}&code={token}&state={naver_state}"
+                ).text
+            )
+            access_token = naver_token_data.get("access_token")
+            return access_token
+
+        access_token = _get_user_access_token_by_naver_oauth(token)
+        headers = {"Authorization": f"Bearer {access_token}"}
+        naver_user_data = json.loads(requests.get(url="https://openapi.naver.com/v1/nid/me", headers=headers).text)
+        platform_id = naver_user_data.get("response").get("id")
+        name = naver_user_data.get("response").get("name")
         return name, platform_id
