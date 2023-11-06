@@ -9,11 +9,13 @@ class UserModel(Base):
     id = Column("id", Integer, primary_key=True)
     name = Column(String)
     email = Column(String)
+    platform = Column(String)
 
-    def __init__(self, id, name, email):
+    def __init__(self, id, name, email, platform):
         self.id = id
         self.name = name
         self.email = email
+        self.platform = platform
 
 
 class MeetingModel(Base):
