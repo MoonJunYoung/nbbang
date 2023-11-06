@@ -18,7 +18,7 @@ const GooglesRedirect = () => {
   const sendAccessTokenToServer = async (accessToken) => {
     try {
       const response = await axios.post(
-        "https://nbbang.shop/api/user/google-logind",
+        "https://nbbang.shop/api/user/google-login",
         { token: accessToken }
       );
 
