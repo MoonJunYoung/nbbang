@@ -18,7 +18,6 @@ class BillingService:
         payments = self.payment_repository.ReadByMeetingID(meeting.id).run()
         if not members or not payments:
             billing = Billing(meeting=None, payments=None, members=None)
-            print(billing.__dict__)
             del billing.meeting
             return billing.__dict__
         billing = Billing(meeting=meeting, payments=payments, members=members)

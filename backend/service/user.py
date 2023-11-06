@@ -8,15 +8,15 @@ class UserService:
         self.user_repository = UserRepository()
         self.meeting_repository = MeetingRepository()
 
-    def google_login(self, name, email):
+    def oauth_login(self, name, platform_id, platform):
         user = User(
             id=None,
             name=name,
-            email=email,
-            platform="google",
+            platform_id=platform_id,
+            platform=platform,
         )
-        existing_user: User = self.user_repository.ReadByEamilAndPlatform(
-            email=user.email,
+        existing_user: User = self.user_repository.ReadByPlatformID(
+            platform_id=user.platform_id,
             platform=user.platform,
         ).run()
         if existing_user:

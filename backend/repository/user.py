@@ -13,16 +13,16 @@ class UserRepository:
             user_model = UserModel(
                 id=None,
                 name=self.user.name,
-                email=self.user.email,
+                platform_id=self.user.platform_id,
                 platform=self.user.platform,
             )
             self.session.add(user_model)
             self.session.commit()
             self.user.id = user_model.id
 
-    class ReadByEamilAndPlatform(MysqlCRUDTemplate):
-        def __init__(self, email, platform) -> None:
-            self.email = email
+    class ReadByPlatformID(MysqlCRUDTemplate):
+        def __init__(self, platform_id, platform) -> None:
+            self.platform_id = platform_id
             self.platform = platform
             super().__init__()
 
@@ -30,7 +30,7 @@ class UserRepository:
             user_model = (
                 self.session.query(UserModel)
                 .filter(UserModel.platform == self.platform)
-                .filter(UserModel.email == self.email)
+                .filter(UserModel.platform_id == self.platform_id)
                 .first()
             )
             if not user_model:
@@ -38,7 +38,7 @@ class UserRepository:
             user = User(
                 id=user_model.id,
                 name=user_model.name,
-                email=user_model.email,
+                platform_id=user_model.platform_id,
                 platform=user_model.platform,
             )
             return user
@@ -55,7 +55,7 @@ class UserRepository:
             user = User(
                 id=user_model.id,
                 name=user_model.name,
-                email=user_model.email,
+                platform_id=user_model.platform_id,
                 platform=user_model.platform,
             )
             return user
