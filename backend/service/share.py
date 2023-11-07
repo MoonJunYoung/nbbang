@@ -20,10 +20,10 @@ class ShareService:
         share = Share(billing=billing)
         return share
 
-    def create_text(self, uuid):
-        share = self._make_share(uuid)
-        sahre_text = share.create_share_text()
-        return sahre_text
+    # def create_text(self, uuid):
+    #     share = self._make_share(uuid)
+    #     sahre_text = share.create_share_text()
+    #     return sahre_text
 
     def create_link(self, uuid):
         share = self._make_share(uuid)

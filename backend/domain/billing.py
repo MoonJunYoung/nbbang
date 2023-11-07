@@ -57,9 +57,7 @@ class Billing:
             place = payment.place
             price = payment.price
             pay_member = self.members[payment.pay_member_id]["name"]
-            attend_members = "".join(
-                self.members[member_id]["name"] + ", " for member_id in payment.attend_member_ids
-            ).rstrip(" ,")
+            attend_members = [self.members[member_id]["name"] for member_id in payment.attend_member_ids]
             attend_members_count = len(payment.attend_member_ids)
             split_price = (
                 price // attend_members_count + 1 if price % attend_members_count else price / attend_members_count
