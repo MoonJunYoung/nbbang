@@ -35,20 +35,21 @@ const PaymentsHistory = styled.div`
   width: 550px;
   height: 100px;
   border: 1px solid #cce5ff;
+  height: 100%;
   border-radius: 10px;
   @media (max-width: 768px) {
     position: relative;
     width: 97%;
-    height: 100px;
+    height: 100%;
   }
   @media (max-width: 900px) {
     position: relative;
     width: 97%;
-    height: 100px;
+    height: 100%;
   }
 `;
 const Place = styled.span`
-  padding: 5px;
+  padding: 3px;
   font-size: 14px;
   background-color: lightseagreen;
   border: none;
