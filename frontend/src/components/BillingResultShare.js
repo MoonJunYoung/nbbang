@@ -18,6 +18,7 @@ const Button = styled.button`
   border-radius: 10px;
   color: white;
   cursor: pointer;
+  margin: 45px 0 120px 0;
   &:hover {
     border: 3px solid skyblue;
     transition: all 0.2s;
@@ -32,7 +33,7 @@ const BillingResultShare = ({meetingName}) => {
 
   const getApiDataCopy = async () => {
     try {
-      const response = await getBillingResultLink(meetingName); 
+      const response = await getBillingResultLink(meetingName.uuid); 
       if (response.status === 200) {
         const billingResult = response.data;
         await navigator.clipboard.writeText(billingResult);
@@ -45,7 +46,7 @@ const BillingResultShare = ({meetingName}) => {
 
   const getApiDataShare = async () => {
     try {
-      const response = await getBillingResultLink(meetingName);
+      const response = await getBillingResultLink(meetingName.uuid);
       if (response.status === 200) {
         const billingResult = response.data;
         if (navigator.share) {
@@ -68,7 +69,7 @@ const BillingResultShare = ({meetingName}) => {
   return (
     <ShareButton>
       {isMobile ? (        
-        <Button onClick={getApiDataShare}>링크로 공유하기</Button>
+        <Button onClick={getApiDataShare}>링크 공유하기</Button>
       ) : (
         <Button onClick={getApiDataCopy}>링크 복사하기</Button>
       )}

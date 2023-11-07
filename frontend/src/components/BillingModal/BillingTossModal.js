@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import BillingResultButton from "../BillingResultButton";
-import BillingResultShare from "../BillingResultShare";
 import React, { useEffect, useRef, useState } from "react";
 import UsersBankData from "../UsersBankData";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import { useParams } from "react-router-dom";
-import { putBillingResultPage, GetMeetingNameData } from "../../api/api";
+import {
+  putBillingTossBank,
+  putBillingFixTossBank,
+} from "../../api/api";
 
 const BillingResultContainer = styled.div`
   z-index: 1;
@@ -28,7 +29,7 @@ const Modal = styled.div`
   justify-content: center;
   align-items: center;
   gap: 15px;
-  height: 350px;
+  height: 290px;
   width: 250px;
   background: white;
   border-radius: 8px;
@@ -57,7 +58,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 13px;
 `;
 
 const InputBox = styled.div`
@@ -76,7 +77,10 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  border: 1px solid #cce5ff;
+  margin-top: 5px;
+  border: 1px solid lightskyblue;
+  background-color: lightskyblue;
+  color: white;
   border-radius: 8px;
   width: 115px;
   height: 25px;
@@ -99,39 +103,36 @@ const PopUp = styled.span`
   margin-right: 2px;
 `;
 
-const BillingResult = ({ setModalOpen }) => {
+const BillingTossModal = ({ setTossModalOpen }) => {
   const [notAllow, setNotAllow] = useState(true);
   const ref = useRef();
   const { meetingId } = useParams();
-  const [meetingName, setMeetingName] = useState({}); 
   const [formData, setFormData] = useState({
-    account_number: '',
-    bank: '',
+    account_number: "",
+    bank: "",
   });
 
 
-  useEffect(() => {
-    const handleGetData = async () => {
-      try {
-        const responseGetData = await GetMeetingNameData(meetingId);
-        setMeetingName(responseGetData.data.uuid);
-        setFormData({
-          account_number: responseGetData.data.account_number || '',
-          bank: responseGetData.data.bank || '',
-        });
-      } catch (error) {
-        console.log('Api 데이터 불러오기 실패');
-      }
-    };
-    handleGetData();
-  }, [meetingId]);
-
-  const handlePutBankData = async (e) => {
+  const handlePutBankData = async (e, action) => {
     e.preventDefault();
+    if (!formData.bank) {
+      formData.bank = UsersBankData[0].bank;
+    }
+
     try {
-      const responsePostData = await putBillingResultPage(meetingId, formData);
-      if (responsePostData.status === 200) {
-        alert("계좌번호가 추가 되었습니다!")
+      if (action === "이번에만 사용하기") {
+        const responsePostData = await putBillingTossBank(meetingId, formData);
+        if (responsePostData.status === 200) {
+          alert("계좌번호가 추가 되었습니다!");
+          setModalOpen(false);
+        }
+      } else if (action === "계속해서 사용하기") {
+        const responsePostData = await putBillingFixTossBank(formData);
+        await putBillingTossBank(meetingId, formData);
+        if (responsePostData.status === 200) {
+          alert("계좌번호가 추가 되었습니다!");
+          setModalOpen(false);
+        }
       }
     } catch (error) {
       console.log("Api 데이터 수정 실패");
@@ -162,14 +163,14 @@ const BillingResult = ({ setModalOpen }) => {
   }, [formData.account_number]);
 
   useOnClickOutside(ref, () => {
-    setModalOpen(false);
+    setTossModalOpen(false);
   });
 
   return (
     <BillingResultContainer>
       <WrapperModal>
         <Modal ref={ref}>
-          <ModalClose onClick={() => setModalOpen(false)}>X</ModalClose>
+          <ModalClose onClick={() => setTossModalOpen(false)}>X</ModalClose>
           {/* <Message>
             <PopUp>?</PopUp>텍스트로 공유할떄 하단에 계좌번호도 같이 공유 돼요!
           </Message> */}
@@ -195,10 +196,10 @@ const BillingResult = ({ setModalOpen }) => {
               value={formData.bank}
               onChange={handleBankSelect}
               style={{
-                width: '90px',
-                height: '20px',
-                borderRadius: '15px',
-                border: '1px solid skyblue',
+                width: "90px",
+                height: "20px",
+                borderRadius: "15px",
+                border: "1px solid skyblue",
               }}
             >
               {UsersBankData.map((bankData, index) => (
@@ -207,16 +208,25 @@ const BillingResult = ({ setModalOpen }) => {
                 </option>
               ))}
             </select>
-            <Button type="submit" disabled={notAllow}>
-              계좌번호 저장하기
+            <Button
+              type="submit"
+              onClick={(e) => handlePutBankData(e, "이번에만 사용하기")}
+              disabled={notAllow}
+            >
+              이번에만 사용하기
+            </Button>
+            <Button
+              type="submit"
+              onClick={(e) => handlePutBankData(e, "계속해서 사용하기")}
+              disabled={notAllow}
+            >
+              계속해서 사용하기
             </Button>
           </Form>
-          {/* <BillingResultButton meetingName={meetingName} /> */}
-          <BillingResultShare meetingName={meetingName} />
         </Modal>
       </WrapperModal>
     </BillingResultContainer>
   );
 };
 
-export default BillingResult;
+export default BillingTossModal;

@@ -40,6 +40,11 @@ const PaymentsHistory = styled.div`
     width: 97%;
     height: 80px;
   }
+  @media (max-width: 900px) {
+    position: relative;
+    width: 97%;
+    height: 80px;
+  }
 `;
 const Place = styled.span`
   padding: 5px;
@@ -163,50 +168,118 @@ const LeaderBillingMoney = styled.span`
   font-size: 14px;
 `;
 
-const TossPayContanerNull = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const TossPayContanerNull = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 const TossPayContaner = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80px;
-  height: 20px;
-  color: paleturquoise;
-  background-color: white;
-  border-radius: 12px;
+  width: 200px;
+  height: 38px;
   border: 1px solid;
+  background-color: white;
+
   a {
-    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    width: 100px;
+    height: 31px;
     text-decoration: none;
-    color: blue;
   }
-  img{
-    width: 50px;
-    height: 30px;
+  img {
+    width: 65px;
+    height: 43px;
+    right: 69px;
+    top: -3px;
+    position: absolute;
   }
   span {
+    right: 55px;
+    position: absolute;
     color: blue;
     font-weight: 700;
   }
-  &:hover {
-    transition: all 0.2s;
-    transform: scale(1.15);
+`;
+const KakaoContaner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 40px;
+  background-color: #fdef72;
+
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    width: 100px;
+    height: 31px;
+    text-decoration: none;
   }
+  img {
+    width: 30px;
+    height: 30px;
+  }
+  span {
+    color: black;
+    font-weight: 700;
+  }
+`;
+
+const MembersContainer = styled.div`
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
+const MemberContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 45px;
   @media (max-width: 768px) {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 31px;
-    height: 31px;
-    border: 1px solid;
-    a {
-      font-size: 12px;
-      text-decoration: none;
-    }
+    gap: 45px;
+  }
+  @media (max-width: 900px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 45px;
+  }
+`;
+
+const Remittance = styled.div`
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+  }
+  @media (max-width: 900px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
   }
 `;
 
@@ -307,36 +380,47 @@ function SharePage() {
                 </LeaderBillingContainer>
               </>
             ) : (
-              <>
-                <Member>{members[key].name}</Member>
-                <Amount>
-                  {members[key].amount > 0
-                    ? `총무에게 보내야 할 돈 : ${members[key].amount
-                        .toLocaleString()
-                        .toString()} 원`
-                    : `총무에게 받을 돈 : ${Math.abs(members[key].amount)
-                        .toLocaleString({
-                          style: "currency",
-                          currency: "USD",
-                        })
-                        .toString()} 원`}
-                </Amount>
-                {members[key].amount > 0 &&
-                members[key].toss_send_link !== "" ? (
-                  <TossPayContaner>
-                    <a href={members[key].toss_send_link}>
-                      <img
-                        alt="Toss"
-                        src="/images/TossLogo.png"
-                        onClick={() => (window.location.href = "/")}
-                      />
-                      <p>송금</p>
-                    </a>
-                  </TossPayContaner>
-                ) : (
-                  <TossPayContanerNull></TossPayContanerNull>
-                )}
-              </>
+              <MembersContainer>
+                <MemberContainer>
+                  <Member>{members[key].name}</Member>
+                  <Amount>
+                    {members[key].amount > 0
+                      ? `총무에게 보내야 할 돈 : ${members[key].amount
+                          .toLocaleString()
+                          .toString()} 원`
+                      : `총무에게 받을 돈 : ${Math.abs(members[key].amount)
+                          .toLocaleString({
+                            style: "currency",
+                            currency: "USD",
+                          })
+                          .toString()} 원`}
+                  </Amount>
+                </MemberContainer>
+                {isMobile ? ( <Remittance>
+                  {members[key].amount > 0 &&
+                  members[key].toss_send_link !== "" ? (
+                    <TossPayContaner>
+                      <a href={members[key].toss_send_link}>
+                        <img alt="Toss" src="/images/TossLogo.png" />
+                        <span>송금</span>
+                      </a>
+                    </TossPayContaner>
+                  ) : (
+                    ""
+                  )}
+                  {members[key].amount > 0 &&
+                  members[key].kakao_send_link !== "" ? (
+                    <KakaoContaner>
+                      <a href={members[key].kakao_send_link}>
+                        <img alt="kakao" src="/images/kakao.png" />
+                        <span>송금하기</span>
+                      </a>
+                    </KakaoContaner>
+                  ) : (
+                    ""
+                  )}
+                </Remittance>) : ""}
+              </MembersContainer>
             )}
           </BillingHistory>
         ))}

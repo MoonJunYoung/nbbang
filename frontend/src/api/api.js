@@ -109,7 +109,11 @@ export const getBillingResultPage = (uuid) => {
   return axiosData().get(`/share/page?uuid=${uuid}`)
 }
 
-export const putBillingResultPage = (meetingId , data) => {
+export const putBillingTossBank = (meetingId , data) => {
   return axiosData().put(`/meeting/${meetingId}`, data)
+}
+
+export const putBillingFixTossBank = (data) => {
+  return axiosData().put('/user', data)
 }
 

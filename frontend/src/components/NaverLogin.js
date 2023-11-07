@@ -10,11 +10,6 @@ const NaverLoginContainer = styled.div`
     top: 8px;
     left: 20px;
   }
-  &:hover {
-    color: black;
-    transition: all 0.2s;
-    transform: scale(1.10);
-  }
 `;
 
 const Button = styled.button`
@@ -24,6 +19,7 @@ const Button = styled.button`
   background: #03C75A;
   border: 1px solid paleturquoise;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const NaverLogin = () => {

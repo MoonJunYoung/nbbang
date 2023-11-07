@@ -69,12 +69,12 @@ const BillingName = () => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth() + 1;
   const day = currentDate.getDate();
+  const [meetingName, setMeetingName] = useState([])
   const initialDate = `${year}-${month}-${day}`;
   const [formData, setFormData] = useState({
     name: "",
     date: initialDate,
   });
-  const [meetingName, setMeetingName] = useState([])
   const { meetingId } = useParams();
   const dateParts = formData.date.split("-");
   const selectedDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
