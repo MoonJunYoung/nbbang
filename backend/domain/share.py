@@ -51,7 +51,7 @@ class Share:
         send_link = base_url.format(kakao_id=kakao_id, hex_amount=hex_amount)
         return send_link
 
-    def _to_hex_value(value):
+    def _to_hex_value(self, value):
         return format(value * 524288, "x")
 
     def create_share_page_link(self, uuid):
