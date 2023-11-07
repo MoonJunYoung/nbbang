@@ -10,12 +10,18 @@ class UserModel(Base):
     name = Column(String)
     platform = Column(String)
     platform_id = Column(String)
+    account_number = Column(LargeBinary)
+    bank = Column(LargeBinary)
+    kakao_id = Column(String)
 
-    def __init__(self, id, name, platform_id, platform):
+    def __init__(self, id, name, platform_id, platform, bank, account_number, kakao_id):
         self.id = id
         self.name = name
         self.platform_id = platform_id
         self.platform = platform
+        self.account_number = account_number
+        self.bank = bank
+        self.kakao_id = kakao_id
 
 
 class MeetingModel(Base):

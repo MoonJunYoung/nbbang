@@ -12,6 +12,12 @@ class OauthData(BaseModel):
     token: str
 
 
+class AccountData(BaseModel):
+    bank: str = None
+    account_number: str = None
+    kakao_id: str = None
+
+
 class UserPresentation:
     router = APIRouter(prefix="/api/user")
 
@@ -53,6 +59,20 @@ class UserPresentation:
             name, platform_id = Token.get_user_name_and_platform_id_by_naver_oauth(oauth.token)
             user_id = user_service.oauth_login(name, platform_id, platform)
             return Token.create_token_by_user_id(user_id)
+
+        except Exception as e:
+            catch_exception(e)
+
+    @router.put("", status_code=200)
+    async def update(account_data: AccountData, Authorization: str = Header(None)):
+        try:
+            user_id = Token.get_user_id_by_token(Authorization)
+            return user_service.update(
+                user_id=user_id,
+                bank=account_data.bank,
+                account_number=account_data.account_number,
+                kakao_id=account_data.kakao_id,
+            )
 
         except Exception as e:
             catch_exception(e)

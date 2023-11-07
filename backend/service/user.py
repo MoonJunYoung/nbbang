@@ -14,6 +14,9 @@ class UserService:
             name=name,
             platform_id=platform_id,
             platform=platform,
+            account_number=None,
+            bank=None,
+            kakao_id=None,
         )
         existing_user: User = self.user_repository.ReadByPlatformID(
             platform_id=user.platform_id,
@@ -27,3 +30,12 @@ class UserService:
     def read(self, user_id):
         user: User = self.user_repository.ReadByID(user_id).run()
         return user
+
+    def update(self, user_id, account_number, bank, kakao_id):
+        user: User = self.user_repository.ReadByID(user_id).run()
+        if bank and account_number:
+            user.update_account_number(bank, account_number)
+            self.user_repository.UpdateAccountNumber(user).run()
+        elif kakao_id:
+            user.update_kakao_id(kakao_id)
+            self.user_repository.UpdateKakaoID(user).run()

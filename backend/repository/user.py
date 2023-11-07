@@ -15,6 +15,9 @@ class UserRepository:
                 name=self.user.name,
                 platform_id=self.user.platform_id,
                 platform=self.user.platform,
+                account_number=self.user.account_number,
+                bank=self.user.bank,
+                kakao_id=self.user.kakao_id,
             )
             self.session.add(user_model)
             self.session.commit()
@@ -40,6 +43,9 @@ class UserRepository:
                 name=user_model.name,
                 platform_id=user_model.platform_id,
                 platform=user_model.platform,
+                account_number=user_model.account_number,
+                bank=user_model.bank,
+                kakao_id=user_model.kakao_id,
             )
             return user
 
@@ -57,5 +63,29 @@ class UserRepository:
                 name=user_model.name,
                 platform_id=user_model.platform_id,
                 platform=user_model.platform,
+                account_number=user_model.account_number,
+                bank=user_model.bank,
+                kakao_id=user_model.kakao_id,
             )
             return user
+
+    class UpdateAccountNumber(MysqlCRUDTemplate):
+        def __init__(self, user: User) -> None:
+            self.user = user
+            super().__init__()
+
+        def execute(self):
+            user_model = self.session.query(UserModel).filter(UserModel.id == self.user.id).first()
+            user_model.account_number = self.user.account_number
+            user_model.bank = self.user.bank
+            self.session.commit()
+
+    class UpdateKakaoID(MysqlCRUDTemplate):
+        def __init__(self, user: User) -> None:
+            self.user = user
+            super().__init__()
+
+        def execute(self):
+            user_model = self.session.query(UserModel).filter(UserModel.id == self.user.id).first()
+            user_model.kakao_id = self.user.kakao_id
+            self.session.commit()

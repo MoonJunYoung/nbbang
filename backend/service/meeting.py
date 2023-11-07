@@ -1,7 +1,9 @@
 from backend.domain.meeting import Meeting
+from backend.domain.user import User
 from backend.repository.meeting import MeetingRepository
 from backend.repository.member import MemberRepository
 from backend.repository.payment import PaymentRepository
+from backend.repository.user import UserRepository
 
 
 class MeetingService:
@@ -9,17 +11,19 @@ class MeetingService:
         self.meeting_repository = MeetingRepository()
         self.member_repository = MemberRepository()
         self.payment_repository = PaymentRepository()
+        self.user_repository = UserRepository()
 
     def create(self, user_id):
+        user: User = self.user_repository.ReadByID(user_id)
         meeting = Meeting(
             id=None,
             name=None,
             date=None,
-            user_id=user_id,
+            user_id=user.id,
             uuid=None,
-            account_number=None,
-            bank=None,
-            kakao_id=None,
+            account_number=user.account_number,
+            bank=user.bank,
+            kakao_id=user.kakao_id,
         )
         meeting.set_template()
         meeting.set_uuid()
