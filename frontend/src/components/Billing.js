@@ -228,8 +228,8 @@ const KakaoModalbutton = styled.button`
   font-size: 15px;
   width: 230px;
   height: 37px;
-  background: #fdef72;
-  border: 1px solid #fdef72;
+  background: #ffeb3c;
+  border: 1px solid #ffeb3c;
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
@@ -421,8 +421,7 @@ const Billing = ({ payment }) => {
           </BillingHistory>
         ))}
       </BillingContainer>
-      {isMobile ? (
-        <>
+
           <RemittanceContainer>
             <KakaoModalContainer onClick={handleKakaoModal}>
               <img alt="kakao" src="/images/kakao.png" />
@@ -452,8 +451,6 @@ const Billing = ({ payment }) => {
           {tossModalOpen && (
             <BillingTossModal setTossModalOpen={setTossModalOpen} />
           )}
-        </>
-      ) : null}
 
       <BillingResultShare meetingName={meetingName} />
     </ResultContainar>

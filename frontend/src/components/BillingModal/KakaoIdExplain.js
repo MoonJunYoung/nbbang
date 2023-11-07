@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import React, { useRef } from "react";
-import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 const BillingResultContainer = styled.div`
   z-index: 1;
@@ -25,12 +23,13 @@ const Modal = styled.div`
   gap: 15px;
   max-height: 80%;
   height: auto;
-  width: 80%;
+  width: 90%;
   background: white;
   border-radius: 8px;
   transition: all 400ms ease-in-out 2s;
   animation: fadeIn 400ms;
   overflow-y: auto;
+  overflow-x: hidden;
 
   @keyframes fadeIn {
     from {
@@ -56,11 +55,12 @@ const ModalCloseBottmBar = styled.span`
   width: 100%;
   font-size: 14px;
   font-weight: 700;
-  background-color: #fdef72;
+  background-color: #ffeb3c;
   cursor: pointer;
 `;
 
 const Img = styled.img`
+  margin-left: 12px;
   width: 80%;
 `;
 
@@ -70,6 +70,7 @@ const LinkExplain = styled.p`
 `;
 
 const Explain = styled.p`
+  margin-left: 12px;
   color: darkblue;
   width: 270px;
   margin: 20px 0px 0px 0px;
@@ -77,6 +78,7 @@ const Explain = styled.p`
 `;
 
 const Explainfirst = styled(Explain)`
+  margin-left: 12px;
   width: 250px;
 `;
 
@@ -86,16 +88,10 @@ const Icon = styled.p`
 `;
 
 const KakaoIdExplain = ({ setModalOpen }) => {
-  const ref = useRef();
-
-  useOnClickOutside(ref, () => {
-    setModalOpen(false);
-  });
-
   return (
     <BillingResultContainer>
       <WrapperModal>
-        <Modal ref={ref}>
+        <Modal>
           <ModalClose onClick={() => setModalOpen(false)}>X</ModalClose>
           <LinkExplain>
             카카오 링크란? <br></br>
@@ -108,11 +104,11 @@ const KakaoIdExplain = ({ setModalOpen }) => {
           <Explainfirst>
             1. 카카오톡 더보기 상단의 QR코드 아이콘을 눌러주세요
           </Explainfirst>
-          <Img alt="explain" src="/images/explain3.jpeg" />
+          <Img alt="explain3" src="/images/explain3.jpeg" />
           <Explain>2. QR코드 아래 송금코드를 눌러주세요</Explain>
           <Img alt="explain2" src="/images/explain2.jpeg" />
           <Explain>3. 송금코드를 눌러서 송금코드를 복사 해주세요</Explain>
-          <Img alt="explain3" src="/images/explain.jpeg" />
+          <Img alt="explain" src="/images/explain.jpeg" />
           <Explain>
             4. 이제 카카오톡 송금링크를 등록하러 가볼까요?<Icon>👇🏻</Icon>
           </Explain>
