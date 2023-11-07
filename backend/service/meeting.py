@@ -48,6 +48,7 @@ class MeetingService:
         elif meeting.account_number and meeting.bank:
             self.meeting_repository.UpdateAccountNumber(meeting).run()
         elif meeting.kakao_id:
+            meeting._extract_kakao_id()
             self.meeting_repository.UpdateKakaoID(meeting).run()
 
     def delete(self, id, user_id):

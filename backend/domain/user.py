@@ -1,4 +1,5 @@
 import os
+from urllib.parse import urlparse
 
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
@@ -29,6 +30,7 @@ class User:
 
     def update_kakao_id(self, kakao_id):
         self.kakao_id = kakao_id
+        self._extract_kakao_id()
 
     def _encrypt_account_number_data(self):
         self.account_number = self.__aes_encrypt(secret_key, self.account_number)
@@ -47,3 +49,8 @@ class User:
         cipher = AES.new(key, AES.MODE_ECB)
         decrypted_data = unpad(cipher.decrypt(ciphertext), AES.block_size)
         return decrypted_data.decode("utf-8")
+
+    def _extract_kakao_id(self):
+        path = urlparse(self.kakao_id).path
+        kakao_id = path.split("/")[1]
+        self.kakao_id = kakao_id

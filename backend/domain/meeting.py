@@ -1,6 +1,7 @@
 import datetime
 import os
 import uuid
+from urllib.parse import urlparse
 
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
@@ -55,3 +56,8 @@ class Meeting:
         cipher = AES.new(key, AES.MODE_ECB)
         decrypted_data = unpad(cipher.decrypt(ciphertext), AES.block_size)
         return decrypted_data.decode("utf-8")
+
+    def _extract_kakao_id(self):
+        path = urlparse(self.kakao_id).path
+        kakao_id = path.split("/")[1]
+        self.kakao_id = kakao_id
