@@ -60,7 +60,7 @@ const ModalCloseBottmBar = styled.span`
 `;
 
 const Img = styled.img`
-  margin-left: 12px;
+  margin-left: 8px;
   width: 80%;
 `;
 
@@ -70,7 +70,7 @@ const LinkExplain = styled.p`
 `;
 
 const Explain = styled.p`
-  margin-left: 12px;
+  margin-left: 8px;
   color: darkblue;
   width: 270px;
   margin: 20px 0px 0px 0px;
@@ -78,7 +78,7 @@ const Explain = styled.p`
 `;
 
 const Explainfirst = styled(Explain)`
-  margin-left: 12px;
+  margin-left: 8px;
   width: 250px;
 `;
 
@@ -107,7 +107,9 @@ const KakaoIdExplain = ({ setModalOpen }) => {
           <Img alt="explain3" src="/images/explain3.jpeg" />
           <Explain>2. QR코드 아래 송금코드를 눌러주세요</Explain>
           <Img alt="explain2" src="/images/explain2.jpeg" />
-          <Explain>3. 송금코드를 눌러서 송금코드를 복사 해주세요</Explain>
+          <Explainfirst>
+            3. 송금 코드 복사 아이콘을 눌러서 송금코드를 복사 해주세요
+          </Explainfirst>
           <Img alt="explain" src="/images/explain.jpeg" />
           <Explain>
             4. 이제 카카오톡 송금링크를 등록하러 가볼까요?<Icon>👇🏻</Icon>
