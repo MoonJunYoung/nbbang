@@ -49,7 +49,7 @@ const PaymentsHistory = styled.div`
   }
 `;
 const Place = styled.span`
-  padding: 3px;
+  padding: 2px;
   font-size: 14px;
   background-color: lightseagreen;
   border: none;
@@ -300,7 +300,7 @@ const PaymentsMembers = styled.div`
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
   font-size: 12px;
-  margin-top: 9px;
+  margin: 9px;
 `;
 
 const PaymentMember = styled.span`
@@ -308,6 +308,7 @@ const PaymentMember = styled.span`
   justify-content: center;
   align-items: center;
   width: 40px;
+  border-radius: 11px;
   height: 25px;
   background: cornflowerblue;
   color: white;
