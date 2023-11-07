@@ -18,6 +18,7 @@ const Button = styled.button`
   background: #FDEF72;
   border: 1px solid papayawhip;
   border-radius: 10px;
+  color: black;
   font-weight: 600;
   cursor: pointer;
 `;

@@ -12,7 +12,8 @@ const GooglesContainer = styled.div`
   }
 `;
 
-const Button = styled.button`
+const Button = styled.button` 
+  color: black;
   width: 230px;
   height: 40px;
   background: white;
