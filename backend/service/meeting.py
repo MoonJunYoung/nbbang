@@ -14,7 +14,7 @@ class MeetingService:
         self.user_repository = UserRepository()
 
     def create(self, user_id):
-        user: User = self.user_repository.ReadByID(user_id)
+        user: User = self.user_repository.ReadByID(user_id).run()
         meeting = Meeting(
             id=None,
             name=None,
