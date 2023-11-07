@@ -18,6 +18,7 @@ class MeetingRepository:
                 uuid=self.meeting.uuid,
                 account_number=self.meeting.account_number,
                 bank=self.meeting.bank,
+                kakao_id=self.meeting.kakao_id,
             )
             self.session.add(meeting_model)
             self.session.commit()
@@ -43,6 +44,16 @@ class MeetingRepository:
             meeting_model = self.session.query(MeetingModel).filter(MeetingModel.id == self.meeting.id).first()
             meeting_model.account_number = self.meeting.account_number
             meeting_model.bank = self.meeting.bank
+            self.session.commit()
+
+    class UpdateKakaoID(MysqlCRUDTemplate):
+        def __init__(self, meeting: Meeting) -> None:
+            self.meeting = meeting
+            super().__init__()
+
+        def execute(self):
+            meeting_model = self.session.query(MeetingModel).filter(MeetingModel.id == self.meeting.id).first()
+            meeting_model.kakao_id = self.meeting.kakao_id
             self.session.commit()
 
     class Delete(MysqlCRUDTemplate):
@@ -74,6 +85,7 @@ class MeetingRepository:
                     uuid=meeting_model.uuid,
                     account_number=meeting_model.account_number,
                     bank=meeting_model.bank,
+                    kakao_id=meeting_model.kakao_id,
                 )
                 meetings.append(meeting)
             return meetings
@@ -95,6 +107,7 @@ class MeetingRepository:
                 uuid=meeting_model.uuid,
                 account_number=meeting_model.account_number,
                 bank=meeting_model.bank,
+                kakao_id=meeting_model.kakao_id,
             )
             return meeting
 
@@ -115,5 +128,6 @@ class MeetingRepository:
                 uuid=meeting_model.uuid,
                 account_number=meeting_model.account_number,
                 bank=meeting_model.bank,
+                kakao_id=meeting_model.kakao_id,
             )
             return meeting

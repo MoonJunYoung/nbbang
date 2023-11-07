@@ -26,12 +26,14 @@ class Billing:
         total_amount = 0
         bank = self.meeting.bank
         account_number = self.meeting.account_number
+        kakao_id = self.meeting.kakao_id
         meeting_dict = {
             "name": name,
             "date": date,
             "total_amount": total_amount,
             "bank": bank,
             "account_number": account_number,
+            "kakao_id": kakao_id,
         }
         self.meeting = meeting_dict
 

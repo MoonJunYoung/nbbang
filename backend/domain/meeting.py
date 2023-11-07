@@ -1,6 +1,7 @@
 import datetime
 import os
 import uuid
+from urllib.parse import urlparse
 
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
@@ -13,7 +14,7 @@ secret_key = bytes(os.environ.get("ENCRYPT_KEY"), "UTF-8")
 
 
 class Meeting:
-    def __init__(self, id, name, date, user_id, uuid, account_number, bank) -> None:
+    def __init__(self, id, name, date, user_id, uuid, account_number, bank, kakao_id) -> None:
         self.id = id
         self.name = name
         self.date = date
@@ -21,6 +22,7 @@ class Meeting:
         self.uuid = uuid
         self.account_number = account_number
         self.bank = bank
+        self.kakao_id = kakao_id
         if isinstance(self.account_number, str) and isinstance(self.bank, str):
             self._encrypt_account_number_data()
         elif isinstance(self.account_number, bytes) and isinstance(self.bank, bytes):
@@ -54,3 +56,8 @@ class Meeting:
         cipher = AES.new(key, AES.MODE_ECB)
         decrypted_data = unpad(cipher.decrypt(ciphertext), AES.block_size)
         return decrypted_data.decode("utf-8")
+
+    def _extract_kakao_id(self):
+        path = urlparse(self.kakao_id).path
+        kakao_id = path.split("/")[1]
+        self.kakao_id = kakao_id
