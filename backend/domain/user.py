@@ -25,6 +25,7 @@ class User:
     def update_account_number(self, bank, account_number):
         self.bank = bank
         self.account_number = account_number
+        self._encrypt_account_number_data()
 
     def update_kakao_id(self, kakao_id):
         self.kakao_id = kakao_id
