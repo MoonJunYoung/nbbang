@@ -10,11 +10,6 @@ const KakaoContainer = styled.div`
     top: 5px;
     left: 17px;
   }
-  &:hover {
-    color: black;
-    transition: all 0.2s;
-    transform: scale(1.1);
-  }
 `;
 
 const Button = styled.button`
@@ -24,6 +19,7 @@ const Button = styled.button`
   border: 1px solid papayawhip;
   border-radius: 10px;
   font-weight: 600;
+  cursor: pointer;
 `;
 
 const KakaoLogin = () => {

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getBillingData } from "../api/api";
+import { getBillingData, GetMeetingNameData } from "../api/api";
 import { truncate } from "./Meeting";
-import BillingResult from './BillingModal/BillingResult'
+import BillingTossModal from "./BillingModal/BillingTossModal";
+import BillingKakaoModal from "./BillingModal/BillingKakaoModal";
+import BillingResultShare from "./BillingResultShare";
 
 const ResultContainar = styled.div`
- display: ${props => props.paymentState ? 'block' : 'none'};
+  display: ${(props) => (props.paymentState ? "block" : "none")};
   margin-top: 20px;
   visibility: "visible";
   height: 100%;
@@ -160,7 +162,7 @@ const LeaderBillingMoney = styled.span`
 const BillingTopLine = styled.div`
   display: flex;
   justify-content: center;
-`
+`;
 
 const BillingLine = styled.div`
   border-top: 1px solid silver;
@@ -169,15 +171,14 @@ const BillingLine = styled.div`
   @media (max-width: 768px) {
     width: 88px;
   }
-`
-
+`;
 
 const BillingTopLineComent = styled.span`
   margin: 0 10px;
   font-size: 14px;
   color: silver;
   font-weight: 800;
-`
+`;
 
 const ShareButton = styled.button`
   width: 200px;
@@ -197,26 +198,105 @@ const ShareButton = styled.button`
   }
 `;
 
-const RemittanceModalContaner = styled.div`
+const RemittanceContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
+const KakaoModalContainer = styled.div`
+  margin-top: 30px;
+  position: relative;
+  width: 230px;
+  height: 63px;
+  background: #fdef72;
+  border: 1px solid papayawhip;
+  border-radius: 10px;
   img {
-
+    position: absolute;
+    width: 45px;
+    left: 5px;
   }
-`
+  &:hover {
+    transition: all 0.2s;
+    transform: scale(1.05);
+  }
+`;
 
-const RemittanceModalbutton = styled.button`
-`
+const KakaoModalbutton = styled.button`
+  font-size: 15px;
+  width: 230px;
+  height: 37px;
+  background: #fdef72;
+  border: 1px solid #fdef72;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+`;
 
-const RemittanceId = styled.p`
-`
+const KakaoId = styled.p`
+  margin: 0;
+  font-size: 14px;
+`;
+const TossModalContainer = styled(KakaoModalContainer)`
+  background: white;
+  border: 1px solid skyblue;
+  img {
+    position: absolute;
+    width: 85px;
+    left: -10px;
+    top: -5px;
+  }
+`;
 
+const TossModalbutton = styled(KakaoModalbutton)`
+  background: white;
+  border: none;
+  color: royalblue;
+  font-weight: 800;
+`;
+
+const TossBankContainer = styled.div`
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const TossBank = styled.span`
+  font-size: 14px;
+`;
+
+const TossRegistration = styled.span`
+  font-weight: 700;
+`;
+const KakaoRegistration = styled.span`
+  font-weight: 700;
+`;
 
 const Billing = ({ payment }) => {
   const { meetingId } = useParams();
   const [members, setMembers] = useState([]);
   const [payments, setPayments] = useState([]);
+  const [meetingName, setMeetingName] = useState([]);
   const [paymentState, setPaymentState] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false)
+  const [kakaoModalOpen, setKakaoModalOpen] = useState(false);
+  const [tossModalOpen, setTossModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!kakaoModalOpen && !tossModalOpen) {
+      const handleGetData = async () => {
+        try {
+          const response = await GetMeetingNameData(meetingId);
+          setMeetingName(response.data);
+        } catch (error) {
+          console.log("Api 데이터 불러오기 실패");
+        }
+      };
+      handleGetData();
+    }
+  }, [kakaoModalOpen, tossModalOpen]);
 
   useEffect(() => {
     if (payment.length > 0) {
@@ -237,16 +317,24 @@ const Billing = ({ payment }) => {
       }
     };
     handleGetData();
-  }, [meetingId, payment]);
+  }, [meetingId, payment, meetingName]);
 
   const negativeBillingEntries = Object.entries(members).filter(
     ([key, value]) => value.amount < 0 && value.leader === false
   );
 
-  const handleModal = () => {
-    setModalOpen(true)
-  }
+  const handleKakaoModal = () => {
+    setKakaoModalOpen(true);
+  };
 
+  const handleTossModal = () => {
+    setTossModalOpen(true);
+  };
+
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
 
   return (
     <ResultContainar paymentState={paymentState}>
@@ -333,24 +421,41 @@ const Billing = ({ payment }) => {
           </BillingHistory>
         ))}
       </BillingContainer>
-      <RemittanceModalContaner>
-        <img alt="kakao" src="/images/kakao.png" />
-        <RemittanceModalbutton>카카오 입급아이디</RemittanceModalbutton>
-        <RemittanceId>등록</RemittanceId>
-      </RemittanceModalContaner>
-      <RemittanceModalContaner>
-        <img alt="kakao" src="/images/TossLogo.png" />
-        <RemittanceModalbutton> 입급아이디</RemittanceModalbutton>
-        <RemittanceId>등록</RemittanceId>
-      </RemittanceModalContaner>
+      {isMobile ? (
+        <>
+          <RemittanceContainer>
+            <KakaoModalContainer onClick={handleKakaoModal}>
+              <img alt="kakao" src="/images/kakao.png" />
+              <KakaoModalbutton>카카오 입급 아이디</KakaoModalbutton>
+              {meetingName.kakao_id === null ? (
+                <KakaoRegistration>등록하기</KakaoRegistration>
+              ) : (
+                <KakaoId>{meetingName.kakao_id}</KakaoId>
+              )}
+            </KakaoModalContainer>
+            <TossModalContainer onClick={handleTossModal}>
+              <img alt="kakao" src="/images/TossLogo.png" />
+              <TossModalbutton>토스 입금 계좌</TossModalbutton>
+              {meetingName.bank === null ? (
+                <TossRegistration>등록하기</TossRegistration>
+              ) : (
+                <TossBankContainer>
+                  <TossBank>{meetingName.bank}</TossBank>
+                  <TossBank>{meetingName.account_number}</TossBank>
+                </TossBankContainer>
+              )}
+            </TossModalContainer>
+          </RemittanceContainer>
+          {kakaoModalOpen && (
+            <BillingKakaoModal setKakaoModalOpen={setKakaoModalOpen} />
+          )}
+          {tossModalOpen && (
+            <BillingTossModal setTossModalOpen={setTossModalOpen} />
+          )}
+        </>
+      ) : null}
 
-
-      <ShareButton onClick={handleModal}>정산 결과 공유하기</ShareButton>
-      {modalOpen && (
-        <BillingResult 
-        setModalOpen={setModalOpen}
-        />
-      )}
+      <BillingResultShare meetingName={meetingName} />
     </ResultContainar>
   );
 };
