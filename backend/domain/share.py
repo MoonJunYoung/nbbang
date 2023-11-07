@@ -54,7 +54,7 @@ class Share:
     def _to_hex_value(value):
         return format(value * 524288, "x")
 
-    def _create_share_page_link(self, uuid):
+    def create_share_page_link(self, uuid):
         return f"https://nbbang.shop/share?meeting={uuid}"
 
     def create_share_text(self):
