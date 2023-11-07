@@ -27,8 +27,9 @@ class MeetingModel(Base):
     uuid = Column(String)
     account_number = Column(LargeBinary)
     bank = Column(LargeBinary)
+    kakao_id = Column(String)
 
-    def __init__(self, id, name, date, user_id, uuid, account_number, bank):
+    def __init__(self, id, name, date, user_id, uuid, account_number, bank, kakao_id):
         self.id = id
         self.name = name
         self.date = date
@@ -36,6 +37,7 @@ class MeetingModel(Base):
         self.uuid = uuid
         self.account_number = account_number
         self.bank = bank
+        self.kakao_id = kakao_id
 
 
 class MemberModel(Base):

@@ -8,9 +8,10 @@ class Share:
     def __init__(self, billing: Billing) -> None:
         self.billing = billing
 
-    def set_toss_send_link(self):
+    def set_send_link(self):
         bank = self.billing.meeting["bank"]
         account_number = self.billing.meeting["account_number"]
+        kakao_id = self.billing.meeting["kakao_id"]
         for member in self.billing.members.values():
             if bank and account_number:
                 amount = member["amount"]
@@ -23,6 +24,15 @@ class Share:
                     member["toss_send_link"] = toss_send_link
             else:
                 member["toss_send_link"] = ""
+            if kakao_id:
+                if amount > 0:
+                    kakao_send_link = self._create_kakao_send_link(
+                        kakao_id=kakao_id,
+                        amount=amount,
+                    )
+                    member["kakao_send_link"] = kakao_send_link
+            else:
+                member["kakao_send_link"] = ""
 
     def _create_toss_send_link(self, bank, account_number, amount):
         base_url = "supertoss://send"
@@ -35,7 +45,16 @@ class Share:
         encoded_url = f"{base_url}?{encoded_params}"
         return encoded_url
 
-    def create_share_page_link(self, uuid):
+    def _create_kakao_send_link(self, kakao_id, amount):
+        base_url = "https://qr.kakaopay.com/{kakao_id}{hex_amount}"
+        hex_amount = self._to_hex_value(int(amount))
+        send_link = base_url.format(kakao_id=kakao_id, hex_amount=hex_amount)
+        return send_link
+
+    def _to_hex_value(value):
+        return format(value * 524288, "x")
+
+    def _create_share_page_link(self, uuid):
         return f"https://nbbang.shop/share?meeting={uuid}"
 
     def create_share_text(self):
