@@ -28,22 +28,23 @@ const BillingContainer = styled(PaymentsContainar)``;
 
 const PaymentsHistory = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   margin-top: 20px;
   width: 550px;
-  height: 60px;
+  height: 100px;
   border: 1px solid #cce5ff;
   border-radius: 10px;
   @media (max-width: 768px) {
     position: relative;
     width: 97%;
-    height: 80px;
+    height: 100px;
   }
   @media (max-width: 900px) {
     position: relative;
     width: 97%;
-    height: 80px;
+    height: 100px;
   }
 `;
 const Place = styled.span`
@@ -53,10 +54,6 @@ const Place = styled.span`
   border: none;
   color: white;
   margin: 0 10px;
-  @media (max-width: 768px) {
-    position: absolute;
-    top: 8px;
-  }
 `;
 
 const Price = styled.span`
@@ -66,13 +63,12 @@ const Price = styled.span`
     content: "|";
     color: dodgerblue;
     position: absolute;
-    left: -13px;
+    left: -9px;
   }
   @media (max-width: 768px) {
     &::before {
       content: "";
     }
-    margin-top: 25px;
   }
 `;
 
@@ -81,7 +77,7 @@ const PayMember = styled(Price)`
     content: "|";
     color: dodgerblue;
     position: absolute;
-    left: -13px;
+    left: -9px;
   }
   @media (max-width: 768px) {
     &::before {
@@ -98,7 +94,7 @@ const AttendMemberCount = styled(Price)`
     content: "|";
     color: dodgerblue;
     position: absolute;
-    left: -13px;
+    left: -9px;
   }
   @media (max-width: 768px) {
     &::before {
@@ -115,7 +111,7 @@ const SplitPrice = styled(Price)`
     content: "|";
     color: dodgerblue;
     position: absolute;
-    left: -13px;
+    left: -9px;
   }
   @media (max-width: 768px) {
     &::before {
@@ -154,10 +150,19 @@ const LeaderBilling = styled.div`
   }
 `;
 
-const BillingHistory = styled(PaymentsHistory)`
+const BillingHistory = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 20px;
+  width: 550px;
+  height: 100px;
+  border: 1px solid #cce5ff;
+  border-radius: 10px;
   color: white;
   background-color: cornflowerblue;
   border: 3px solid skyblue;
+  height: 60px;
   @media (max-width: 768px) {
     position: relative;
     width: 97%;
@@ -179,10 +184,12 @@ const TossPayContaner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px;
-  height: 38px;
+  width: 180px;
+  border-radius: 15px;
+  height: 30px;
   border: 1px solid;
   background-color: white;
+  margin-bottom: 10px;
 
   a {
     display: flex;
@@ -196,14 +203,14 @@ const TossPayContaner = styled.div`
   img {
     width: 65px;
     height: 43px;
-    right: 69px;
-    top: -3px;
+    right: 65px;
+    top: -7px;
     position: absolute;
   }
   span {
-    right: 55px;
+    right: 30px;
     position: absolute;
-    color: blue;
+    color: black;
     font-weight: 700;
   }
 `;
@@ -211,9 +218,11 @@ const KakaoContaner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px;
-  height: 40px;
-  background-color: #fdef72;
+  width: 180px;
+  border-radius: 15px;
+  height: 30px;
+  background-color: #ffeb3c;
+  margin-bottom: 10px;
 
   a {
     display: flex;
@@ -225,8 +234,8 @@ const KakaoContaner = styled.div`
     text-decoration: none;
   }
   img {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 20px;
   }
   span {
     color: black;
@@ -273,13 +282,43 @@ const Remittance = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 15px;
     width: 80%;
   }
   @media (max-width: 900px) {
     display: flex;
     justify-content: center;
+    gap: 15px;
     align-items: center;
     width: 80%;
+  }
+`;
+
+const PaymentsMembers = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  font-size: 12px;
+  margin-top: 9px;
+`;
+
+const PaymentMember = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 25px;
+  background: cornflowerblue;
+  color: white;
+`;
+
+const Payment = styled.div`
+  display: flex;
+  gap: 13px;
+  margin-top: 15px;
+  @media (max-width: 768px) {
+    display: flex;
+    gap: 13px;
   }
 `;
 
@@ -324,24 +363,34 @@ function SharePage() {
       <PaymentsContainar>
         {Object.keys(payments).map((key) => (
           <PaymentsHistory key={key}>
-            <Place>{truncate(payments[key].place, 10)}</Place>
-            <Price>
-              {truncate(
-                payments[key].price.toLocaleString().toString() + "원",
-                12
-              )}
-            </Price>
-            <PayMember>결제자 {payments[key].pay_member}</PayMember>
-            <AttendMemberCount>
-              총 {payments[key].attend_members_count}명
-            </AttendMemberCount>
-            <SplitPrice>
-              나눠서 낼 돈{" "}
-              {truncate(
-                payments[key].split_price.toLocaleString().toString() + "원",
-                12
-              )}
-            </SplitPrice>
+            <div>
+              <Place>{truncate(payments[key].place, 10)}</Place>
+              <Payment>
+                <Price>
+                  {truncate(
+                    payments[key].price.toLocaleString().toString() + "원",
+                    12
+                  )}
+                </Price>
+                <PayMember>결제자 {payments[key].pay_member}</PayMember>
+                <AttendMemberCount>
+                  총 {payments[key].attend_members_count}명
+                </AttendMemberCount>
+                <SplitPrice>
+                  나눠서 낼 돈{" "}
+                  {truncate(
+                    payments[key].split_price.toLocaleString().toString() +
+                      "원",
+                    12
+                  )}
+                </SplitPrice>
+              </Payment>
+            </div>
+            <PaymentsMembers>
+              {payments[key].attend_members.map((data, index) => (
+                <PaymentMember key={index}>{data}</PaymentMember>
+              ))}
+            </PaymentsMembers>
           </PaymentsHistory>
         ))}
       </PaymentsContainar>
@@ -396,30 +445,34 @@ function SharePage() {
                           .toString()} 원`}
                   </Amount>
                 </MemberContainer>
-                {isMobile ? ( <Remittance>
-                  {members[key].amount > 0 &&
-                  members[key].toss_send_link !== "" ? (
-                    <TossPayContaner>
-                      <a href={members[key].toss_send_link}>
-                        <img alt="Toss" src="/images/TossLogo.png" />
-                        <span>송금</span>
-                      </a>
-                    </TossPayContaner>
-                  ) : (
-                    ""
-                  )}
-                  {members[key].amount > 0 &&
-                  members[key].kakao_send_link !== "" ? (
-                    <KakaoContaner>
-                      <a href={members[key].kakao_send_link}>
-                        <img alt="kakao" src="/images/kakao.png" />
-                        <span>송금하기</span>
-                      </a>
-                    </KakaoContaner>
-                  ) : (
-                    ""
-                  )}
-                </Remittance>) : ""}
+                {isMobile ? (
+                  <Remittance>
+                    {members[key].amount > 0 &&
+                    members[key].toss_send_link !== "" ? (
+                      <TossPayContaner>
+                        <a href={members[key].toss_send_link}>
+                          <img alt="Toss" src="/images/TossLogo.png" />
+                          <span>송금하기</span>
+                        </a>
+                      </TossPayContaner>
+                    ) : (
+                      ""
+                    )}
+                    {members[key].amount > 0 &&
+                    members[key].kakao_send_link !== "" ? (
+                      <KakaoContaner>
+                        <a href={members[key].kakao_send_link}>
+                          <img alt="kakao" src="/images/kakaoPay.png" />
+                          <span>송금하기</span>
+                        </a>
+                      </KakaoContaner>
+                    ) : (
+                      ""
+                    )}
+                  </Remittance>
+                ) : (
+                  ""
+                )}
               </MembersContainer>
             )}
           </BillingHistory>
