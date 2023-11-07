@@ -230,6 +230,7 @@ const KakaoModalbutton = styled.button`
   height: 37px;
   background: #ffeb3c;
   border: 1px solid #ffeb3c;
+  color: black;
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
