@@ -17,8 +17,8 @@ const Nav = () => {
     <NavContainer>
       <Logo>
         <img 
-          alt='N/1'
-          src='/images/Logo.png'
+          alt='Nbbang'
+          src='/images/nbbang_Logo.png'
           onClick={() => (window.location.href = "/")} 
         />
       </Logo>

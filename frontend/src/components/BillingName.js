@@ -142,7 +142,7 @@ const BillingName = () => {
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            placeholder="모임명수정"
+            placeholder="모임명을 입력해주세요"
             maxLength="22"
           />
           <StyledDatePickerBox>
@@ -158,7 +158,7 @@ const BillingName = () => {
             />
           </StyledDatePickerBox>
           <BillingPixButton type="submit" disabled={notAllow}>
-            수정하기
+            모임명 등록하기
           </BillingPixButton>
         </FormContainer>
       </BillngNameContainer>

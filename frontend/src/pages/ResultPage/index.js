@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { getBillingResultPage } from "../../api/api";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { truncate } from "../../components/Meeting";
 import styled from "styled-components";
 
@@ -163,7 +164,7 @@ const BillingHistory = styled.div`
   border: 1px solid #cce5ff;
   border-radius: 10px;
   color: white;
-  background-color: cornflowerblue;
+  background-color: #20b6fd;
   border: 3px solid skyblue;
   height: 60px;
   @media (max-width: 768px) {
@@ -307,7 +308,7 @@ const PaymentMember = styled.span`
   width: 40px;
   border-radius: 11px;
   height: 25px;
-  background: cornflowerblue;
+  background: #20b6fd;
   color: white;
 `;
 
@@ -332,7 +333,8 @@ function SharePage() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const meeting = searchParams.get("meeting");
-
+  const navigate = useNavigate();
+  const [apiRequestFailed, setApiRequestFailed] = useState(false);
   const [members, setMembers] = useState([]);
   const [payments, setPayments] = useState([]);
   const [meetings, setMeetings] = useState([]);
@@ -346,11 +348,20 @@ function SharePage() {
     const handleGetData = async () => {
       try {
         const responseGetData = await getBillingResultPage(meeting);
-        setMembers(responseGetData.data.members);
-        setPayments(responseGetData.data.payments);
-        setMeetings(responseGetData.data.meeting);
+        if (responseGetData.status === 200) {
+          setMembers(responseGetData.data.members);
+          setPayments(responseGetData.data.payments);
+          setMeetings(responseGetData.data.meeting);
+        }
       } catch (error) {
-        console.log("Api 데이터 불러오기 실패");
+        console.log(error);
+        if (error.response.status === 404) {
+          setApiRequestFailed(true);
+          setTimeout(() => {
+            navigate("/");
+          }, 3000);
+        }
+        console.log("API 데이터 불러오기 실패");
       }
     };
     handleGetData();
@@ -359,6 +370,16 @@ function SharePage() {
   const negativeBillingEntries = Object.entries(members).filter(
     ([key, value]) => value.amount < 0 && value.leader === false
   );
+
+  if (apiRequestFailed) {
+    return (
+      <div>
+        <MeetingName>
+          삭제된 정산내역입니다. <br></br> Nbbang페이지로 3초 뒤에 넘어갑니다.
+        </MeetingName>
+      </div>
+    );
+  }
 
   return (
     <ResultContaner>
@@ -487,5 +508,4 @@ function SharePage() {
     </ResultContaner>
   );
 }
-
 export default SharePage;

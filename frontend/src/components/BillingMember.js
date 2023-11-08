@@ -45,14 +45,15 @@ const MemberContainer = styled.div`
 `
 
 const Leader = styled.span`
-  font-weight: 600;
+  font-weight: 600;  
+  color: white;
   font-size: 14px;
 `
 
 const MemberList = styled.div`
   cursor: pointer;
   padding: 10px;
-  background-color: powderblue;
+  background-color: #62ccff;
   border-radius: 10px;
   &:hover {
     transition: all 0.2s;
@@ -62,7 +63,7 @@ const MemberList = styled.div`
 
 const Members = styled.span`
   font-size: 14px;
-  color: black;
+  color: white;
   padding: 10px;
 `
 

@@ -147,7 +147,7 @@ const LeaderBilling = styled.div`
 
 const BillingHistory = styled(PaymentsHistory)`
   color: white;
-  background-color: cornflowerblue;
+  background-color: #20b6fd;
   border: 3px solid skyblue;
   @media (max-width: 768px) {
     position: relative;
