@@ -66,3 +66,11 @@ class MemberIsLeaderDeleteExcption(CustomException):
 
     status_code = 409
     detail = "the leader member cannot be deleted."
+
+
+class SharePageNotMeetingExcption(CustomException):
+    def __init__(self) -> None:
+        super().__init__(f"That shared page has been deleted or is invalid")
+
+    status_code = 404
+    detail = "That shared page has been deleted or is invalid"
