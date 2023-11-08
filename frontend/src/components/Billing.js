@@ -6,6 +6,7 @@ import { truncate } from "./Meeting";
 import BillingTossModal from "./BillingModal/BillingTossModal";
 import BillingKakaoModal from "./BillingModal/BillingKakaoModal";
 import BillingResultShare from "./BillingResultShare";
+import KakaoShare from "./KakaoShare";
 
 const ResultContainar = styled.div`
   display: ${(props) => (props.paymentState ? "block" : "none")};
@@ -20,7 +21,9 @@ const PaymentsContainar = styled.div`
   align-items: center;
   flex-direction: column;
 `;
-const BillingContainer = styled(PaymentsContainar)``;
+const BillingContainer = styled(PaymentsContainar)`
+  font-weight: bold;
+`;
 
 const PaymentsHistory = styled.div`
   display: flex;
@@ -352,7 +355,7 @@ const Billing = ({ payment }) => {
             <Price>
               {truncate(
                 payments[key].price.toLocaleString().toString() + "원",
-                12
+                8
               )}
             </Price>
             <PayMember>결제자 {payments[key].pay_member}</PayMember>
@@ -424,37 +427,38 @@ const Billing = ({ payment }) => {
         ))}
       </BillingContainer>
 
-          <RemittanceContainer>
-            <KakaoModalContainer onClick={handleKakaoModal}>
-              <img alt="kakao" src="/images/kakao.png" />
-              <KakaoModalbutton>카카오 입급 아이디</KakaoModalbutton>
-              {meetingName.kakao_id === null ? (
-                <KakaoRegistration>등록하기</KakaoRegistration>
-              ) : (
-                <KakaoId>{meetingName.kakao_id}</KakaoId>
-              )}
-            </KakaoModalContainer>
-            <TossModalContainer onClick={handleTossModal}>
-              <img alt="kakao" src="/images/Toss.png" />
-              <TossModalbutton>토스 입금 계좌</TossModalbutton>
-              {meetingName.bank === null ? (
-                <TossRegistration>등록하기</TossRegistration>
-              ) : (
-                <TossBankContainer>
-                  <TossBank>{meetingName.bank}</TossBank>
-                  <TossBank>{meetingName.account_number}</TossBank>
-                </TossBankContainer>
-              )}
-            </TossModalContainer>
-          </RemittanceContainer>
-          {kakaoModalOpen && (
-            <BillingKakaoModal setKakaoModalOpen={setKakaoModalOpen} />
+      <RemittanceContainer>
+        <KakaoModalContainer onClick={handleKakaoModal}>
+          <img alt="kakao" src="/images/kakao.png" />
+          <KakaoModalbutton>카카오 입급 아이디</KakaoModalbutton>
+          {meetingName.kakao_id === null ? (
+            <KakaoRegistration>등록하기</KakaoRegistration>
+          ) : (
+            <KakaoId>{meetingName.kakao_id}</KakaoId>
           )}
-          {tossModalOpen && (
-            <BillingTossModal setTossModalOpen={setTossModalOpen} />
+        </KakaoModalContainer>
+        <TossModalContainer onClick={handleTossModal}>
+          <img alt="kakao" src="/images/Toss.png" />
+          <TossModalbutton>토스 입금 계좌</TossModalbutton>
+          {meetingName.bank === null ? (
+            <TossRegistration>등록하기</TossRegistration>
+          ) : (
+            <TossBankContainer>
+              <TossBank>{meetingName.bank}</TossBank>
+              <TossBank>{meetingName.account_number}</TossBank>
+            </TossBankContainer>
           )}
+        </TossModalContainer>
+      </RemittanceContainer>
+      {kakaoModalOpen && (
+        <BillingKakaoModal setKakaoModalOpen={setKakaoModalOpen} />
+      )}
+      {tossModalOpen && (
+        <BillingTossModal setTossModalOpen={setTossModalOpen} />
+      )}
 
       <BillingResultShare meetingName={meetingName} />
+      <KakaoShare meetingName={meetingName} />
     </ResultContainar>
   );
 };

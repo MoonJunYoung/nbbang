@@ -18,7 +18,7 @@ const Button = styled.button`
   border-radius: 10px;
   color: white;
   cursor: pointer;
-  margin: 45px 0 120px 0;
+  margin: 45px 0 35px 0;
   &:hover {
     border: 3px solid skyblue;
     transition: all 0.2s;

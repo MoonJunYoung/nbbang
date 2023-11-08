@@ -40,6 +40,7 @@ const PaymentContainer = styled.div`
 
 
 const PaymentList = styled.div`
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,7 +61,7 @@ const PaymentPlace = styled.span`
   cursor: pointer;
   padding: 5px;
   font-size: 14px;
-  background-color: cornflowerblue;
+  background-color: #20b6fd;
   border-radius: 5px;
   border: none;
   color: white;
@@ -126,6 +127,7 @@ const StyledCheckboxLabel = styled.label`
   padding: 7px 10px;
 
   span {
+    font-weight: bold;
     position: relative;
     color: white;
     font-size: 13px;
@@ -147,7 +149,7 @@ const StyledCheckboxLabel = styled.label`
     position: absolute;
     top: -2px;
     left: -3px;
-    background-color: cornflowerblue;
+    background-color: #62ccff;
     width: 100%;
     height: 100%;
     appearance: none;
@@ -164,7 +166,8 @@ const BillingPaymentTopLine = styled.div`
 
 const BillingPaymentLine = styled.div`
   border-top: 1px solid silver;
-  width: 190px;
+    width: 135px;
+
   margin-top: 10px;
   @media (max-width: 768px) {
     width: 88px;
@@ -178,6 +181,14 @@ const BillingPaymentTopLineComent = styled.span`
   font-weight: 800;
 `
 
+const BillingMemberLineComent = styled(BillingPaymentTopLineComent)`
+   margin-top: 6px;
+`
+
+const BillingMembersComent = styled(BillingPaymentTopLineComent)`
+
+  margin: 10px 6px 0px 0px; 
+`
 
 const BillingPayment = ({ member, payment, setPayment }) => {
   const { meetingId } = useParams();
@@ -308,7 +319,7 @@ const BillingPayment = ({ member, payment, setPayment }) => {
     <BillingPaymentContainer member={member && member.length > 1}>
       <BillingPaymentTopLine>
         <BillingPaymentLine></BillingPaymentLine>
-        <BillingPaymentTopLineComent>결제 내역</BillingPaymentTopLineComent>
+        <BillingPaymentTopLineComent>결제 내역을 추가 해주세요</BillingPaymentTopLineComent>
         <BillingPaymentLine></BillingPaymentLine>
       </BillingPaymentTopLine>
       <FormContainer onSubmit={handleAddMember}>
@@ -329,7 +340,7 @@ const BillingPayment = ({ member, payment, setPayment }) => {
           placeholder="결제 금액을 입력해주세요"
           autocomplete="off"
         />
-        <span>결제 한 사람</span>
+        <BillingMemberLineComent>결제한 사람은 누구인가요?</BillingMemberLineComent>
         <select 
         value={selectedMember} 
         onChange={handleMemberSelect}
@@ -349,6 +360,7 @@ const BillingPayment = ({ member, payment, setPayment }) => {
             </option>
           ))}
         </select>
+        <BillingMembersComent>참석한 멤버를 선택해주세요!</BillingMembersComent>
         <StyledCheckboxDiv>
           {member.map((memberdata) => (
             <div key={memberdata.id} style={{ margin: '5px' }}>
@@ -367,6 +379,7 @@ const BillingPayment = ({ member, payment, setPayment }) => {
           결제내역 추가하기
         </BillingAddPayment>
       </FormContainer>
+      <BillingMembersComent>정산내역을 누르면 정산내역을 수정 할 수 있어요! 👇🏻</BillingMembersComent>
       <PaymentContainer>
         {payment.map((paymentdata) => (
           <PaymentList key={paymentdata.id}>
