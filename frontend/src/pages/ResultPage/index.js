@@ -49,12 +49,14 @@ const PaymentsHistory = styled.div`
   }
 `;
 const Place = styled.span`
+  display: block;
   padding: 2px;
-  font-size: 14px;
+  text-align: center;
+  width: 80px;
   background-color: lightseagreen;
   border: none;
   color: white;
-  margin: 0 10px;
+  margin-top: 5px;
 `;
 
 const Price = styled.span`
@@ -181,15 +183,14 @@ const LeaderBillingMoney = styled.span`
 // `;
 
 const TossPayContaner = styled.div`
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 180px;
   border-radius: 15px;
   height: 30px;
-  border: 1px solid;
-  background-color: white;
+  border: 1px solid #1849fd;
+  background-color: #1849fd;
   margin-bottom: 10px;
 
   a {
@@ -202,16 +203,12 @@ const TossPayContaner = styled.div`
     text-decoration: none;
   }
   img {
-    width: 65px;
-    height: 43px;
-    right: 65px;
-    top: -7px;
-    position: absolute;
+    width: 50px;
+    height: 24px;
   }
   span {
-    right: 30px;
-    position: absolute;
-    color: black;
+    margin-left: 3px;
+    color: white;
     font-weight: 700;
   }
 `;
@@ -324,6 +321,13 @@ const Payment = styled.div`
   }
 `;
 
+const PlaceList = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
 function SharePage() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -365,7 +369,7 @@ function SharePage() {
       <PaymentsContainar>
         {Object.keys(payments).map((key) => (
           <PaymentsHistory key={key}>
-            <div>
+            <PlaceList>
               <Place>{truncate(payments[key].place, 10)}</Place>
               <Payment>
                 <Price>
@@ -387,7 +391,7 @@ function SharePage() {
                   )}
                 </SplitPrice>
               </Payment>
-            </div>
+            </PlaceList>
             <PaymentsMembers>
               {payments[key].attend_members.map((data, index) => (
                 <PaymentMember key={index}>{data}</PaymentMember>
@@ -453,7 +457,7 @@ function SharePage() {
                     members[key].toss_send_link !== "" ? (
                       <TossPayContaner>
                         <a href={members[key].toss_send_link}>
-                          <img alt="Toss" src="/images/TossLogo.png" />
+                          <img alt="Toss" src="/images/Toss.png" />
                           <span>송금하기</span>
                         </a>
                       </TossPayContaner>
