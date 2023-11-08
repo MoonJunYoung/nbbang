@@ -241,20 +241,19 @@ const KakaoId = styled.p`
   font-size: 14px;
 `;
 const TossModalContainer = styled(KakaoModalContainer)`
-  background: white;
-  border: 1px solid skyblue;
+  background: #1849fd;
+  border: 1px solid #1849fd;
   img {
     position: absolute;
-    width: 85px;
-    left: -10px;
-    top: -5px;
+    width: 60px;
+    top: 5px;
   }
 `;
 
 const TossModalbutton = styled(KakaoModalbutton)`
-  background: white;
+  background: #1849fd;
   border: none;
-  color: royalblue;
+  color: white;
   font-weight: 800;
 `;
 
@@ -267,9 +266,11 @@ const TossBankContainer = styled.div`
 
 const TossBank = styled.span`
   font-size: 14px;
+  color: white;
 `;
 
 const TossRegistration = styled.span`
+  color: white;
   font-weight: 700;
 `;
 const KakaoRegistration = styled.span`
@@ -434,7 +435,7 @@ const Billing = ({ payment }) => {
               )}
             </KakaoModalContainer>
             <TossModalContainer onClick={handleTossModal}>
-              <img alt="kakao" src="/images/TossLogo.png" />
+              <img alt="kakao" src="/images/Toss.png" />
               <TossModalbutton>토스 입금 계좌</TossModalbutton>
               {meetingName.bank === null ? (
                 <TossRegistration>등록하기</TossRegistration>
