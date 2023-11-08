@@ -25,7 +25,8 @@ const PaymentsContainar = styled.div`
   align-items: center;
   flex-direction: column;
 `;
-const BillingContainer = styled(PaymentsContainar)``;
+const BillingContainer = styled(PaymentsContainar)`
+font-weight: bold;ß`;
 
 const PaymentsHistory = styled.div`
   display: flex;
@@ -50,6 +51,7 @@ const PaymentsHistory = styled.div`
   }
 `;
 const Place = styled.span`
+font-weight: bold;
   display: block;
   padding: 2px;
   text-align: center;
@@ -63,17 +65,6 @@ const Place = styled.span`
 const Price = styled.span`
   position: relative;
   font-size: 14px;
-  &::before {
-    content: "|";
-    color: dodgerblue;
-    position: absolute;
-    left: -9px;
-  }
-  @media (max-width: 768px) {
-    &::before {
-      content: "";
-    }
-  }
 `;
 
 const PayMember = styled(Price)`
@@ -396,7 +387,7 @@ function SharePage() {
                 <Price>
                   {truncate(
                     payments[key].price.toLocaleString().toString() + "원",
-                    12
+                    8
                   )}
                 </Price>
                 <PayMember>결제자 {payments[key].pay_member}</PayMember>
@@ -408,7 +399,7 @@ function SharePage() {
                   {truncate(
                     payments[key].split_price.toLocaleString().toString() +
                       "원",
-                    12
+                    8
                   )}
                 </SplitPrice>
               </Payment>

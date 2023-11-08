@@ -88,6 +88,7 @@ const StyledCheckboxLabel = styled.label`
   padding: 5px;
 
   span {
+
     position: relative;
     color: white;
     font-size: 13px;
@@ -109,7 +110,7 @@ const StyledCheckboxLabel = styled.label`
     position: absolute;
     top: -2px;
     left: -3px;
-    background-color: cornflowerblue;
+    background-color: #20b6fd;
     width: 100%;
     height: 100%;
     appearance: none;

@@ -40,6 +40,7 @@ const PaymentContainer = styled.div`
 
 
 const PaymentList = styled.div`
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -126,6 +127,7 @@ const StyledCheckboxLabel = styled.label`
   padding: 7px 10px;
 
   span {
+    font-weight: bold;
     position: relative;
     color: white;
     font-size: 13px;
@@ -180,12 +182,12 @@ const BillingPaymentTopLineComent = styled.span`
 `
 
 const BillingMemberLineComent = styled(BillingPaymentTopLineComent)`
-   margin-top: 10px;
+   margin-top: 6px;
 `
 
 const BillingMembersComent = styled(BillingPaymentTopLineComent)`
 
-  margin: 6px 6px;
+  margin: 10px 6px 0px 0px; 
 `
 
 const BillingPayment = ({ member, payment, setPayment }) => {
@@ -377,6 +379,7 @@ const BillingPayment = ({ member, payment, setPayment }) => {
           결제내역 추가하기
         </BillingAddPayment>
       </FormContainer>
+      <BillingMembersComent>정산내역을 누르면 정산내역을 수정 할 수 있어요! 👇🏻</BillingMembersComent>
       <PaymentContainer>
         {payment.map((paymentdata) => (
           <PaymentList key={paymentdata.id}>

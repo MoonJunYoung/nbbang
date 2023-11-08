@@ -45,12 +45,14 @@ const MemberContainer = styled.div`
 `
 
 const Leader = styled.span`
+  font-weight: bold;
   font-weight: 600;  
   color: white;
   font-size: 14px;
 `
 
 const MemberList = styled.div`
+  font-weight: bold;
   cursor: pointer;
   padding: 10px;
   background-color: #62ccff;
