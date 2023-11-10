@@ -1,7 +1,7 @@
 from backend.domain.billing import Billing
 from backend.domain.meeting import Meeting
 from backend.domain.share import Share
-from backend.exceptions import SharePageNotMeetingExcption
+from backend.exceptions import IncompleteShareExcption, SharePageNotMeetingExcption
 from backend.repository.meeting import MeetingRepository
 from backend.repository.member import MemberRepository
 from backend.repository.payment import PaymentRepository
@@ -19,6 +19,8 @@ class ShareService:
             raise SharePageNotMeetingExcption
         members = self.member_repository.ReadByMeetingID(meeting.id).run()
         payments = self.payment_repository.ReadByMeetingID(meeting.id).run()
+        if not members or not payments:
+            raise IncompleteShareExcption
         billing = Billing(meeting=meeting, payments=payments, members=members)
         share = Share(billing=billing)
         return share
