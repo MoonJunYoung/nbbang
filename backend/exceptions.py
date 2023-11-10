@@ -74,3 +74,11 @@ class SharePageNotMeetingExcption(CustomException):
 
     status_code = 404
     detail = "That shared page has been deleted or is invalid"
+
+
+class IncompleteShareExcption(CustomException):
+    def __init__(self) -> None:
+        super().__init__(f"This sharing page is not complete")
+
+    status_code = 204
+    detail = "This sharing page is not complete"
