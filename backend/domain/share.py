@@ -25,6 +25,7 @@ class Share:
             else:
                 member["toss_send_link"] = ""
             if kakao_id:
+                amount = member["amount"]
                 if amount > 0:
                     kakao_send_link = self._create_kakao_send_link(
                         kakao_id=kakao_id,
