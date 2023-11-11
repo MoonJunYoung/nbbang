@@ -64,7 +64,7 @@ const MemberList = styled.div`
 `
 
 const Members = styled.span`
-  font-size: 14px;
+  font-size: 13px;
   color: white;
   padding: 10px;
 `

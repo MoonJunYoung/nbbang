@@ -46,7 +46,7 @@ const PaymentList = styled.div`
   justify-content: center;
   margin-top: 20px;
   height: 60px;
-  border: 1px solid #CCE5FF;
+  border: 3px outset #CCE5FF;
   border-radius: 10px; 
   &:hover {
     transition: all 0.2s;
@@ -186,7 +186,11 @@ const BillingMemberLineComent = styled(BillingPaymentTopLineComent)`
 `
 
 const BillingMembersComent = styled(BillingPaymentTopLineComent)`
+  margin: 10px 6px 0px 0px; 
+`
 
+const BillingPaymentComent = styled(BillingPaymentTopLineComent)`
+  display: ${(props) => (props.payment ? "inline" : "none")};
   margin: 10px 6px 0px 0px; 
 `
 
@@ -379,7 +383,8 @@ const BillingPayment = ({ member, payment, setPayment }) => {
           결제내역 추가하기
         </BillingAddPayment>
       </FormContainer>
-      <BillingMembersComent>정산내역을 누르면 정산내역을 수정 할 수 있어요! 👇🏻</BillingMembersComent>
+      <BillingPaymentComent payment={payment && payment.length > 0}>정산내역을 누르면 정산내역을 수정 할 수 있어요! 👇🏻</BillingPaymentComent>
+
       <PaymentContainer>
         {payment.map((paymentdata) => (
           <PaymentList key={paymentdata.id}>

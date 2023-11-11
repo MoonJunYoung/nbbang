@@ -68,7 +68,7 @@ const Billing = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: 2px solid #cce5ff;
+  border: 3px solid #cce5ff;
   height: 170px;
   border-radius: 15px;
   &:hover {
