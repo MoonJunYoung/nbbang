@@ -1,6 +1,7 @@
 import os
 from urllib.parse import urlparse
 
+import bcrypt
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from dotenv import load_dotenv
@@ -10,18 +11,39 @@ secret_key = bytes(os.environ.get("ENCRYPT_KEY"), "UTF-8")
 
 
 class User:
-    def __init__(self, id, name, platform_id, platform, bank, account_number, kakao_id) -> None:
+    def __init__(
+        self,
+        id,
+        name,
+        platform_id,
+        platform,
+        bank,
+        account_number,
+        kakao_id,
+        identifier,
+        password,
+    ) -> None:
         self.id = id
         self.name = name
         self.platform_id = platform_id
         self.platform = platform
         self.bank = bank
         self.account_number = account_number
-        self.kakao_id = kakao_id
         if isinstance(self.account_number, str) and isinstance(self.bank, str):
             self._encrypt_account_number_data()
         elif isinstance(self.account_number, bytes) and isinstance(self.bank, bytes):
             self._dncrypt_account_number_data()
+        self.kakao_id = kakao_id
+        self.identifier = identifier
+        self.password = password
+
+    def password_encryption(self):
+        salt = bcrypt.gensalt()
+        encrypted = bcrypt.hashpw(self.password.encode("utf-8"), salt)
+        self.password = encrypted.decode("utf-8")
+
+    def check_password_match(self, password):
+        return bcrypt.checkpw(password.encode(), self.password.encode())
 
     def update_account_number(self, bank, account_number):
         self.bank = bank
