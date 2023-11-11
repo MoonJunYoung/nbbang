@@ -32,7 +32,8 @@ const PaymentsHistory = styled.div`
   margin-top: 20px;
   width: 550px;
   height: 60px;
-  border: 1px solid #cce5ff;
+  border: 2px solid #cce5ff;
+
   border-radius: 10px;
   @media (max-width: 768px) {
     position: relative;
@@ -151,7 +152,7 @@ const LeaderBilling = styled.div`
 const BillingHistory = styled(PaymentsHistory)`
   color: white;
   background-color: cornflowerblue;
-  border: 3px solid skyblue;
+  border: 4px outset skyblue;
   @media (max-width: 768px) {
     position: relative;
     width: 97%;

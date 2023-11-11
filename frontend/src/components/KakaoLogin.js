@@ -2,25 +2,27 @@ import React from "react";
 import styled from "styled-components";
 
 const KakaoContainer = styled.div`
-  margin-top: 30px;
+  width: 90px;
+  height: 30px;
+  background: #fdef72;
+  border: 1px solid paleturquoise;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
   position: relative;
   img {
-    position: absolute;
-    width: 30px;
-    top: 5px;
-    left: 17px;
+    width: 25px;
+    margin-bottom: 3px;
   }
 `;
 
 const Button = styled.button`
-  width: 230px;
-  height: 40px;
-  background: #FDEF72;
-  border: 1px solid papayawhip;
-  border-radius: 10px;
-  color: black;
-  font-weight: 600;
-  cursor: pointer;
+    color: black;
+    background: #fdef72;
+    border: 1px solid #fdef72;
+    cursor: pointer;
 `;
 
 const KakaoLogin = () => {
@@ -32,9 +34,7 @@ const KakaoLogin = () => {
   return (
     <KakaoContainer onClick={handleKakaoLogin}>
       <img alt="Kakao" src="/images/kakao.png" />
-      <Button>
-        kakao 로그인
-      </Button>
+      <Button>로그인</Button>
     </KakaoContainer>
   );
 };

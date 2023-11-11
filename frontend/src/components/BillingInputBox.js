@@ -6,7 +6,7 @@ const InputBox = styled.div`
   width: 450px;
   height: 50px;
   border-radius: 10px;
-  border: 1px solid #CCE5FF;
+  border: 2px inset #CCE5FF;
   display: inline-block;
   background-color: white;
 
@@ -14,7 +14,6 @@ const InputBox = styled.div`
     width: 250px;
     height: 40px;
     border-radius: 10px;
-    border: 1px solid #CCE5FF;
   }
 `
 

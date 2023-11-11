@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { truncate } from "../../components/Meeting";
 import styled from "styled-components";
+import Nav from "../../components/Nav";
 
 const ResultContaner = styled.div``;
 
@@ -26,7 +27,8 @@ const PaymentsContainar = styled.div`
   flex-direction: column;
 `;
 const BillingContainer = styled(PaymentsContainar)`
-font-weight: bold;ß`;
+  font-weight: bold;
+`;
 
 const PaymentsHistory = styled.div`
   display: flex;
@@ -36,7 +38,7 @@ const PaymentsHistory = styled.div`
   margin-top: 20px;
   width: 550px;
   height: 100px;
-  border: 1px solid #cce5ff;
+  border: 2px solid #cce5ff;
   height: 100%;
   border-radius: 10px;
   @media (max-width: 768px) {
@@ -51,7 +53,7 @@ const PaymentsHistory = styled.div`
   }
 `;
 const Place = styled.span`
-font-weight: bold;
+  font-weight: bold;
   display: block;
   padding: 2px;
   text-align: center;
@@ -152,7 +154,8 @@ const BillingHistory = styled.div`
   margin-top: 20px;
   width: 550px;
   height: 100px;
-  border: 1px solid #cce5ff;
+  border: 4px outset skyblue;
+
   border-radius: 10px;
   color: white;
   background-color: #20b6fd;
@@ -326,6 +329,7 @@ function SharePage() {
   const meeting = searchParams.get("meeting");
   const navigate = useNavigate();
   const [apiRequestFailed, setApiRequestFailed] = useState(false);
+  const [billingRequestFailed, setBillingRequestFailed] = useState(false);
   const [members, setMembers] = useState([]);
   const [payments, setPayments] = useState([]);
   const [meetings, setMeetings] = useState([]);
@@ -344,6 +348,10 @@ function SharePage() {
           setPayments(responseGetData.data.payments);
           setMeetings(responseGetData.data.meeting);
         }
+        if (error.response.status === 204) {
+          setBillingRequestFailed(true);
+        }
+        console.log("데이터 값이 없습니다");
       } catch (error) {
         console.log(error);
         if (error.response.status === 404) {
@@ -372,8 +380,20 @@ function SharePage() {
     );
   }
 
+  if (billingRequestFailed) {
+    return (
+      <div>
+        <Nav />
+        <MeetingName>
+          정산 내역이 없습니다. <br></br> 정산내역을 추가해주세요!
+        </MeetingName>
+      </div>
+    );
+  }
+
   return (
     <ResultContaner>
+      <Nav />
       <MeetingContaner>
         <MeetingName>{meetings.name}의 정산결과 입니다!</MeetingName>
         <MeetingDate>{meetings.date}</MeetingDate>

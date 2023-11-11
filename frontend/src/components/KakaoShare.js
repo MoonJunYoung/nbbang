@@ -23,6 +23,12 @@ const KakaoShareBox = styled.div`
   span {
     padding: 10px;
   }
+  &:hover {
+    transition: all 0.2s;
+    transform: scale(1.10);
+    font-weight: 600;
+    background-color: #ffeb3c;
+  }
 `;
 
 const KakaoShare = ({ meetingName }) => {
