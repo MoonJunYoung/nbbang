@@ -18,10 +18,38 @@ class UserRepository:
                 account_number=self.user.account_number,
                 bank=self.user.bank,
                 kakao_id=self.user.kakao_id,
+                identifier=self.user.identifier,
+                password=self.user.password,
             )
             self.session.add(user_model)
             self.session.commit()
             self.user.id = user_model.id
+
+    class ReadByIdentifier(MysqlCRUDTemplate):
+        def __init__(self, identifier) -> None:
+            self.identifier = identifier
+            super().__init__()
+
+        def execute(self):
+            user_model = (
+                self.session.query(UserModel)
+                .filter(UserModel.identifier == self.identifier)
+                .first()
+            )
+            if not user_model:
+                return None
+            user = User(
+                id=user_model.id,
+                name=user_model.name,
+                platform_id=user_model.platform_id,
+                platform=user_model.platform,
+                account_number=user_model.account_number,
+                bank=user_model.bank,
+                kakao_id=user_model.kakao_id,
+                identifier=user_model.identifier,
+                password=user_model.password,
+            )
+            return user
 
     class ReadByPlatformID(MysqlCRUDTemplate):
         def __init__(self, platform_id, platform) -> None:
@@ -46,6 +74,8 @@ class UserRepository:
                 account_number=user_model.account_number,
                 bank=user_model.bank,
                 kakao_id=user_model.kakao_id,
+                identifier=user_model.identifier,
+                password=user_model.password,
             )
             return user
 
@@ -55,7 +85,9 @@ class UserRepository:
             super().__init__()
 
         def execute(self):
-            user_model = self.session.query(UserModel).filter(UserModel.id == self.id).first()
+            user_model = (
+                self.session.query(UserModel).filter(UserModel.id == self.id).first()
+            )
             if not user_model:
                 return None
             user = User(
@@ -66,6 +98,8 @@ class UserRepository:
                 account_number=user_model.account_number,
                 bank=user_model.bank,
                 kakao_id=user_model.kakao_id,
+                identifier=user_model.identifier,
+                password=user_model.password,
             )
             return user
 
@@ -75,7 +109,11 @@ class UserRepository:
             super().__init__()
 
         def execute(self):
-            user_model = self.session.query(UserModel).filter(UserModel.id == self.user.id).first()
+            user_model = (
+                self.session.query(UserModel)
+                .filter(UserModel.id == self.user.id)
+                .first()
+            )
             user_model.account_number = self.user.account_number
             user_model.bank = self.user.bank
             self.session.commit()
@@ -86,6 +124,10 @@ class UserRepository:
             super().__init__()
 
         def execute(self):
-            user_model = self.session.query(UserModel).filter(UserModel.id == self.user.id).first()
+            user_model = (
+                self.session.query(UserModel)
+                .filter(UserModel.id == self.user.id)
+                .first()
+            )
             user_model.kakao_id = self.user.kakao_id
             self.session.commit()
