@@ -42,7 +42,12 @@ class MemberPresentation:
             catch_exception(e)
 
     @router.put("/{member_id}", status_code=200)
-    async def update(meeting_id: int, member_id: int, member_data: MemberData, Authorization=Header(None)):
+    async def update(
+        meeting_id: int,
+        member_id: int,
+        member_data: MemberData,
+        Authorization=Header(None),
+    ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
             member_service.update(

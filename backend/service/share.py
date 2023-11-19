@@ -1,10 +1,14 @@
-from backend.domain.billing import Billing
+from backend.domain.calculate import Calculate
 from backend.domain.meeting import Meeting
+from backend.domain.member import Member
+from backend.domain.payment import Payment
 from backend.domain.share import Share
+from backend.domain.user import User
 from backend.exceptions import IncompleteShareExcption, SharePageNotMeetingExcption
 from backend.repository.meeting import MeetingRepository
 from backend.repository.member import MemberRepository
 from backend.repository.payment import PaymentRepository
+from backend.repository.user import UserRepository
 
 
 class ShareService:
@@ -12,30 +16,21 @@ class ShareService:
         self.meeting_repository = MeetingRepository()
         self.member_repository = MemberRepository()
         self.payment_repository = PaymentRepository()
+        self.user_repository = UserRepository()
 
-    def _make_share(self, uuid):
-        meeting: Meeting = self.meeting_repository.ReadByUUID(uuid).run()
-        if not meeting:
-            raise SharePageNotMeetingExcption
-        members = self.member_repository.ReadByMeetingID(meeting.id).run()
-        payments = self.payment_repository.ReadByMeetingID(meeting.id).run()
-        if not members or not payments:
-            raise IncompleteShareExcption
-        billing = Billing(meeting=meeting, payments=payments, members=members)
-        share = Share(billing=billing)
-        return share
-
-    # def create_text(self, uuid):
-    #     share = self._make_share(uuid)
-    #     sahre_text = share.create_share_text()
-    #     return sahre_text
-
-    def create_link(self, uuid):
-        share = self._make_share(uuid)
-        share_link = share.create_share_page_link(uuid)
+    def create_link(self, user_id, meeting_id):
+        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
+        meeting.is_user_of_meeting(user_id)
+        share_link = Share(meeting=meeting, calcaulte=None).create_share_page_link()
         return share_link
 
     def read_page(self, uuid):
-        share = self._make_share(uuid)
-        share.set_send_link()
-        return share.billing
+        meeting: Meeting = self.meeting_repository.ReadByUUID(uuid).run()
+        members: list[Member] = self.member_repository.ReadByMeetingID(meeting.id).run()
+        payments: list[Payment] = self.payment_repository.ReadByMeetingID(
+            meeting.id
+        ).run()
+        calculate = Calculate(members=members, payments=payments)
+        calculate.split_members()
+        share = Share(meeting=meeting, calcaulte=calculate)
+        return share

@@ -1,4 +1,3 @@
-from backend.domain.payment import Payment
 from backend.exceptions import (
     MemberIsLeaderDeleteExcption,
     PaymentInMemberDeleteExcption,
@@ -12,12 +11,15 @@ class Member:
         self.leader = leader
         self.meeting_id = meeting_id
 
-    def check_in_payment(self, payments: list[Payment]):
-        for payment in payments:
-            for attend_member_id in payment.attend_member_ids:
-                if self.id == attend_member_id:
-                    raise PaymentInMemberDeleteExcption
-
     def delete_member_if_not_leader(self):
         if self.leader:
             raise MemberIsLeaderDeleteExcption
+
+    def set_amount(self, amount):
+        self.amount = amount
+
+    def set_toss_send_link(self, toss_send_link):
+        self.toss_send_link = toss_send_link
+
+    def set_kakao_send_link(self, kakao_send_link):
+        self.toss_send_link = kakao_send_link

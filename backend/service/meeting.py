@@ -21,16 +21,14 @@ class MeetingService:
             date=None,
             user_id=user.id,
             uuid=None,
-            account_number=user.account_number,
-            bank=user.bank,
-            kakao_id=user.kakao_id,
         )
         meeting.set_template()
         meeting.set_uuid()
+        meeting.set_deposit(user.deposit)
         self.meeting_repository.Create(meeting).run()
         return meeting
 
-    def update(self, id, name, date, user_id, account_number, bank, kakao_id):
+    def update(self, id, name, date, user_id):
         meeting: Meeting = self.meeting_repository.ReadByID(id).run()
         meeting.is_user_of_meeting(user_id)
         meeting = Meeting(
@@ -39,17 +37,9 @@ class MeetingService:
             date=date,
             user_id=None,
             uuid=None,
-            account_number=account_number,
-            bank=bank,
-            kakao_id=kakao_id,
         )
         if meeting.name and meeting.date:
             self.meeting_repository.UpdateInFo(meeting).run()
-        elif meeting.account_number and meeting.bank:
-            self.meeting_repository.UpdateAccountNumber(meeting).run()
-        elif meeting.kakao_id:
-            meeting._extract_kakao_id()
-            self.meeting_repository.UpdateKakaoID(meeting).run()
 
     def delete(self, id, user_id):
         meeting: Meeting = self.meeting_repository.ReadByID(id).run()

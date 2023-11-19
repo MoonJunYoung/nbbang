@@ -36,20 +36,6 @@ class UserPresentation:
         except Exception as e:
             catch_exception(e)
 
-    @router.put("", status_code=200)
-    async def update(account_data: AccountData, Authorization: str = Header(None)):
-        try:
-            user_id = Token.get_user_id_by_token(Authorization)
-            return user_service.update(
-                user_id=user_id,
-                bank=account_data.bank,
-                account_number=account_data.account_number,
-                kakao_id=account_data.kakao_id,
-            )
-
-        except Exception as e:
-            catch_exception(e)
-
     @router.post("/sign-up", status_code=201)
     async def sign_up(login_data: LogInData):
         try:

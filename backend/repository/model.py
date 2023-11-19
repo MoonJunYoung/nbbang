@@ -12,7 +12,7 @@ class UserModel(Base):
     platform_id = Column(String)
     account_number = Column(LargeBinary)
     bank = Column(LargeBinary)
-    kakao_id = Column(String)
+    kakao_deposit_id = Column(String)
     identifier = Column(String)
     password = Column(String)
 
@@ -24,7 +24,7 @@ class UserModel(Base):
         platform,
         bank,
         account_number,
-        kakao_id,
+        kakao_deposit_id,
         identifier,
         password,
     ):
@@ -34,7 +34,7 @@ class UserModel(Base):
         self.platform = platform
         self.account_number = account_number
         self.bank = bank
-        self.kakao_id = kakao_id
+        self.kakao_deposit_id = kakao_deposit_id
         self.identifier = identifier
         self.password = password
 
@@ -48,9 +48,11 @@ class MeetingModel(Base):
     uuid = Column(String)
     account_number = Column(LargeBinary)
     bank = Column(LargeBinary)
-    kakao_id = Column(String)
+    kakao_deposit_id = Column(String)
 
-    def __init__(self, id, name, date, user_id, uuid, account_number, bank, kakao_id):
+    def __init__(
+        self, id, name, date, user_id, uuid, account_number, bank, kakao_deposit_id
+    ):
         self.id = id
         self.name = name
         self.date = date
@@ -58,7 +60,7 @@ class MeetingModel(Base):
         self.uuid = uuid
         self.account_number = account_number
         self.bank = bank
-        self.kakao_id = kakao_id
+        self.kakao_deposit_id = kakao_deposit_id
 
 
 class MemberModel(Base):

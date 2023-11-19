@@ -1,3 +1,4 @@
+from backend.domain.deposit import Deposit
 from backend.domain.meeting import Meeting
 from backend.repository.connector import MysqlCRUDTemplate
 from backend.repository.model import MeetingModel
@@ -16,9 +17,9 @@ class MeetingRepository:
                 date=self.meeting.date,
                 user_id=self.meeting.user_id,
                 uuid=self.meeting.uuid,
-                account_number=self.meeting.account_number,
-                bank=self.meeting.bank,
-                kakao_id=self.meeting.kakao_id,
+                account_number=self.meeting.deposit.account_number,
+                bank=self.meeting.deposit.bank,
+                kakao_deposit_id=self.meeting.deposit.kakao_deposit_id,
             )
             self.session.add(meeting_model)
             self.session.commit()
@@ -30,7 +31,11 @@ class MeetingRepository:
             super().__init__()
 
         def execute(self):
-            meeting_model = self.session.query(MeetingModel).filter(MeetingModel.id == self.meeting.id).first()
+            meeting_model = (
+                self.session.query(MeetingModel)
+                .filter(MeetingModel.id == self.meeting.id)
+                .first()
+            )
             meeting_model.name = self.meeting.name
             meeting_model.date = self.meeting.date
             self.session.commit()
@@ -41,9 +46,13 @@ class MeetingRepository:
             super().__init__()
 
         def execute(self):
-            meeting_model = self.session.query(MeetingModel).filter(MeetingModel.id == self.meeting.id).first()
-            meeting_model.account_number = self.meeting.account_number
-            meeting_model.bank = self.meeting.bank
+            meeting_model = (
+                self.session.query(MeetingModel)
+                .filter(MeetingModel.id == self.meeting.id)
+                .first()
+            )
+            meeting_model.account_number = self.meeting.deposit.account_number
+            meeting_model.bank = self.meeting.deposit.bank
             self.session.commit()
 
     class UpdateKakaoID(MysqlCRUDTemplate):
@@ -52,8 +61,12 @@ class MeetingRepository:
             super().__init__()
 
         def execute(self):
-            meeting_model = self.session.query(MeetingModel).filter(MeetingModel.id == self.meeting.id).first()
-            meeting_model.kakao_id = self.meeting.kakao_id
+            meeting_model = (
+                self.session.query(MeetingModel)
+                .filter(MeetingModel.id == self.meeting.id)
+                .first()
+            )
+            meeting_model.kakao_deposit_id = self.meeting.deposit.kakao_deposit_id
             self.session.commit()
 
     class Delete(MysqlCRUDTemplate):
@@ -62,7 +75,11 @@ class MeetingRepository:
             super().__init__()
 
         def execute(self):
-            meeting_model = self.session.query(MeetingModel).filter(MeetingModel.id == self.meeting.id).first()
+            meeting_model = (
+                self.session.query(MeetingModel)
+                .filter(MeetingModel.id == self.meeting.id)
+                .first()
+            )
             self.session.delete(meeting_model)
             self.session.commit()
 
@@ -73,7 +90,11 @@ class MeetingRepository:
 
         def execute(self):
             meetings = list()
-            meeting_models = self.session.query(MeetingModel).filter(MeetingModel.user_id == self.user_id).all()
+            meeting_models = (
+                self.session.query(MeetingModel)
+                .filter(MeetingModel.user_id == self.user_id)
+                .all()
+            )
             if not meeting_models:
                 return meetings
             for meeting_model in meeting_models:
@@ -83,10 +104,8 @@ class MeetingRepository:
                     date=meeting_model.date,
                     user_id=meeting_model.user_id,
                     uuid=meeting_model.uuid,
-                    account_number=meeting_model.account_number,
-                    bank=meeting_model.bank,
-                    kakao_id=meeting_model.kakao_id,
                 )
+
                 meetings.append(meeting)
             return meetings
 
@@ -96,7 +115,11 @@ class MeetingRepository:
             super().__init__()
 
         def execute(self):
-            meeting_model = self.session.query(MeetingModel).filter(MeetingModel.id == self.id).first()
+            meeting_model = (
+                self.session.query(MeetingModel)
+                .filter(MeetingModel.id == self.id)
+                .first()
+            )
             if not meeting_model:
                 return None
             meeting = Meeting(
@@ -105,10 +128,13 @@ class MeetingRepository:
                 date=meeting_model.date,
                 user_id=meeting_model.user_id,
                 uuid=meeting_model.uuid,
+            )
+            deposit = Deposit(
                 account_number=meeting_model.account_number,
                 bank=meeting_model.bank,
-                kakao_id=meeting_model.kakao_id,
+                kakao_deposit_id=meeting_model.kakao_deposit_id,
             )
+            meeting.set_deposit(deposit)
             return meeting
 
     class ReadByUUID(MysqlCRUDTemplate):
@@ -117,7 +143,11 @@ class MeetingRepository:
             super().__init__()
 
         def execute(self):
-            meeting_model = self.session.query(MeetingModel).filter(MeetingModel.uuid == self.uuid).first()
+            meeting_model = (
+                self.session.query(MeetingModel)
+                .filter(MeetingModel.uuid == self.uuid)
+                .first()
+            )
             if not meeting_model:
                 return None
             meeting = Meeting(
@@ -126,8 +156,11 @@ class MeetingRepository:
                 date=meeting_model.date,
                 user_id=meeting_model.user_id,
                 uuid=meeting_model.uuid,
+            )
+            deposit = Deposit(
                 account_number=meeting_model.account_number,
                 bank=meeting_model.bank,
-                kakao_id=meeting_model.kakao_id,
+                kakao_deposit_id=meeting_model.kakao_deposit_id,
             )
+            meeting.set_deposit(deposit)
             return meeting

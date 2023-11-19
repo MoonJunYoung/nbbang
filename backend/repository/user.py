@@ -1,3 +1,4 @@
+from backend.domain.deposit import Deposit
 from backend.domain.user import User
 from backend.repository.connector import MysqlCRUDTemplate
 from backend.repository.model import UserModel
@@ -15,9 +16,9 @@ class UserRepository:
                 name=self.user.name,
                 platform_id=self.user.platform_id,
                 platform=self.user.platform,
-                account_number=self.user.account_number,
-                bank=self.user.bank,
-                kakao_id=self.user.kakao_id,
+                account_number=None,
+                bank=None,
+                kakao_deposit_id=None,
                 identifier=self.user.identifier,
                 password=self.user.password,
             )
@@ -43,9 +44,6 @@ class UserRepository:
                 name=user_model.name,
                 platform_id=user_model.platform_id,
                 platform=user_model.platform,
-                account_number=user_model.account_number,
-                bank=user_model.bank,
-                kakao_id=user_model.kakao_id,
                 identifier=user_model.identifier,
                 password=user_model.password,
             )
@@ -71,9 +69,6 @@ class UserRepository:
                 name=user_model.name,
                 platform_id=user_model.platform_id,
                 platform=user_model.platform,
-                account_number=user_model.account_number,
-                bank=user_model.bank,
-                kakao_id=user_model.kakao_id,
                 identifier=user_model.identifier,
                 password=user_model.password,
             )
@@ -95,12 +90,15 @@ class UserRepository:
                 name=user_model.name,
                 platform_id=user_model.platform_id,
                 platform=user_model.platform,
-                account_number=user_model.account_number,
-                bank=user_model.bank,
-                kakao_id=user_model.kakao_id,
                 identifier=user_model.identifier,
                 password=user_model.password,
             )
+            deposit = Deposit(
+                bank=user_model.bank,
+                account_number=user_model.account_number,
+                kakao_deposit_id=user_model.kakao_deposit_id,
+            )
+            user.set_deposit(deposit)
             return user
 
     class UpdateAccountNumber(MysqlCRUDTemplate):
@@ -114,8 +112,8 @@ class UserRepository:
                 .filter(UserModel.id == self.user.id)
                 .first()
             )
-            user_model.account_number = self.user.account_number
-            user_model.bank = self.user.bank
+            user_model.account_number = self.user.deposit.account_number
+            user_model.bank = self.user.deposit.bank
             self.session.commit()
 
     class UpdateKakaoID(MysqlCRUDTemplate):
@@ -129,5 +127,5 @@ class UserRepository:
                 .filter(UserModel.id == self.user.id)
                 .first()
             )
-            user_model.kakao_id = self.user.kakao_id
+            user_model.kakao_deposit_id = self.user.deposit.kakao_deposit_id
             self.session.commit()
