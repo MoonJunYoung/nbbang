@@ -9,26 +9,20 @@ share_service = ShareService()
 
 
 class SharePresentation:
-    router = APIRouter(prefix="/api/share")
+    read_router = APIRouter(prefix="/api/share")
+    create_router = APIRouter(prefix="/api/meeting/{meeting_id}/share")
 
-    # @router.get("/text", status_code=200)
-    # async def read_text(uuid: str):
-    #     try:
-    #         share_text = share_service.create_text(uuid)
-    #         return share_text
-    #     except Exception as e:
-    #         catch_exception(e)
-
-    @router.get("/link", status_code=200)
-    async def read_link(uuid: str):
+    @create_router.get("/link", status_code=200)
+    async def read_link(meeting_id: int, Authorization=Header(None)):
         try:
-            share_link = share_service.create_link(uuid)
+            user_id = Token.get_user_id_by_token(token=Authorization)
+            share_link = share_service.create_link(user_id, meeting_id)
             return share_link
 
         except Exception as e:
             catch_exception(e)
 
-    @router.get("/page", status_code=200)
+    @read_router.get("/page", status_code=200)
     async def read_page(uuid: str):
         try:
             share_page = share_service.read_page(uuid)

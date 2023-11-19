@@ -1,15 +1,32 @@
+from backend.domain.calculate import Calculate
 from backend.domain.meeting import Meeting
+from backend.domain.member import Member
 from backend.domain.payment import Payment
 from backend.repository.meeting import MeetingRepository
+from backend.repository.member import MemberRepository
 from backend.repository.payment import PaymentRepository
+
+
+class PaymentDTO:
+    def __init__(self, payment: Payment) -> None:
+        self.id = payment.id
+        self.place = payment.place
+        self.price = format(int(payment.price), ",")
+        self.split_price = format(int(payment.split_price), ",")
+        self.pay_member = payment.pay_member
+        self.attend_member = payment.attend_member
+        self.attend_member_ids = payment.attend_member_ids
 
 
 class PaymentService:
     def __init__(self) -> None:
         self.meeting_repository = MeetingRepository()
         self.payment_repository = PaymentRepository()
+        self.memeber_repository = MemberRepository()
 
-    def create(self, place, price, pay_member_id, attend_member_ids, meeting_id, user_id):
+    def create(
+        self, place, price, pay_member_id, attend_member_ids, meeting_id, user_id
+    ):
         meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
         meeting.is_user_of_meeting(user_id)
         payment = Payment(
@@ -23,7 +40,9 @@ class PaymentService:
         self.payment_repository.Create(payment).run()
         return payment
 
-    def update(self, id, place, price, pay_member_id, attend_member_ids, meeting_id, user_id):
+    def update(
+        self, id, place, price, pay_member_id, attend_member_ids, meeting_id, user_id
+    ):
         meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
         meeting.is_user_of_meeting(user_id)
         payment = Payment(
@@ -52,5 +71,17 @@ class PaymentService:
     def read(self, meeting_id, user_id):
         meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
         meeting.is_user_of_meeting(user_id)
-        payments: list[Payment] = self.payment_repository.ReadByMeetingID(meeting_id).run()
-        return payments
+        payments: list[Payment] = self.payment_repository.ReadByMeetingID(
+            meeting.id
+        ).run()
+        members: list[Member] = self.memeber_repository.ReadByMeetingID(
+            meeting.id
+        ).run()
+        calculate = Calculate(members=members, payments=payments)
+        calculate.split_payments()
+        payments = calculate.payments
+
+        result = list()
+        for payment in payments:
+            result.append(PaymentDTO(payment))
+        return result

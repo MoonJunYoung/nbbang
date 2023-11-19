@@ -46,7 +46,12 @@ class PaymentPresentation:
             catch_exception(e)
 
     @router.put("/{payment_id}", status_code=200)
-    async def update(meeting_id: int, payment_id: int, payment_data: PaymentData, Authorization=Header(None)):
+    async def update(
+        meeting_id: int,
+        payment_id: int,
+        payment_data: PaymentData,
+        Authorization=Header(None),
+    ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
             payment_service.update(

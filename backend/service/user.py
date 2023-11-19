@@ -19,9 +19,6 @@ class UserService:
             name=name,
             platform_id=None,
             platform=None,
-            account_number=None,
-            bank=None,
-            kakao_id=None,
             identifier=identifier,
             password=password,
         )
@@ -37,9 +34,6 @@ class UserService:
             name=None,
             platform_id=None,
             platform=None,
-            account_number=None,
-            bank=None,
-            kakao_id=None,
             identifier=identifier,
             password=password,
         )
@@ -50,20 +44,12 @@ class UserService:
             raise PasswordNotMatchException(identifier=identifier, password=password)
         return user.id
 
-    def read(self, user_id):
-        user: User = self.user_repository.ReadByID(user_id).run()
-        del user.password
-        return user
-
     def oauth_login(self, name, platform_id, platform):
         user = User(
             id=None,
             name=name,
             platform_id=platform_id,
             platform=platform,
-            account_number=None,
-            bank=None,
-            kakao_id=None,
             identifier=None,
             password=None,
         )
@@ -76,11 +62,7 @@ class UserService:
         self.user_repository.Create(user).run()
         return user.id
 
-    def update(self, user_id, account_number, bank, kakao_id):
+    def read(self, user_id):
         user: User = self.user_repository.ReadByID(user_id).run()
-        if bank and account_number:
-            user.update_account_number(bank, account_number)
-            self.user_repository.UpdateAccountNumber(user).run()
-        elif kakao_id:
-            user.update_kakao_id(kakao_id)
-            self.user_repository.UpdateKakaoID(user).run()
+        del user.password
+        return user
