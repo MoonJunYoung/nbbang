@@ -2,8 +2,11 @@ import styled from "styled-components";
 import React, { useEffect, useRef, useState } from "react";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import { useParams } from "react-router-dom";
-import {PatchBillingUserKaKaoDeposit,PatchBillingMeetingKakaoDeposit} from "../../api/api";
-import KakaoIdExplain from "./KakaoIdExplain"
+import {
+  PatchBillingUserKaKaoDeposit,
+  PatchBillingMeetingKakaoDeposit,
+} from "../../api/api";
+import KakaoIdExplain from "./KakaoIdExplain";
 
 const BillingResultContainer = styled.div`
   z-index: 10;
@@ -101,42 +104,53 @@ const PopUp = styled.span`
 `;
 
 const KakaoIdExplanationContainer = styled.div`
-&:hover {
-    transition: all 0.2s;;
+  &:hover {
+    transition: all 0.2s;
     transform: scale(1.1);
   }
-`
+`;
 
 const KakaoIdExplanation = styled.span`
   color: darkmagenta;
   font-size: 14px;
-`
+`;
 const KakaoIdExplanationLine = styled.div`
-    width: 80px;
-    border-top: 1px solid darkmagenta;
-`
+  width: 80px;
+  border-top: 1px solid darkmagenta;
+`;
 
-const BillingKakaoModal = ({ setKakaoModalOpen }) => {
-  const [notAllow, setNotAllow] = useState(true);
+const KakaoIdDelete = styled.span`
+  cursor: pointer;
+  border: 1px solid silver;
+  padding: 3px;
+  font-size: 12px;
+  color: white;
+  background-color: silver;
+  border-radius: 5px;
+`;
+
+const BillingKakaoModal = ({ setKakaoModalOpen, meetingName }) => {
   const ref = useRef();
   const { meetingId } = useParams();
-  const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    kakao_id: "",
+    kakao_deposit_id: meetingName.kakao_deposit_id,
   });
 
   const handlePutBankData = async (e, action) => {
     e.preventDefault();
     try {
       if (action === "이번에만 사용하기") {
-        const responsePostData = await PatchBillingMeetingKakaoDeposit(meetingId, formData);
+        const responsePostData = await PatchBillingMeetingKakaoDeposit(
+          meetingId,
+          formData
+        );
         if (responsePostData.status === 200) {
           alert("계좌번호가 추가 되었습니다!");
           setKakaoModalOpen(false);
         }
       } else if (action === "계속해서 사용하기") {
         const responsePostData = await PatchBillingUserKaKaoDeposit(formData);
-        await putBillingTossBank(meetingId, formData);
         if (responsePostData.status === 200) {
           alert("계좌번호가 추가 되었습니다!");
           setKakaoModalOpen(false);
@@ -149,23 +163,28 @@ const BillingKakaoModal = ({ setKakaoModalOpen }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (value === "") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: null,
+      }));
+    } else {
+      const lastSlashIndex = value.split("/");
+      const extractedString = lastSlashIndex[lastSlashIndex.length - 1];
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: extractedString,
+      }));
+    }
   };
 
-  const handleModalOpen = () =>{
-    setModalOpen(true)
-  }
+  const handleIdDelete = () => {
+    setFormData({ kakao_deposit_id: "" });
+  };
 
-  useEffect(() => {
-    if (formData.kakao_id.length > 0) {
-      setNotAllow(false);
-    } else {
-      setNotAllow(true);
-    }
-  }, [formData.kakao_id]);
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
 
   useOnClickOutside(ref, () => {
     setKakaoModalOpen(false);
@@ -187,8 +206,8 @@ const BillingKakaoModal = ({ setKakaoModalOpen }) => {
             <InputBox>
               <Input
                 type="text"
-                name="kakao_id"
-                value={formData.kakao_id}
+                name="kakao_deposit_id"
+                value={formData.kakao_deposit_id}
                 placeholder="카카오 링크를 입력해주세요"
                 onChange={handleInputChange}
                 autoComplete="off"
@@ -196,22 +215,23 @@ const BillingKakaoModal = ({ setKakaoModalOpen }) => {
                 onTouchMove={(e) => e.preventDefault()}
               />
             </InputBox>
+            <KakaoIdDelete onClick={handleIdDelete}>
+              입금 정보 비우기
+            </KakaoIdDelete>
             <KakaoIdExplanationContainer onClick={handleModalOpen}>
               <KakaoIdExplanation>카카오 링크란?</KakaoIdExplanation>
               <KakaoIdExplanationLine></KakaoIdExplanationLine>
             </KakaoIdExplanationContainer>
-            {modalOpen && <KakaoIdExplain setModalOpen={setModalOpen}/>}
+            {modalOpen && <KakaoIdExplain setModalOpen={setModalOpen} />}
             <Button
               type="submit"
               onClick={(e) => handlePutBankData(e, "이번에만 사용하기")}
-              disabled={notAllow}
             >
               이번에만 사용하기
             </Button>
             <Button
               type="submit"
               onClick={(e) => handlePutBankData(e, "계속해서 사용하기")}
-              disabled={notAllow}
             >
               계속해서 사용하기
             </Button>

@@ -4,7 +4,7 @@ import axios from "axios";
 export let Token = () => Cookies.get("authToken");
 const axiosData = () =>
   axios.create({
-    baseURL: "https://nbbang.shop/test-api/",
+    baseURL: "https://nbbang.shop/api/",
     headers: {
       Authorization: Token(),
     },
@@ -119,16 +119,16 @@ export const putBillingFixTossBank = (data) => {
 //Deposit
 
 export const PatchBillingUserKaKaoDeposit = (data) => {
-  return axiosData().patch(`user/kakao-deposit-link`, data);
+  return axiosData().patch(`user/kakao-deposit-id`, data);
 };
 
 export const PatchBillingMeetingKakaoDeposit = (meetingId, data) => {
-  return axiosData().put(`meeting/${meetingId}/bank-account`, data);
+  return axiosData().patch(`meeting/${meetingId}/kakao-deposit-id`, data);
 };
 
 export const PatchBillingUserTossDeposit = (data) => {
   return axiosData().patch(`user/bank-account`, data);
 };
 export const PatchBillingMeetingTossDeposit = (meetingId, data) => {
-  return axiosData().put(`meeting/${meetingId}/kakao-deposit-link`, data);
+  return axiosData().patch(`meeting/${meetingId}/bank-account`, data);
 };
