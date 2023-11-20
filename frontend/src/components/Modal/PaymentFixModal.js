@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
-import { putPaymentData } from '../../api/api'
-import useOnClickOutside from '../../hooks/useOnClickOutside'
+import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import { putPaymentData } from "../../api/api";
+import useOnClickOutside from "../../hooks/useOnClickOutside";
+import { truncate } from "../Meeting";
 
 const PayMentFixContainer = styled.div`
-  z-index: 1;
+  z-index: 10;
   position: absolute;
-`
+`;
 
 const WrapperModal = styled.div`
   position: fixed;
@@ -15,7 +16,7 @@ const WrapperModal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const Modal = styled.div`
   position: relative;
@@ -39,19 +40,19 @@ const Modal = styled.div`
       transform: scale(1);
     }
   }
-`
+`;
 
 const ModalClose = styled.span`
   cursor: pointer;
   position: absolute;
   top: 0;
   right: 8px;
-`
+`;
 
 const PayMentFixInput = styled.input`
   width: 115px;
   border: none;
-`
+`;
 
 const PayMentFixInputBox = styled.div`
   display: flex;
@@ -60,27 +61,30 @@ const PayMentFixInputBox = styled.div`
   margin: 5px;
   width: 150px;
   height: 30px;
-  border: 1px solid #CCE5FF;
+  border: 1px solid #cce5ff;
   border-radius: 10px;
-`
+`;
 
 const PayMentFix = styled.button`
-  border: 1px solid #CCE5FF;
+  border: 1px solid #cce5ff;
   border-radius: 8px;
   margin-top: 15px;
   width: 80px;
   height: 25px;
-`
+`;
 const PayMentMemberFix = styled.p`
   margin: 0;
-`
+`;
 const StyledCheckboxDiv = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-`
+  gap: 8px;
+`;
 
 const StyledCheckboxLabel = styled.label`
+  display: block;
+  width: 40px;
+  height: 18px;
   position: relative;
   align-items: center;
   margin-bottom: 10px;
@@ -88,7 +92,6 @@ const StyledCheckboxLabel = styled.label`
   padding: 5px;
 
   span {
-
     position: relative;
     color: white;
     font-size: 13px;
@@ -102,7 +105,7 @@ const StyledCheckboxLabel = styled.label`
     width: 100%;
     height: 100%;
     appearance: none;
-    border-radius: 4px;
+
     cursor: pointer;
   }
 
@@ -110,11 +113,10 @@ const StyledCheckboxLabel = styled.label`
     position: absolute;
     top: -2px;
     left: -3px;
-    background-color: #20b6fd;
+    background-color: #0066ffd4;
     width: 100%;
     height: 100%;
     appearance: none;
-    border-radius: 4px;
     cursor: pointer;
   }
 `;
@@ -132,8 +134,7 @@ const Form = styled.form`
   align-items: center;
   padding: 10px;
   height: 100%;
-`
-
+`;
 
 const PaymentFix = ({
   id,
@@ -145,12 +146,14 @@ const PaymentFix = ({
   setOpenModal,
   handleGetData,
 }) => {
-  const ref = useRef()
+  const ref = useRef();
   const initialMemberSelection = member.reduce((selection, memberdata) => {
     selection[memberdata.id] = attend_member_ids.includes(memberdata.id);
     return selection;
   }, {});
-  const [memberSelection, setMemberSelection] = useState(initialMemberSelection); 
+  const [memberSelection, setMemberSelection] = useState(
+    initialMemberSelection
+  );
 
   const [selectedMember, setSelectedMember] = useState(null);
 
@@ -160,20 +163,16 @@ const PaymentFix = ({
     attend_member_ids: [],
     pay_member_id: null,
   });
- 
+
   useEffect(() => {
-    setFormData(prev => ({
-        ...prev,
-        attend_member_ids: Object.keys(memberSelection).filter(
-          (key) => memberSelection[key]
-        ),
-        pay_member_id: selectedMember
-      }
-    ))
+    setFormData((prev) => ({
+      ...prev,
+      attend_member_ids: Object.keys(memberSelection).filter(
+        (key) => memberSelection[key]
+      ),
+      pay_member_id: selectedMember,
+    }));
   }, [memberSelection, selectedMember]);
-
-
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -186,25 +185,23 @@ const PaymentFix = ({
   const handlePutData = async (e) => {
     e.preventDefault();
     try {
-      const response = await putPaymentData(meeting_id, id , formData);
+      const response = await putPaymentData(meeting_id, id, formData);
       if (response.status === 200) {
-          setFormData({ 
-            palce: '',
-            price: '',
-          });
-          setOpenModal(false)
-          handleGetData();
+        setFormData({
+          palce: "",
+          price: "",
+        });
+        setOpenModal(false);
+        handleGetData();
       }
     } catch (error) {
       console.log("Api 데이터 수정 실패");
     }
   };
 
-
-
-  useOnClickOutside(ref, ()=>{
-    setOpenModal(false)
-  })
+  useOnClickOutside(ref, () => {
+    setOpenModal(false);
+  });
 
   const handleMemberSelect = (e, memberId) => {
     const isChecked = e.target.checked;
@@ -236,11 +233,11 @@ const PaymentFix = ({
                 type="text"
                 name="place"
                 value={formData.place}
-                placeholder='결제내역을 수정하기'
+                placeholder="결제내역을 수정하기"
                 onChange={handleInputChange}
                 autoComplete="off"
-                onTouchStart={(e) => e.preventDefault()} 
-                onTouchMove={(e) => e.preventDefault()}  
+                onTouchStart={(e) => e.preventDefault()}
+                onTouchMove={(e) => e.preventDefault()}
               />
             </PayMentFixInputBox>
             <PayMentFixInputBox>
@@ -248,21 +245,23 @@ const PaymentFix = ({
                 type="number"
                 name="price"
                 value={formData.price}
-                placeholder='결제금액을 수정하기'
+                placeholder="결제금액을 수정하기"
                 onChange={handleInputChange}
                 autoComplete="off"
-                onTouchStart={(e) => e.preventDefault()} 
-                onTouchMove={(e) => e.preventDefault()} 
+                onTouchStart={(e) => e.preventDefault()}
+                onTouchMove={(e) => e.preventDefault()}
               />
             </PayMentFixInputBox>
             <PayMentMemberFix>결제자 수정</PayMentMemberFix>
-            <StyledSelect value={selectedMember} onChange={handleMemberDropBoxSelect}     
-            style={{
-                width: '80px',
-                height: '20px',
-                borderRadius: '15px',
-                border: '1px solid skyblue',
-              }}>
+            <StyledSelect
+              value={selectedMember}
+              onChange={handleMemberDropBoxSelect}
+              style={{
+                width: "80px",
+                height: "20px",
+                border: "1px solid #0066ffd4",
+              }}
+            >
               {member.map((memberdata) => (
                 <option key={memberdata.id} value={memberdata.id}>
                   {memberdata.name}
@@ -271,21 +270,19 @@ const PaymentFix = ({
             </StyledSelect>
             <StyledCheckboxDiv>
               {member.map((memberdata) => (
-                <div key={memberdata.id} style={{ margin: '5px' }}>
+                <div key={memberdata.id}>
                   <StyledCheckboxLabel>
                     <input
                       type="checkbox"
                       checked={memberSelection[memberdata.id]}
                       onChange={(e) => handleMemberSelect(e, memberdata.id)}
                     />
-                    <span>{memberdata.name}</span>
+                    <span>{truncate(memberdata.name, 5)}</span>
                   </StyledCheckboxLabel>
                 </div>
               ))}
             </StyledCheckboxDiv>
-            <PayMentFix type="submit">
-              저장하기
-            </PayMentFix>
+            <PayMentFix type="submit">저장하기</PayMentFix>
           </Form>
         </Modal>
       </WrapperModal>
@@ -293,5 +290,4 @@ const PaymentFix = ({
   );
 };
 
-
-export default PaymentFix
+export default PaymentFix;

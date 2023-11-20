@@ -2,11 +2,11 @@ import styled from "styled-components";
 import React, { useEffect, useRef, useState } from "react";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import { useParams } from "react-router-dom";
-import { putBillingTossBank, putBillingFixTossBank } from "../../api/api";
+import {PatchBillingUserKaKaoDeposit,PatchBillingMeetingKakaoDeposit} from "../../api/api";
 import KakaoIdExplain from "./KakaoIdExplain"
 
 const BillingResultContainer = styled.div`
-  z-index: 1;
+  z-index: 10;
   position: absolute;
 `;
 
@@ -129,13 +129,13 @@ const BillingKakaoModal = ({ setKakaoModalOpen }) => {
     e.preventDefault();
     try {
       if (action === "이번에만 사용하기") {
-        const responsePostData = await putBillingTossBank(meetingId, formData);
+        const responsePostData = await PatchBillingMeetingKakaoDeposit(meetingId, formData);
         if (responsePostData.status === 200) {
           alert("계좌번호가 추가 되었습니다!");
           setKakaoModalOpen(false);
         }
       } else if (action === "계속해서 사용하기") {
-        const responsePostData = await putBillingFixTossBank(formData);
+        const responsePostData = await PatchBillingUserKaKaoDeposit(formData);
         await putBillingTossBank(meetingId, formData);
         if (responsePostData.status === 200) {
           alert("계좌번호가 추가 되었습니다!");

@@ -1,168 +1,89 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
-import { GetMeetingNameData, PutMeetingNameData } from "../api/api";
-import BillingInputBox from "./BillingInputBox";
+import { GetMeetingNameData } from "../api/api";
+import Nav from "./Nav";
+import BillingNameModal from "./Modal/BillingNameModal";
 
 const BillngNameContainer = styled.div`
-  height: 200px;
+  max-width: 670px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 `;
 
-const MeetingName = styled.p``;
+const NavContainer = styled.div`
+  background-color: white;
+  height: 60px;
+  border-bottom: 1px solid #e1e1e1a8;
+  box-shadow: 0px 2px 4px 0px #d9d9d980;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
-const MeetingDate = styled.p``;
-
-const FormContainer = styled.form`
+const MeetingSeting = styled.div`
+  box-shadow: 0px 2px 3px #c3a99759;
+  border-radius: 12px;
+  border: 1px solid #e6e6e666;
+  margin-bottom: 10px;
+  width: 165px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 `;
 
-const BillingPixButton = styled.button`
-  width: 200px;
-  height: 30px;
-  border: 1px solid #cce5ff;
-  border-radius: 10px;
-`;
-
-const StyledDatePickerBox = styled.div`
-  width: 100px;
-  border-radius: 10px;
-  border: 1px solid #cce5ff;
-  background-color: white;
-`;
-
-const StyledDatePicker = styled(DatePicker)`
-  width: 70px;
-  background-color: white;
-  border: none;
-`;
-
-const BillingNameTopLine = styled.div`
+const Meetings = styled.div`
+  border-left: 1px solid #e6e6e666;
+  cursor: pointer;
   display: flex;
-  justify-content: center;
-  margin: 30px 0 15px 0;
+  flex-direction: column;
 `;
 
-const BillingNameLine = styled.div`
-  border-top: 1px solid silver;
-  width: 167px;
-  margin-top: 10px;
-  @media (max-width: 768px) {
-    width: 75px;
-  }
-`;
-
-const BillingNameTopLineComent = styled.span`
-  margin: 0 10px;
-  font-size: 14px;
-  color: silver;
-  font-weight: 800;
-`;
+const MeetingData = styled.span``;
 
 const BillingName = () => {
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth() + 1;
-  const day = currentDate.getDate();
-  const [meetingName, setMeetingName] = useState([])
-  const initialDate = `${year}-${month}-${day}`;
-  const [formData, setFormData] = useState({
-    name: "",
-    date: initialDate,
-  });
+  const [meetingName, setMeetingName] = useState([]);
   const { meetingId } = useParams();
-  const dateParts = formData.date.split("-");
-  const selectedDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+  const [openModal, setOpenModal] = useState(false);
 
-  const [notAllow, setNotAllow] = useState(true);
 
-  const handleGetData = async () => {
-    try {
-      const responseGetData = await GetMeetingNameData(meetingId);
-      setMeetingName(responseGetData.data);
-    } catch (error) {
-      console.log("Api 데이터 불러오기 실패");
-    }
-  };
+
 
   useEffect(() => {
-    handleGetData();
-  }, []);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handlePutData = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await PutMeetingNameData(meetingId, formData);
-      if (response.status === 200) {
-        setFormData((prevData) => ({
-          ...prevData,
-          name: "",
-        }));
-        handleGetData();
-      }
-    } catch (error) {
-      console.log("Api 데이터 수정 실패");
+    if (!openModal) {
+      const handleGetData = async () => {
+        try {
+          const responseGetData = await GetMeetingNameData(meetingId);
+          setMeetingName(responseGetData.data);
+        } catch (error) {
+          console.log("Api 데이터 불러오기 실패");
+        }
+      };
+      handleGetData();
     }
-  };
+  }, [openModal]);
 
-  useEffect(() => {
-    if (formData.name.length > 0) {
-      setNotAllow(false);
-      return;
-    }
-    setNotAllow(true);
-  }, [formData.name]);
+
+  const handleClick = () => {
+    setOpenModal(true);
+  };
 
   return (
-    <>
-      <MeetingName>{meetingName.name}</MeetingName>
-      <MeetingDate>{meetingName.date}</MeetingDate>
-      <BillingNameTopLine>
-        <BillingNameLine></BillingNameLine>
-        <BillingNameTopLineComent>어떤 모임인가요?</BillingNameTopLineComent>
-        <BillingNameLine></BillingNameLine>
-      </BillingNameTopLine>
-      <BillngNameContainer>
-        <FormContainer onSubmit={handlePutData}>
-          <BillingInputBox
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            placeholder="모임명을 입력해주세요"
-            maxLength="22"
-          />
-          <StyledDatePickerBox>
-            <StyledDatePicker
-              selected={selectedDate}
-              onChange={(date) =>
-                setFormData({
-                  ...formData,
-                  date: date.toISOString().split("T")[0],
-                })
-              }
-              inputMode="none"
-            />
-          </StyledDatePickerBox>
-          <BillingPixButton type="submit" disabled={notAllow}>
-            모임명 등록하기
-          </BillingPixButton>
-        </FormContainer>
-      </BillngNameContainer>
-    </>
+    <BillngNameContainer>
+      <NavContainer>
+        <Nav />
+        <MeetingSeting onClick={handleClick}>
+          <Meetings>
+            <MeetingData>{meetingName.name}</MeetingData>
+            <MeetingData>{meetingName.date}</MeetingData>
+          </Meetings>
+        </MeetingSeting>
+        {openModal && <BillingNameModal setOpenModal={setOpenModal} />}
+      </NavContainer>
+    </BillngNameContainer>
   );
 };
 

@@ -1,18 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
-import { getMemberData, postMemberData, deleteMemberData } from '../api/api'
-import BillingInputBox from './BillingInputBox'
-import BillingMemberFix from './BillingModal/BillingMemberFix'
-import { truncate } from './Meeting'
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import { getMemberData, postMemberData, deleteMemberData } from "../api/api";
+import BillingInputBox from "./BillingInputBox";
+import BillingMemberFix from "./Modal/BillingMemberFixModal";
+import { truncate } from "./Meeting";
 
 const BillingMemberContainer = styled.div`
+  margin-top: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   height: 100%;
-`
+  position: relative;
+  animation: fadeOut 400ms;
+  @keyframes fadeOut {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+`;
 
 const FormContainer = styled.form`
   display: flex;
@@ -20,14 +33,31 @@ const FormContainer = styled.form`
   align-items: center;
   flex-direction: column;
   gap: 10px;
-`
+`;
 
 const BillingAddMember = styled.button`
-  width: 200px;
+  color: white;
+  margin-top: 10px;
+  border: 1px solid lightgray;
+  font-weight: 600;
+  width: 160px;
   height: 30px;
-  border: 1px solid #CCE5FF;
-  border-radius: 10px;
-`
+  cursor: pointer;
+
+  &:not(:disabled) {
+    background-color: #0066ffd4;
+    border: 1px solid lightgray;
+    border-bottom: 1px solid #e1e1e1a8;
+    box-shadow: 3px 4px 4px 0px #c6c6c666;
+    color: white;
+    cursor: pointer;
+  }
+
+  &:disabled {
+    background-color: #d3d3d3;
+    color: white;
+  }
+`;
 
 const MemberContainer = styled.div`
   display: grid;
@@ -38,73 +68,78 @@ const MemberContainer = styled.div`
   gap: 10px;
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(2 ,1fr);
+    grid-template-columns: repeat(2, 1fr);
     width: 250px;
     gap: 6px;
   }
-`
+`;
 
 const Leader = styled.span`
   font-weight: bold;
-  font-weight: 600;  
-  color: white;
+  font-weight: 600;
+  color: black;
   font-size: 14px;
-`
+`;
 
 const MemberList = styled.div`
-  font-weight: bold;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   cursor: pointer;
   padding: 10px;
-  background-color: #62ccff;
-  border-radius: 10px;
-  &:hover {
-    transition: all 0.2s;
-    transform: scale(1.1);
-  }
-`
+  background-color: white;
+  box-shadow: 0px 2px 3px #c3a99759;
+  border: 1px solid #e6e6e666;
+`;
 
 const Members = styled.span`
   font-size: 13px;
-  color: white;
+  color: black;
   padding: 10px;
-`
+`;
 
 const MemberDelete = styled.span`
-  color: white;
+  color: black;
   cursor: pointer;
-`
+`;
 
 const BillingMemberTopLine = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
-`
+  position: absolute;
+  top: 0px;
+  z-index: 3;
+  background-color: white;
+`;
 
 const BillingMemberLine = styled.div`
-  border-top: 1px solid silver;
-  width: 115px;
+  border: 1px solid silver;
+  border-radius: 30px;
   margin-top: 10px;
-  @media (max-width: 768px) {
-    width: 25px;
-  }
-`
+  width: 90%;
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const BillingMemberTopLineComent = styled.span`
   margin: 0 10px;
   font-size: 14px;
   color: silver;
   font-weight: 800;
-`
+`;
 
-
-
-const BillingMember = ({member,setMember}) => {
+const BillingMember = ({ member, setMember }) => {
   const { meetingId } = useParams();
   const [openModal, setOpenModal] = useState(false);
   const [memberSelected, setMemberSelected] = useState({});
   const [notAllow, setNotAllow] = useState(true);
   const [formData, setFormData] = useState({
-    name: '',
+    name: "",
   });
 
   const handleGetData = async () => {
@@ -112,15 +147,13 @@ const BillingMember = ({member,setMember}) => {
       const responseGetData = await getMemberData(meetingId);
       setMember(responseGetData.data);
     } catch (error) {
-      console.log('Api 데이터 불러오기 실패');
+      console.log("Api 데이터 불러오기 실패");
     }
   };
 
   useEffect(() => {
-    handleGetData()
-  }, [])
-  
-  
+    handleGetData();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -140,11 +173,11 @@ const BillingMember = ({member,setMember}) => {
       };
       const response = await postMemberData(meetingId, updatedFormData);
       if (response.status === 201) {
-        setFormData({ name: '' });
+        setFormData({ name: "" });
         handleGetData();
       }
     } catch (error) {
-      console.log('Api 데이터 수정 실패');
+      console.log("Api 데이터 수정 실패");
     }
   };
 
@@ -153,12 +186,17 @@ const BillingMember = ({member,setMember}) => {
       await deleteMemberData(meetingId, memberId);
       setMember(member.filter((data) => data.id !== memberId));
     } catch (error) {
-      console.log('Api 데이터 삭제 실패');
-      if (error.response.data.detail === 'the leader member cannot be deleted.') {
-        alert('총무인 멤버는 삭제할수 없습니다.');
+      console.log("Api 데이터 삭제 실패");
+      if (
+        error.response.data.detail === "the leader member cannot be deleted."
+      ) {
+        alert("총무인 멤버는 삭제할수 없습니다.");
       }
-      if (error.response.data.detail === 'it is not possible to delete the member you want to delete because it is included in the payment.') {
-        alert('결제내역의 포함 된 멤버는 삭제 할 수 없습니다.');
+      if (
+        error.response.data.detail ===
+        "it is not possible to delete the member you want to delete because it is included in the payment."
+      ) {
+        alert("결제내역의 포함 된 멤버는 삭제 할 수 없습니다.");
       }
     }
   };
@@ -179,36 +217,43 @@ const BillingMember = ({member,setMember}) => {
   return (
     <BillingMemberContainer>
       <BillingMemberTopLine>
-        <BillingMemberLine></BillingMemberLine>
-        <BillingMemberTopLineComent>모임에 참석한 멤버들은 누구인가요?</BillingMemberTopLineComent>
-        <BillingMemberLine></BillingMemberLine>
+        <BillingMemberTopLineComent>
+          모임에 참석한 멤버들은 누구인가요?
+        </BillingMemberTopLineComent>
       </BillingMemberTopLine>
-      <FormContainer onSubmit={handleAddMember}>
-        <BillingInputBox
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-          placeholder="멤버추가하기"
-          maxlength="22"
-        />
-        <BillingAddMember type="submit" disabled={notAllow}>
-          멤버추가하기
-        </BillingAddMember>
-      </FormContainer>
-      <MemberContainer>
-        {member.map((data) => (
-          <MemberList key={data.id} >
-            {data.leader === true && <Leader>총무</Leader>}
-            <Members onClick={() => handleClick(data)}>{truncate(data.name,5)}</Members>
-            <MemberDelete 
-              onClick={(e) =>{ 
-                e.preventDefault();
-                handleDeleteMember(data.id);
-              }}>X</MemberDelete>
-          </MemberList>
-        ))}
-      </MemberContainer>
+      <BillingMemberLine>
+        <FormContainer onSubmit={handleAddMember}>
+          <BillingInputBox
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+            placeholder="멤버추가하기"
+            maxlength="22"
+          />
+          <BillingAddMember type="submit" disabled={notAllow}>
+            멤버추가하기
+          </BillingAddMember>
+        </FormContainer>
+        <MemberContainer>
+          {member.map((data) => (
+            <MemberList key={data.id}>
+              {data.leader === true && <Leader>총무</Leader>}
+              <Members onClick={() => handleClick(data)}>
+                {truncate(data.name, 5)}
+              </Members>
+              <MemberDelete
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleDeleteMember(data.id);
+                }}
+              >
+                X
+              </MemberDelete>
+            </MemberList>
+          ))}
+        </MemberContainer>
+      </BillingMemberLine>
       {openModal && (
         <BillingMemberFix
           {...memberSelected}

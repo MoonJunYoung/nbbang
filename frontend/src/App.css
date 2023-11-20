@@ -1,9 +1,9 @@
 body {
-  background-color: azure;
+  background-color: white;
 }
 
 .App {
   text-align: center;
   margin: 0 auto;
-  max-width: 900px;
+  max-width: 650px;
 }

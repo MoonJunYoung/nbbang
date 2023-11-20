@@ -1,32 +1,31 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
 const InputBox = styled.div`
   position: relative;
   width: 450px;
   height: 50px;
-  border-radius: 10px;
-  border: 2px inset #CCE5FF;
+  border: 1px solid #efefef;
   display: inline-block;
-  background-color: white;
+  background-color: #efefef;
 
   @media (max-width: 768px) {
     width: 250px;
     height: 40px;
-    border-radius: 10px;
   }
-`
+`;
 
 const Input = styled.input`
   position: absolute;
   left: 20px;
   top: 10px;
-  border: none;
   width: 400px;
   height: 30px;
+  background-color: #efefef;
+  border: none;
 
   input[type="text"] {
-  touch-action: manipulation;
+    touch-action: manipulation;
   }
 
   @media (max-width: 768px) {
@@ -38,31 +37,24 @@ const Input = styled.input`
     border: none;
     touch-action: none;
   }
-`
+`;
 
-const BillingInputBox = ({
-  type,
-  name,
-  value,
-  onChange,
-  placeholder
-}) => {
+const BillingInputBox = ({ type, name, value, onChange, placeholder }) => {
   return (
     <InputBox>
-      <Input 
+      <Input
         type={type}
         name={name}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
         autoComplete="off"
-        maxlength='22'
-        onTouchStart={(e) => e.preventDefault()} 
-        onTouchMove={(e) => e.preventDefault()}  
+        maxlength="22"
+        onTouchStart={(e) => e.preventDefault()}
+        onTouchMove={(e) => e.preventDefault()}
       />
     </InputBox>
-   
-  )
-}
+  );
+};
 
-export default BillingInputBox
+export default BillingInputBox;

@@ -1,46 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getBillingData, GetMeetingNameData } from "../api/api";
-import { truncate } from "./Meeting";
-import BillingTossModal from "./BillingModal/BillingTossModal";
-import BillingKakaoModal from "./BillingModal/BillingKakaoModal";
+import { GetMeetingNameData, getMemberData } from "../api/api";
+import BillingTossModal from "./Modal/BillingTossModal";
+import BillingKakaoModal from "./Modal/BillingKakaoModal";
 import BillingResultShare from "./BillingResultShare";
 import KakaoShare from "./KakaoShare";
 
 const ResultContainar = styled.div`
-  display: ${(props) => (props.paymentState ? "block" : "none")};
+  display: ${(props) => (props.paymentState ? "flex" : "none")};
   margin-top: 20px;
-  visibility: "visible";
-  height: 100%;
-`;
-
-const PaymentsContainar = styled.div`
-  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-`;
-const BillingContainer = styled(PaymentsContainar)`
-  font-weight: bold;
-`;
-
-const PaymentsHistory = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  margin-top: 20px;
-  width: 550px;
-  height: 60px;
-  border: 2px solid #cce5ff;
-
-  border-radius: 10px;
-  @media (max-width: 768px) {
-    position: relative;
-    width: 97%;
-    height: 80px;
+  height: 100%;
+  position: relative;
+  animation: fadeOut 500ms;
+  @keyframes fadeOut {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 `;
+
+const BillingContainer = styled.div`
+  width: 100%;
+`;
+
 const Place = styled.span`
   padding: 5px;
   font-size: 14px;
@@ -124,6 +115,9 @@ const SplitPrice = styled(Price)`
 
 const Member = styled.p`
   font-size: 15px;
+  margin: 7px 0px;
+  color: #938282;
+  font-weight: 700;
 `;
 
 const Leader = styled(Member)`
@@ -134,11 +128,7 @@ const Amount = styled(Member)``;
 
 const LeaderBillingContainer = styled.div``;
 
-const LeaderAmount = styled(Member)`
-  @media (max-width: 768px) {
-    width: 38%;
-  }
-`;
+const LeaderAmount = styled(Member)``;
 
 const LeaderBilling = styled.div`
   display: flex;
@@ -149,32 +139,35 @@ const LeaderBilling = styled.div`
   }
 `;
 
-const BillingHistory = styled(PaymentsHistory)`
-  color: white;
-  background-color: cornflowerblue;
-  border: 4px outset skyblue;
-  @media (max-width: 768px) {
-    position: relative;
-    width: 97%;
-    height: 100%;
-  }
+const BillingHistory = styled.div`
+  display: flex;
+  align-items: flex-start;
 `;
 const LeaderBillingMoney = styled.span`
-  font-size: 14px;
+  font-size: 13px;
+  color: #697178;
 `;
 
 const BillingTopLine = styled.div`
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
+  position: absolute;
+  top: -7px;
+  z-index: 3;
+  background-color: white;
 `;
 
 const BillingLine = styled.div`
-  border-top: 1px solid silver;
-  width: 175px;
-  margin-top: 10px;
-  @media (max-width: 768px) {
-    width: 88px;
-  }
+  border: 1px solid silver;
+  overflow: hidden;
+  border-radius: 30px;
+  width: 95%;
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const BillingTopLineComent = styled.span`
@@ -182,24 +175,6 @@ const BillingTopLineComent = styled.span`
   font-size: 14px;
   color: silver;
   font-weight: 800;
-`;
-
-const ShareButton = styled.button`
-  width: 200px;
-  height: 30px;
-  border: 1px solid skyblue;
-  background-color: lightskyblue;
-  border-radius: 10px;
-  color: white;
-  cursor: pointer;
-  margin: 50px 0;
-  &:hover {
-    border: 3px solid skyblue;
-    transition: all 0.2s;
-    transform: scale(1.15);
-    font-weight: 600;
-    background-color: lightskyblue;
-  }
 `;
 
 const RemittanceContainer = styled.div`
@@ -214,7 +189,7 @@ const KakaoModalContainer = styled.div`
   position: relative;
   width: 230px;
   height: 63px;
-  background: #fdef72;
+  background: #ffeb3c;
   border: 1px solid papayawhip;
   border-radius: 10px;
   img {
@@ -281,11 +256,46 @@ const KakaoRegistration = styled.span`
   font-weight: 700;
 `;
 
+const BillingLeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const BillingLeaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LeaderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  @media (max-width: 375px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const Logo = styled.img`
+  width: 55px;
+  height: 45px;
+  padding: 17px;
+`;
+
+const Billings = styled.div`
+  margin-top: 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
 const Billing = ({ payment }) => {
   const { meetingId } = useParams();
-  const [members, setMembers] = useState([]);
-  const [payments, setPayments] = useState([]);
   const [meetingName, setMeetingName] = useState([]);
+  const [members, setMembers] = useState([]);
   const [paymentState, setPaymentState] = useState(false);
   const [kakaoModalOpen, setKakaoModalOpen] = useState(false);
   const [tossModalOpen, setTossModalOpen] = useState(false);
@@ -315,19 +325,14 @@ const Billing = ({ payment }) => {
   useEffect(() => {
     const handleGetData = async () => {
       try {
-        const responseGetData = await getBillingData(meetingId);
-        setMembers(responseGetData.data.members);
-        setPayments(responseGetData.data.payments);
+        const responseGetData = await getMemberData(meetingId);
+        setMembers(responseGetData.data);
       } catch (error) {
         console.log("Api 데이터 불러오기 실패");
       }
     };
     handleGetData();
   }, [meetingId, payment, meetingName]);
-
-  const negativeBillingEntries = Object.entries(members).filter(
-    ([key, value]) => value.amount < 0 && value.leader === false
-  );
 
   const handleKakaoModal = () => {
     setKakaoModalOpen(true);
@@ -345,94 +350,79 @@ const Billing = ({ payment }) => {
   return (
     <ResultContainar paymentState={paymentState}>
       <BillingTopLine>
-        <BillingLine></BillingLine>
         <BillingTopLineComent>정산 결과를 확인해 볼까요?</BillingTopLineComent>
-        <BillingLine></BillingLine>
       </BillingTopLine>
-      <PaymentsContainar>
-        {Object.keys(payments).map((key) => (
-          <PaymentsHistory key={key}>
-            <Place>{truncate(payments[key].place, 10)}</Place>
-            <Price>
-              {truncate(
-                payments[key].price.toLocaleString().toString() + "원",
-                8
+      <BillingLine>
+        <BillingContainer>
+          {members.map((data) => (
+            <BillingHistory key={data.id}>
+              {data.leader ? (
+                <BillingLeaderContainer>
+                  <Logo alt="BillingLogo" src="/images/nbbang_Logo.png" />
+                  <BillingLeader>
+                    <LeaderContainer>
+                      <Member>총무 {data.name}</Member>
+                      <LeaderAmount>
+                        {data.amount > 0
+                          ? `보내야 할 돈 : ${data.amount
+                              .toLocaleString()
+                              .toString()} 원`
+                          : `받을 돈 : ${Math.abs(data.amount)
+                              .toLocaleString({
+                                style: "currency",
+                                currency: "USD",
+                              })
+                              .toString()} 원`}
+                      </LeaderAmount>
+                    </LeaderContainer>
+                    <LeaderBillingContainer>
+                      {members.map((value) =>
+                        value.amount < 0 && value.leader === false ? (
+                          <LeaderBilling key={value.id}>
+                            <LeaderBillingMoney>{`${
+                              value.name
+                            }님 한테 ${Math.abs(value.amount)
+                              .toLocaleString({
+                                style: "currency",
+                                currency: "USD",
+                              })
+                              .toString()}원을 보내주세요`}</LeaderBillingMoney>
+                          </LeaderBilling>
+                        ) : null
+                      )}
+                    </LeaderBillingContainer>
+                  </BillingLeader>
+                </BillingLeaderContainer>
+              ) : (
+                <>
+                  <Logo alt="BillingLogo" src="/images/nbbang_Logo.png" />
+                  <Billings>
+                    <Member>{data.name}</Member>
+                    <Amount>
+                      {data.amount > 0
+                        ? `총무에게 보내야 할 돈 : ${data.amount
+                            .toLocaleString()
+                            .toString()} 원`
+                        : `총무에게 받을 돈 : ${Math.abs(data.amount)
+                            .toLocaleString({
+                              style: "currency",
+                              currency: "USD",
+                            })
+                            .toString()} 원`}
+                    </Amount>
+                  </Billings>
+                </>
               )}
-            </Price>
-            <PayMember>결제자 {payments[key].pay_member}</PayMember>
-            <AttendMemberCount>
-              총 {payments[key].attend_members_count}명
-            </AttendMemberCount>
-            <SplitPrice>
-              나눠서 낼 돈{" "}
-              {truncate(
-                payments[key].split_price.toLocaleString().toString() + "원",
-                12
-              )}
-            </SplitPrice>
-          </PaymentsHistory>
-        ))}
-      </PaymentsContainar>
-      <BillingContainer>
-        {Object.keys(members).map((key) => (
-          <BillingHistory key={key}>
-            {members[key].leader ? (
-              <>
-                <Leader>총무</Leader>
-                <Member>{members[key].name}</Member>
-                <LeaderAmount>
-                  {members[key].amount > 0
-                    ? `보내야 할 돈 : ${members[key].amount
-                        .toLocaleString()
-                        .toString()} 원`
-                    : `받을 돈 : ${Math.abs(members[key].amount)
-                        .toLocaleString({
-                          style: "currency",
-                          currency: "USD",
-                        })
-                        .toString()} 원`}
-                </LeaderAmount>
-                <LeaderBillingContainer>
-                  {negativeBillingEntries.map(([key, value]) => (
-                    <LeaderBilling key={key}>
-                      <LeaderBillingMoney>{`${value.name}님 한테 ${Math.abs(
-                        value.amount
-                      )
-                        .toLocaleString({
-                          style: "currency",
-                          currency: "USD",
-                        })
-                        .toString()}원을 보내주세요`}</LeaderBillingMoney>
-                    </LeaderBilling>
-                  ))}
-                </LeaderBillingContainer>
-              </>
-            ) : (
-              <>
-                <Member>{members[key].name}</Member>
-                <Amount>
-                  {members[key].amount > 0
-                    ? `총무에게 보내야 할 돈 : ${members[key].amount
-                        .toLocaleString()
-                        .toString()} 원`
-                    : `총무에게 받을 돈 : ${Math.abs(members[key].amount)
-                        .toLocaleString({
-                          style: "currency",
-                          currency: "USD",
-                        })
-                        .toString()} 원`}
-                </Amount>
-              </>
-            )}
-          </BillingHistory>
-        ))}
-      </BillingContainer>
+            </BillingHistory>
+          ))}
+        </BillingContainer>
+      </BillingLine>
 
       <RemittanceContainer>
         <KakaoModalContainer onClick={handleKakaoModal}>
           <img alt="kakao" src="/images/kakao.png" />
           <KakaoModalbutton>카카오 입급 아이디</KakaoModalbutton>
-          {meetingName.kakao_id === null ? (
+          {meetingName.deposit && meetingName.deposit.kakao_id === null ? (
             <KakaoRegistration>등록하기</KakaoRegistration>
           ) : (
             <KakaoId>{meetingName.kakao_id}</KakaoId>
@@ -441,7 +431,7 @@ const Billing = ({ payment }) => {
         <TossModalContainer onClick={handleTossModal}>
           <img alt="kakao" src="/images/Toss.png" />
           <TossModalbutton>토스 입금 계좌</TossModalbutton>
-          {meetingName.bank === null ? (
+          {meetingName.deposit && meetingName.deposit.bank === null ? (
             <TossRegistration>등록하기</TossRegistration>
           ) : (
             <TossBankContainer>
