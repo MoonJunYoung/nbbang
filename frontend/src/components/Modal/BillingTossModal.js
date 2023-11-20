@@ -9,7 +9,7 @@ import {
 } from "../../api/api";
 
 const BillingResultContainer = styled.div`
-  z-index: 1;
+  z-index: 10;
   position: absolute;
 `;
 
@@ -171,9 +171,6 @@ const BillingTossModal = ({ setTossModalOpen }) => {
       <WrapperModal>
         <Modal ref={ref}>
           <ModalClose onClick={() => setTossModalOpen(false)}>X</ModalClose>
-          {/* <Message>
-            <PopUp>?</PopUp>텍스트로 공유할떄 하단에 계좌번호도 같이 공유 돼요!
-          </Message> */}
           <Message>
             <PopUp>?</PopUp>링크로 공유할때 해당 계좌로 토스 송금하기 기능이
             추가 돼요!
@@ -230,3 +227,5 @@ const BillingTossModal = ({ setTossModalOpen }) => {
 };
 
 export default BillingTossModal;
+
+

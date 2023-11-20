@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const BillingResultContainer = styled.div`
-  z-index: 1;
+  z-index: 10;
   position: absolute;
 `;
 

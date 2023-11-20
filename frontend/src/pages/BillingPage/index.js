@@ -3,7 +3,6 @@ import Billing from "../../components/Billing";
 import BillingMember from "../../components/BillingMember";
 import BillingName from "../../components/BillingName";
 import BillingPayment from "../../components/BillingPayment";
-import Nav from "../../components/Nav";
 
 const BillingPage = () => {
   const [member, setMember] = useState([]);
@@ -11,7 +10,6 @@ const BillingPage = () => {
 
   return (
     <div>
-      <Nav />
       <BillingName />
       <BillingMember member={member} setMember={setMember} />
       <BillingPayment
@@ -19,7 +17,7 @@ const BillingPage = () => {
         payment={payment}
         setPayment={setPayment}
       />
-      <Billing payment={payment} />
+      <Billing member={member} payment={payment} />
     </div>
   );
 };

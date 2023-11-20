@@ -1,21 +1,24 @@
-import Cookies from 'js-cookie';
-import axios from 'axios';
+import Cookies from "js-cookie";
+import axios from "axios";
 
-export let Token = () => Cookies.get('authToken');
-const axiosData = () => axios.create({
-  baseURL: "https://nbbang.shop/api/",
-  headers: {
-    'Authorization': Token()
-  },
-}
-)
+export let Token = () => Cookies.get("authToken");
+const axiosData = () =>
+  axios.create({
+    baseURL: "https://nbbang.shop/test-api/",
+    headers: {
+      Authorization: Token(),
+    },
+  });
 
 // signd
 
-export const postSigndData = (api, data) => {
-  return axiosData().post(api, data);
+export const postSignInData = (data) => {
+  return axiosData().post("/user/sign-in", data);
 };
 
+export const postSignUpData = (data) => {
+  return axiosData().post("/user/sign-up", data);
+};
 
 // user
 
@@ -23,8 +26,7 @@ export const getUserData = (query) => {
   return axiosData().get(query);
 };
 
-
-//meeting 
+//meeting
 
 export const getMeetingData = (query) => {
   return axiosData().get(query);
@@ -38,18 +40,15 @@ export const deleteMeetingData = (meetingId) => {
   return axiosData().delete(`/meeting/${meetingId}`);
 };
 
-
 //meeting Fix
 
-export const PutMeetingNameData = (meetingId , data) => {
+export const PutMeetingNameData = (meetingId, data) => {
   return axiosData().put(`meeting/${meetingId}`, data);
 };
 
 export const GetMeetingNameData = (meetingId) => {
   return axiosData().get(`meeting/${meetingId}`);
 };
-
-
 
 // member
 
@@ -67,7 +66,7 @@ export const deleteMemberData = (meetingId, memberId) => {
 
 //memnber fix
 
-export const PutMemberNameData = (meetingId , Id, data) => {
+export const PutMemberNameData = (meetingId, Id, data) => {
   return axiosData().put(`meeting/${meetingId}/member/${Id}`, data);
 };
 
@@ -95,25 +94,41 @@ export const getBillingData = (meetingId) => {
   return axiosData().get(`/meeting/${meetingId}/billing`);
 };
 
-//BillingResult 
+//BillingResult
 
 export const getBillingResultText = (uuid) => {
-  return axiosData().get(`/share/text?uuid=${uuid}`)
-}
+  return axiosData().get(`/share/text?uuid=${uuid}`);
+};
 
 export const getBillingResultLink = (uuid) => {
-  return axiosData().get(`/share/link?uuid=${uuid}`)
-}
+  return axiosData().get(`/share/link?uuid=${uuid}`);
+};
 
 export const getBillingResultPage = (uuid) => {
-  return axiosData().get(`/share/page?uuid=${uuid}`)
-}
+  return axiosData().get(`/share/page?uuid=${uuid}`);
+};
 
-export const putBillingTossBank = (meetingId , data) => {
-  return axiosData().put(`/meeting/${meetingId}`, data)
-}
+export const putBillingTossBank = (meetingId, data) => {
+  return axiosData().put(`/meeting/${meetingId}`, data);
+};
 
 export const putBillingFixTossBank = (data) => {
-  return axiosData().put('/user', data)
-}
+  return axiosData().put("/user", data);
+};
 
+//Deposit
+
+export const PatchBillingUserKaKaoDeposit = (data) => {
+  return axiosData().patch(`user/kakao-deposit-link`, data);
+};
+
+export const PatchBillingMeetingKakaoDeposit = (meetingId, data) => {
+  return axiosData().put(`meeting/${meetingId}/bank-account`, data);
+};
+
+export const PatchBillingUserTossDeposit = (data) => {
+  return axiosData().patch(`user/bank-account`, data);
+};
+export const PatchBillingMeetingTossDeposit = (meetingId, data) => {
+  return axiosData().put(`meeting/${meetingId}/kakao-deposit-link`, data);
+};

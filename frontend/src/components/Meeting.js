@@ -5,19 +5,21 @@ import {
   getMeetingData,
   postMeetingrData,
   deleteMeetingData,
+  GetMeetingNameData,
 } from "../api/api";
-import Cookies from 'js-cookie';
-
+import Cookies from "js-cookie";
+import Nav from "./Nav";
+import BillingNameModal from "./Modal/BillingNameModal";
 
 const MainContainer = styled.div`
   position: relative;
-`
+  max-width: 670px;
+`;
 
 const MeetingContainer = styled.div`
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 5px;
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -26,83 +28,164 @@ const MeetingContainer = styled.div`
 `;
 
 const LogOut = styled.div`
-  position: absolute; 
-  right: 0;
-  top: -80px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: 20px;
+  height: 100%;
+  width: 10px;
+  border-left: 1px solid #e6e6e666;
   cursor: pointer;
-  span {
-    margin-left: 5px;
-    font-size: 14px;
-    font-weight: 600;
-  }
   img {
-    display: block;
-    width: 30px;
-    height: 25px;
-    border-radius: 15px;
+    margin: 5px 0px 0px 7px;
+    width: 20px;
   }
 `;
 
 const MeetingAddButton = styled.button`
   cursor: pointer;
-  border-radius: 20px;
-  height: 30px;
+  height: 45px;
   border: none;
+  width: 100%;
   font-weight: 600;
-  color: lightslategray;
-  background-color: #cce5ff;
-  &:hover {
-    color: black;
-    transition: all 0.2s;
-    transform: scale(1.05);
+  margin-top: 300px;
+  color: white;
+  background-color: #0066ff;
+
+  @media (max-width: 768px) {
+    margin: 0;
   }
 `;
 
 const Billing = styled.div`
+  margin-top: 13px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  gap: 12px;
   align-items: center;
-  flex-direction: column;
-  border: 3px solid #cce5ff;
-  height: 170px;
+  box-shadow: 0px 2px 3px #c3a99759;
+  border: 1px solid #e6e6e666;
+  height: 65px;
   border-radius: 15px;
-  &:hover {
-    transition: all 0.2s;
-    transform: scale(1.05);
+  animation: fadeOut 500ms;
+  @keyframes fadeOut {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 `;
 
 const BillingDate = styled.p`
-  font-size: 16px;
+  font-size: 14px;
 `;
 
 const BillingName = styled.p`
   font-size: 14px;
 `;
 
-const BillingDeleteButton = styled.button`
-  right: 10px;
+const BillingDeleteButton = styled.div`
   cursor: pointer;
-  background-color: #cce5ff;
-  margin-top: 15px;
-  border-radius: 5px;
-  border: none;
-  height: 20px;
-  &:hover {
-    transition: all 0.2s;
-    transform: scale(1.05);
-    font-weight: 600;
+  img {
+    width: 23px;
+  }
+  animation: fadeOut 700ms;
+  @keyframes fadeOut {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 `;
 
-const UserId = styled.p`
-  font-size: 16px;
+const NavContainer = styled.div`
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 60px;
+  border-bottom: 1px solid #e1e1e1a8;
+  box-shadow: 0px 2px 4px 0px #d9d9d980;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
+
+const UserId = styled.p`
+  font-size: 14px;
+`;
+
+const UserSeting = styled.div`
+  box-shadow: 0px 2px 3px #c3a99759;
+  border-radius: 12px;
+  border: 1px solid #e6e6e666;
+  margin-bottom: 10px;
+  width: 105px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+`;
+
+const StyledLink = styled(Link)`
+  position: sticky;
+  bottom: 0;
+  font-size: 13px;
+  left: 0;
+  margin-top: 300px;
+
+  @media (max-width: 768px) {
+    position: fixed;
+    bottom: 0;
+    font-size: 13px;
+    left: 0;
+    width: 100%;
+  }
+`;
+
+const MenuOpenModal = styled.div`
+  img {
+    width: 23px;
+  }
+  animation: fadeIn 500ms;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+`;
+
+const MenuIcon = styled.img`
+  width: 20px;
+  animation: fadeIn 400ms;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+`;
+
+const MenuContainer = styled.div`
+  display: flex;
+  gap: 23px;
+`;
+
+const BillingLink = styled(Link)``;
 
 export const truncate = (str, n) => {
   return str?.length > n ? str.substring(0, n) + "..." : str;
@@ -111,10 +194,7 @@ export const truncate = (str, n) => {
 const Meeting = ({ user }) => {
   const [meetings, setMeetings] = useState([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    handleGetData();
-  }, []);
+  const [openModal, setOpenModal] = useState(false);
 
   const handleGetData = async () => {
     try {
@@ -124,6 +204,16 @@ const Meeting = ({ user }) => {
       console.log("Api 데이터 불러오기 실패");
     }
   };
+
+  useEffect(() => {
+    handleGetData();
+  }, []);
+
+  useEffect(() => {
+    if (!openModal) {
+      handleGetData();
+    }
+  }, [openModal]);
 
   const handleAddBilling = async () => {
     try {
@@ -147,30 +237,42 @@ const Meeting = ({ user }) => {
     }
   };
 
-  const handleLogOut = () =>{
+  const handleLogOut = () => {
     Cookies.remove("authToken");
     navigate("/signd");
-  }
+  };
+
+  const handleToggleMenu = (meetingId) => {
+    setMeetings((prevMeetings) =>
+      prevMeetings.map((meeting) =>
+        meeting.id === meetingId ? { ...meeting, menu: !meeting.menu } : meeting
+      )
+    );
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setOpenModal(true);
+  };
 
   return (
     <MainContainer>
-      <LogOut onClick={handleLogOut}>
-        <img 
-            alt='logOut'
-            src='/images/Logout.png'
-            onClick={() => (window.location.href = "/")} 
-          />
-         <span>로그아웃</span>
-      </LogOut>
-      <UserId>{user.name}🧑🏻‍💻 님의 정산 내역입니다.</UserId>
-      <Link>
-        <MeetingAddButton onClick={handleAddBilling}>
-          모임 추가하기
-        </MeetingAddButton>
-      </Link>
+      <NavContainer>
+        <Nav />
+        <UserSeting>
+          <UserId>{user.name}</UserId>
+          <LogOut onClick={handleLogOut}>
+            <img
+              alt="logOut"
+              src="/images/Logout.png"
+              onClick={() => (window.location.href = "/")}
+            />
+          </LogOut>
+        </UserSeting>
+      </NavContainer>
       <MeetingContainer>
         {meetings.map((data) => (
-          <Link 
+          <BillingLink
             key={data.id}
             to={`meeting/${data.id}`}
             style={{ textDecoration: "none", color: "inherit" }}
@@ -178,18 +280,45 @@ const Meeting = ({ user }) => {
             <Billing key={data.id}>
               <BillingDate>{data.date}</BillingDate>
               <BillingName>{truncate(data.name, 15)}</BillingName>
-              <BillingDeleteButton
-                onClick={(e) => {
-                  e.preventDefault();
-                  handelDeleteBilling(data.id);
-                }}
-              >
-                모임삭제하기
-              </BillingDeleteButton>
+              {data.menu ? (
+                <MenuContainer>
+                  <MenuOpenModal onClick={handleClick}>
+                    <img alt="fix" src="/images/fix.png" />
+                  </MenuOpenModal>
+                  {openModal && (
+                    <BillingNameModal
+                      setOpenModal={setOpenModal}
+                      MainMeetingId={data.id}
+                    />
+                  )}
+                  <BillingDeleteButton
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handelDeleteBilling(data.id);
+                    }}
+                  >
+                    <img alt="Delete" src="/images/Delete.png" />
+                  </BillingDeleteButton>
+                </MenuContainer>
+              ) : (
+                <MenuIcon
+                  alt="Menu"
+                  src="/images/Menu.png"
+                  onClick={(e) => {
+                    handleToggleMenu(data.id);
+                    e.preventDefault();
+                  }}
+                />
+              )}
             </Billing>
-          </Link>
+          </BillingLink>
         ))}
       </MeetingContainer>
+      <StyledLink>
+        <MeetingAddButton onClick={handleAddBilling}>
+          모임 추가하기
+        </MeetingAddButton>
+      </StyledLink>
     </MainContainer>
   );
 };
