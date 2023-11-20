@@ -12,13 +12,13 @@ const KakaoLogin = () => {
       marginTop: "5px",
       boxShadow: "#aaaaaa82",
       backgroundColor: "#fdef72",
-      borderColor: "#fff6ac",
+      borderColor: "#fdef72",
     },
 
     buttonStyle: {
       textColor: "black",
       backgroundColor: "#fdef72",
-      borderColor: "#fff6ac",
+      borderColor: "#fdef72",
     },
   };
 
@@ -32,13 +32,9 @@ const NaverLogin = () => {
     comment: "네이버 로그인으로 시작하기",
     socialLoginUrl:
       "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=QND4X2NgUTIuoNUvS2uz&redirect_uri=https://nbbang.shop/naver-redirect",
-    containerStyle: {
- 
-    },
+    containerStyle: {},
 
-    buttonStyle: {
-    
-    },
+    buttonStyle: {},
   };
 
   return <SocialLoginForm {...naverProps} />;

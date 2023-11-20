@@ -3,10 +3,8 @@ import Cookies from "js-cookie";
 
 export const sendAccessToken = async (accessToken, apiUrl, navigate) => {
   try {
-    console.log("0000000000000000000000000000000000000000");
     const response = await axios.post(apiUrl, { token: accessToken });
     if (response.status === 201) {
-      console.log("123441421512");
       Cookies.set("authToken", response.data, { expires: 30 });
       navigate("/");
     } else {
