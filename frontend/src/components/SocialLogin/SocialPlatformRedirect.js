@@ -9,7 +9,7 @@ const GooglesRedirect = () => {
     const queryParams = new URLSearchParams(window.location.hash.substring(1));
     const accessToken = queryParams.get("access_token");
     if (accessToken) {
-      sendAccessToken(accessToken, "https://nbbang.shop/api/user/google-login");
+      sendAccessToken("https://nbbang.shop/api/user/google-login", accessToken);
       navigate("/");
     }
   }, []);
@@ -23,7 +23,8 @@ const NaverRedirect = () => {
     const accessToken = queryParams.get("code");
 
     if (accessToken) {
-      sendAccessToken(accessToken, "https://nbbang.shop/api/user/naver-login");
+      sendAccessToken("https://nbbang.shop/api/user/naver-login", accessToken);
+      navigate("/");
     }
   }, []);
 
@@ -36,7 +37,8 @@ const KakaoRedirect = () => {
     const accessToken = queryParams.get("code");
 
     if (accessToken) {
-      sendAccessToken(accessToken, "https://nbbang.shop/api/user/kakao-login");
+      sendAccessToken("https://nbbang.shop/api/user/kakao-login", accessToken);
+      navigate("/");
     }
   }, []);
 
