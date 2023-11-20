@@ -1,11 +1,15 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export const sendAccessToken = async (accessToken, apiUrl) => {
+  const navigate = useNavigate();
+
   try {
     const response = await axios.post(apiUrl, { token: accessToken });
     if (response.status === 201) {
       Cookies.set("authToken", response.data, { expires: 30 });
+      navigate("/");
     } else {
       console.log("APi 서버로 전송하는 중 오류가 발생했습니다.");
     }

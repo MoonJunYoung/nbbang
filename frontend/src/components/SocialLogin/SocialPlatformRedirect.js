@@ -3,8 +3,6 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const GooglesRedirect = () => {
-  const navigate = useNavigate();
-
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.hash.substring(1));
     const accessToken = queryParams.get("access_token");
