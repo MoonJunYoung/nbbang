@@ -1,9 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export const sendAccessToken = async (accessToken, apiUrl, useNavigate) => {
-  const navigate = useNavigate();
-
+export const sendAccessToken = async (accessToken, apiUrl, navigate) => {
   try {
     console.log("0000000000000000000000000000000000000000");
     const response = await axios.post(apiUrl, { token: accessToken });

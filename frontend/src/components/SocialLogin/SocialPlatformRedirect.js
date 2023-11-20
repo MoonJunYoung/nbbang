@@ -9,8 +9,8 @@ const GooglesRedirect = () => {
     const accessToken = queryParams.get("access_token");
     if (accessToken) {
       sendAccessToken(
-        "https://nbbang.shop/api/user/google-login",
         accessToken,
+        "https://nbbang.shop/api/user/google-login",
         navigate
       );
     }
@@ -27,8 +27,8 @@ const NaverRedirect = () => {
 
     if (accessToken) {
       sendAccessToken(
-        "https://nbbang.shop/api/user/naver-login",
         accessToken,
+        "https://nbbang.shop/api/user/naver-login",
         navigate
       );
     }
@@ -45,8 +45,8 @@ const KakaoRedirect = () => {
 
     if (accessToken) {
       sendAccessToken(
-        "https://nbbang.shop/api/user/kakao-login",
         accessToken,
+        "https://nbbang.shop/api/user/kakao-login",
         navigate
       );
     }
