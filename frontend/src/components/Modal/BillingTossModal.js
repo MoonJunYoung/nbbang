@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import UsersBankData from "../UsersBankData";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import { useParams } from "react-router-dom";
 import {
-  putBillingTossBank,
-  putBillingFixTossBank,
+  PatchBillingMeetingTossDeposit,
+  PatchBillingUserTossDeposit,
 } from "../../api/api";
 
 const BillingResultContainer = styled.div`
@@ -78,8 +78,8 @@ const Input = styled.input`
 
 const Button = styled.button`
   margin-top: 5px;
-  border: 1px solid lightskyblue;
-  background-color: lightskyblue;
+  border: 1px solid #1849fd;
+  background-color: #1849fd;
   color: white;
   border-radius: 8px;
   width: 115px;
@@ -103,35 +103,41 @@ const PopUp = styled.span`
   margin-right: 2px;
 `;
 
-const BillingTossModal = ({ setTossModalOpen }) => {
-  const [notAllow, setNotAllow] = useState(true);
+const TossIdDelete = styled.span`
+  cursor: pointer;
+  border: 1px solid silver;
+  padding: 3px;
+  font-size: 12px;
+  color: white;
+  background-color: silver;
+  border-radius: 5px;
+`;
+
+const BillingTossModal = ({ setTossModalOpen, meetingName }) => {
   const ref = useRef();
   const { meetingId } = useParams();
   const [formData, setFormData] = useState({
-    account_number: "",
-    bank: "",
+    account_number: meetingName.account_number,
+    bank: meetingName.bank,
   });
-
 
   const handlePutBankData = async (e, action) => {
     e.preventDefault();
-    if (!formData.bank) {
-      formData.bank = UsersBankData[0].bank;
-    }
-
     try {
       if (action === "이번에만 사용하기") {
-        const responsePostData = await putBillingTossBank(meetingId, formData);
+        const responsePostData = await PatchBillingMeetingTossDeposit(
+          meetingId,
+          formData
+        );
         if (responsePostData.status === 200) {
           alert("계좌번호가 추가 되었습니다!");
-          setModalOpen(false);
+          setTossModalOpen(false);
         }
       } else if (action === "계속해서 사용하기") {
-        const responsePostData = await putBillingFixTossBank(formData);
-        await putBillingTossBank(meetingId, formData);
+        const responsePostData = await PatchBillingUserTossDeposit(formData);
         if (responsePostData.status === 200) {
           alert("계좌번호가 추가 되었습니다!");
-          setModalOpen(false);
+          setTossModalOpen(false);
         }
       }
     } catch (error) {
@@ -141,26 +147,40 @@ const BillingTossModal = ({ setTossModalOpen }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (value === "") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: null,
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleBankSelect = (e) => {
-    setFormData({
-      ...formData,
-      bank: e.target.value,
-    });
+    console.log(e.target.value);
+    if (e.target.value === "은행선택")
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        bank: null,
+      }));
+    else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        bank: e.target.value,
+      }));
+    }
   };
 
-  useEffect(() => {
-    if (formData.account_number.length > 0) {
-      setNotAllow(false);
-    } else {
-      setNotAllow(true);
-    }
-  }, [formData.account_number]);
+  const handleIdDelete = () => {
+    setFormData({
+      account_number: "",
+      bank: UsersBankData[0].bank,
+    });
+  };
 
   useOnClickOutside(ref, () => {
     setTossModalOpen(false);
@@ -189,14 +209,16 @@ const BillingTossModal = ({ setTossModalOpen }) => {
                 onTouchMove={(e) => e.preventDefault()}
               />
             </InputBox>
+            <TossIdDelete onClick={handleIdDelete}>
+              입금 정보 비우기
+            </TossIdDelete>
             <select
               value={formData.bank}
               onChange={handleBankSelect}
               style={{
                 width: "90px",
                 height: "20px",
-                borderRadius: "15px",
-                border: "1px solid skyblue",
+                border: "1px solid silver",
               }}
             >
               {UsersBankData.map((bankData, index) => (
@@ -208,14 +230,12 @@ const BillingTossModal = ({ setTossModalOpen }) => {
             <Button
               type="submit"
               onClick={(e) => handlePutBankData(e, "이번에만 사용하기")}
-              disabled={notAllow}
             >
               이번에만 사용하기
             </Button>
             <Button
               type="submit"
               onClick={(e) => handlePutBankData(e, "계속해서 사용하기")}
-              disabled={notAllow}
             >
               계속해서 사용하기
             </Button>
@@ -227,5 +247,3 @@ const BillingTossModal = ({ setTossModalOpen }) => {
 };
 
 export default BillingTossModal;
-
-
