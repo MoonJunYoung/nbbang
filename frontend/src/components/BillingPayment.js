@@ -444,7 +444,7 @@ const BillingPayment = ({ member, payment, setPayment }) => {
                         handleMemberCheckSelect(e, memberdata.id)
                       }
                     />
-                    <span>{memberdata.name}</span>
+                    <span>{truncate(memberdata.name, 4)}</span>
                   </StyledCheckboxLabel>
                 </div>
               ))}
@@ -517,6 +517,7 @@ const BillingPayment = ({ member, payment, setPayment }) => {
           handleGetData={handleGetData}
           selectedMember={selectedMember}
           handleMemberSelect={handleMemberSelect}
+          meetingId={meetingId}
         />
       )}
     </>

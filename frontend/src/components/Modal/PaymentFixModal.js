@@ -138,7 +138,7 @@ const Form = styled.form`
 
 const PaymentFix = ({
   id,
-  meeting_id,
+  meetingId,
   place,
   price,
   attend_member_ids,
@@ -146,6 +146,7 @@ const PaymentFix = ({
   setOpenModal,
   handleGetData,
 }) => {
+  const numericValue = parseFloat(price.replace(/,/g, ""));
   const ref = useRef();
   const initialMemberSelection = member.reduce((selection, memberdata) => {
     selection[memberdata.id] = attend_member_ids.includes(memberdata.id);
@@ -159,7 +160,7 @@ const PaymentFix = ({
 
   const [formData, setFormData] = useState({
     place: place,
-    price: price,
+    price: numericValue,
     attend_member_ids: [],
     pay_member_id: null,
   });
@@ -185,7 +186,7 @@ const PaymentFix = ({
   const handlePutData = async (e) => {
     e.preventDefault();
     try {
-      const response = await putPaymentData(meeting_id, id, formData);
+      const response = await putPaymentData(meetingId, id, formData);
       if (response.status === 200) {
         setFormData({
           palce: "",

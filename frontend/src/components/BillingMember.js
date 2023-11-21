@@ -259,6 +259,7 @@ const BillingMember = ({ member, setMember }) => {
           {...memberSelected}
           setOpenModal={setOpenModal}
           handleGetData={handleGetData}
+          meetingId={meetingId}
         />
       )}
     </BillingMemberContainer>
