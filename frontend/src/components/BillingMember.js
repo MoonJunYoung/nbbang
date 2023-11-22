@@ -138,15 +138,15 @@ const BillingMemberTopLineComent = styled.span`
   font-weight: 800;
 `;
 
-const BillingMember = ({ member, setMember, setPayment }) => {
+const BillingMember = ({ member, setMember }) => {
   const { meetingId } = useParams();
   const [openModal, setOpenModal] = useState(false);
   const [memberSelected, setMemberSelected] = useState({});
+  
   const [notAllow, setNotAllow] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
   });
-
 
   const handleGetData = async () => {
     try {
