@@ -221,11 +221,10 @@ const PaymentMembers = styled.div`
     color: gray;
     font-weight: 600;
     width: 63px;
+    overflow: hidden;
     text-shadow: 1px 1px 2px rgb(0 0 0 / 17%);
     box-shadow: 0px 2px 3px #c3a99759;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
     border: 1px solid silver;
     @media (max-width: 390px) {
       width: 78px;
@@ -239,8 +238,9 @@ const PaymentMembers = styled.div`
     font-size: 13px;
     color: white;
     padding: 5px;
-    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   @media (max-width: 390px) {
     grid-template-columns: repeat(3, 1fr);
@@ -482,14 +482,14 @@ const BillingPayment = ({ member, payment, setPayment }) => {
                     )}
                   </PaymentHistory>
                   <PaymentHistory>
-                    인당 {paymentdata.split_price}원
+                    인당 {paymentdata.split_price.toLocaleString()}원
                   </PaymentHistory>
                 </Payment>
                 {/* </PaymentResultContainer> */}
                 <PaymentMembers>
                   {paymentdata.attend_member.map((attendMemberdata, index) => (
                     <div key={index}>
-                      <span>{attendMemberdata}</span>
+                      <span>{truncate(attendMemberdata, 4)}</span>
                     </div>
                   ))}
                 </PaymentMembers>

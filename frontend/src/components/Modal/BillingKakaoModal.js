@@ -82,7 +82,6 @@ const Button = styled.button`
   background-color: #fdef72;
   color: lightslategrey;
   border-radius: 8px;
-  width: 115px;
   height: 25px;
 `;
 const Message = styled.p`
@@ -134,7 +133,7 @@ const BillingKakaoModal = ({ setKakaoModalOpen, meetingName }) => {
   const { meetingId } = useParams();
   const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    kakao_deposit_id: meetingName.kakao_deposit_id,
+    kakao_deposit_id: meetingName.deposit.kakao_deposit_id,
   });
 
   const handlePutBankData = async (e, action) => {
@@ -146,13 +145,17 @@ const BillingKakaoModal = ({ setKakaoModalOpen, meetingName }) => {
           formData
         );
         if (responsePostData.status === 200) {
-          alert("계좌번호가 추가 되었습니다!");
+          alert("입금정보가 수정 되었습니다!");
           setKakaoModalOpen(false);
         }
       } else if (action === "계속해서 사용하기") {
-        const responsePostData = await PatchBillingUserKaKaoDeposit(formData);
+        await PatchBillingUserKaKaoDeposit(formData);
+        const responsePostData = await PatchBillingMeetingKakaoDeposit(
+          meetingId,
+          formData
+        );
         if (responsePostData.status === 200) {
-          alert("계좌번호가 추가 되었습니다!");
+          alert("입금정보가 수정 되었습니다!");
           setKakaoModalOpen(false);
         }
       }
@@ -177,9 +180,11 @@ const BillingKakaoModal = ({ setKakaoModalOpen, meetingName }) => {
       }));
     }
   };
-
   const handleIdDelete = () => {
-    setFormData({ kakao_deposit_id: "" });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      kakao_deposit_id: null,
+    }));
   };
 
   const handleModalOpen = () => {
@@ -207,7 +212,7 @@ const BillingKakaoModal = ({ setKakaoModalOpen, meetingName }) => {
               <Input
                 type="text"
                 name="kakao_deposit_id"
-                value={formData.kakao_deposit_id}
+                value={formData.kakao_deposit_id || ""}
                 placeholder="카카오 링크를 입력해주세요"
                 onChange={handleInputChange}
                 autoComplete="off"

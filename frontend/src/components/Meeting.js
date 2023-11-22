@@ -53,27 +53,13 @@ const MeetingAddButton = styled.button`
   }
 `;
 
-const Billing = styled.div`
-  margin-top: 13px;
+const Billing = styled(Link)`
+  padding-right: 38px;
   display: flex;
-  justify-content: space-around;
-  gap: 12px;
+  margin-left: 20px;
+  gap: 50px;
   align-items: center;
-  box-shadow: 0px 2px 3px #c3a99759;
-  border: 1px solid #e6e6e666;
-  height: 65px;
-  border-radius: 15px;
-  animation: fadeOut 500ms;
-  @keyframes fadeOut {
-    from {
-      opacity: 0;
-      transform: scale(0);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
+
 `;
 
 const BillingDate = styled.p`
@@ -166,6 +152,7 @@ const MenuOpenModal = styled.div`
 `;
 
 const MenuIcon = styled.img`
+  margin-right: 20px;
   width: 20px;
   animation: fadeIn 400ms;
   @keyframes fadeIn {
@@ -183,9 +170,31 @@ const MenuIcon = styled.img`
 const MenuContainer = styled.div`
   display: flex;
   gap: 23px;
+  margin-right: 20px;
 `;
 
-const BillingLink = styled(Link)``;
+const BillingLink = styled.div`
+  margin-top: 13px;
+  display: flex;
+  justify-content: space-around;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 0px 2px 3px #c3a99759;
+  border: 1px solid #e6e6e666;
+  height: 65px;
+  border-radius: 15px;
+  animation: fadeOut 500ms;
+  @keyframes fadeOut {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+`;
 
 export const truncate = (str, n) => {
   return str?.length > n ? str.substring(0, n) + "..." : str;
@@ -272,45 +281,45 @@ const Meeting = ({ user }) => {
       </NavContainer>
       <MeetingContainer>
         {meetings.map((data) => (
-          <BillingLink
-            key={data.id}
-            to={`meeting/${data.id}`}
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Billing key={data.id}>
+          <BillingLink>
+            <Billing
+              key={data.id}
+              to={`meeting/${data.id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <BillingDate>{data.date}</BillingDate>
-              <BillingName>{truncate(data.name, 15)}</BillingName>
-              {data.menu ? (
-                <MenuContainer>
-                  <MenuOpenModal onClick={handleClick}>
-                    <img alt="fix" src="/images/fix.png" />
-                  </MenuOpenModal>
-                  {openModal && (
-                    <BillingNameModal
-                      setOpenModal={setOpenModal}
-                      MainMeetingId={data.id}
-                    />
-                  )}
-                  <BillingDeleteButton
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handelDeleteBilling(data.id);
-                    }}
-                  >
-                    <img alt="Delete" src="/images/Delete.png" />
-                  </BillingDeleteButton>
-                </MenuContainer>
-              ) : (
-                <MenuIcon
-                  alt="Menu"
-                  src="/images/Menu.png"
-                  onClick={(e) => {
-                    handleToggleMenu(data.id);
-                    e.preventDefault();
-                  }}
-                />
-              )}
+              <BillingName>{truncate(data.name, 13)}</BillingName>
             </Billing>
+            {data.menu ? (
+              <MenuContainer>
+                <MenuOpenModal onClick={handleClick}>
+                  <img alt="fix" src="/images/fix.png" />
+                </MenuOpenModal>
+                {openModal && (
+                  <BillingNameModal
+                    setOpenModal={setOpenModal}
+                    MainMeetingId={data.id}
+                  />
+                )}
+                <BillingDeleteButton
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handelDeleteBilling(data.id);
+                  }}
+                >
+                  <img alt="Delete" src="/images/Delete.png" />
+                </BillingDeleteButton>
+              </MenuContainer>
+            ) : (
+              <MenuIcon
+                alt="Menu"
+                src="/images/Menu.png"
+                onClick={(e) => {
+                  handleToggleMenu(data.id);
+                  e.preventDefault();
+                }}
+              />
+            )}
           </BillingLink>
         ))}
       </MeetingContainer>

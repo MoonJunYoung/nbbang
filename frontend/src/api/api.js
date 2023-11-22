@@ -96,16 +96,16 @@ export const getBillingData = (meetingId) => {
 
 //BillingResult
 
-export const getBillingResultText = (uuid) => {
-  return axiosData().get(`/share/text?uuid=${uuid}`);
+export const getBillingResultText = (meeting_id) => {
+  return axiosData().get(`/meeting/${meeting_id}/share/link`);
 };
 
-export const getBillingResultLink = (uuid) => {
-  return axiosData().get(`/share/link?uuid=${uuid}`);
+export const getBillingResultLink = (meeting_id) => {
+  return axiosData().get(`/meeting/${meeting_id}/share/link`);
 };
 
-export const getBillingResultPage = (uuid) => {
-  return axiosData().get(`/share/page?uuid=${uuid}`);
+export const getBillingResultPage = (meeting_id) => {
+  return axiosData().get(`https://nbbang.shop/api/share/page?uuid=${meeting_id}`);
 };
 
 export const putBillingTossBank = (meetingId, data) => {
