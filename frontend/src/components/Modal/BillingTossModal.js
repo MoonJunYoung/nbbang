@@ -203,7 +203,7 @@ const BillingTossModal = ({ setTossModalOpen, meetingName }) => {
                 value={formData.account_number || ""}
                 placeholder="계좌번호를 입력해주세요"
                 onChange={handleInputChange}
-                maxlength="20"
+                maxLength="20"
                 autoComplete="off"
                 onTouchStart={(e) => e.preventDefault()}
                 onTouchMove={(e) => e.preventDefault()}
