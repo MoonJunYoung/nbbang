@@ -300,7 +300,6 @@ const Billing = ({ payment }) => {
   const [kakaoModalOpen, setKakaoModalOpen] = useState(false);
   const [tossModalOpen, setTossModalOpen] = useState(false);
 
-
   useEffect(() => {
     if (!kakaoModalOpen && !tossModalOpen) {
       const handleMeetingGetData = async () => {
@@ -401,10 +400,13 @@ const Billing = ({ payment }) => {
                     <Member>{data.name}</Member>
                     <Amount>
                       {data.amount > 0
-                        ? `총무에게 보내야 할 돈 : ${data.amount
-                            .toLocaleString()
+                        ? `총무에게 받을 돈 : ${data.amount
+                            .toLocaleString({
+                              style: "currency",
+                              currency: "USD",
+                            })
                             .toString()} 원`
-                        : `총무에게 받을 돈 : ${Math.abs(data.amount)
+                        : `총무에게 보내야 할 돈 : ${Math.abs(data.amount)
                             .toLocaleString({
                               style: "currency",
                               currency: "USD",
