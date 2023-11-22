@@ -27,7 +27,7 @@ const MeetingSeting = styled.div`
   border-radius: 12px;
   border: 1px solid #e6e6e666;
   margin-bottom: 10px;
-  width: 165px;
+  padding: 0px 5px;
   height: 50px;
   display: flex;
   justify-content: center;
@@ -49,9 +49,6 @@ const BillingName = () => {
   const { meetingId } = useParams();
   const [openModal, setOpenModal] = useState(false);
 
-
-
-
   useEffect(() => {
     if (!openModal) {
       const handleGetData = async () => {
@@ -65,7 +62,6 @@ const BillingName = () => {
       handleGetData();
     }
   }, [openModal]);
-
 
   const handleClick = () => {
     setOpenModal(true);

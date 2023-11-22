@@ -238,7 +238,7 @@ const BillingMember = ({ member, setMember }) => {
             maxLength="22"
           />
           <BillingAddMember type="submit" disabled={notAllow}>
-            멤버추가하기
+            멤버 추가하기
           </BillingAddMember>
         </FormContainer>
         <MemberContainer>

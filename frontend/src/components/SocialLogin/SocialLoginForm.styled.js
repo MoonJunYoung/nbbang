@@ -14,7 +14,7 @@ export const SocialLoginContainer = styled.div`
   cursor: pointer;
   position: relative;
   img {
-    width: 25px;
+    width: ${(props) => props.imgWidth || "25px"};;
     margin-bottom: 3px;
   }
 `;
