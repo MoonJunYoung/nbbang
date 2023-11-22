@@ -3,12 +3,11 @@ from backend.domain.meeting import Meeting
 from backend.domain.member import Member
 from backend.domain.payment import Payment
 from backend.domain.share import Share
-from backend.domain.user import User
-from backend.exceptions import IncompleteShareExcption, SharePageNotMeetingExcption
 from backend.repository.meeting import MeetingRepository
 from backend.repository.member import MemberRepository
 from backend.repository.payment import PaymentRepository
 from backend.repository.user import UserRepository
+from backend.service.dto import ShareDTO, set_DTO
 
 
 class ShareService:
@@ -31,6 +30,8 @@ class ShareService:
             meeting.id
         ).run()
         calculate = Calculate(members=members, payments=payments)
+        calculate.split_payments()
         calculate.split_members()
         share = Share(meeting=meeting, calcaulte=calculate)
-        return share
+        share.set_send_link()
+        return set_DTO(ShareDTO, share)

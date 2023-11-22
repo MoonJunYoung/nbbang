@@ -5,17 +5,7 @@ from backend.domain.payment import Payment
 from backend.repository.meeting import MeetingRepository
 from backend.repository.member import MemberRepository
 from backend.repository.payment import PaymentRepository
-
-
-class PaymentDTO:
-    def __init__(self, payment: Payment) -> None:
-        self.id = payment.id
-        self.place = payment.place
-        self.price = format(int(payment.price), ",")
-        self.split_price = format(int(payment.split_price), ",")
-        self.pay_member = payment.pay_member
-        self.attend_member = payment.attend_member
-        self.attend_member_ids = payment.attend_member_ids
+from backend.service.dto import PaymentDTO, set_DTO
 
 
 class PaymentService:
@@ -81,7 +71,4 @@ class PaymentService:
         calculate.split_payments()
         payments = calculate.payments
 
-        result = list()
-        for payment in payments:
-            result.append(PaymentDTO(payment))
-        return result
+        return set_DTO(PaymentDTO, payments)

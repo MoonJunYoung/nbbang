@@ -18,8 +18,8 @@ class Member:
     def set_amount(self, amount):
         self.amount = amount
 
-    def set_toss_send_link(self, toss_send_link):
-        self.toss_send_link = toss_send_link
+    def set_toss_deposit_link(self, toss_deposit_link):
+        self.toss_deposit_link = toss_deposit_link
 
-    def set_kakao_send_link(self, kakao_send_link):
-        self.toss_send_link = kakao_send_link
+    def set_kakao_deposit_link(self, kakao_deposit_link):
+        self.kakao_deposit_link = kakao_deposit_link

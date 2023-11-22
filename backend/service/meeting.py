@@ -1,3 +1,4 @@
+from backend.domain.deposit import Deposit
 from backend.domain.meeting import Meeting
 from backend.domain.user import User
 from backend.repository.meeting import MeetingRepository
@@ -24,7 +25,12 @@ class MeetingService:
         )
         meeting.set_template()
         meeting.set_uuid()
-        meeting.set_deposit(user.deposit)
+        deposit = Deposit(
+            bank=user.deposit.bank,
+            account_number=user.deposit.account_number,
+            kakao_deposit_id=user.deposit.kakao_deposit_id,
+        )
+        meeting.set_deposit(deposit)
         self.meeting_repository.Create(meeting).run()
         return meeting
 
@@ -39,7 +45,7 @@ class MeetingService:
             uuid=None,
         )
         if meeting.name and meeting.date:
-            self.meeting_repository.UpdateInFo(meeting).run()
+            self.meeting_repository.Update(meeting).run()
 
     def delete(self, id, user_id):
         meeting: Meeting = self.meeting_repository.ReadByID(id).run()

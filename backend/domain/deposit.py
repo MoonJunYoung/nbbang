@@ -42,6 +42,10 @@ class Deposit:
     def update_bank_account(self, bank, account_number):
         self.bank = bank
         self.account_number = account_number
+        if isinstance(self.account_number, str) and isinstance(self.bank, str):
+            self._encrypt_account_number_data()
+        elif isinstance(self.account_number, bytes) and isinstance(self.bank, bytes):
+            self._dncrypt_account_number_data()
 
     def update_kakao_deposit_id(self, kakao_deposit_id):
         self.kakao_deposit_id = kakao_deposit_id

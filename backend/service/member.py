@@ -6,14 +6,7 @@ from backend.exceptions import LeaderAlreadyException, MemberIsLeaderDeleteExcpt
 from backend.repository.meeting import MeetingRepository
 from backend.repository.member import MemberRepository
 from backend.repository.payment import PaymentRepository
-
-
-class MemberDTO:
-    def __init__(self, member: Member) -> None:
-        self.id = member.id
-        self.name = member.name
-        self.leader = member.leader
-        self.amount = member.amount
+from backend.service.dto import MemberDTO, set_DTO
 
 
 class MemberService:
@@ -80,7 +73,4 @@ class MemberService:
         calculate.split_members()
         members = calculate.members
 
-        result = list()
-        for member in members:
-            result.append(MemberDTO(member))
-        return result
+        return set_DTO(MemberDTO, members)
