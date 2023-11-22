@@ -82,7 +82,6 @@ const Button = styled.button`
   background-color: #1849fd;
   color: white;
   border-radius: 8px;
-  width: 115px;
   height: 25px;
 `;
 const Message = styled.p`
@@ -117,9 +116,10 @@ const BillingTossModal = ({ setTossModalOpen, meetingName }) => {
   const ref = useRef();
   const { meetingId } = useParams();
   const [formData, setFormData] = useState({
-    account_number: meetingName.account_number,
-    bank: meetingName.bank,
+    account_number: meetingName.deposit.account_number,
+    bank: meetingName.deposit.bank,
   });
+
 
   const handlePutBankData = async (e, action) => {
     e.preventDefault();
@@ -130,13 +130,14 @@ const BillingTossModal = ({ setTossModalOpen, meetingName }) => {
           formData
         );
         if (responsePostData.status === 200) {
-          alert("계좌번호가 추가 되었습니다!");
+          alert("입금정보가 수정 되었습니다!");
           setTossModalOpen(false);
         }
       } else if (action === "계속해서 사용하기") {
+        await PatchBillingMeetingTossDeposit(meetingId, formData);
         const responsePostData = await PatchBillingUserTossDeposit(formData);
         if (responsePostData.status === 200) {
-          alert("계좌번호가 추가 되었습니다!");
+          alert("입금정보가 수정 되었습니다!");
           setTossModalOpen(false);
         }
       }
@@ -161,7 +162,6 @@ const BillingTossModal = ({ setTossModalOpen, meetingName }) => {
   };
 
   const handleBankSelect = (e) => {
-    console.log(e.target.value);
     if (e.target.value === "은행선택")
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -177,8 +177,8 @@ const BillingTossModal = ({ setTossModalOpen, meetingName }) => {
 
   const handleIdDelete = () => {
     setFormData({
-      account_number: "",
-      bank: UsersBankData[0].bank,
+      account_number: null,
+      bank: null,
     });
   };
 
@@ -200,7 +200,7 @@ const BillingTossModal = ({ setTossModalOpen, meetingName }) => {
               <Input
                 type="number"
                 name="account_number"
-                value={formData.account_number}
+                value={formData.account_number || ""}
                 placeholder="계좌번호를 입력해주세요"
                 onChange={handleInputChange}
                 maxlength="20"
@@ -209,11 +209,8 @@ const BillingTossModal = ({ setTossModalOpen, meetingName }) => {
                 onTouchMove={(e) => e.preventDefault()}
               />
             </InputBox>
-            <TossIdDelete onClick={handleIdDelete}>
-              입금 정보 비우기
-            </TossIdDelete>
             <select
-              value={formData.bank}
+              value={formData.bank || UsersBankData[0].bank}
               onChange={handleBankSelect}
               style={{
                 width: "90px",
@@ -227,6 +224,9 @@ const BillingTossModal = ({ setTossModalOpen, meetingName }) => {
                 </option>
               ))}
             </select>
+            <TossIdDelete onClick={handleIdDelete}>
+              입금 정보 비우기
+            </TossIdDelete>
             <Button
               type="submit"
               onClick={(e) => handlePutBankData(e, "이번에만 사용하기")}

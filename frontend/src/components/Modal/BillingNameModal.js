@@ -4,7 +4,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
 import { PutMeetingNameData } from "../../api/api";
-import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 const BillingNameModalContainer = styled.div`
   z-index: 10;
@@ -96,7 +95,6 @@ const Input = styled.input`
 `;
 
 const BillingName = ({ setOpenModal, MainMeetingId }) => {
-  const ref = useRef();
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth() + 1;
@@ -150,10 +148,6 @@ const BillingName = ({ setOpenModal, MainMeetingId }) => {
     setNotAllow(true);
   }, [formData.name]);
 
-  useOnClickOutside(ref, () => {
-    setOpenModal(false);
-  });
-
   const handleInputClick = (e) => {
     e.preventDefault();
   };
@@ -161,7 +155,7 @@ const BillingName = ({ setOpenModal, MainMeetingId }) => {
   return (
     <BillingNameModalContainer>
       <WrapperModal>
-        <Modal ref={ref}>
+        <Modal>
           <ModalClose onClick={() => setOpenModal(false)}>X</ModalClose>
           <FormContainer onSubmit={handlePutData}>
             <InputBox>

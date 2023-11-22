@@ -33,7 +33,7 @@ const BillingResultShare = ({meetingName}) => {
 
   const getApiDataCopy = async () => {
     try {
-      const response = await getBillingResultLink(meetingName.uuid); 
+      const response = await getBillingResultLink(meetingName.id); 
       if (response.status === 200) {
         const billingResult = response.data;
         await navigator.clipboard.writeText(billingResult);
@@ -46,7 +46,7 @@ const BillingResultShare = ({meetingName}) => {
 
   const getApiDataShare = async () => {
     try {
-      const response = await getBillingResultLink(meetingName.uuid);
+      const response = await getBillingResultLink(meetingName.id);
       if (response.status === 200) {
         const billingResult = response.data;
         if (navigator.share) {

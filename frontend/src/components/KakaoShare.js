@@ -5,7 +5,7 @@ const KakaoContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const KakaoShareBox = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const KakaoShareBox = styled.div`
   }
   &:hover {
     transition: all 0.2s;
-    transform: scale(1.10);
+    transform: scale(1.1);
     font-weight: 600;
     background-color: #ffeb3c;
   }
@@ -52,7 +52,7 @@ const KakaoShare = ({ meetingName }) => {
       objectType: "feed",
       content: {
         title: "Nbbang",
-        description: "#모임 #좋은자리 #좋은사람 #좋은조도 #좋은습도",
+        description: `${meetingName.name}의 정산결과 입니다.`,
         imageUrl: "",
         link: {
           webUrl: meetingUrl,

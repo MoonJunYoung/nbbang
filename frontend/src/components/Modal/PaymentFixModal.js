@@ -146,7 +146,6 @@ const PaymentFix = ({
   setOpenModal,
   handleGetData,
 }) => {
-  const numericValue = parseFloat(price.replace(/,/g, ""));
   const ref = useRef();
   const initialMemberSelection = member.reduce((selection, memberdata) => {
     selection[memberdata.id] = attend_member_ids.includes(memberdata.id);
@@ -160,7 +159,7 @@ const PaymentFix = ({
 
   const [formData, setFormData] = useState({
     place: place,
-    price: numericValue,
+    price: price,
     attend_member_ids: [],
     pay_member_id: null,
   });

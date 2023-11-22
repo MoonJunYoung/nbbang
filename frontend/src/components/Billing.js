@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { GetMeetingNameData, getMemberData, getUserData } from "../api/api";
+import { GetMeetingNameData, getMemberData } from "../api/api";
 import BillingTossModal from "./Modal/BillingTossModal";
 import BillingKakaoModal from "./Modal/BillingKakaoModal";
 import BillingResultShare from "./BillingResultShare";
@@ -297,16 +297,16 @@ const Billing = ({ payment }) => {
   const [meetingName, setMeetingName] = useState([]);
   const [members, setMembers] = useState([]);
   const [paymentState, setPaymentState] = useState(false);
-  const [user, setUser] = useState([]);
   const [kakaoModalOpen, setKakaoModalOpen] = useState(false);
   const [tossModalOpen, setTossModalOpen] = useState(false);
+
 
   useEffect(() => {
     if (!kakaoModalOpen && !tossModalOpen) {
       const handleMeetingGetData = async () => {
         try {
           const response = await GetMeetingNameData(meetingId);
-          setMeetingName(response.data.deposit);
+          setMeetingName(response.data);
         } catch (error) {
           console.log("Api 데이터 불러오기 실패");
         }
@@ -423,22 +423,26 @@ const Billing = ({ payment }) => {
         <KakaoModalContainer onClick={handleKakaoModal}>
           <img alt="kakao" src="/images/kakao.png" />
           <KakaoModalbutton>카카오 입급 아이디</KakaoModalbutton>
-          {meetingName && meetingName.kakao_deposit_id === null ? (
-            <KakaoRegistration>등록하기</KakaoRegistration>
+          {meetingName &&
+          meetingName.deposit &&
+          meetingName.deposit.kakao_deposit_id !== null ? (
+            <KakaoId>{meetingName.deposit.kakao_deposit_id}</KakaoId>
           ) : (
-            <KakaoId>{meetingName.kakao_deposit_id}</KakaoId>
+            <KakaoRegistration>등록하기</KakaoRegistration>
           )}
         </KakaoModalContainer>
         <TossModalContainer onClick={handleTossModal}>
           <img alt="kakao" src="/images/Toss.png" />
           <TossModalbutton>토스 입금 계좌</TossModalbutton>
-          {meetingName && meetingName.bank === null ? (
-            <TossRegistration>등록하기</TossRegistration>
-          ) : (
+          {meetingName &&
+          meetingName.deposit &&
+          meetingName.deposit.bank !== null ? (
             <TossBankContainer>
-              <TossBank>{meetingName.bank}</TossBank>
-              <TossBank>{meetingName.account_number}</TossBank>
+              <TossBank>{meetingName.deposit.bank}</TossBank>
+              <TossBank>{meetingName.deposit.account_number}</TossBank>
             </TossBankContainer>
+          ) : (
+            <TossRegistration>등록하기</TossRegistration>
           )}
         </TossModalContainer>
       </RemittanceContainer>

@@ -23,7 +23,7 @@ const Modal = styled.div`
   gap: 15px;
   max-height: 80%;
   height: auto;
-  width: 90%;
+  width: 300px;
   background: white;
   border-radius: 8px;
   transition: all 400ms ease-in-out 2s;

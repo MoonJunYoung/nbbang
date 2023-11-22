@@ -6,67 +6,169 @@ import { truncate } from "../../components/Meeting";
 import styled from "styled-components";
 import Nav from "../../components/Nav";
 
-const ResultContaner = styled.div``;
+const ResultContaner = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const MeetingContaner = styled.div``;
 
 const MeetingName = styled.h1`
   font-size: 22px;
-  color: steelblue;
+  color: #938282;
 `;
 
 const MeetingDate = styled.h2`
   font-size: 18px;
-  color: steelblue;
+  color: #938282;
+  margin-bottom: 40px;
 `;
 
-const PaymentsContainar = styled.div`
+const PaymentList = styled.div`
+  overflow: hidden;
+  display: flex;
+  width: 90%;
+  align-items: center;
+  border: 1px solid #e6e6e666;
+  justify-content: space-around;
+  box-shadow: 0px 2px 3px #c3a99759;
+  margin: 5px 0px;
+  border-radius: 10px;
+`;
+
+const PaymentHistory = styled.span`
+  color: gray;
+  font-weight: 800;
+`;
+
+const Payment = styled.div`
+  margin-left: 5px;
+  padding: 4px 0;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const BillingMemberTopLine = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-const BillingContainer = styled(PaymentsContainar)`
-  font-weight: bold;
+  margin-bottom: 20px;
+  position: absolute;
+  top: 0px;
+  z-index: 3;
+  background-color: white;
 `;
 
-const PaymentsHistory = styled.div`
+const BillingPaymentLine = styled.div`
+  border: 1px solid silver;
+  overflow: hidden;
+  border-radius: 30px;
+  margin-top: 10px;
+  width: 95%;
+  padding-top: 30px;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  width: 550px;
-  height: 100px;
-  border: 2px solid #cce5ff;
-  height: 100%;
-  border-radius: 10px;
-  @media (max-width: 768px) {
-    position: relative;
-    width: 97%;
-    height: 100%;
+`;
+
+const BillingMemberTopLineComent = styled.span`
+  margin: 0 10px;
+  font-size: 14px;
+  color: silver;
+  font-weight: 800;
+`;
+
+const BillingPaymentTopLine = styled(BillingMemberTopLine)``;
+
+const BillingPaymentTopLineComent = styled(BillingMemberTopLineComent)``;
+
+const PaymentContainers = styled.div`
+  margin: 5px 0px;
+`;
+
+const PaymentMembers = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  place-items: center;
+  justify-content: end;
+  margin: 5px 0px 0px 5px;
+  gap: 12px;
+  div {
+    background-color: #c7c7c7;
+    color: gray;
+    font-weight: 600;
+    width: 63px;
+    overflow: hidden;
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 17%);
+    box-shadow: 0px 2px 3px #c3a99759;
+
+    border: 1px solid silver;
+    @media (max-width: 390px) {
+      width: 78px;
+    }
+    @media (max-width: 320px) {
+      width: 63px;
+    }
   }
-  @media (max-width: 900px) {
-    position: relative;
-    width: 97%;
-    height: 100%;
+
+  span {
+    font-size: 13px;
+    color: white;
+    padding: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  @media (max-width: 390px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (min-width: 800px) {
+    grid-template-columns: repeat(6, 1fr);
   }
 `;
+
+const PaymentLine = styled(BillingPaymentLine)`
+  padding: 12px 0px;
+`;
+
+const PaymentDeleteContainer = styled.div``;
+
+const BillingContainer = styled.div`
+  width: 100%;
+`;
+
 const Place = styled.span`
-  font-weight: bold;
-  display: block;
-  padding: 2px;
-  text-align: center;
-  width: 80px;
+  padding: 5px;
+  font-size: 14px;
   background-color: lightseagreen;
   border: none;
   color: white;
-  margin-top: 5px;
+  margin: 0 10px;
+  @media (max-width: 768px) {
+    position: absolute;
+    top: 8px;
+  }
 `;
 
 const Price = styled.span`
   position: relative;
   font-size: 14px;
+  &::before {
+    content: "|";
+    color: dodgerblue;
+    position: absolute;
+    left: -13px;
+  }
+  @media (max-width: 768px) {
+    &::before {
+      content: "";
+    }
+    margin-top: 25px;
+  }
 `;
 
 const PayMember = styled(Price)`
@@ -74,14 +176,14 @@ const PayMember = styled(Price)`
     content: "|";
     color: dodgerblue;
     position: absolute;
-    left: -9px;
+    left: -13px;
   }
   @media (max-width: 768px) {
     &::before {
       content: "|";
       color: dodgerblue;
       position: absolute;
-      left: -8px;
+      left: -7px;
     }
   }
 `;
@@ -91,14 +193,14 @@ const AttendMemberCount = styled(Price)`
     content: "|";
     color: dodgerblue;
     position: absolute;
-    left: -9px;
+    left: -13px;
   }
   @media (max-width: 768px) {
     &::before {
       content: "|";
       color: dodgerblue;
       position: absolute;
-      left: -8px;
+      left: -7px;
     }
   }
 `;
@@ -108,20 +210,23 @@ const SplitPrice = styled(Price)`
     content: "|";
     color: dodgerblue;
     position: absolute;
-    left: -9px;
+    left: -13px;
   }
   @media (max-width: 768px) {
     &::before {
       content: "|";
       color: dodgerblue;
       position: absolute;
-      left: -8px;
+      left: -7px;
     }
   }
 `;
 
 const Member = styled.p`
   font-size: 15px;
+  margin: 7px 0px;
+  color: #938282;
+  font-weight: 700;
 `;
 
 const Leader = styled(Member)`
@@ -132,11 +237,7 @@ const Amount = styled(Member)``;
 
 const LeaderBillingContainer = styled.div``;
 
-const LeaderAmount = styled(Member)`
-  @media (max-width: 768px) {
-    width: 38%;
-  }
-`;
+const LeaderAmount = styled(Member)``;
 
 const LeaderBilling = styled.div`
   display: flex;
@@ -149,44 +250,111 @@ const LeaderBilling = styled.div`
 
 const BillingHistory = styled.div`
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  margin-top: 20px;
-  width: 550px;
-  height: 100px;
-  border: 4px outset skyblue;
-
-  border-radius: 10px;
-  color: white;
-  background-color: #20b6fd;
-  border: 3px solid skyblue;
-  height: 60px;
-  @media (max-width: 768px) {
-    position: relative;
-    width: 97%;
-    height: 100%;
-  }
+  align-items: flex-start;
 `;
 const LeaderBillingMoney = styled.span`
-  font-size: 14px;
+  font-size: 13px;
+  color: #697178;
 `;
 
-// const TossPayContanerNull = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
+const BillingTopLine = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: absolute;
+  top: 215px;
+  left: 123px;
+  z-index: 3;
+  background-color: white;
+`;
+
+const BillingLine = styled.div`
+  border: 1px solid silver;
+  overflow: hidden;
+  border-radius: 30px;
+  width: 95%;
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const BillingTopLineComent = styled.span`
+  margin: 0 10px;
+  font-size: 14px;
+  color: silver;
+  font-weight: 800;
+`;
+
+const BillingLeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const BillingLeaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LeaderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  @media (max-width: 375px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const Logo = styled.img`
+  width: 55px;
+  height: 45px;
+  padding: 17px;
+`;
+
+const Billings = styled.div`
+  margin-top: 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+const Remittance = styled.div`
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 80%;
+  }
+  @media (max-width: 900px) {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    width: 80%;
+  }
+`;
+
+const MemberContainer = styled.div``;
 
 const TossPayContaner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 180px;
+  width: 150px;
   border-radius: 15px;
   height: 30px;
   border: 1px solid #1849fd;
   background-color: #1849fd;
   margin-bottom: 10px;
+  @media (max-width: 360px) {
+    width: 120px;
+  }
 
   a {
     display: flex;
@@ -207,15 +375,19 @@ const TossPayContaner = styled.div`
     font-weight: 700;
   }
 `;
+
 const KakaoContaner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 180px;
+  width: 150px;
   border-radius: 15px;
   height: 30px;
   background-color: #ffeb3c;
   margin-bottom: 10px;
+  @media (max-width: 360px) {
+    width: 120px;
+  }
 
   a {
     display: flex;
@@ -236,91 +408,17 @@ const KakaoContaner = styled.div`
   }
 `;
 
-const MembersContainer = styled.div`
-  @media (max-width: 768px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  @media (max-width: 900px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-`;
-
-const MemberContainer = styled.div`
+const BillingMemberContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 45px;
-  @media (max-width: 768px) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 45px;
-  }
-  @media (max-width: 900px) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 45px;
-  }
-`;
-
-const Remittance = styled.div`
-  @media (max-width: 768px) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    width: 80%;
-  }
-  @media (max-width: 900px) {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    align-items: center;
-    width: 80%;
-  }
-`;
-
-const PaymentsMembers = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-  font-size: 12px;
-  margin: 9px;
-`;
-
-const PaymentMember = styled.span`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  border-radius: 11px;
-  height: 25px;
-  background: #20b6fd;
-  color: white;
-`;
-
-const Payment = styled.div`
-  display: flex;
-  gap: 13px;
-  margin-top: 15px;
-  @media (max-width: 768px) {
-    display: flex;
-    gap: 13px;
-  }
-`;
-
-const PlaceList = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  align-items: flex-start;
+  @media (min-width: 670px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+  }
 `;
 
 function SharePage() {
@@ -347,28 +445,26 @@ function SharePage() {
           setMembers(responseGetData.data.members);
           setPayments(responseGetData.data.payments);
           setMeetings(responseGetData.data.meeting);
-        }
-        if (error.response.status === 204) {
+        } else if (responseGetData.status === 204) {
           setBillingRequestFailed(true);
+          console.log("데이터 값이 없습니다");
         }
-        console.log("데이터 값이 없습니다");
       } catch (error) {
-        console.log(error);
-        if (error.response.status === 404) {
+        console.error(error);
+
+        if (error.response && error.response.status === 404) {
           setApiRequestFailed(true);
           setTimeout(() => {
             navigate("/");
           }, 3000);
+        } else {
+          console.log("API 데이터 불러오기 실패");
         }
-        console.log("API 데이터 불러오기 실패");
       }
     };
+
     handleGetData();
   }, [meeting]);
-
-  const negativeBillingEntries = Object.entries(members).filter(
-    ([key, value]) => value.amount < 0 && value.leader === false
-  );
 
   if (apiRequestFailed) {
     return (
@@ -398,124 +494,138 @@ function SharePage() {
         <MeetingName>{meetings.name}의 정산결과 입니다!</MeetingName>
         <MeetingDate>{meetings.date}</MeetingDate>
       </MeetingContaner>
-      <PaymentsContainar>
-        {Object.keys(payments).map((key) => (
-          <PaymentsHistory key={key}>
-            <PlaceList>
-              <Place>{truncate(payments[key].place, 10)}</Place>
-              <Payment>
-                <Price>
-                  {truncate(
-                    payments[key].price.toLocaleString().toString() + "원",
-                    8
-                  )}
-                </Price>
-                <PayMember>결제자 {payments[key].pay_member}</PayMember>
-                <AttendMemberCount>
-                  총 {payments[key].attend_members_count}명
-                </AttendMemberCount>
-                <SplitPrice>
-                  나눠서 낼 돈{" "}
-                  {truncate(
-                    payments[key].split_price.toLocaleString().toString() +
-                      "원",
-                    8
-                  )}
-                </SplitPrice>
+      <BillingTopLine>
+        <BillingTopLineComent>최종 정산 결과입니다!</BillingTopLineComent>
+      </BillingTopLine>
+      <BillingLine>
+        {payments.map((paymentdata) => (
+          <PaymentList key={paymentdata.id}>
+            <PaymentContainers>
+              <Payment onClick={() => handleClick(paymentdata)}>
+                <PaymentHistory>
+                  {truncate(paymentdata.place, 10)}
+                </PaymentHistory>
+                <PaymentHistory>결제자 {paymentdata.pay_member}</PaymentHistory>
               </Payment>
-            </PlaceList>
-            <PaymentsMembers>
-              {payments[key].attend_members.map((data, index) => (
-                <PaymentMember key={index}>{data}</PaymentMember>
-              ))}
-            </PaymentsMembers>
-          </PaymentsHistory>
+              <Payment onClick={() => handleClick(paymentdata)}>
+                <PaymentHistory>
+                  {truncate(
+                    paymentdata.price.toLocaleString().toString() + "원",
+                    12
+                  )}
+                </PaymentHistory>
+                <PaymentHistory>
+                  인당 {paymentdata.split_price.toLocaleString()}원
+                </PaymentHistory>
+              </Payment>
+              {/* </PaymentResultContainer> */}
+              <PaymentMembers>
+                {paymentdata.attend_member.map((attendMemberdata, index) => (
+                  <div key={index}>
+                    <span>{truncate(attendMemberdata, 4)}</span>
+                  </div>
+                ))}
+              </PaymentMembers>
+            </PaymentContainers>
+          </PaymentList>
         ))}
-      </PaymentsContainar>
-      <BillingContainer>
-        {Object.keys(members).map((key) => (
-          <BillingHistory key={key}>
-            {members[key].leader ? (
-              <>
-                <Leader>총무</Leader>
-                <Member>{members[key].name}</Member>
-                <LeaderAmount>
-                  {members[key].amount > 0
-                    ? `보내야 할 돈 : ${members[key].amount
-                        .toLocaleString()
-                        .toString()} 원`
-                    : `받을 돈 : ${Math.abs(members[key].amount)
-                        .toLocaleString({
-                          style: "currency",
-                          currency: "USD",
-                        })
-                        .toString()} 원`}
-                </LeaderAmount>
-                <LeaderBillingContainer>
-                  {negativeBillingEntries.map(([key, value]) => (
-                    <LeaderBilling key={key}>
-                      <LeaderBillingMoney>{`${value.name}님 한테 ${Math.abs(
-                        value.amount
-                      )
-                        .toLocaleString({
-                          style: "currency",
-                          currency: "USD",
-                        })
-                        .toString()}원을 보내주세요`}</LeaderBillingMoney>
-                    </LeaderBilling>
-                  ))}
-                </LeaderBillingContainer>
-              </>
-            ) : (
-              <MembersContainer>
-                <MemberContainer>
-                  <Member>{members[key].name}</Member>
-                  <Amount>
-                    {members[key].amount > 0
-                      ? `총무에게 보내야 할 돈 : ${members[key].amount
-                          .toLocaleString()
-                          .toString()} 원`
-                      : `총무에게 받을 돈 : ${Math.abs(members[key].amount)
-                          .toLocaleString({
-                            style: "currency",
-                            currency: "USD",
-                          })
-                          .toString()} 원`}
-                  </Amount>
-                </MemberContainer>
-                {isMobile ? (
-                  <Remittance>
-                    {members[key].amount > 0 &&
-                    members[key].toss_send_link !== "" ? (
-                      <TossPayContaner>
-                        <a href={members[key].toss_send_link}>
-                          <img alt="Toss" src="/images/Toss.png" />
-                          <span>송금하기</span>
-                        </a>
-                      </TossPayContaner>
-                    ) : (
-                      ""
-                    )}
-                    {members[key].amount > 0 &&
-                    members[key].kakao_send_link !== "" ? (
-                      <KakaoContaner>
-                        <a href={members[key].kakao_send_link}>
-                          <img alt="kakao" src="/images/kakaoPay.png" />
-                          <span>송금하기</span>
-                        </a>
-                      </KakaoContaner>
-                    ) : (
-                      ""
-                    )}
-                  </Remittance>
-                ) : (
-                  ""
-                )}
-              </MembersContainer>
-            )}
-          </BillingHistory>
-        ))}
-      </BillingContainer>
+
+        <BillingContainer>
+          {members.map((data) => (
+            <BillingHistory key={data.id}>
+              {data.leader ? (
+                <BillingLeaderContainer>
+                  <Logo alt="BillingLogo" src="/images/nbbang_Logo.png" />
+                  <BillingLeader>
+                    <LeaderContainer>
+                      <Member>총무 {data.name}</Member>
+                      <LeaderAmount>
+                        {data.amount > 0
+                          ? `보내야 할 돈 : ${data.amount
+                              .toLocaleString()
+                              .toString()} 원`
+                          : `받을 돈 : ${Math.abs(data.amount)
+                              .toLocaleString({
+                                style: "currency",
+                                currency: "USD",
+                              })
+                              .toString()} 원`}
+                      </LeaderAmount>
+                    </LeaderContainer>
+                    <LeaderBillingContainer>
+                      {members.map((value) =>
+                        value.amount < 0 && value.leader === false ? (
+                          <LeaderBilling key={value.id}>
+                            <LeaderBillingMoney>{`${
+                              value.name
+                            }님 한테 ${Math.abs(value.amount)
+                              .toLocaleString({
+                                style: "currency",
+                                currency: "USD",
+                              })
+                              .toString()}원을 보내주세요`}</LeaderBillingMoney>
+                          </LeaderBilling>
+                        ) : null
+                      )}
+                    </LeaderBillingContainer>
+                  </BillingLeader>
+                </BillingLeaderContainer>
+              ) : (
+                <>
+                  <Logo alt="BillingLogo" src="/images/nbbang_Logo.png" />
+                  <BillingMemberContainer>
+                    <Billings>
+                      <Member>{data.name}</Member>
+                      <Amount>
+                        {data.amount > 0
+                          ? `총무에게 보내야 할 돈 : ${data.amount
+                              .toLocaleString()
+                              .toString()} 원`
+                          : `총무에게 받을 돈 : ${Math.abs(data.amount)
+                              .toLocaleString({
+                                style: "currency",
+                                currency: "USD",
+                              })
+                              .toString()} 원`}
+                      </Amount>
+                    </Billings>
+                    <MemberContainer>
+                      {isMobile ? (
+                        <Remittance>
+                          {data.amount > 0 &&
+                          data.toss_deposit_link !== null ? (
+                            <TossPayContaner>
+                              <a href={data.toss_deposit_link}>
+                                <img alt="Toss" src="/images/Toss.png" />
+                                <span>송금하기</span>
+                              </a>
+                            </TossPayContaner>
+                          ) : (
+                            ""
+                          )}
+                          {data.amount > 0 &&
+                          data.kakao_deposit_link !== null ? (
+                            <KakaoContaner>
+                              <a href={data.kakao_deposit_link}>
+                                <img alt="kakao" src="/images/kakaoPay.png" />
+                                <span>송금하기</span>
+                              </a>
+                            </KakaoContaner>
+                          ) : (
+                            ""
+                          )}
+                        </Remittance>
+                      ) : (
+                        ""
+                      )}
+                    </MemberContainer>
+                  </BillingMemberContainer>
+                </>
+              )}
+            </BillingHistory>
+          ))}
+        </BillingContainer>
+      </BillingLine>
     </ResultContaner>
   );
 }
