@@ -8,6 +8,10 @@ import Nav from "../../components/Nav";
 
 const ResultContaner = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const MeetingContaner = styled.div``;
@@ -586,35 +590,35 @@ function SharePage() {
                       </Amount>
                     </Billings>
                     <MemberContainer>
-                    {isMobile ? (
-                      <Remittance>
-                        {data.amount > 0 &&
-                        data.toss_deposit_link !== null ? (
-                          <TossPayContaner>
-                            <a href={data.toss_deposit_link}>
-                              <img alt="Toss" src="/images/Toss.png" />
-                              <span>송금하기</span>
-                            </a>
-                          </TossPayContaner>
-                        ) : (
-                          ""
-                        )}
-                        {data.amount > 0 &&
-                        data.kakao_deposit_link !== null ? (
-                          <KakaoContaner>
-                            <a href={data.kakao_deposit_link}>
-                              <img alt="kakao" src="/images/kakaoPay.png" />
-                              <span>송금하기</span>
-                            </a>
-                          </KakaoContaner>
-                        ) : (
-                          ""
-                        )}
-                      </Remittance>
-                    ) : (
-                      ""
-                    )}
-                  </MemberContainer>
+                      {isMobile ? (
+                        <Remittance>
+                          {data.amount > 0 &&
+                          data.toss_deposit_link !== null ? (
+                            <TossPayContaner>
+                              <a href={data.toss_deposit_link}>
+                                <img alt="Toss" src="/images/Toss.png" />
+                                <span>송금하기</span>
+                              </a>
+                            </TossPayContaner>
+                          ) : (
+                            ""
+                          )}
+                          {data.amount > 0 &&
+                          data.kakao_deposit_link !== null ? (
+                            <KakaoContaner>
+                              <a href={data.kakao_deposit_link}>
+                                <img alt="kakao" src="/images/kakaoPay.png" />
+                                <span>송금하기</span>
+                              </a>
+                            </KakaoContaner>
+                          ) : (
+                            ""
+                          )}
+                        </Remittance>
+                      ) : (
+                        ""
+                      )}
+                    </MemberContainer>
                   </BillingMemberContainer>
                 </>
               )}
