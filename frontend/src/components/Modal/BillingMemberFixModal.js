@@ -104,7 +104,6 @@ const BillingMemberFix = ({
       [name]: value,
     });
   };
-  console.log(selectedleader);
   const handlePutData = async (e) => {
     e.preventDefault();
     if (leader === true) {
