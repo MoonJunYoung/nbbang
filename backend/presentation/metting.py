@@ -61,9 +61,6 @@ class MeetingPresentation:
                 name=meeting_data.name,
                 date=meeting_data.date,
                 user_id=user_id,
-                bank=meeting_data.bank,
-                account_number=meeting_data.account_number,
-                kakao_id=meeting_data.kakao_id,
             )
         except Exception as e:
             catch_exception(e)

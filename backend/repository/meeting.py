@@ -25,7 +25,7 @@ class MeetingRepository:
             self.session.commit()
             self.meeting.id = meeting_model.id
 
-    class UpdateInFo(MysqlCRUDTemplate):
+    class Update(MysqlCRUDTemplate):
         def __init__(self, meeting: Meeting) -> None:
             self.meeting = meeting
             super().__init__()

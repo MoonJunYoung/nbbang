@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import APIRouter, Header
 from pydantic import BaseModel
 
@@ -9,9 +11,9 @@ deposit_service = DepositService()
 
 
 class DepositData(BaseModel):
-    bank: str = None
-    account_number: str = None
-    kakao_deposit_id: str = None
+    bank: Optional[str] = None
+    account_number: Optional[str] = None
+    kakao_deposit_id: Optional[str] = None
 
 
 class DepositPresentation:
@@ -31,7 +33,7 @@ class DepositPresentation:
                 user_id=user_id,
                 target=target,
                 deposit_type=deposit_type,
-                deposit_data=deposit_data,
+                kakao_deposit_id=deposit_data.kakao_deposit_id,
             )
         except Exception as e:
             catch_exception(e)
@@ -49,7 +51,8 @@ class DepositPresentation:
                 user_id=user_id,
                 target=target,
                 deposit_type=deposit_type,
-                deposit_data=deposit_data,
+                bank=deposit_data.bank,
+                account_number=deposit_data.account_number,
             )
         except Exception as e:
             catch_exception(e)
@@ -67,7 +70,7 @@ class DepositPresentation:
                 user_id=user_id,
                 target=target,
                 deposit_type=deposit_type,
-                deposit_data=deposit_data,
+                kakao_deposit_id=deposit_data.kakao_deposit_id,
             )
         except Exception as e:
             catch_exception(e)
@@ -85,7 +88,8 @@ class DepositPresentation:
                 user_id=user_id,
                 target=target,
                 deposit_type=deposit_type,
-                deposit_data=deposit_data,
+                bank=deposit_data.bank,
+                account_number=deposit_data.account_number,
             )
         except Exception as e:
             catch_exception(e)

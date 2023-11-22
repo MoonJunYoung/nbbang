@@ -38,7 +38,9 @@ class Token:
 
     def get_user_name_and_platform_id_by_google_oauth(token):
         google_user_data = json.loads(
-            requests.get(f"https://www.googleapis.com/oauth2/v1/userinfo?access_token={token}").text
+            requests.get(
+                f"https://www.googleapis.com/oauth2/v1/userinfo?access_token={token}"
+            ).text
         )
         name = google_user_data.get("name")
         platform_id = google_user_data.get("id")
@@ -52,13 +54,19 @@ class Token:
                 "redirect_uri": kakao_redirect_url,
                 "code": token,
             }
-            kakao_token_data = json.loads(requests.post(url=f"https://kauth.kakao.com/oauth/token", data=data).text)
+            kakao_token_data = json.loads(
+                requests.post(
+                    url=f"https://kauth.kakao.com/oauth/token", data=data
+                ).text
+            )
             access_token = kakao_token_data.get("access_token")
             return access_token
 
         access_token = _get_user_access_token_by_kakao_oauth(token)
         headers = {"Authorization": f"Bearer {access_token}"}
-        kakao_user_data = json.loads(requests.get(url="https://kapi.kakao.com/v2/user/me", headers=headers).text)
+        kakao_user_data = json.loads(
+            requests.get(url="https://kapi.kakao.com/v2/user/me", headers=headers).text
+        )
         platform_id = kakao_user_data.get("id")
         name = kakao_user_data.get("kakao_account").get("profile").get("nickname")
         return name, platform_id
@@ -75,7 +83,11 @@ class Token:
 
         access_token = _get_user_access_token_by_naver_oauth(token)
         headers = {"Authorization": f"Bearer {access_token}"}
-        naver_user_data = json.loads(requests.get(url="https://openapi.naver.com/v1/nid/me", headers=headers).text)
+        naver_user_data = json.loads(
+            requests.get(
+                url="https://openapi.naver.com/v1/nid/me", headers=headers
+            ).text
+        )
         platform_id = naver_user_data.get("response").get("id")
         name = naver_user_data.get("response").get("name")
         return name, platform_id
