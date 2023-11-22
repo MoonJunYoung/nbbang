@@ -263,9 +263,11 @@ const BillingTopLine = styled.div`
   margin-bottom: 20px;
   position: absolute;
   top: 215px;
-  left: 123px;
   z-index: 3;
   background-color: white;
+  @media (max-height: 768px) {
+    top: 243px;
+  }
 `;
 
 const BillingLine = styled.div`
@@ -577,14 +579,14 @@ function SharePage() {
                     <Billings>
                       <Member>{data.name}</Member>
                       <Amount>
-                        {data.amount > 0
-                          ? `총무에게 받을 돈 : ${data.amount
+                        {data.amount >= 0
+                          ? `총무에게 보내야 할 돈 : ${data.amount
                               .toLocaleString({
                                 style: "currency",
                                 currency: "USD",
                               })
                               .toString()} 원`
-                          : `총무에게 보내야 할 돈 : ${Math.abs(data.amount)
+                          : `총무에게 받아야 할 돈 : ${Math.abs(data.amount)
                               .toLocaleString({
                                 style: "currency",
                                 currency: "USD",
