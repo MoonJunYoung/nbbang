@@ -45,6 +45,8 @@ class Calculate:
     def _split_price(self, payment: Payment):
         price = payment.price
         attend_members_count = len(payment.attend_member_ids)
+        if not payment.attend_member_ids:
+            return 0
         split_price = (
             price // attend_members_count + 1
             if price % attend_members_count

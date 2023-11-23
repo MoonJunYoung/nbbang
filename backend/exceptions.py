@@ -1,14 +1,19 @@
+import logging
 import traceback
 
-from fastapi import HTTPException
+from fastapi import HTTPException, Request
+
+logging.basicConfig(filename="./backend_error.log", level=logging.ERROR)
+logging.error(traceback.format_exc())
 
 
-def catch_exception(exce):
+def catch_exception(exce, requests: Request = None):
     if issubclass(exce.__class__, CustomException):
-        print(f"=== A custom error occurred. : {exce} ===")
+        logging.error(f"\n===\nA custom error occurred. : {exce}\n===")
         raise HTTPException(status_code=exce.status_code, detail=exce.detail)
-    print(f"=== An unexpected error occurred. : {exce} ===")
-    print(f"=== detail : {traceback.format_exc()} ===")
+    logging.error(
+        f"\n===\nAn unexpected error occurred. : {exce}\ndetail : {traceback.format_exc()}==="
+    )
     raise HTTPException(
         status_code=500,
         detail="An internal server error occurred. If the problem persists, please contact our support team.",
