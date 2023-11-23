@@ -9,25 +9,20 @@ const KakaoContainer = styled.div`
 
 const KakaoShareBox = styled.div`
   display: flex;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: bold;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   background-color: #ffeb3c;
   width: 200px;
-  margin-bottom: 80px;
+  height: 35px;
+  margin-top: 70px;
   img {
     width: 35px;
   }
   span {
     padding: 10px;
-  }
-  &:hover {
-    transition: all 0.2s;
-    transform: scale(1.1);
-    font-weight: 600;
-    background-color: #ffeb3c;
   }
 `;
 

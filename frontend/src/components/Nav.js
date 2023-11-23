@@ -4,12 +4,11 @@ const NavContainer = styled.div``;
 
 const Logo = styled.a`
   display: inline-block;
-  width: 80px;
+  width: 60px;
   margin: 20px;
   img {
     display: block;
     width: 100%;
-    border-radius: 15px;
   }
 `;
 const Nav = () => {
@@ -18,7 +17,7 @@ const Nav = () => {
       <Logo>
         <img
           alt="Nbbang"
-          src="/images/nbbang_Logo.png"
+          src="/images/nbbang.png"
           onClick={() => (window.location.href = "/")}
         />
       </Logo>

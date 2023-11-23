@@ -574,17 +574,6 @@ function SharePage() {
                       {isMobile ? (
                         <Remittance>
                           {data.amount > 0 &&
-                          data.toss_deposit_link !== null ? (
-                            <TossPayContaner>
-                              <a href={data.toss_deposit_link}>
-                                <img alt="Toss" src="/images/Toss.png" />
-                                <span>송금하기</span>
-                              </a>
-                            </TossPayContaner>
-                          ) : (
-                            ""
-                          )}
-                          {data.amount > 0 &&
                           data.kakao_deposit_link !== null ? (
                             <KakaoContaner>
                               <a href={data.kakao_deposit_link}>
@@ -592,6 +581,17 @@ function SharePage() {
                                 <span>송금하기</span>
                               </a>
                             </KakaoContaner>
+                          ) : (
+                            ""
+                          )}
+                          {data.amount > 0 &&
+                          data.toss_deposit_link !== null ? (
+                            <TossPayContaner>
+                              <a href={data.toss_deposit_link}>
+                                <img alt="Toss" src="/images/Toss.png" />
+                                <span>송금하기</span>
+                              </a>
+                            </TossPayContaner>
                           ) : (
                             ""
                           )}

@@ -12,11 +12,12 @@ export const SocialLoginContainer = styled.div`
   align-items: center;
   cursor: pointer;
   position: relative;
-  img {
-    width: 25px;
-    margin-bottom: 3px;
-  }
 `;
+
+export const SocialLoginIcon = styled.img`
+    width: ${(props) => props.imgWidth || "25px"};
+    margin-bottom: 3px;
+`
 
 export const Button = styled.button`
   color: ${(props) => props.textColor || "white"};

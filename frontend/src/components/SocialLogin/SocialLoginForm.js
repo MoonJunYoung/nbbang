@@ -1,5 +1,5 @@
 import React from "react";
-import { SocialLoginContainer, Button } from "./SocialLoginForm.styled";
+import { SocialLoginContainer, Button, SocialLoginIcon } from "./SocialLoginForm.styled";
 
 
 export const SocialLoginForm = ({
@@ -9,6 +9,7 @@ export const SocialLoginForm = ({
   socialLoginUrl,
   buttonStyle,
   containerStyle,
+  imgStyle
 }) => {
   const handleSocialLogin = () => {
     window.location.href = socialLoginUrl;
@@ -16,7 +17,7 @@ export const SocialLoginForm = ({
 
   return (
     <SocialLoginContainer {...containerStyle} onClick={handleSocialLogin}>
-      <img alt={alt} src={src} />
+      <SocialLoginIcon {...imgStyle} alt={alt} src={src} />
       <Button {...buttonStyle}>{comment}</Button>
     </SocialLoginContainer>
   );

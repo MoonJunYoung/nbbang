@@ -12,20 +12,14 @@ const ShareButton = styled.div`
 
 const Button = styled.button`
   width: 200px;
-  height: 30px;
+  font-size: 13px;
+  height: 35px;
   border: 1px solid skyblue;
   background-color: lightskyblue;
   border-radius: 10px;
   color: white;
   cursor: pointer;
-  margin: 45px 0 35px 0;
-  &:hover {
-    border: 3px solid skyblue;
-    transition: all 0.2s;
-    transform: scale(1.10);
-    font-weight: 600;
-    background-color: lightskyblue;
-  }
+  margin: 30px 0 35px 0;
 `;
 
 
