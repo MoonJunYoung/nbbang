@@ -24,7 +24,7 @@ const MeetingName = styled.h1`
 const MeetingDate = styled.h2`
   font-size: 18px;
   color: #938282;
-  margin-bottom: 40px;
+  margin-bottom: 15px;
 `;
 
 const PaymentList = styled.div`
@@ -257,16 +257,7 @@ const LeaderBillingMoney = styled.span`
   color: #697178;
 `;
 
-const BillingTopLine = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  position: absolute;
-  top: 215px;
-  left: 123px;
-  z-index: 3;
-  background-color: white;
-`;
+
 
 const BillingLine = styled.div`
   border: 1px solid silver;
@@ -279,14 +270,6 @@ const BillingLine = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-const BillingTopLineComent = styled.span`
-  margin: 0 10px;
-  font-size: 14px;
-  color: silver;
-  font-weight: 800;
-`;
-
 const BillingLeader = styled.div`
   display: flex;
   align-items: center;
@@ -494,9 +477,6 @@ function SharePage() {
         <MeetingName>{meetings.name}의 정산결과 입니다!</MeetingName>
         <MeetingDate>{meetings.date}</MeetingDate>
       </MeetingContaner>
-      <BillingTopLine>
-        <BillingTopLineComent>최종 정산 결과입니다!</BillingTopLineComent>
-      </BillingTopLine>
       <BillingLine>
         {payments.map((paymentdata) => (
           <PaymentList key={paymentdata.id}>
@@ -577,11 +557,14 @@ function SharePage() {
                     <Billings>
                       <Member>{data.name}</Member>
                       <Amount>
-                        {data.amount > 0
+                        {data.amount >= 0
                           ? `총무에게 보내야 할 돈 : ${data.amount
-                              .toLocaleString()
+                              .toLocaleString({
+                                style: "currency",
+                                currency: "USD",
+                              })
                               .toString()} 원`
-                          : `총무에게 받을 돈 : ${Math.abs(data.amount)
+                          : `총무에게 받아야 할 돈 : ${Math.abs(data.amount)
                               .toLocaleString({
                                 style: "currency",
                                 currency: "USD",

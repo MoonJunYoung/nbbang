@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getMemberData, postMemberData, deleteMemberData } from "../api/api";
+import {
+  getMemberData,
+  postMemberData,
+  deleteMemberData,
+  getPaymentData,
+} from "../api/api";
 import BillingInputBox from "./BillingInputBox";
 import BillingMemberFix from "./Modal/BillingMemberFixModal";
 import { truncate } from "./Meeting";
@@ -137,6 +142,7 @@ const BillingMember = ({ member, setMember }) => {
   const { meetingId } = useParams();
   const [openModal, setOpenModal] = useState(false);
   const [memberSelected, setMemberSelected] = useState({});
+  
   const [notAllow, setNotAllow] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
@@ -229,10 +235,10 @@ const BillingMember = ({ member, setMember }) => {
             value={formData.name}
             onChange={handleInputChange}
             placeholder="멤버추가하기"
-            maxlength="22"
+            maxLength="22"
           />
           <BillingAddMember type="submit" disabled={notAllow}>
-            멤버추가하기
+            멤버 추가하기
           </BillingAddMember>
         </FormContainer>
         <MemberContainer>

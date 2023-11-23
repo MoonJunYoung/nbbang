@@ -49,7 +49,7 @@ const BillingInputBox = ({ type, name, value, onChange, placeholder }) => {
         onChange={onChange}
         placeholder={placeholder}
         autoComplete="off"
-        maxlength="22"
+        maxLength="22"
         onTouchStart={(e) => e.preventDefault()}
         onTouchMove={(e) => e.preventDefault()}
       />

@@ -86,14 +86,15 @@ const BillingMemberFix = ({
   meetingId,
   setOpenModal,
   handleGetData,
+  leader,
 }) => {
   const ref = useRef();
 
-  const [leader, setLeader] = useState(false);
+  const [selectedleader, setSelectedleader] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
   const [formData, setFormData] = useState({
     name: name,
-    leader: leader,
+    leader: selectedleader,
   });
 
   const handleInputChange = (e) => {
@@ -103,10 +104,13 @@ const BillingMemberFix = ({
       [name]: value,
     });
   };
-
   const handlePutData = async (e) => {
     e.preventDefault();
-    formData.leader = leader;
+    if (leader === true) {
+      formData.leader = true;
+    } else {
+      formData.leader = selectedleader;
+    }
     try {
       const response = await PutMemberNameData(meetingId, id, formData);
       if (response.status === 200) {
@@ -152,8 +156,8 @@ const BillingMemberFix = ({
             <Label>
               <LeaderCheck
                 type="checkbox"
-                checked={leader}
-                onChange={(e) => setLeader(e.target.checked)}
+                checked={selectedleader}
+                onChange={(e) => setSelectedleader(e.target.checked)}
               />
               <Leader>총무로 변경하기</Leader>
             </Label>

@@ -11,7 +11,11 @@ const BillingPage = () => {
   return (
     <div>
       <BillingName />
-      <BillingMember member={member} setMember={setMember} />
+      <BillingMember
+        member={member}
+        setMember={setMember}
+        setPayment={setPayment}
+      />
       <BillingPayment
         member={member}
         payment={payment}

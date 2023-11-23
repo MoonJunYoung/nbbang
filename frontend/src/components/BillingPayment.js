@@ -307,7 +307,7 @@ const BillingPayment = ({ member, payment, setPayment }) => {
 
   useEffect(() => {
     handleGetData();
-  }, []);
+  }, [member, meetingId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
