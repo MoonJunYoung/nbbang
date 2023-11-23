@@ -460,9 +460,9 @@ const Billing = ({ payment }) => {
           meetingName={meetingName}
         />
       )}
-
-      <BillingResultShare meetingName={meetingName} />
       <KakaoShare meetingName={meetingName} />
+      <BillingResultShare meetingName={meetingName} />
+
     </ResultContainar>
   );
 };

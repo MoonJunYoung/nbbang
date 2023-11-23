@@ -51,6 +51,9 @@ const GoogleLogin = () => {
       boxShadow: "#c3a99759",
       backgroundColor: "white",
     },
+    imgStyle: {
+      imgWidth: "18px"
+    },
 
     buttonStyle: {
       textColor: "black",
