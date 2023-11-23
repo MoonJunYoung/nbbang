@@ -20,14 +20,18 @@ class MeetingPresentation:
     router = APIRouter(prefix="/api/meeting")
 
     @router.post("", status_code=201)
-    async def create(request: Request, response: Response, Authorization=Header(None)):
+    async def create(
+        request: Request,
+        response: Response,
+        Authorization=Header(None),
+    ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
             meeting = meeting_service.create(user_id)
 
             response.headers["Location"] = f"meeting/{meeting.id}"
         except Exception as e:
-            catch_exception(e)
+            catch_exception(e, request)
 
     @router.get("", status_code=200)
     async def read_by_user_id(Authorization=Header(None)):
