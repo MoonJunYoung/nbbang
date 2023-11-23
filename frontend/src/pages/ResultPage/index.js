@@ -257,14 +257,12 @@ const LeaderBillingMoney = styled.span`
   color: #697178;
 `;
 
-
-
 const BillingLine = styled.div`
   border: 1px solid silver;
   overflow: hidden;
   border-radius: 30px;
   width: 95%;
-  padding-top: 30px;
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
