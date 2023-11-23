@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const SocialLoginContainer = styled.div`
   margin: ${(props) => props.marginTop || "20px"} 0;
   box-shadow: 0px 2px 3px ${(props) => props.boxShadow || "#258b13de"};
@@ -14,7 +13,7 @@ export const SocialLoginContainer = styled.div`
   cursor: pointer;
   position: relative;
   img {
-    width: ${(props) => props.imgWidth || "25px"};;
+    width: 25px;
     margin-bottom: 3px;
   }
 `;
