@@ -93,16 +93,15 @@ class MemberRepository:
                 )
                 members.append(member)
             members = self.sort_leader(members)
+            for i in members:
+                print(i.__dict__)
             return members
 
         def sort_leader(self, members: list[Member]):
-            index = 0
             for member in members:
                 if member.leader:
-                    pre_member = members[0]
-                    members[0] = member
-                    members[index] = pre_member
-                index += 1
+                    members.remove(member)
+                    members.insert(0, member)
             return members
 
     class ReadLeaderByMeetingID(MysqlCRUDTemplate):
