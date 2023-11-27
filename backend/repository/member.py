@@ -26,7 +26,11 @@ class MemberRepository:
             super().__init__()
 
         def execute(self):
-            member_model = self.session.query(MemberModel).filter(MemberModel.id == self.member.id).first()
+            member_model = (
+                self.session.query(MemberModel)
+                .filter(MemberModel.id == self.member.id)
+                .first()
+            )
             member_model.name = self.member.name
             member_model.leader = self.member.leader
             self.session.commit()
@@ -37,7 +41,11 @@ class MemberRepository:
             super().__init__()
 
         def execute(self):
-            member_model = self.session.query(MemberModel).filter(MemberModel.id == self.member.id).first()
+            member_model = (
+                self.session.query(MemberModel)
+                .filter(MemberModel.id == self.member.id)
+                .first()
+            )
             self.session.delete(member_model)
             self.session.commit()
 
@@ -47,7 +55,11 @@ class MemberRepository:
             super().__init__()
 
         def execute(self):
-            member_model = self.session.query(MemberModel).filter(MemberModel.id == self.id).first()
+            member_model = (
+                self.session.query(MemberModel)
+                .filter(MemberModel.id == self.id)
+                .first()
+            )
             if not member_model:
                 return None
             member = Member(
@@ -65,7 +77,11 @@ class MemberRepository:
 
         def execute(self):
             members = list()
-            member_models = self.session.query(MemberModel).filter(MemberModel.meeting_id == self.meeting_id).all()
+            member_models = (
+                self.session.query(MemberModel)
+                .filter(MemberModel.meeting_id == self.meeting_id)
+                .all()
+            )
             if not member_models:
                 return members
             for member_model in member_models:
@@ -76,6 +92,17 @@ class MemberRepository:
                     meeting_id=member_model.meeting_id,
                 )
                 members.append(member)
+            members = self.sort_leader(members)
+            return members
+
+        def sort_leader(self, members: list[Member]):
+            index = 0
+            for member in members:
+                if member.leader:
+                    pre_member = members[0]
+                    members[0] = member
+                    members[index] = pre_member
+                index += 1
             return members
 
     class ReadLeaderByMeetingID(MysqlCRUDTemplate):
@@ -106,5 +133,7 @@ class MemberRepository:
             super().__init__()
 
         def execute(self):
-            self.session.query(MemberModel).filter(MemberModel.meeting_id == self.meeting_id).delete()
+            self.session.query(MemberModel).filter(
+                MemberModel.meeting_id == self.meeting_id
+            ).delete()
             self.session.commit()
