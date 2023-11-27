@@ -235,22 +235,23 @@ const Leader = styled(Member)`
 
 const Amount = styled(Member)``;
 
-const LeaderBillingContainer = styled.div``;
+const LeaderBillingContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+`;
 
 const LeaderAmount = styled(Member)``;
 
 const LeaderBilling = styled.div`
   display: flex;
   flex-direction: column;
-  @media (max-width: 768px) {
-    width: 150px;
-    margin: 3px 0;
-  }
 `;
 
 const BillingHistory = styled.div`
   display: flex;
   align-items: flex-start;
+  margin: 10px 0px;
 `;
 const LeaderBillingMoney = styled.span`
   font-size: 13px;
@@ -268,16 +269,13 @@ const BillingLine = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const BillingLeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
+const BillingLeader = styled.div``;
 
 const BillingLeaderContainer = styled.div`
+  margin-top: 9px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
 const LeaderContainer = styled.div`
@@ -512,7 +510,7 @@ function SharePage() {
           {members.map((data) => (
             <BillingHistory key={data.id}>
               {data.leader ? (
-                <BillingLeaderContainer>
+                <>
                   <Logo alt="BillingLogo" src="/images/nbbang_Logo.png" />
                   <BillingLeader>
                     <LeaderContainer>
@@ -547,7 +545,7 @@ function SharePage() {
                       )}
                     </LeaderBillingContainer>
                   </BillingLeader>
-                </BillingLeaderContainer>
+                </>
               ) : (
                 <>
                   <Logo alt="BillingLogo" src="/images/nbbang_Logo.png" />

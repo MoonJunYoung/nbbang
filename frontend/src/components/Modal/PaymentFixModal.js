@@ -141,12 +141,14 @@ const PaymentFix = ({
   meetingId,
   place,
   price,
+  pay_member,
   attend_member_ids,
   member,
   setOpenModal,
   handleGetData,
 }) => {
   const ref = useRef();
+
   const initialMemberSelection = member.reduce((selection, memberdata) => {
     selection[memberdata.id] = attend_member_ids.includes(memberdata.id);
     return selection;
@@ -173,6 +175,16 @@ const PaymentFix = ({
       pay_member_id: selectedMember,
     }));
   }, [memberSelection, selectedMember]);
+
+  useEffect(() => {
+    const payMemberId = member.find(
+      (memberdata) => memberdata.name === pay_member
+    )?.id;
+
+    if (payMemberId !== undefined) {
+      setSelectedMember(payMemberId);
+    }
+  }, [pay_member, member]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -215,12 +227,6 @@ const PaymentFix = ({
     const selectedValue = Number(e.target.value);
     setSelectedMember(selectedValue);
   };
-
-  useEffect(() => {
-    if (member.length > 0) {
-      handleMemberDropBoxSelect({ target: { value: member[0].id } });
-    }
-  }, [member]);
 
   return (
     <PayMentFixContainer>

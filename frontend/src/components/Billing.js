@@ -126,22 +126,23 @@ const Leader = styled(Member)`
 
 const Amount = styled(Member)``;
 
-const LeaderBillingContainer = styled.div``;
+const LeaderBillingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
 
 const LeaderAmount = styled(Member)``;
 
 const LeaderBilling = styled.div`
   display: flex;
   flex-direction: column;
-  @media (max-width: 768px) {
-    width: 150px;
-    margin: 3px 0;
-  }
 `;
 
 const BillingHistory = styled.div`
   display: flex;
   align-items: flex-start;
+  margin: 10px 0px;
 `;
 const LeaderBillingMoney = styled.span`
   font-size: 13px;
@@ -257,9 +258,6 @@ const KakaoRegistration = styled.span`
 `;
 
 const BillingLeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
 `;
 
 const BillingLeaderContainer = styled.div`
@@ -269,14 +267,10 @@ const BillingLeaderContainer = styled.div`
 `;
 
 const LeaderContainer = styled.div`
+  margin-top: 9px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  @media (max-width: 375px) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
 `;
 
 const Logo = styled.img`
@@ -299,6 +293,7 @@ const Billing = ({ payment }) => {
   const [paymentState, setPaymentState] = useState(false);
   const [kakaoModalOpen, setKakaoModalOpen] = useState(false);
   const [tossModalOpen, setTossModalOpen] = useState(false);
+  const [leaderId, setLeaderId] = useState(null);
 
   useEffect(() => {
     if (!kakaoModalOpen && !tossModalOpen) {
@@ -357,7 +352,7 @@ const Billing = ({ payment }) => {
           {members.map((data) => (
             <BillingHistory key={data.id}>
               {data.leader ? (
-                <BillingLeaderContainer>
+                <>
                   <Logo alt="BillingLogo" src="/images/nbbang_Logo.png" />
                   <BillingLeader>
                     <LeaderContainer>
@@ -392,7 +387,7 @@ const Billing = ({ payment }) => {
                       )}
                     </LeaderBillingContainer>
                   </BillingLeader>
-                </BillingLeaderContainer>
+                </>
               ) : (
                 <>
                   <Logo alt="BillingLogo" src="/images/nbbang_Logo.png" />
@@ -462,7 +457,6 @@ const Billing = ({ payment }) => {
       )}
       <KakaoShare meetingName={meetingName} />
       <BillingResultShare meetingName={meetingName} />
-
     </ResultContainar>
   );
 };
