@@ -18,11 +18,25 @@ class Payment:
             if member.id == attend_member_id:
                 raise PaymentInMemberDeleteExcption
 
-    def set_split_price(self, split_pirce):
-        self.split_price = split_pirce
+    def set_split_price(self):
+        attend_members_count = len(self.attend_member_ids)
+        if not self.attend_member_ids:
+            return 0
+        split_price = (
+            self.price // attend_members_count + 1
+            if self.price % attend_members_count
+            else self.price / attend_members_count
+        )
+        self.split_price = split_price
 
-    def set_pay_member(self, pay_member):
-        self.pay_member = pay_member
+    def set_attend_members_name(self, members: list[Member]):
+        self.attend_member = list()
+        for member in members:
+            for attend_member_id in self.attend_member_ids:
+                if member.id == attend_member_id:
+                    self.attend_member.append(member.name)
 
-    def set_attend_member(self, attend_member):
-        self.attend_member = attend_member
+    def set_pay_member_name(self, members: list[Member]):
+        for member in members:
+            if member.id == self.pay_member_id:
+                self.pay_member = member.name

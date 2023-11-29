@@ -93,8 +93,6 @@ class MemberRepository:
                 )
                 members.append(member)
             members = self.sort_leader(members)
-            for i in members:
-                print(i.__dict__)
             return members
 
         def sort_leader(self, members: list[Member]):
