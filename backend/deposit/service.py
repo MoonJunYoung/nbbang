@@ -1,7 +1,7 @@
-from backend.domain.meeting import Meeting
-from backend.domain.user import User
-from backend.repository.meeting import MeetingRepository
-from backend.repository.user import UserRepository
+from backend.meeting.domain import Meeting
+from backend.meeting.repository import MeetingRepository
+from backend.user.domain import User
+from backend.user.repository import UserRepository
 
 
 class DepositService:

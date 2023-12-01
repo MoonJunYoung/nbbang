@@ -1,10 +1,10 @@
-from backend.domain.deposit import Deposit
-from backend.domain.meeting import Meeting
-from backend.domain.user import User
-from backend.repository.meeting import MeetingRepository
-from backend.repository.member import MemberRepository
-from backend.repository.payment import PaymentRepository
-from backend.repository.user import UserRepository
+from backend.deposit.domain import Deposit
+from backend.meeting.domain import Meeting
+from backend.meeting.repository import MeetingRepository
+from backend.member.repository import MemberRepository
+from backend.payment.repository import PaymentRepository
+from backend.user.domain import User
+from backend.user.repository import UserRepository
 
 
 class MeetingService:

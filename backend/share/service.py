@@ -1,13 +1,13 @@
-from backend.domain.calculate import Calculate
-from backend.domain.meeting import Meeting
-from backend.domain.member import Member
-from backend.domain.payment import Payment
-from backend.domain.share import Share
-from backend.repository.meeting import MeetingRepository
-from backend.repository.member import MemberRepository
-from backend.repository.payment import PaymentRepository
-from backend.repository.user import UserRepository
-from backend.service.dto import ShareDTO, set_DTO
+from backend.base.dto import ShareDTO, set_DTO
+from backend.calculate.domain import Calculate
+from backend.meeting.domain import Meeting
+from backend.meeting.repository import MeetingRepository
+from backend.member.domain import Member
+from backend.member.repository import MemberRepository
+from backend.payment.domain import Payment
+from backend.payment.repository import PaymentRepository
+from backend.share.domain import Share
+from backend.user.repository import UserRepository
 
 
 class ShareService:

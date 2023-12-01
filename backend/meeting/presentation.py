@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Header, Request, Response
 from pydantic import BaseModel
 
-from backend.exceptions import catch_exception
-from backend.presentation.token import Token
-from backend.service.meeting import MeetingService
+from backend.base.exceptions import catch_exception
+from backend.base.token import Token
+from backend.meeting.service import MeetingService
 
 meeting_service = MeetingService()
 

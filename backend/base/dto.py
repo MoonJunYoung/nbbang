@@ -1,6 +1,6 @@
-from backend.domain.member import Member
-from backend.domain.payment import Payment
-from backend.domain.share import Share
+from backend.member.domain import Member
+from backend.payment.domain import Payment
+from backend.share.domain import Share
 
 
 def set_DTO(DTO, domains):

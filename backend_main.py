@@ -1,12 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.presentation.deposit import DepositPresentation
-from backend.presentation.member import MemberPresentation
-from backend.presentation.metting import MeetingPresentation
-from backend.presentation.payment import PaymentPresentation
-from backend.presentation.share import SharePresentation
-from backend.presentation.user import UserPresentation
+from backend.deposit.presentation import DepositPresentation
+from backend.meeting.presentation import MeetingPresentation
+from backend.member.presentation import MemberPresentation
+from backend.payment.presentation import PaymentPresentation
+from backend.share.presentation import SharePresentation
+from backend.user.presentation import UserPresentation
 
 app = FastAPI()
 

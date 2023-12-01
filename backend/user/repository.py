@@ -1,7 +1,7 @@
-from backend.domain.deposit import Deposit
-from backend.domain.user import User
-from backend.repository.connector import MysqlCRUDTemplate
-from backend.repository.model import UserModel
+from backend.base.database_connector import MysqlCRUDTemplate
+from backend.base.database_model import UserModel
+from backend.deposit.domain import Deposit
+from backend.user.domain import User
 
 
 class UserRepository:

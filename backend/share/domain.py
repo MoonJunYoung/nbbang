@@ -1,8 +1,8 @@
 from urllib import parse
 
-from backend.domain.calculate import Calculate
-from backend.domain.meeting import Meeting
-from backend.domain.member import Member
+from backend.calculate.domain import Calculate
+from backend.meeting.domain import Meeting
+from backend.member.domain import Member
 
 
 class Share:

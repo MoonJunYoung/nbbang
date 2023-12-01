@@ -1,6 +1,6 @@
 import bcrypt
 
-from backend.domain.deposit import Deposit
+from backend.deposit.domain import Deposit
 
 
 class User:

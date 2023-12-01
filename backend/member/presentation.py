@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Header
 from pydantic import BaseModel
 
-from backend.exceptions import catch_exception
-from backend.presentation.token import Token
-from backend.service.member import MemberService
+from backend.base.exceptions import catch_exception
+from backend.base.token import Token
+from backend.member.service import MemberService
 
 member_service = MemberService()
 

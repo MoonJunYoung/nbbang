@@ -1,8 +1,8 @@
 import datetime
 import uuid
 
-from backend.domain.deposit import Deposit
-from backend.exceptions import MeetingUserMismatchException
+from backend.base.exceptions import MeetingUserMismatchException
+from backend.deposit.domain import Deposit
 
 
 class Meeting:
