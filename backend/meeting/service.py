@@ -61,4 +61,5 @@ class MeetingService:
     def read(self, id, user_id):
         meeting: Meeting = self.meeting_repository.ReadByID(id).run()
         meeting.is_user_of_meeting(user_id)
+        meeting.create_share_link()
         return meeting
