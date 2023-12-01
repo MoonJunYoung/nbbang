@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Header
 from pydantic import BaseModel
 
-from backend.exceptions import catch_exception
-from backend.presentation.token import Token
-from backend.service.share import ShareService
+from backend.base.exceptions import catch_exception
+from backend.base.token import Token
+from backend.share.service import ShareService
 
 share_service = ShareService()
 

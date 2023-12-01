@@ -6,7 +6,7 @@ import jwt
 import requests
 from dotenv import load_dotenv
 
-from backend.exceptions import InvalidTokenException, MissingTokenException
+from backend.base.exceptions import InvalidTokenException, MissingTokenException
 
 load_dotenv()
 secret_key = os.environ.get("JWT_SECRET_KEY")

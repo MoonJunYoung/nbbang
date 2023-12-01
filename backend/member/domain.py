@@ -1,4 +1,4 @@
-from backend.exceptions import (
+from backend.base.exceptions import (
     MemberIsLeaderDeleteExcption,
     PaymentInMemberDeleteExcption,
 )

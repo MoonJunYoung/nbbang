@@ -1,7 +1,7 @@
-from backend.domain.deposit import Deposit
-from backend.domain.meeting import Meeting
-from backend.repository.connector import MysqlCRUDTemplate
-from backend.repository.model import MeetingModel
+from backend.base.database_connector import MysqlCRUDTemplate
+from backend.base.database_model import MeetingModel
+from backend.deposit.domain import Deposit
+from backend.meeting.domain import Meeting
 
 
 class MeetingRepository:

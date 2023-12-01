@@ -1,11 +1,11 @@
-from backend.domain.user import User
-from backend.exceptions import (
+from backend.base.exceptions import (
     IdentifierAlreadyException,
     IdentifierNotFoundException,
     PasswordNotMatchException,
 )
-from backend.repository.meeting import MeetingRepository
-from backend.repository.user import UserRepository
+from backend.meeting.repository import MeetingRepository
+from backend.user.domain import User
+from backend.user.repository import UserRepository
 
 
 class UserService:

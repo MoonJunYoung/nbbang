@@ -1,12 +1,12 @@
-from backend.domain.calculate import Calculate
-from backend.domain.meeting import Meeting
-from backend.domain.member import Member
-from backend.domain.payment import Payment
-from backend.exceptions import LeaderAlreadyException, MemberIsLeaderDeleteExcption
-from backend.repository.meeting import MeetingRepository
-from backend.repository.member import MemberRepository
-from backend.repository.payment import PaymentRepository
-from backend.service.dto import MemberDTO, set_DTO
+from backend.base.dto import MemberDTO, set_DTO
+from backend.base.exceptions import LeaderAlreadyException, MemberIsLeaderDeleteExcption
+from backend.calculate.domain import Calculate
+from backend.meeting.domain import Meeting
+from backend.meeting.repository import MeetingRepository
+from backend.member.domain import Member
+from backend.member.repository import MemberRepository
+from backend.payment.domain import Payment
+from backend.payment.repository import PaymentRepository
 
 
 class MemberService:
