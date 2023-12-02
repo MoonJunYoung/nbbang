@@ -46,7 +46,14 @@ for building and running the application you need
 <br/>
 ```bash
 $ git clone https://github.com/moonjunyoung/nbbang.git
-$ cd fronted**
+$ cd frontend
+```
+
+**Frontend**
+<br/>
+```bash
+$ cd frontend
+$ npm install
 ```
 
 
