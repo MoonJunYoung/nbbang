@@ -32,7 +32,17 @@
 
 <br/>
 
-### `npm run build`
+### 시작 가이드
+---
+<br/>
+<br/>
+**Requirements** 
+<br/>
+for building and running the application you need
+ - sdfsd
+
+
+
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
