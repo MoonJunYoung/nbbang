@@ -419,7 +419,7 @@ const Billing = ({ payment }) => {
       <RemittanceContainer>
         <KakaoModalContainer onClick={handleKakaoModal}>
           <img alt="kakao" src="/images/kakao.png" />
-          <KakaoModalbutton>카카오 입급 아이디</KakaoModalbutton>
+          <KakaoModalbutton>카카오 입금 아이디</KakaoModalbutton>
           {meetingName &&
           meetingName.deposit &&
           meetingName.deposit.kakao_deposit_id !== null ? (
