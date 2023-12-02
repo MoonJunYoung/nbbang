@@ -1,6 +1,6 @@
 # Nbbang 
 
-[Create React App](https://github.com/facebook/create-react-app).
+![nbbang](https://github.com/moonjunyoung/nbbang/assets/117567934/91560c6a-6b4b-40dc-be45-36bc1a1756dc)
 
 ## Available Scripts
 
