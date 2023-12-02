@@ -16,8 +16,9 @@
 > __백엔드 엔지니어__ : [문준영](https://github.com/moonjunyoung)<br/>
 > __프론트엔드 엔지니어__ : [김우혁](https://github.com/WooHyucks)
 
+<br/>
 
-### `npm test`
+### 프로젝트 소개
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
