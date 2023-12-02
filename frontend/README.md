@@ -18,8 +18,8 @@
 
 <br/>
 
-### 프로젝트 소개
---
+## 프로젝트 소개
+
 **모두가 편리하게 사용할 수 있는 정산 앱**
 <br/>
 <br/>
@@ -32,8 +32,8 @@
 
 <br/>
 
-### 시작 가이드
----
+## 시작 가이드
+
 **Requirements**
 <br/>
 <br/>
@@ -59,8 +59,8 @@ $ npm install
 
 <br/>
 
-### Stacks🚀
----
+## Stacks🚀
+
 **Environment**
 <br/>
 <img src="https://img.shields.io/badge/visualstudiocode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white">
