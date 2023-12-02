@@ -7,15 +7,13 @@
   
 ## Link
   
-> 서비스 주소 : [https://nbbang.shop/](https://nbbang.shop/)
+> **서비스 주소** : [https://nbbang.shop/](https://nbbang.shop/)
 
-### `npm start`
+### 개발 멤버
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+> **백엔드 엔지니어** :[문준영](https://github.com/moonjunyoung)
+> **프론트엔드 엔지니어** :[김우혁](https://github.com/WooHyucks)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
 ### `npm test`
 
