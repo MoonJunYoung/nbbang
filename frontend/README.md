@@ -1,7 +1,8 @@
 # Nbbang 
 
 <center>
-  ![nbbang_Logo](https://github.com/moonjunyoung/nbbang/assets/117567934/33e361d7-466a-4142-b98d-011f225e2083)</center>
+  ![nbbang_Logo](https://github.com/moonjunyoung/nbbang/assets/117567934/f0c2988d-1c8a-40ef-8d08-3aebce966699)
+</center>
 
 
 
