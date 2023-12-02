@@ -1,17 +1,17 @@
-# Nbbang 
+## Nbbang 
 
 <p align="center">
   <img src="https://github.com/moonjunyoung/nbbang/assets/117567934/33e361d7-466a-4142-b98d-011f225e2083" alt="nbbang_Logo">
 </p>
 
   
-## Link
+### Link
   
 > __서비스 주소__ : [https://nbbang.shop/](https://nbbang.shop/)
 
 <br/>
 
-## 개발 멤버
+### 개발 멤버
 
 > __백엔드 엔지니어__ : [문준영](https://github.com/moonjunyoung)<br/>
 > __프론트엔드 엔지니어__ : [김우혁](https://github.com/WooHyucks)
