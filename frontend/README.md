@@ -7,14 +7,14 @@
   
 # Link
   
-> *서비스 주소* : [https://nbbang.shop/](https://nbbang.shop/)
+> __서비스 주소__ : [https://nbbang.shop/](https://nbbang.shop/)
 
 
 
 # 개발 멤버
 
-> *백엔드 엔지니어* : [문준영](https://github.com/moonjunyoung)<br/>
-> *프론트엔드 엔지니어* : [김우혁](https://github.com/WooHyucks)
+> __백엔드 엔지니어__ : [문준영](https://github.com/moonjunyoung)<br/>
+> __프론트엔드 엔지니어__ : [김우혁](https://github.com/WooHyucks)
 
 
 ### `npm test`
