@@ -85,7 +85,7 @@ $ npm install
 ## 화면 구성🖥️
 | 로그인 페이지 | 메인 페이지 | 
 |---|:---:|
-|<img width="461" alt="로그인 페이지" src="https://github.com/moonjunyoung/nbbang/assets/117567934/80d6a0b9-7326-4da9-a1a9-726f17871131"> |<img width="327" alt="메인페이지" src="https://github.com/moonjunyoung/nbbang/assets/117567934/480422cd-1e41-4ed3-b53f-8054139275d6">
+|<img width="327" alt="로그인 페이지" src="https://github.com/moonjunyoung/nbbang/assets/117567934/80d6a0b9-7326-4da9-a1a9-726f17871131"> |<img width="327" alt="메인페이지" src="https://github.com/moonjunyoung/nbbang/assets/117567934/480422cd-1e41-4ed3-b53f-8054139275d6">
   
 | 로그인 페이지 | 메인 페이지 | 
 |---|:---:|
