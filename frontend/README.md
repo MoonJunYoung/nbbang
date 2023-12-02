@@ -1,6 +1,8 @@
-<div style="text-align:center">
+
+
 # Nbbang 
   [nbbang_Logo](https://github.com/moonjunyoung/nbbang/assets/117567934/33e361d7-466a-4142-b98d-011f225e2083)
+  
 ## Available Scripts
 
 In the project directory, you can run:
@@ -67,4 +69,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-</div>
+
