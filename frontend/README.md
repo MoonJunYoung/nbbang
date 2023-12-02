@@ -38,8 +38,8 @@
 <br/>
 <br/>
 for building and running the application you need
- - Node.js
- - Npm
+ - [Node.js](https://nodejs.org/en)
+ - [Npm](https://www.npmjs.com/)
 <br/>
 
 **Installation**
