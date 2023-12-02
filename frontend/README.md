@@ -35,10 +35,9 @@
 ### 시작 가이드
 ---
 <br/>
-<br/>
 **Requirements** 
 <br/>
-for building and running the application you need
+- for building and running the application you need
  - sdfsd
 
 
