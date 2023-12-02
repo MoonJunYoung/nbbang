@@ -44,9 +44,10 @@ for building and running the application you need
 
 **Installation**
 <br/>
-`$ git clone https://github.com/moonjunyoung/nbbang.git;
- $ cd fronted`
-
+```bash
+$ git clone https://github.com/moonjunyoung/nbbang.git
+$ cd fronted
+```
 
 
 
