@@ -92,5 +92,8 @@ $ npm install
 |<img width="323" alt="공유페이지" src="https://github.com/moonjunyoung/nbbang/assets/117567934/0114ebbc-844a-4b3e-9485-5c86f292295c"> || 
 
 
+## 주요 기능📦
+
+
 
 
