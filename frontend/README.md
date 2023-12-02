@@ -36,7 +36,8 @@
 ---
 **Requirements** 
 <br/>
-- for building and running the application you need
+<br/>
+for building and running the application you need
  - sdfsd
 
 
