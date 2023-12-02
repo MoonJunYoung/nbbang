@@ -1,7 +1,9 @@
-
-
 # Nbbang 
-  [nbbang_Logo](https://github.com/moonjunyoung/nbbang/assets/117567934/33e361d7-466a-4142-b98d-011f225e2083)
+
+<p align="center">
+  <img src="https://github.com/moonjunyoung/nbbang/assets/117567934/33e361d7-466a-4142-b98d-011f225e2083" alt="nbbang_Logo">
+</p>
+
   
 ## Available Scripts
 
