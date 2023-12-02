@@ -5,13 +5,13 @@
 </p>
 
   
-## Link
+# Link
   
 > **서비스 주소** : [https://nbbang.shop/](https://nbbang.shop/)
 
-----------------
 
-### 개발 멤버
+
+# 개발 멤버
 
 > **백엔드 엔지니어** :[문준영](https://github.com/moonjunyoung)<br/>
 > **프론트엔드 엔지니어** :[김우혁](https://github.com/WooHyucks)
