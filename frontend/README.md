@@ -20,8 +20,8 @@
 
 ### 프로젝트 소개
 ---
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**모두가 편리하게 사용할 수 있는 정산 앱**
+모임에서 정산할 항목이 복잡한 경우의 사용하기 좋은 앱이며 모임의 참석한 멤버들이 총무에게 편하게 돈을 보낼 수 있는 시스템이 구축되어 있습니다!
 
 <br/>
 
