@@ -29,3 +29,7 @@ class Meeting:
 
     def create_share_link(self):
         self.share_link = f"https://nbbang.shop/share?meeting={self.uuid}"
+
+    def format_date(self):
+        dt = datetime.datetime.strptime(self.date, "%Y-%m-%dT%H:%M:%S.%fZ")
+        self.date = dt.strftime("%Y-%m-%d")
