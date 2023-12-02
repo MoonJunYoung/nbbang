@@ -83,10 +83,13 @@ $ npm install
 <br/>
 
 ## 화면 구성🖥️
-| 값 | 의미 | 기본값 |
-|---|:---:|---:|
-| `static` | 유형(기준) 없음 / 배치 불가능 | `static` |
-| `relative` | 요소 자신을 기준으로 배치 |  |
-| `absolute` | 위치 상 부모(조상)요소를 기준으로 배치 |  |
-| `fixed` | 브라우저 창을 기준으로 배치 |  |
+| 로그인 페이지 | 메인 페이지 | 
+|---|:---:|
+|<img width="461" alt="로그인 페이지" src="https://github.com/moonjunyoung/nbbang/assets/117567934/80d6a0b9-7326-4da9-a1a9-726f17871131">
+  |<img width="327" alt="메인페이지" src="https://github.com/moonjunyoung/nbbang/assets/117567934/480422cd-1e41-4ed3-b53f-8054139275d6">
+  
+| 로그인 페이지 | 메인 페이지 | 
+|---|:---:|
+| `absolute` | 위치 상 부모(조상)요소를 기준으로 배치 |  
+
 
