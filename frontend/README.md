@@ -41,7 +41,7 @@ for building and running the application you need
  - Node.js
  - Npm
 <br/>
-<br/>
+
 **Installation**
 <br/>
 `$ git clone https://github.com/moonjunyoung/nbbang.git <br/>
