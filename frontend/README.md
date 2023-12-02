@@ -11,7 +11,7 @@
 
 ### 개발 멤버
 
-> **백엔드 엔지니어** :[문준영](https://github.com/moonjunyoung)
+> **백엔드 엔지니어** :[문준영](https://github.com/moonjunyoung)<br/>
 > **프론트엔드 엔지니어** :[김우혁](https://github.com/WooHyucks)
 
 
