@@ -88,6 +88,8 @@ $ npm install
 |<img width="360" alt="로그인 페이지" src="https://github.com/moonjunyoung/nbbang/assets/117567934/80d6a0b9-7326-4da9-a1a9-726f17871131"> |<img width="360" alt="메인페이지" src="https://github.com/moonjunyoung/nbbang/assets/117567934/480422cd-1e41-4ed3-b53f-8054139275d6">
 | 상세 페이지1 | 상세 페이지2 | 
 |<img width="360" alt="상세페이지1" src="https://github.com/moonjunyoung/nbbang/assets/117567934/7270b180-e4bd-45a4-8aec-5733c6aec121"> |<img width="360" alt="상세페이지2" src="https://github.com/moonjunyoung/nbbang/assets/117567934/21cb2e8e-adc2-4820-8999-25fca1261bf5">
+| 공유페이지 |  | 
+|<img width="323" alt="공유페이지" src="https://github.com/moonjunyoung/nbbang/assets/117567934/0114ebbc-844a-4b3e-9485-5c86f292295c"> ||
 
 
 
