@@ -20,7 +20,7 @@
 
 ### 프로젝트 소개
 ---
-**모두가 편리하게 사용할 수 있는 정산 앱** 
+### 모두가 편리하게 사용할 수 있는 정산 앱
 <br/>
 <br/>
   모임에서 정산할 항목이 복잡한 경우의 사용하기 좋은 앱이며 모임의 참석한 멤버들이 총무에게 <br/>
@@ -34,7 +34,7 @@
 
 ### 시작 가이드
 ---
-**Requirements** 
+### Requirements
 <br/>
 <br/>
 for building and running the application you need
@@ -44,8 +44,8 @@ for building and running the application you need
 
 **Installation**
 <br/>
-`$ git clone https://github.com/moonjunyoung/nbbang.git
- $ cd fronted`
+`$ git clone https://github.com/moonjunyoung/nbbang.git`
+`$ cd fronted`
 
 
 
