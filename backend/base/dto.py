@@ -19,12 +19,19 @@ class MemberDTO:
         self.name = member.name
         self.leader = member.leader
         self.amount = member.amount
+        self.tipped_amount = member.tipped_amount
 
 
 class ShareMemberDTO(MemberDTO):
     def __init__(self, member: Member) -> None:
         self.kakao_deposit_link = getattr(member, "kakao_deposit_link", None)
         self.toss_deposit_link = getattr(member, "toss_deposit_link", None)
+        self.tipped_kakao_deposit_link = getattr(
+            member, "tipped_kakao_deposit_link", None
+        )
+        self.tipped_toss_deposit_link = getattr(
+            member, "tipped_toss_deposit_link", None
+        )
         super().__init__(member)
 
 

@@ -1,16 +1,18 @@
-from backend.base.exceptions import (
-    MemberIsLeaderDeleteExcption,
-    PaymentInMemberDeleteExcption,
-)
+import math
+from urllib import parse
+
+from backend.base.exceptions import MemberIsLeaderDeleteExcption
+from backend.meeting.domain import Meeting
 
 
 class Member:
-    def __init__(self, id, name, leader, meeting_id, amount=0) -> None:
+    def __init__(self, id, name, leader, meeting_id, amount=0, tipped_amount=0) -> None:
         self.id = id
         self.name = name
         self.leader = leader
         self.meeting_id = meeting_id
         self.amount = amount
+        self.tipped_amount = tipped_amount
 
     def delete_member_if_not_leader(self):
         if self.leader:
@@ -18,9 +20,43 @@ class Member:
 
     def add_amount(self, amount):
         self.amount += amount
+        self.tipped_amount = math.ceil(self.amount / 10) * 10
 
-    def set_toss_deposit_link(self, toss_deposit_link):
-        self.toss_deposit_link = toss_deposit_link
+    def create_deposit_link(self, meeting: Meeting):
+        if meeting.deposit.bank and meeting.deposit.account_number:
+            self.toss_deposit_link = self._create_toss_deposit_link(
+                self.amount, meeting.deposit.bank, meeting.deposit.account_number
+            )
+            self.tipped_toss_deposit_link = self._create_toss_deposit_link(
+                self.tipped_amount, meeting.deposit.bank, meeting.deposit.account_number
+            )
+        if meeting.deposit.kakao_deposit_id:
+            self.kakao_deposit_link = self._create_kakako_deposit_link(
+                self.amount, meeting.deposit.kakao_deposit_id
+            )
+            self.tipped_kakao_deposit_link = self._create_kakako_deposit_link(
+                self.tipped_amount, meeting.deposit.kakao_deposit_id
+            )
 
-    def set_kakao_deposit_link(self, kakao_deposit_link):
-        self.kakao_deposit_link = kakao_deposit_link
+    def _create_toss_deposit_link(self, amount, bank, account_number):
+        base_url = "supertoss://send"
+        params = {
+            "amount": int(amount),
+            "bank": bank,
+            "accountNo": account_number,
+        }
+        encoded_params = parse.urlencode(params)
+        encoded_url = f"{base_url}?{encoded_params}"
+        return encoded_url
+
+    def _create_kakako_deposit_link(self, amount, kakao_deposit_id):
+        def _to_hex_value(value):
+            return format(value * 524288, "x")
+
+        base_url = "https://qr.kakaopay.com/{kakao_deposit_id}{hex_amount}"
+        hex_amount = _to_hex_value(int(amount))
+        send_link = base_url.format(
+            kakao_deposit_id=kakao_deposit_id,
+            hex_amount=hex_amount,
+        )
+        return send_link

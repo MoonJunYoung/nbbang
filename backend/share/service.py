@@ -1,4 +1,5 @@
 from backend.base.dto import ShareDTO, set_DTO
+from backend.base.exceptions import IncompleteShareExcption, SharePageNotMeetingExcption
 from backend.calculate.domain import Calculate
 from backend.meeting.domain import Meeting
 from backend.meeting.repository import MeetingRepository
@@ -25,10 +26,14 @@ class ShareService:
 
     def read_page(self, uuid):
         meeting: Meeting = self.meeting_repository.ReadByUUID(uuid).run()
+        if not meeting:
+            raise SharePageNotMeetingExcption
         members: list[Member] = self.member_repository.ReadByMeetingID(meeting.id).run()
         payments: list[Payment] = self.payment_repository.ReadByMeetingID(
             meeting.id
         ).run()
+        if not members or not payments:
+            raise IncompleteShareExcption
         calculate = Calculate(members=members, payments=payments)
         calculate.split_payments()
         calculate.split_members()

@@ -26,3 +26,6 @@ class Meeting:
 
     def set_deposit(self, deposit: Deposit):
         self.deposit = deposit
+
+    def create_share_link(self):
+        self.share_link = f"https://nbbang.shop/share?meeting={self.uuid}"
