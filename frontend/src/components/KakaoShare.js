@@ -27,7 +27,6 @@ const KakaoShareBox = styled.div`
 `;
 
 const KakaoShare = ({ meetingName }) => {
-  console.log(meetingName.name);
   useEffect(() => {
     initKakao();
   }, [meetingName]);

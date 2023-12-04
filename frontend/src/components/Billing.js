@@ -293,7 +293,6 @@ const Billing = ({ payment }) => {
   const [kakaoModalOpen, setKakaoModalOpen] = useState(false);
   const [tossModalOpen, setTossModalOpen] = useState(false);
 
-
   const handleMeetingGetData = async () => {
     try {
       const response = await GetMeetingNameData(meetingId);
@@ -308,6 +307,12 @@ const Billing = ({ payment }) => {
       handleMeetingGetData();
     }
   }, [kakaoModalOpen, tossModalOpen]);
+
+  useEffect(() => {
+    if (!meetingName.name) {
+      handleMeetingGetData();
+    }
+  }, [meetingName.name]);
 
   useEffect(() => {
     if (payment.length > 0) {
@@ -327,7 +332,7 @@ const Billing = ({ payment }) => {
       }
     };
     handleGetData();
-  }, [meetingId, payment, meetingName]);
+  }, [meetingId, payment]);
 
   const handleKakaoModal = () => {
     setKakaoModalOpen(true);
@@ -455,7 +460,7 @@ const Billing = ({ payment }) => {
           meetingName={meetingName}
         />
       )}
-      <KakaoShare meetingName={meetingName}/>
+      <KakaoShare meetingName={meetingName} />
       <BillingResultShare meetingName={meetingName} />
     </ResultContainar>
   );
