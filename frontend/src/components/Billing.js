@@ -257,8 +257,7 @@ const KakaoRegistration = styled.span`
   font-weight: 700;
 `;
 
-const BillingLeader = styled.div`
-`;
+const BillingLeader = styled.div``;
 
 const BillingLeaderContainer = styled.div`
   display: flex;
@@ -307,7 +306,7 @@ const Billing = ({ payment }) => {
       };
       handleMeetingGetData();
     }
-  }, [kakaoModalOpen, tossModalOpen]);
+  }, [kakaoModalOpen, tossModalOpen, KakaoShare]);
 
   useEffect(() => {
     if (payment.length > 0) {
