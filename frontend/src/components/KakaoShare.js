@@ -33,14 +33,20 @@ const KakaoShare = ({ meetingId }) => {
     const handleMeetingGetData = async () => {
       try {
         const response = await GetMeetingNameData(meetingId);
+        console.log(99999999999);
         setMeetingName(response.data);
       } catch (error) {
         console.log("Api 데이터 불러오기 실패");
       }
     };
     handleMeetingGetData();
+  }, [meetingId, meetingName]);
+
+  useEffect(() => {
     initKakao();
   }, []);
+
+  initKakao();
 
   const initKakao = () => {
     if (window.Kakao) {

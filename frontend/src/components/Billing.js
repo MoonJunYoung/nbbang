@@ -292,7 +292,7 @@ const Billing = ({ payment }) => {
   const [paymentState, setPaymentState] = useState(false);
   const [kakaoModalOpen, setKakaoModalOpen] = useState(false);
   const [tossModalOpen, setTossModalOpen] = useState(false);
-  const [KakaoShareOpen, setKakaoShareOpen] = useState(false);
+
 
   const handleMeetingGetData = async () => {
     try {
