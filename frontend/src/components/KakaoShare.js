@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { GetMeetingNameData } from "../api/api";
 
 const KakaoContainer = styled.div`
   display: flex;
@@ -26,8 +27,17 @@ const KakaoShareBox = styled.div`
   }
 `;
 
-const KakaoShare = ({ meetingName, handleMeetingGetData }) => {
+const KakaoShare = ({ meetingId }) => {
+  const [meetingName, setMeetingName] = useState([]);
   useEffect(() => {
+    const handleMeetingGetData = async () => {
+      try {
+        const response = await GetMeetingNameData(meetingId);
+        setMeetingName(response.data);
+      } catch (error) {
+        console.log("Api 데이터 불러오기 실패");
+      }
+    };
     handleMeetingGetData();
     initKakao();
   }, []);

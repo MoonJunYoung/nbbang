@@ -455,7 +455,7 @@ const Billing = ({ payment }) => {
           meetingName={meetingName}
         />
       )}
-      <KakaoShare meetingName={meetingName} handleMeetingGetData={handleMeetingGetData} />
+      <KakaoShare meetingId={meetingId}/>
       <BillingResultShare meetingName={meetingName} />
     </ResultContainar>
   );
