@@ -77,7 +77,13 @@ const BillingName = () => {
             <MeetingData>{meetingName.date}</MeetingData>
           </Meetings>
         </MeetingSeting>
-        {openModal && <BillingNameModal setOpenModal={setOpenModal} />}
+        {openModal && (
+          <BillingNameModal
+            setOpenModal={setOpenModal}
+            MainMeetingId={meetingName.id}
+            MainMeetingName={meetingName.name}
+          />
+        )}
       </NavContainer>
     </BillngNameContainer>
   );
