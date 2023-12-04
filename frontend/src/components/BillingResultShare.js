@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { getBillingResultLink } from "../api/api";
 import React from "react";
 
 const ShareButton = styled.div`
