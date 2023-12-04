@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { truncate } from "../../components/Meeting";
 import styled from "styled-components";
 import Nav from "../../components/Nav";
+import SlideCheckbox from "../../components/SlideCheckBox";
 
 const ResultContaner = styled.div`
   position: relative;
@@ -82,10 +83,6 @@ const BillingMemberTopLineComent = styled.span`
   font-weight: 800;
 `;
 
-const BillingPaymentTopLine = styled(BillingMemberTopLine)``;
-
-const BillingPaymentTopLineComent = styled(BillingMemberTopLineComent)``;
-
 const PaymentContainers = styled.div`
   margin: 5px 0px;
 `;
@@ -131,12 +128,6 @@ const PaymentMembers = styled.div`
   }
 `;
 
-const PaymentLine = styled(BillingPaymentLine)`
-  padding: 12px 0px;
-`;
-
-const PaymentDeleteContainer = styled.div``;
-
 const BillingContainer = styled.div`
   width: 100%;
 `;
@@ -171,65 +162,10 @@ const Price = styled.span`
   }
 `;
 
-const PayMember = styled(Price)`
-  &::before {
-    content: "|";
-    color: dodgerblue;
-    position: absolute;
-    left: -13px;
-  }
-  @media (max-width: 768px) {
-    &::before {
-      content: "|";
-      color: dodgerblue;
-      position: absolute;
-      left: -7px;
-    }
-  }
-`;
-
-const AttendMemberCount = styled(Price)`
-  &::before {
-    content: "|";
-    color: dodgerblue;
-    position: absolute;
-    left: -13px;
-  }
-  @media (max-width: 768px) {
-    &::before {
-      content: "|";
-      color: dodgerblue;
-      position: absolute;
-      left: -7px;
-    }
-  }
-`;
-
-const SplitPrice = styled(Price)`
-  &::before {
-    content: "|";
-    color: dodgerblue;
-    position: absolute;
-    left: -13px;
-  }
-  @media (max-width: 768px) {
-    &::before {
-      content: "|";
-      color: dodgerblue;
-      position: absolute;
-      left: -7px;
-    }
-  }
-`;
-
 const Member = styled.p`
   font-size: 15px;
   margin: 7px 0px;
   color: #938282;
-  font-weight: 700;
-`;
-
-const Leader = styled(Member)`
   font-weight: 700;
 `;
 
@@ -270,13 +206,6 @@ const BillingLine = styled.div`
   align-items: center;
 `;
 const BillingLeader = styled.div``;
-
-const BillingLeaderContainer = styled.div`
-  margin-top: 9px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
 
 const LeaderContainer = styled.div`
   display: flex;
@@ -319,7 +248,11 @@ const Remittance = styled.div`
   }
 `;
 
-const MemberContainer = styled.div``;
+const MemberContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
 
 const TossPayContaner = styled.div`
   display: flex;
@@ -400,6 +333,19 @@ const BillingMemberContainer = styled.div`
   }
 `;
 
+const StyledCheckboxLabel = styled.div`
+  margin: 10px 2px;
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-left: 5px;
+    font-size: 15px;
+    color: #938282;
+    font-weight: 600;
+  }
+`;
+
 function SharePage() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -410,6 +356,7 @@ function SharePage() {
   const [members, setMembers] = useState([]);
   const [payments, setPayments] = useState([]);
   const [meetings, setMeetings] = useState([]);
+  const [tipCheck, setTipCheck] = useState(false);
 
   const isMobile =
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -465,6 +412,16 @@ function SharePage() {
       </div>
     );
   }
+
+  const handleCheckboxChange = (memberId) => {
+    setMembers((prevMembers) =>
+      prevMembers.map((member) =>
+        member.id === memberId
+          ? { ...member, tipCheck: !member.tipCheck }
+          : member
+      )
+    );
+  };
 
   return (
     <ResultContaner>
@@ -552,48 +509,94 @@ function SharePage() {
                   <BillingMemberContainer>
                     <Billings>
                       <Member>{data.name}</Member>
-                      <Amount>
-                        {data.amount >= 0
-                          ? `총무에게 보내야 할 돈 : ${data.amount
-                              .toLocaleString({
-                                style: "currency",
-                                currency: "USD",
-                              })
-                              .toString()} 원`
-                          : `총무에게 받아야 할 돈 : ${Math.abs(data.amount)
-                              .toLocaleString({
-                                style: "currency",
-                                currency: "USD",
-                              })
-                              .toString()} 원`}
-                      </Amount>
+                      {data.amount >= 0 ? (
+                        <Amount>
+                          {data.tipCheck
+                            ? `총무에게 보내야 할 돈 : ${data.tipped_amount
+                                .toLocaleString({
+                                  style: "currency",
+                                  currency: "USD",
+                                })
+                                .toString()} 원`
+                            : `총무에게 보내야 할 돈 : ${data.amount
+                                .toLocaleString({
+                                  style: "currency",
+                                  currency: "USD",
+                                })
+                                .toString()} 원`}
+                        </Amount>
+                      ) : (
+                        <Amount>
+                          {`총무에게 받아야 할 돈 : ${Math.abs(data.amount)
+                            .toLocaleString({
+                              style: "currency",
+                              currency: "USD",
+                            })
+                            .toString()} 원`}
+                        </Amount>
+                      )}
                     </Billings>
                     <MemberContainer>
                       {isMobile ? (
-                        <Remittance>
-                          {data.amount > 0 &&
-                          data.kakao_deposit_link !== null ? (
-                            <KakaoContaner>
-                              <a href={data.kakao_deposit_link}>
-                                <img alt="kakao" src="/images/kakaoPay.png" />
-                                <span>송금하기</span>
-                              </a>
-                            </KakaoContaner>
-                          ) : (
-                            ""
+                        <>
+                          {data.amount >= 0 && (
+                            <StyledCheckboxLabel>
+                              <SlideCheckbox
+                                type="checkbox"
+                                checked={data.tipCheck}
+                                onChange={() => handleCheckboxChange(data.id)}
+                              />
+                              <span>십원단위 올림해서 보내기</span>
+                            </StyledCheckboxLabel>
                           )}
-                          {data.amount > 0 &&
-                          data.toss_deposit_link !== null ? (
-                            <TossPayContaner>
-                              <a href={data.toss_deposit_link}>
-                                <img alt="Toss" src="/images/Toss.png" />
-                                <span>송금하기</span>
-                              </a>
-                            </TossPayContaner>
+                          {data.amount > 0 && data.tipCheck ? (
+                            <Remittance>
+                              {data.tipped_kakao_deposit_link !== null && (
+                                <KakaoContaner>
+                                  <a href={data.tipped_kakao_deposit_link}>
+                                    <img
+                                      alt="kakao"
+                                      src="/images/kakaoPay.png"
+                                    />
+                                    <span>송금하기</span>
+                                  </a>
+                                </KakaoContaner>
+                              )}
+                              {data.tipped_toss_deposit_link !== null && (
+                                <TossPayContaner>
+                                  <a href={data.tipped_toss_deposit_link}>
+                                    <img alt="Toss" src="/images/Toss.png" />
+                                    <span>송금하기</span>
+                                  </a>
+                                </TossPayContaner>
+                              )}
+                            </Remittance>
                           ) : (
-                            ""
+                            <Remittance>
+                              {data.amount > 0 &&
+                                data.kakao_deposit_link !== null && (
+                                  <KakaoContaner>
+                                    <a href={data.kakao_deposit_link}>
+                                      <img
+                                        alt="kakao"
+                                        src="/images/kakaoPay.png"
+                                      />
+                                      <span>송금하기</span>
+                                    </a>
+                                  </KakaoContaner>
+                                )}
+                              {data.amount > 0 &&
+                                data.toss_deposit_link !== null && (
+                                  <TossPayContaner>
+                                    <a href={data.toss_deposit_link}>
+                                      <img alt="Toss" src="/images/Toss.png" />
+                                      <span>송금하기</span>
+                                    </a>
+                                  </TossPayContaner>
+                                )}
+                            </Remittance>
                           )}
-                        </Remittance>
+                        </>
                       ) : (
                         ""
                       )}

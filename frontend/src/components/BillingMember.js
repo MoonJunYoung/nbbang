@@ -69,7 +69,7 @@ const MemberContainer = styled.div`
   width: 475px;
   grid-template-columns: repeat(4, 1fr);
   justify-items: center;
-  margin: 30px;
+  margin: 30px 30px 20px 30px;
   gap: 10px;
 
   @media (max-width: 768px) {
@@ -138,11 +138,20 @@ const BillingMemberTopLineComent = styled.span`
   font-weight: 800;
 `;
 
+const MemberFixComent = styled.div`
+  span {
+    font-size: 13px;
+    color: silver;
+    font-weight: 700;
+  }
+  margin-bottom: 15px;
+`;
+
 const BillingMember = ({ member, setMember }) => {
   const { meetingId } = useParams();
   const [openModal, setOpenModal] = useState(false);
   const [memberSelected, setMemberSelected] = useState({});
-  
+
   const [notAllow, setNotAllow] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
@@ -259,6 +268,9 @@ const BillingMember = ({ member, setMember }) => {
             </MemberList>
           ))}
         </MemberContainer>
+        <MemberFixComent>
+          <span>멤버를 선택하면 수정이 가능해요!☝🏻</span>
+        </MemberFixComent>
       </BillingMemberLine>
       {openModal && (
         <BillingMemberFix

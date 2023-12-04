@@ -54,12 +54,14 @@ const MeetingAddButton = styled.button`
 `;
 
 const Billing = styled(Link)`
-  padding-right: 38px;
+  width: 350px;
   display: flex;
   margin-left: 20px;
   gap: 50px;
   align-items: center;
-
+  @media (max-width: 380px) {
+    gap: 25px;
+  }
 `;
 
 const BillingDate = styled.p`
@@ -176,7 +178,7 @@ const MenuContainer = styled.div`
 const BillingLink = styled.div`
   margin-top: 13px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   gap: 12px;
   align-items: center;
   box-shadow: 0px 2px 3px #c3a99759;
@@ -299,6 +301,7 @@ const Meeting = ({ user }) => {
                   <BillingNameModal
                     setOpenModal={setOpenModal}
                     MainMeetingId={data.id}
+                    MainMeetingName={data.name}
                   />
                 )}
                 <BillingDeleteButton
