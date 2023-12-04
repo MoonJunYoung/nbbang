@@ -46,8 +46,6 @@ const KakaoShare = ({ meetingId }) => {
     initKakao();
   }, []);
 
-  initKakao();
-
   const initKakao = () => {
     if (window.Kakao) {
       const kakao = window.Kakao;
