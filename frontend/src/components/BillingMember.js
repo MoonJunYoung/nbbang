@@ -144,6 +144,7 @@ const MemberFixComent = styled.div`
     color: silver;
     font-weight: 700;
   }
+  display: ${(props) => (props.member ? "block" : "none")};
   margin-bottom: 15px;
 `;
 
@@ -268,7 +269,7 @@ const BillingMember = ({ member, setMember }) => {
             </MemberList>
           ))}
         </MemberContainer>
-        <MemberFixComent>
+        <MemberFixComent member={member && member.length > 0}>
           <span>멤버를 선택하면 수정이 가능해요!☝🏻</span>
         </MemberFixComent>
       </BillingMemberLine>

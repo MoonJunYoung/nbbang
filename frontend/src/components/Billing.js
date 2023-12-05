@@ -285,9 +285,9 @@ const Billings = styled.div`
   align-items: flex-start;
 `;
 
-const Billing = ({ payment }) => {
+const Billing = ({ payment, meetingName, setMeetingName }) => {
   const { meetingId } = useParams();
-  const [meetingName, setMeetingName] = useState([]);
+  // const [meetingName, setMeetingName] = useState([]);
   const [members, setMembers] = useState([]);
   const [paymentState, setPaymentState] = useState(false);
   const [kakaoModalOpen, setKakaoModalOpen] = useState(false);
@@ -307,12 +307,6 @@ const Billing = ({ payment }) => {
       handleMeetingGetData();
     }
   }, [kakaoModalOpen, tossModalOpen]);
-
-  useEffect(() => {
-    if (!meetingName.name) {
-      handleMeetingGetData();
-    }
-  }, [meetingName.name]);
 
   useEffect(() => {
     if (payment.length > 0) {

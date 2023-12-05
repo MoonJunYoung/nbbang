@@ -44,8 +44,8 @@ const Meetings = styled.div`
 
 const MeetingData = styled.span``;
 
-const BillingName = () => {
-  const [meetingName, setMeetingName] = useState([]);
+const BillingName = ({ meetingName, setMeetingName }) => {
+  // const [meetingName, setMeetingName] = useState([]);
   const { meetingId } = useParams();
   const [openModal, setOpenModal] = useState(false);
 
@@ -80,8 +80,8 @@ const BillingName = () => {
         {openModal && (
           <BillingNameModal
             setOpenModal={setOpenModal}
-            MainMeetingId={meetingName.id}
-            MainMeetingName={meetingName.name}
+            MainMeetingId={meetingName?.id}
+            MainMeetingName={meetingName?.name}
           />
         )}
       </NavContainer>
