@@ -4,13 +4,15 @@ import BillingMember from "../../components/BillingMember";
 import BillingName from "../../components/BillingName";
 import BillingPayment from "../../components/BillingPayment";
 
+
 const BillingPage = () => {
   const [member, setMember] = useState([]);
   const [payment, setPayment] = useState([]);
+  const [meetingName, setMeetingName] = useState([]);
 
   return (
     <div>
-      <BillingName />
+      <BillingName meetingName={meetingName} setMeetingName={setMeetingName}/>
       <BillingMember
         member={member}
         setMember={setMember}
@@ -21,7 +23,7 @@ const BillingPage = () => {
         payment={payment}
         setPayment={setPayment}
       />
-      <Billing member={member} payment={payment} />
+      <Billing member={member} payment={payment} meetingName={meetingName} setMeetingName={setMeetingName}/>
     </div>
   );
 };

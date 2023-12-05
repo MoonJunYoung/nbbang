@@ -29,7 +29,7 @@ const KakaoShareBox = styled.div`
 const KakaoShare = ({ meetingName }) => {
   useEffect(() => {
     initKakao();
-  }, []);
+  }, [meetingName]);
 
   const initKakao = () => {
     if (window.Kakao) {
@@ -41,8 +41,6 @@ const KakaoShare = ({ meetingName }) => {
   };
 
   const shareKakao = () => {
-    const meetingUrl = `https://nbbang.shop/share?meeting=${meetingName.uuid}`;
-
     window.Kakao.Link.sendDefault({
       objectType: "feed",
       content: {
@@ -50,16 +48,16 @@ const KakaoShare = ({ meetingName }) => {
         description: `${meetingName.name}의 정산결과 입니다.`,
         imageUrl: "",
         link: {
-          webUrl: meetingUrl,
-          mobileWebUrl: meetingUrl,
+          webUrl: meetingName.share_link,
+          mobileWebUrl: meetingName.share_link,
         },
       },
       buttons: [
         {
           title: "정산 내역 확인하러가기",
           link: {
-            webUrl: meetingUrl,
-            mobileWebUrl: meetingUrl,
+            webUrl: meetingName.share_link,
+            mobileWebUrl: meetingName.share_link,
           },
         },
       ],

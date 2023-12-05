@@ -94,19 +94,21 @@ const Input = styled.input`
   width: 150px;
 `;
 
-const BillingName = ({ setOpenModal, MainMeetingId }) => {
+const BillingName = ({ setOpenModal, MainMeetingId, MainMeetingName }) => {
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth() + 1;
   const day = currentDate.getDate();
-  const initialDate = `${year}-${month}-${day}`;
+  const formattedDay = day < 10 ? `0${day}` : day;
+
+  const initialDate = new Date(`${year}-${month}-${formattedDay}`);
+
   const [formData, setFormData] = useState({
-    name: "",
+    name: MainMeetingName,
     date: initialDate,
   });
+
   const { meetingId } = useParams();
-  const dateParts = formData.date.split("-");
-  const selectedDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
 
   const [notAllow, setNotAllow] = useState(true);
 
@@ -132,7 +134,6 @@ const BillingName = ({ setOpenModal, MainMeetingId }) => {
             name: "",
           }));
           setOpenModal(false);
-          handleGetData();
         }
       }
     } catch (error) {
@@ -172,11 +173,11 @@ const BillingName = ({ setOpenModal, MainMeetingId }) => {
             </InputBox>
             <StyledDatePickerBox>
               <StyledDatePicker
-                selected={selectedDate}
+                selected={formData.date}
                 onChange={(date) =>
                   setFormData({
                     ...formData,
-                    date: date.toISOString().split("T")[0],
+                    date,
                   })
                 }
                 inputMode="none"

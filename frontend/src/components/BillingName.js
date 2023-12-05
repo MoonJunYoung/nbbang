@@ -44,8 +44,8 @@ const Meetings = styled.div`
 
 const MeetingData = styled.span``;
 
-const BillingName = () => {
-  const [meetingName, setMeetingName] = useState([]);
+const BillingName = ({ meetingName, setMeetingName }) => {
+  // const [meetingName, setMeetingName] = useState([]);
   const { meetingId } = useParams();
   const [openModal, setOpenModal] = useState(false);
 
@@ -77,7 +77,13 @@ const BillingName = () => {
             <MeetingData>{meetingName.date}</MeetingData>
           </Meetings>
         </MeetingSeting>
-        {openModal && <BillingNameModal setOpenModal={setOpenModal} />}
+        {openModal && (
+          <BillingNameModal
+            setOpenModal={setOpenModal}
+            MainMeetingId={meetingName?.id}
+            MainMeetingName={meetingName?.name}
+          />
+        )}
       </NavContainer>
     </BillngNameContainer>
   );

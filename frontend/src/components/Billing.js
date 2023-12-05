@@ -285,28 +285,28 @@ const Billings = styled.div`
   align-items: flex-start;
 `;
 
-const Billing = ({ payment }) => {
+const Billing = ({ payment, meetingName, setMeetingName }) => {
   const { meetingId } = useParams();
-  const [meetingName, setMeetingName] = useState([]);
+  // const [meetingName, setMeetingName] = useState([]);
   const [members, setMembers] = useState([]);
   const [paymentState, setPaymentState] = useState(false);
   const [kakaoModalOpen, setKakaoModalOpen] = useState(false);
   const [tossModalOpen, setTossModalOpen] = useState(false);
-  const [leaderId, setLeaderId] = useState(null);
+
+  const handleMeetingGetData = async () => {
+    try {
+      const response = await GetMeetingNameData(meetingId);
+      setMeetingName(response.data);
+    } catch (error) {
+      console.log("Api 데이터 불러오기 실패");
+    }
+  };
 
   useEffect(() => {
     if (!kakaoModalOpen && !tossModalOpen) {
-      const handleMeetingGetData = async () => {
-        try {
-          const response = await GetMeetingNameData(meetingId);
-          setMeetingName(response.data);
-        } catch (error) {
-          console.log("Api 데이터 불러오기 실패");
-        }
-      };
       handleMeetingGetData();
     }
-  }, [kakaoModalOpen, tossModalOpen, KakaoShare]);
+  }, [kakaoModalOpen, tossModalOpen]);
 
   useEffect(() => {
     if (payment.length > 0) {
@@ -326,7 +326,7 @@ const Billing = ({ payment }) => {
       }
     };
     handleGetData();
-  }, [meetingId, payment, meetingName]);
+  }, [meetingId, payment]);
 
   const handleKakaoModal = () => {
     setKakaoModalOpen(true);

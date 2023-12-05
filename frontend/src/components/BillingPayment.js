@@ -256,6 +256,15 @@ const PaymentLine = styled(BillingPaymentLine)`
 
 const PaymentDeleteContainer = styled.div``;
 
+const PaymentFixComent = styled.div`
+  span {
+    font-size: 13px;
+    color: silver;
+    font-weight: 700;
+  }
+  margin-top: 10px;
+`;
+
 const BillingPayment = ({ member, payment, setPayment }) => {
   const { meetingId } = useParams();
   const [notAllow, setNotAllow] = useState(true);
@@ -506,6 +515,9 @@ const BillingPayment = ({ member, payment, setPayment }) => {
               </PaymentDeleteContainer>
             </PaymentList>
           ))}
+          <PaymentFixComent>
+            <span>결제 내역을 선택하면 수정이 가능해요!☝🏻</span>
+          </PaymentFixComent>
         </PaymentLine>
       </PaymentContainer>
       {openModal && (

@@ -1,14 +1,11 @@
-
-import styled from 'styled-components'
-import { getBillingResultLink} from '../api/api';
+import styled from "styled-components";
 import React from "react";
 
-
 const ShareButton = styled.div`
-  display: 'flex';
+  display: "flex";
   justify-content: center;
   align-items: center;
-`
+`;
 
 const Button = styled.button`
   width: 200px;
@@ -22,53 +19,47 @@ const Button = styled.button`
   margin: 30px 0 35px 0;
 `;
 
-
-const BillingResultShare = ({meetingName}) => {
-
+const BillingResultShare = ({ meetingName }) => {
   const getApiDataCopy = async () => {
     try {
-      const response = await getBillingResultLink(meetingName.id); 
-      if (response.status === 200) {
-        const billingResult = response.data;
-        await navigator.clipboard.writeText(billingResult);
-        alert('텍스트가 클립보드에 복사되었습니다.');
-      }
+      await navigator.clipboard.writeText(meetingName.share_link);
+      alert("텍스트가 클립보드에 복사되었습니다.");
     } catch (error) {
-      console.log("Api 데이터 불러오기 실패");
+      console.error("클립보드 복사 실패");
     }
   };
 
   const getApiDataShare = async () => {
     try {
-      const response = await getBillingResultLink(meetingName.id);
-      if (response.status === 200) {
-        const billingResult = response.data;
-        if (navigator.share) {
-          await navigator.share({
-            text: billingResult,
-          });
-        } else {
-          alert('Web Share API를 지원하지 않는 브라우저이므로 텍스트를 복사합니다.');
-          getApiDataCopy();
-        }
+      if (navigator.share) {
+        await navigator.share({
+          text: meetingName.share_link,
+        });
+      } else {
+        alert(
+          "Web Share API를 지원하지 않는 브라우저이므로 텍스트를 복사합니다."
+        );
+        getApiDataCopy();
       }
     } catch (error) {
-      console.error('공유 실패:', error);
-    
+      console.error("공유 API 호출 실패");
     }
-  }
+  };
 
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
 
   return (
     <ShareButton>
-      {isMobile ? (        
+      {isMobile ? (
         <Button onClick={getApiDataShare}>링크 공유하기</Button>
       ) : (
         <Button onClick={getApiDataCopy}>링크 복사하기</Button>
       )}
     </ShareButton>
   );
-}
+};
 
-export default BillingResultShare
+export default BillingResultShare;
