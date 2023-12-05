@@ -44,7 +44,6 @@ class MeetingService:
             user_id=None,
             uuid=None,
         )
-        meeting.format_date()
         if meeting.name and meeting.date:
             self.meeting_repository.Update(meeting).run()
 

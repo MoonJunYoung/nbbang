@@ -1,4 +1,5 @@
 import datetime
+import re
 import uuid
 
 from backend.base.exceptions import MeetingUserMismatchException
@@ -9,7 +10,7 @@ class Meeting:
     def __init__(self, id, name, date, user_id, uuid) -> None:
         self.id = id
         self.name = name
-        self.date = date
+        self.date = str(Date(date))
         self.user_id = user_id
         self.uuid = uuid
 
@@ -30,6 +31,13 @@ class Meeting:
     def create_share_link(self):
         self.share_link = f"https://nbbang.shop/share?meeting={self.uuid}"
 
-    def format_date(self):
-        dt = datetime.datetime.strptime(self.date, "%Y-%m-%dT%H:%M:%S.%fZ")
-        self.date = dt.strftime("%Y-%m-%d")
+
+class Date:
+    def __init__(self, date) -> None:
+        self.date = date
+        if re.match(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$", self.date):
+            dt = datetime.datetime.strptime(self.date, "%Y-%m-%dT%H:%M:%S.%fZ")
+            self.date = dt.strftime("%Y-%m-%d")
+
+    def __str__(self):
+        return self.date
