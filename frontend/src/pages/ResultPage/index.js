@@ -627,7 +627,7 @@ function SharePage() {
       <Link
         to="/signd"
         style={{
-          marginTop: "30px",
+          margin: "30px 0px",
           fontSize: "17px",
           color: "gray",
           fontWeight: "700",
