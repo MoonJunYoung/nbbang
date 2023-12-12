@@ -150,7 +150,7 @@ const AuthComponent = ({
         <SigndLine></SigndLine>
       </SigndTopLine>
       <PlatformSignd>
-        <GoogleLogin />
+        {navigator.userAgent.includes("KAKAOTALK") ? null : <GoogleLogin />}
         <KakaoLogin />
         <NaverLogin />
       </PlatformSignd>

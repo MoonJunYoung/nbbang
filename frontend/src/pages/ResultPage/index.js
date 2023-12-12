@@ -1,11 +1,11 @@
 import { useLocation } from "react-router-dom";
 import { getBillingResultPage } from "../../api/api";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { truncate } from "../../components/Meeting";
 import styled from "styled-components";
 import Nav from "../../components/Nav";
 import SlideCheckbox from "../../components/SlideCheckBox";
+import { Link, useNavigate } from "react-router-dom";
 
 const ResultContaner = styled.div`
   position: relative;
@@ -346,6 +346,17 @@ const StyledCheckboxLabel = styled.div`
   }
 `;
 
+
+const MainLogo = styled.a`
+  display: inline-block;
+  width: 75px;
+  margin: 20px;
+  img {
+    display: block;
+    width: 100%;
+  }
+`;
+
 function SharePage() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -356,7 +367,6 @@ function SharePage() {
   const [members, setMembers] = useState([]);
   const [payments, setPayments] = useState([]);
   const [meetings, setMeetings] = useState([]);
-  const [tipCheck, setTipCheck] = useState(false);
 
   const isMobile =
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -425,7 +435,13 @@ function SharePage() {
 
   return (
     <ResultContaner>
-      <Nav />
+      <MainLogo>
+        <img
+          alt="Nbbang"
+          src="/images/nbbang.png"
+          onClick={() => (window.location.href = "/")}
+        />
+      </MainLogo>
       <MeetingContaner>
         <MeetingName>{meetings.name}의 정산결과 입니다!</MeetingName>
         <MeetingDate>{meetings.date}</MeetingDate>
@@ -608,6 +624,18 @@ function SharePage() {
           ))}
         </BillingContainer>
       </BillingLine>
+      <Link
+        to="/signd"
+        style={{
+          marginTop: "30px",
+          fontSize: "17px",
+          color: "gray",
+          fontWeight: "700",
+          textDecoration: "inherit",
+        }}
+      >
+        서비스 이용하러 가기
+      </Link>
     </ResultContaner>
   );
 }
