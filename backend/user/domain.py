@@ -1,13 +1,17 @@
 import bcrypt
 
 from backend.deposit.domain import Deposit
+from backend.user.exceptions import (
+    IdentifierAlreadyException,
+    PasswordNotMatchException,
+)
 
 
 class User:
     def __init__(
         self,
         id,
-        name,
+        name=None,
         platform_id=None,
         platform=None,
         identifier=None,
@@ -20,13 +24,19 @@ class User:
         self.identifier = identifier
         self.password = password
 
+    def identifier_is_not_unique(self):
+        raise IdentifierAlreadyException
+
     def password_encryption(self):
         salt = bcrypt.gensalt()
         encrypted = bcrypt.hashpw(self.password.encode("utf-8"), salt)
         self.password = encrypted.decode("utf-8")
 
     def check_password_match(self, password):
-        return bcrypt.checkpw(password.encode(), self.password.encode())
+        if not bcrypt.checkpw(password.encode(), self.password.encode()):
+            raise PasswordNotMatchException(
+                identifier=self.identifier, password=password
+            )
 
     def set_deposit(self, deposit: Deposit):
         self.deposit = deposit

@@ -1,10 +1,6 @@
-from backend.base.exceptions import (
-    IdentifierAlreadyException,
-    IdentifierNotFoundException,
-    PasswordNotMatchException,
-)
 from backend.meeting.repository import MeetingRepository
 from backend.user.domain import User
+from backend.user.exceptions import IdentifierNotFoundException
 from backend.user.repository import UserRepository
 
 
@@ -17,31 +13,20 @@ class UserService:
         user = User(
             id=None,
             name=name,
-            platform_id=None,
-            platform=None,
             identifier=identifier,
             password=password,
         )
         if self.user_repository.ReadByIdentifier(identifier=user.identifier).run():
-            raise IdentifierAlreadyException(identifier=identifier)
+            user.identifier_is_not_unique()
         user.password_encryption()
         self.user_repository.Create(user).run()
         return user.id
 
     def sign_in(self, identifier, password):
-        in_user = User(
-            id=None,
-            name=None,
-            platform_id=None,
-            platform=None,
-            identifier=identifier,
-            password=password,
-        )
-        user: User = self.user_repository.ReadByIdentifier(in_user.identifier).run()
+        user: User = self.user_repository.ReadByIdentifier(identifier).run()
         if not user:
             raise IdentifierNotFoundException(identifier=identifier)
-        if not user.check_password_match(in_user.password):
-            raise PasswordNotMatchException(identifier=identifier, password=password)
+        user.check_password_match(password)
         return user.id
 
     def oauth_login(self, name, platform_id, platform):
