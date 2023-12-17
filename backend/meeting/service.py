@@ -26,7 +26,7 @@ class MeetingService:
         user_id,
         name=None,
         date=None,
-        kakao_depoist_id=None,
+        kakao_deposit_id=None,
         bank=None,
         account_number=None,
     ):
@@ -34,8 +34,8 @@ class MeetingService:
         meeting.is_user_of_meeting(user_id)
         if name and date:
             meeting.update_information(name, date)
-        elif kakao_depoist_id:
-            meeting.update_kakao_deposit_information(kakao_depoist_id)
+        elif kakao_deposit_id:
+            meeting.update_kakao_deposit_information(kakao_deposit_id)
         elif bank and account_number:
             meeting.update_toss_deposit_information(bank, account_number)
         self.meeting_repository.Update(meeting).run()

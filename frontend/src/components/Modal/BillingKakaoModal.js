@@ -133,7 +133,7 @@ const BillingKakaoModal = ({ setKakaoModalOpen, meetingName }) => {
   const { meetingId } = useParams();
   const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    kakao_deposit_id: meetingName.deposit.kakao_deposit_id,
+    kakao_deposit_id: meetingName.kakao_deposit_information.kakao_deposit_id,
   });
 
   const handlePutBankData = async (e, action) => {

@@ -14,6 +14,9 @@ def catch_exception(exce, requests: Request = None):
     logging.error(
         f"\n===\nAn unexpected error occurred. : {exce}\ndetail : {traceback.format_exc()}==="
     )
+    print(
+        f"\n===\nAn unexpected error occurred. : {exce}\ndetail : {traceback.format_exc()}==="
+    )
     raise HTTPException(
         status_code=500,
         detail="An internal server error occurred. If the problem persists, please contact our support team.",

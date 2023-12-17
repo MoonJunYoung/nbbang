@@ -1,6 +1,6 @@
 import bcrypt
 
-from backend.meeting.domain import KakaoDepositInformation, TossDepositInformation
+from backend.base.vo import KakaoDepositInformation, TossDepositInformation
 from backend.user.exceptions import (
     IdentifierAlreadyException,
     PasswordNotMatchException,
@@ -26,10 +26,8 @@ class User:
         self.platform = platform
         self.identifier = identifier
         self.password = password
-        if bank and account_number:
-            self.toss_deposit_information = TossDepositInformation(bank, account_number)
-        if kakao_deposit_id:
-            self.kakao_deposit_information = KakaoDepositInformation(kakao_deposit_id)
+        self.toss_deposit_information = TossDepositInformation(bank, account_number)
+        self.kakao_deposit_information = KakaoDepositInformation(kakao_deposit_id)
 
     def identifier_is_not_unique(self):
         raise IdentifierAlreadyException

@@ -420,9 +420,9 @@ const Billing = ({ payment, meetingName, setMeetingName }) => {
           <img alt="kakao" src="/images/kakao.png" />
           <KakaoModalbutton>카카오 입금 아이디</KakaoModalbutton>
           {meetingName &&
-          meetingName.deposit &&
-          meetingName.deposit.kakao_deposit_id !== null ? (
-            <KakaoId>{meetingName.deposit.kakao_deposit_id}</KakaoId>
+          meetingName.kakao_deposit_information &&
+          meetingName.kakao_deposit_information.kakao_deposit_id !== null ? (
+            <KakaoId>{meetingName.kakao_deposit_information.kakao_deposit_id}</KakaoId>
           ) : (
             <KakaoRegistration>등록하기</KakaoRegistration>
           )}
@@ -431,11 +431,11 @@ const Billing = ({ payment, meetingName, setMeetingName }) => {
           <img alt="kakao" src="/images/Toss.png" />
           <TossModalbutton>토스 입금 계좌</TossModalbutton>
           {meetingName &&
-          meetingName.deposit &&
-          meetingName.deposit.bank !== null ? (
+          meetingName.toss_deposit_information &&
+          meetingName.toss_deposit_information.bank !== null ? (
             <TossBankContainer>
-              <TossBank>{meetingName.deposit.bank}</TossBank>
-              <TossBank>{meetingName.deposit.account_number}</TossBank>
+              <TossBank>{meetingName.toss_deposit_information.bank}</TossBank>
+              <TossBank>{meetingName.toss_deposit_information.account_number}</TossBank>
             </TossBankContainer>
           ) : (
             <TossRegistration>등록하기</TossRegistration>

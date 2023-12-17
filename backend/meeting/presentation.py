@@ -13,9 +13,6 @@ meeting_service = MeetingService()
 class MeetingData(BaseModel):
     name: str = None
     date: str = None
-    bank: str = None
-    account_number: str = None
-    kakao_id: str = None
 
 
 class DepositInformationData(BaseModel):
