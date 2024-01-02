@@ -20,7 +20,7 @@ class Member:
 
     def add_amount(self, amount):
         self.amount += amount
-        self.tipped_amount = math.ceil(self.amount / 100) * 100
+        self.tipped_amount = math.ceil(self.amount / 10) * 10
 
     def create_deposit_link(self, meeting: Meeting):
         if meeting.deposit.bank and meeting.deposit.account_number:
