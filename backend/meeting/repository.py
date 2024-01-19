@@ -93,6 +93,7 @@ class MeetingRepository:
             meeting_models = (
                 self.session.query(MeetingModel)
                 .filter(MeetingModel.user_id == self.user_id)
+                .order_by(MeetingModel.id.desc())
                 .all()
             )
             if not meeting_models:
