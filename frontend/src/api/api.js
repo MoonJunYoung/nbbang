@@ -5,6 +5,7 @@ export let Token = () => Cookies.get("authToken");
 const axiosData = () =>
   axios.create({
     baseURL: "https://nbbang.shop/api/",
+    // baseURL: "http://localhost:8000/api/",
     headers: {
       Authorization: Token(),
     },
@@ -105,9 +106,7 @@ export const getBillingResultLink = (meeting_id) => {
 };
 
 export const getBillingResultPage = (meeting_id) => {
-  return axiosData().get(
-    `https://nbbang.shop/api/share/page?uuid=${meeting_id}`
-  );
+  return axiosData().get(`/meeting/share-page?uuid=${meeting_id}`);
 };
 
 export const putBillingTossBank = (meetingId, data) => {
