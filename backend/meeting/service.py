@@ -75,4 +75,4 @@ class MeetingService:
 
         for member in members:
             member.create_deposit_link(meeting)
-        return meeting
+        return {"meeting": meeting, "members": members, "payments": payments}
