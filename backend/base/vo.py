@@ -1,9 +1,14 @@
 import os
-from urllib.parse import urlparse
 
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from dotenv import load_dotenv
+
+
+class KakaoDepositInformation:
+    def __init__(self, kakao_deposit_id) -> None:
+        self.kakao_deposit_id = kakao_deposit_id
+
 
 load_dotenv()
 secret_key = bytes(os.environ.get("ENCRYPT_KEY"), "UTF-8")
@@ -21,11 +26,11 @@ def aes_decrypt(ciphertext):
     return decrypted_data.decode("utf-8")
 
 
-class Deposit:
-    def __init__(self, bank=None, account_number=None, kakao_deposit_id=None) -> None:
+class TossDepositInformation:
+    def __init__(self, bank, account_number) -> None:
         self.bank = bank
         self.account_number = account_number
-        self.kakao_deposit_id = kakao_deposit_id
+
         if isinstance(self.account_number, str) and isinstance(self.bank, str):
             self._encrypt_account_number_data()
         elif isinstance(self.account_number, bytes) and isinstance(self.bank, bytes):
@@ -38,14 +43,3 @@ class Deposit:
     def _dncrypt_account_number_data(self):
         self.account_number = aes_decrypt(self.account_number)
         self.bank = aes_decrypt(self.bank)
-
-    def update_bank_account(self, bank, account_number):
-        self.bank = bank
-        self.account_number = account_number
-        if isinstance(self.account_number, str) and isinstance(self.bank, str):
-            self._encrypt_account_number_data()
-        elif isinstance(self.account_number, bytes) and isinstance(self.bank, bytes):
-            self._dncrypt_account_number_data()
-
-    def update_kakao_deposit_id(self, kakao_deposit_id):
-        self.kakao_deposit_id = kakao_deposit_id

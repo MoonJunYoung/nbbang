@@ -1,6 +1,5 @@
 from backend.member.domain import Member
 from backend.payment.domain import Payment
-from backend.share.domain import Share
 
 
 def set_DTO(DTO, domains):
@@ -22,19 +21,6 @@ class MemberDTO:
         self.tipped_amount = member.tipped_amount
 
 
-class ShareMemberDTO(MemberDTO):
-    def __init__(self, member: Member) -> None:
-        self.kakao_deposit_link = getattr(member, "kakao_deposit_link", None)
-        self.toss_deposit_link = getattr(member, "toss_deposit_link", None)
-        self.tipped_kakao_deposit_link = getattr(
-            member, "tipped_kakao_deposit_link", None
-        )
-        self.tipped_toss_deposit_link = getattr(
-            member, "tipped_toss_deposit_link", None
-        )
-        super().__init__(member)
-
-
 class PaymentDTO:
     def __init__(self, payment: Payment) -> None:
         self.id = payment.id
@@ -44,10 +30,3 @@ class PaymentDTO:
         self.pay_member = payment.pay_member
         self.attend_member = payment.attend_member
         self.attend_member_ids = payment.attend_member_ids
-
-
-class ShareDTO:
-    def __init__(self, share: Share) -> None:
-        self.meeting = share.meeting
-        self.members = set_DTO(ShareMemberDTO, share.calcaulte.members)
-        self.payments = set_DTO(PaymentDTO, share.calcaulte.payments)

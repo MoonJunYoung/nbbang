@@ -3,30 +3,62 @@ import re
 import uuid
 
 from backend.base.exceptions import MeetingUserMismatchException
-from backend.deposit.domain import Deposit
+from backend.base.vo import KakaoDepositInformation, TossDepositInformation
+from backend.user.domain import User
 
 
 class Meeting:
-    def __init__(self, id, name, date, user_id, uuid) -> None:
+    def __init__(
+        self,
+        id,
+        name,
+        date,
+        user_id,
+        uuid=None,
+        bank=None,
+        account_number=None,
+        kakao_deposit_id=None,
+    ) -> None:
         self.id = id
         self.name = name
         self.date = Date(date).date
         self.user_id = user_id
         self.uuid = uuid
+        self.toss_deposit_information = TossDepositInformation(bank, account_number)
+        self.kakao_deposit_information = KakaoDepositInformation(kakao_deposit_id)
 
-    def set_template(self):
-        self.name = "모임명을 설정해주세요"
-        self.date = datetime.date.isoformat(datetime.date.today())
+    @staticmethod
+    def create_template(user_id):
+        return Meeting(
+            id=None,
+            name="모임명을 설정해주세요",
+            date=datetime.date.isoformat(datetime.date.today()),
+            user_id=user_id,
+            uuid=uuid.uuid4(),
+        )
+
+    def load_user_deposit_information(self, user: User):
+        self.kakao_deposit_information = KakaoDepositInformation(
+            user.kakao_deposit_information.kakao_deposit_id
+        )
+        self.toss_deposit_information = TossDepositInformation(
+            user.toss_deposit_information.bank,
+            user.toss_deposit_information.account_number,
+        )
+
+    def update_information(self, name, date):
+        self.name = name
+        self.date = Date(date).date
+
+    def update_kakao_deposit_information(self, kakao_deposit_id):
+        self.kakao_deposit_information = KakaoDepositInformation(kakao_deposit_id)
+
+    def update_toss_deposit_information(self, bank, account_number):
+        self.toss_deposit_information = TossDepositInformation(bank, account_number)
 
     def is_user_of_meeting(self, user_id):
         if not self.user_id == user_id:
             raise MeetingUserMismatchException(user_id, self.id)
-
-    def set_uuid(self):
-        self.uuid = uuid.uuid4()
-
-    def set_deposit(self, deposit: Deposit):
-        self.deposit = deposit
 
     def create_share_link(self):
         self.share_link = f"https://nbbang.shop/share?meeting={self.uuid}"

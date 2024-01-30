@@ -116,8 +116,8 @@ const BillingTossModal = ({ setTossModalOpen, meetingName }) => {
   const ref = useRef();
   const { meetingId } = useParams();
   const [formData, setFormData] = useState({
-    account_number: meetingName.deposit.account_number,
-    bank: meetingName.deposit.bank,
+    account_number: meetingName.toss_deposit_information.account_number,
+    bank: meetingName.toss_deposit_information.bank,
   });
 
 

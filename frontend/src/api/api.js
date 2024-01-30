@@ -5,6 +5,7 @@ export let Token = () => Cookies.get("authToken");
 const axiosData = () =>
   axios.create({
     baseURL: "https://nbbang.shop/api/",
+    // baseURL: "http://localhost:8000/api/",
     headers: {
       Authorization: Token(),
     },
@@ -105,7 +106,7 @@ export const getBillingResultLink = (meeting_id) => {
 };
 
 export const getBillingResultPage = (meeting_id) => {
-  return axiosData().get(`https://nbbang.shop/api/share/page?uuid=${meeting_id}`);
+  return axiosData().get(`/meeting/share-page?uuid=${meeting_id}`);
 };
 
 export const putBillingTossBank = (meetingId, data) => {
@@ -119,16 +120,16 @@ export const putBillingFixTossBank = (data) => {
 //Deposit
 
 export const PatchBillingUserKaKaoDeposit = (data) => {
-  return axiosData().patch(`user/kakao-deposit-id`, data);
+  return axiosData().put(`user/kakao-deposit-id`, data);
 };
 
 export const PatchBillingMeetingKakaoDeposit = (meetingId, data) => {
-  return axiosData().patch(`meeting/${meetingId}/kakao-deposit-id`, data);
+  return axiosData().put(`meeting/${meetingId}/kakao-deposit-id`, data);
 };
 
 export const PatchBillingUserTossDeposit = (data) => {
-  return axiosData().patch(`user/bank-account`, data);
+  return axiosData().put(`user/bank-account`, data);
 };
 export const PatchBillingMeetingTossDeposit = (meetingId, data) => {
-  return axiosData().patch(`meeting/${meetingId}/bank-account`, data);
+  return axiosData().put(`meeting/${meetingId}/bank-account`, data);
 };

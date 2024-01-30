@@ -1,6 +1,5 @@
 from backend.base.database_connector import MysqlCRUDTemplate
 from backend.base.database_model import MeetingModel
-from backend.deposit.domain import Deposit
 from backend.meeting.domain import Meeting
 
 
@@ -17,15 +16,15 @@ class MeetingRepository:
                 date=self.meeting.date,
                 user_id=self.meeting.user_id,
                 uuid=self.meeting.uuid,
-                account_number=self.meeting.deposit.account_number,
-                bank=self.meeting.deposit.bank,
-                kakao_deposit_id=self.meeting.deposit.kakao_deposit_id,
+                account_number=self.meeting.toss_deposit_information.account_number,
+                bank=self.meeting.toss_deposit_information.bank,
+                kakao_deposit_id=self.meeting.kakao_deposit_information.kakao_deposit_id,
             )
             self.session.add(meeting_model)
             self.session.commit()
             self.meeting.id = meeting_model.id
 
-    class Update(MysqlCRUDTemplate):
+    class UpdateMeeting(MysqlCRUDTemplate):
         def __init__(self, meeting: Meeting) -> None:
             self.meeting = meeting
             super().__init__()
@@ -40,7 +39,7 @@ class MeetingRepository:
             meeting_model.date = self.meeting.date
             self.session.commit()
 
-    class UpdateAccountNumber(MysqlCRUDTemplate):
+    class UpdateMeetingTossDeposit(MysqlCRUDTemplate):
         def __init__(self, meeting: Meeting) -> None:
             self.meeting = meeting
             super().__init__()
@@ -51,11 +50,13 @@ class MeetingRepository:
                 .filter(MeetingModel.id == self.meeting.id)
                 .first()
             )
-            meeting_model.account_number = self.meeting.deposit.account_number
-            meeting_model.bank = self.meeting.deposit.bank
+            meeting_model.bank = self.meeting.toss_deposit_information.bank
+            meeting_model.account_number = (
+                self.meeting.toss_deposit_information.account_number
+            )
             self.session.commit()
 
-    class UpdateKakaoID(MysqlCRUDTemplate):
+    class UpdateMeetingKakaoDeposit(MysqlCRUDTemplate):
         def __init__(self, meeting: Meeting) -> None:
             self.meeting = meeting
             super().__init__()
@@ -66,7 +67,9 @@ class MeetingRepository:
                 .filter(MeetingModel.id == self.meeting.id)
                 .first()
             )
-            meeting_model.kakao_deposit_id = self.meeting.deposit.kakao_deposit_id
+            meeting_model.kakao_deposit_id = (
+                self.meeting.kakao_deposit_information.kakao_deposit_id
+            )
             self.session.commit()
 
     class Delete(MysqlCRUDTemplate):
@@ -106,7 +109,6 @@ class MeetingRepository:
                     user_id=meeting_model.user_id,
                     uuid=meeting_model.uuid,
                 )
-
                 meetings.append(meeting)
             return meetings
 
@@ -129,13 +131,10 @@ class MeetingRepository:
                 date=meeting_model.date,
                 user_id=meeting_model.user_id,
                 uuid=meeting_model.uuid,
-            )
-            deposit = Deposit(
-                account_number=meeting_model.account_number,
                 bank=meeting_model.bank,
+                account_number=meeting_model.account_number,
                 kakao_deposit_id=meeting_model.kakao_deposit_id,
             )
-            meeting.set_deposit(deposit)
             return meeting
 
     class ReadByUUID(MysqlCRUDTemplate):
@@ -157,11 +156,8 @@ class MeetingRepository:
                 date=meeting_model.date,
                 user_id=meeting_model.user_id,
                 uuid=meeting_model.uuid,
-            )
-            deposit = Deposit(
-                account_number=meeting_model.account_number,
                 bank=meeting_model.bank,
+                account_number=meeting_model.account_number,
                 kakao_deposit_id=meeting_model.kakao_deposit_id,
             )
-            meeting.set_deposit(deposit)
             return meeting
