@@ -156,5 +156,8 @@ class MeetingRepository:
                 date=meeting_model.date,
                 user_id=meeting_model.user_id,
                 uuid=meeting_model.uuid,
+                bank=meeting_model.bank,
+                account_number=meeting_model.account_number,
+                kakao_deposit_id=meeting_model.kakao_deposit_id,
             )
             return meeting
