@@ -38,8 +38,13 @@ class Meeting:
         )
 
     def load_user_deposit_information(self, user: User):
-        self.kakao_deposit_information = user.kakao_deposit_information
-        self.toss_deposit_information = user.toss_deposit_information
+        self.kakao_deposit_information = KakaoDepositInformation(
+            user.kakao_deposit_information.kakao_deposit_id
+        )
+        self.toss_deposit_information = TossDepositInformation(
+            user.toss_deposit_information.bank,
+            user.toss_deposit_information.account_number,
+        )
 
     def update_information(self, name, date):
         self.name = name
