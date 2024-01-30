@@ -1,6 +1,10 @@
+from backend.base.exceptions import IncompleteShareExcption, SharePageNotMeetingExcption
+from backend.calculate.domain import Calculate
 from backend.meeting.domain import Meeting
 from backend.meeting.repository import MeetingRepository
+from backend.member.domain import Member
 from backend.member.repository import MemberRepository
+from backend.payment.domain import Payment
 from backend.payment.repository import PaymentRepository
 from backend.user.domain import User
 from backend.user.repository import UserRepository
@@ -56,3 +60,21 @@ class MeetingService:
     def read_meetings(self, user_id):
         meetings = self.meeting_repository.ReadByUserID(user_id).run()
         return meetings
+
+    def read_share_page(self, uuid):
+        meeting: Meeting = self.meeting_repository.ReadByUUID(uuid).run()
+        if not meeting:
+            raise SharePageNotMeetingExcption
+        members: list[Member] = self.member_repository.ReadByMeetingID(meeting.id).run()
+        payments: list[Payment] = self.payment_repository.ReadByMeetingID(
+            meeting.id
+        ).run()
+        if not members or not payments:
+            raise IncompleteShareExcption
+        calculate = Calculate(members=members, payments=payments)
+        calculate.split_payments()
+        calculate.split_members()
+
+        for member in members:
+            member.create_deposit_link(meeting)
+        return meeting

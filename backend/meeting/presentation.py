@@ -117,3 +117,12 @@ class MeetingPresentation:
             )
         except Exception as e:
             catch_exception(e)
+
+    @router.get("/share-page", status_code=200)
+    async def read_share_page(uuid: str):
+        try:
+            share_page = meeting_service.read_share_page(uuid)
+            return share_page
+
+        except Exception as e:
+            catch_exception(e)

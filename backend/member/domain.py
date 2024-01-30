@@ -23,19 +23,26 @@ class Member:
         self.tipped_amount = math.ceil(self.amount / 10) * 10
 
     def create_deposit_link(self, meeting: Meeting):
-        if meeting.deposit.bank and meeting.deposit.account_number:
+        if (
+            meeting.toss_deposit_information.bank
+            and meeting.toss_deposit_information.account_number
+        ):
             self.toss_deposit_link = self._create_toss_deposit_link(
-                self.amount, meeting.deposit.bank, meeting.deposit.account_number
+                self.amount,
+                meeting.toss_deposit_information.bank,
+                meeting.toss_deposit_information.account_number,
             )
             self.tipped_toss_deposit_link = self._create_toss_deposit_link(
-                self.tipped_amount, meeting.deposit.bank, meeting.deposit.account_number
+                self.tipped_amount,
+                meeting.toss_deposit_information.bank,
+                meeting.toss_deposit_information.account_number,
             )
-        if meeting.deposit.kakao_deposit_id:
+        if meeting.kakao_deposit_information.kakao_deposit_id:
             self.kakao_deposit_link = self._create_kakako_deposit_link(
-                self.amount, meeting.deposit.kakao_deposit_id
+                self.amount, meeting.kakao_deposit_information.kakao_deposit_id
             )
             self.tipped_kakao_deposit_link = self._create_kakako_deposit_link(
-                self.tipped_amount, meeting.deposit.kakao_deposit_id
+                self.tipped_amount, meeting.kakao_deposit_information.kakao_deposit_id
             )
 
     def _create_toss_deposit_link(self, amount, bank, account_number):
