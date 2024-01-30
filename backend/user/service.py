@@ -55,10 +55,9 @@ class UserService:
     def edit_kakao_deposit(self, user_id, kakao_deposit_id):
         user: User = self.user_repository.ReadByID(user_id).run()
         user.update_kakao_deposit_information(kakao_deposit_id)
-        user.toss_deposit_information._encrypt_account_number_data()
-        self.user_repository.Update(user).run()
+        self.user_repository.UpdateKakaoDeposit(user).run()
 
     def edit_toss_deposit(self, user_id, bank, account_number):
         user: User = self.user_repository.ReadByID(user_id).run()
         user.update_toss_deposit_information(bank, account_number)
-        self.user_repository.Update(user).run()
+        self.user_repository.UpdateTossDeposit(user).run()

@@ -28,20 +28,19 @@ class MeetingService:
         meeting: Meeting = self.meeting_repository.ReadByID(id).run()
         meeting.is_user_of_meeting(user_id)
         meeting.update_information(name, date)
-        self.meeting_repository.Update(meeting).run()
+        self.meeting_repository.UpdateMeeting(meeting).run()
 
     def edit_kakao_deposit(self, id, user_id, kakao_deposit_id):
         meeting: Meeting = self.meeting_repository.ReadByID(id).run()
         meeting.is_user_of_meeting(user_id)
         meeting.update_kakao_deposit_information(kakao_deposit_id)
-        meeting.toss_deposit_information._encrypt_account_number_data()
-        self.meeting_repository.Update(meeting).run()
+        self.meeting_repository.UpdateMeetingKakaoDeposit(meeting).run()
 
     def edit_toss_deposit(self, id, user_id, bank, account_number):
         meeting: Meeting = self.meeting_repository.ReadByID(id).run()
         meeting.is_user_of_meeting(user_id)
         meeting.update_toss_deposit_information(bank, account_number)
-        self.meeting_repository.Update(meeting).run()
+        self.meeting_repository.UpdateMeetingTossDeposit(meeting).run()
 
     def remove(self, id, user_id):
         meeting: Meeting = self.meeting_repository.ReadByID(id).run()

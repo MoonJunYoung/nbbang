@@ -24,7 +24,7 @@ class MeetingRepository:
             self.session.commit()
             self.meeting.id = meeting_model.id
 
-    class Update(MysqlCRUDTemplate):
+    class UpdateMeeting(MysqlCRUDTemplate):
         def __init__(self, meeting: Meeting) -> None:
             self.meeting = meeting
             super().__init__()
@@ -37,12 +37,38 @@ class MeetingRepository:
             )
             meeting_model.name = self.meeting.name
             meeting_model.date = self.meeting.date
-            meeting_model.kakao_deposit_id = (
-                self.meeting.kakao_deposit_information.kakao_deposit_id
+            self.session.commit()
+
+    class UpdateMeetingTossDeposit(MysqlCRUDTemplate):
+        def __init__(self, meeting: Meeting) -> None:
+            self.meeting = meeting
+            super().__init__()
+
+        def execute(self):
+            meeting_model = (
+                self.session.query(MeetingModel)
+                .filter(MeetingModel.id == self.meeting.id)
+                .first()
             )
             meeting_model.bank = self.meeting.toss_deposit_information.bank
             meeting_model.account_number = (
                 self.meeting.toss_deposit_information.account_number
+            )
+            self.session.commit()
+
+    class UpdateMeetingKakaoDeposit(MysqlCRUDTemplate):
+        def __init__(self, meeting: Meeting) -> None:
+            self.meeting = meeting
+            super().__init__()
+
+        def execute(self):
+            meeting_model = (
+                self.session.query(MeetingModel)
+                .filter(MeetingModel.id == self.meeting.id)
+                .first()
+            )
+            meeting_model.kakao_deposit_id = (
+                self.meeting.kakao_deposit_information.kakao_deposit_id
             )
             self.session.commit()
 

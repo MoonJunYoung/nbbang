@@ -97,7 +97,24 @@ class UserRepository:
             )
             return user
 
-    class Update(MysqlCRUDTemplate):
+    class UpdateTossDeposit(MysqlCRUDTemplate):
+        def __init__(self, user: User) -> None:
+            self.user = user
+            super().__init__()
+
+        def execute(self):
+            user_model = (
+                self.session.query(UserModel)
+                .filter(UserModel.id == self.user.id)
+                .first()
+            )
+            user_model.bank = self.user.toss_deposit_information.bank
+            user_model.account_number = (
+                self.user.toss_deposit_information.account_number
+            )
+            self.session.commit()
+
+    class UpdateKakaoDeposit(MysqlCRUDTemplate):
         def __init__(self, user: User) -> None:
             self.user = user
             super().__init__()
@@ -110,9 +127,5 @@ class UserRepository:
             )
             user_model.kakao_deposit_id = (
                 self.user.kakao_deposit_information.kakao_deposit_id
-            )
-            user_model.bank = self.user.toss_deposit_information.bank
-            user_model.account_number = (
-                self.user.toss_deposit_information.account_number
             )
             self.session.commit()
