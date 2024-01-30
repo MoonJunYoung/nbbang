@@ -65,7 +65,7 @@ class MeetingPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            meeting_service.edit(
+            meeting_service.edit_meeting(
                 id=meeting_id,
                 name=meeting_data.name,
                 date=meeting_data.date,
@@ -85,7 +85,7 @@ class MeetingPresentation:
         except Exception as e:
             catch_exception(e)
 
-    @router.patch("/{meeting_id}/kakao-deposit-id", status_code=200)
+    @router.put("/{meeting_id}/kakao-deposit-id", status_code=200)
     async def edit_kakao_deposit_information(
         meeting_id: int,
         deposit_information_data: DepositInformationData,
@@ -93,7 +93,7 @@ class MeetingPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            meeting_service.edit(
+            meeting_service.edit_kakao_deposit(
                 id=meeting_id,
                 user_id=user_id,
                 kakao_deposit_id=deposit_information_data.kakao_deposit_id,
@@ -101,7 +101,7 @@ class MeetingPresentation:
         except Exception as e:
             catch_exception(e)
 
-    @router.patch("/{meeting_id}/bank-account", status_code=200)
+    @router.put("/{meeting_id}/bank-account", status_code=200)
     async def edit_toss_deposit_information(
         meeting_id: int,
         deposit_information_data: DepositInformationData,
@@ -109,7 +109,7 @@ class MeetingPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            meeting_service.edit(
+            meeting_service.edit_toss_deposit(
                 id=meeting_id,
                 user_id=user_id,
                 bank=deposit_information_data.bank,

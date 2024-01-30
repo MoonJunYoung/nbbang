@@ -52,10 +52,13 @@ class UserService:
         del user.password
         return user
 
-    def edit(self, user_id, kakao_deposit_id=None, bank=None, account_number=None):
+    def edit_kakao_deposit(self, user_id, kakao_deposit_id):
         user: User = self.user_repository.ReadByID(user_id).run()
-        if kakao_deposit_id:
-            user.update_kakao_deposit_information(kakao_deposit_id)
-        elif bank and account_number:
-            user.update_toss_deposit_information(bank, account_number)
+        user.update_kakao_deposit_information(kakao_deposit_id)
+        user.toss_deposit_information._encrypt_account_number_data()
+        self.user_repository.Update(user).run()
+
+    def edit_toss_deposit(self, user_id, bank, account_number):
+        user: User = self.user_repository.ReadByID(user_id).run()
+        user.update_toss_deposit_information(bank, account_number)
         self.user_repository.Update(user).run()

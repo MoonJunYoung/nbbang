@@ -101,26 +101,26 @@ class UserPresentation:
         except Exception as e:
             catch_exception(e)
 
-    @router.patch("/kakao-deposit-id", status_code=200)
+    @router.put("/kakao-deposit-id", status_code=200)
     async def edit_kakao_deposit_information(
         deposit_information_data: DepositInformationData, Authorization=Header(None)
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            user_service.edit(
+            user_service.edit_kakao_deposit(
                 user_id=user_id,
                 kakao_deposit_id=deposit_information_data.kakao_deposit_id,
             )
         except Exception as e:
             catch_exception(e)
 
-    @router.patch("/bank-account", status_code=200)
+    @router.put("/bank-account", status_code=200)
     async def edit_toss_deposit_information(
         deposit_information_data: DepositInformationData, Authorization=Header(None)
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            user_service.edit(
+            user_service.edit_toss_deposit(
                 user_id=user_id,
                 bank=deposit_information_data.bank,
                 account_number=deposit_information_data.account_number,
