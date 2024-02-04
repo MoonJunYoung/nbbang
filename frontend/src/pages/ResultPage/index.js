@@ -378,8 +378,6 @@ function SharePage() {
         const responseGetData = await getBillingResultPage(meeting);
         if (responseGetData.status === 200) {
           setMembers(responseGetData.data.members);
-          console.log(responseGetData.data.members);
-          console.log(responseGetData.data.members.kakao_deposit_link);
           setPayments(responseGetData.data.payments);
           setMeetings(responseGetData.data.meeting);
         } else if (responseGetData.status === 204) {
