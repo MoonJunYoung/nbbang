@@ -346,7 +346,6 @@ const StyledCheckboxLabel = styled.div`
   }
 `;
 
-
 const MainLogo = styled.a`
   display: inline-block;
   width: 75px;
@@ -379,6 +378,8 @@ function SharePage() {
         const responseGetData = await getBillingResultPage(meeting);
         if (responseGetData.status === 200) {
           setMembers(responseGetData.data.members);
+          console.log(responseGetData.data.members);
+          console.log(responseGetData.data.members.kakao_deposit_link);
           setPayments(responseGetData.data.payments);
           setMeetings(responseGetData.data.meeting);
         } else if (responseGetData.status === 204) {
@@ -567,7 +568,7 @@ function SharePage() {
                           )}
                           {data.amount > 0 && data.tipCheck ? (
                             <Remittance>
-                              {data.tipped_kakao_deposit_link !== null && (
+                              {data.tipped_kakao_deposit_link && (
                                 <KakaoContaner>
                                   <a href={data.tipped_kakao_deposit_link}>
                                     <img
@@ -578,7 +579,7 @@ function SharePage() {
                                   </a>
                                 </KakaoContaner>
                               )}
-                              {data.tipped_toss_deposit_link !== null && (
+                              {data.tipped_toss_deposit_link && (
                                 <TossPayContaner>
                                   <a href={data.tipped_toss_deposit_link}>
                                     <img alt="Toss" src="/images/Toss.png" />
@@ -589,27 +590,25 @@ function SharePage() {
                             </Remittance>
                           ) : (
                             <Remittance>
-                              {data.amount > 0 &&
-                                data.kakao_deposit_link !== null && (
-                                  <KakaoContaner>
-                                    <a href={data.kakao_deposit_link}>
-                                      <img
-                                        alt="kakao"
-                                        src="/images/kakaoPay.png"
-                                      />
-                                      <span>송금하기</span>
-                                    </a>
-                                  </KakaoContaner>
-                                )}
-                              {data.amount > 0 &&
-                                data.toss_deposit_link !== null && (
-                                  <TossPayContaner>
-                                    <a href={data.toss_deposit_link}>
-                                      <img alt="Toss" src="/images/Toss.png" />
-                                      <span>송금하기</span>
-                                    </a>
-                                  </TossPayContaner>
-                                )}
+                              {data.amount > 0 && data.kakao_deposit_link && (
+                                <KakaoContaner>
+                                  <a href={data.kakao_deposit_link}>
+                                    <img
+                                      alt="kakao"
+                                      src="/images/kakaoPay.png"
+                                    />
+                                    <span>송금하기</span>
+                                  </a>
+                                </KakaoContaner>
+                              )}
+                              {data.amount > 0 && data.toss_deposit_link && (
+                                <TossPayContaner>
+                                  <a href={data.toss_deposit_link}>
+                                    <img alt="Toss" src="/images/Toss.png" />
+                                    <span>송금하기</span>
+                                  </a>
+                                </TossPayContaner>
+                              )}
                             </Remittance>
                           )}
                         </>
