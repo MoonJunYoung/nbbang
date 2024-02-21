@@ -1,11 +1,11 @@
-from backend.base.dto import PaymentDTO, set_DTO
-from backend.calculate.domain import Calculate
-from backend.meeting.domain import Meeting
-from backend.meeting.repository import MeetingRepository
-from backend.member.domain import Member
-from backend.member.repository import MemberRepository
-from backend.payment.domain import Payment
-from backend.payment.repository import PaymentRepository
+from base.dto import PaymentDTO, set_DTO
+from calculate.domain import Calculate
+from meeting.domain import Meeting
+from meeting.repository import MeetingRepository
+from member.domain import Member
+from member.repository import MemberRepository
+from payment.domain import Payment
+from payment.repository import PaymentRepository
 
 
 class PaymentService:

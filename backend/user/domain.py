@@ -1,10 +1,6 @@
 import bcrypt
-
-from backend.base.vo import KakaoDepositInformation, TossDepositInformation
-from backend.user.exceptions import (
-    IdentifierAlreadyException,
-    PasswordNotMatchException,
-)
+from base.vo import KakaoDepositInformation, TossDepositInformation
+from user.exceptions import IdentifierAlreadyException, PasswordNotMatchException
 
 
 class User:

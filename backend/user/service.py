@@ -1,7 +1,7 @@
-from backend.meeting.repository import MeetingRepository
-from backend.user.domain import User
-from backend.user.exceptions import IdentifierNotFoundException
-from backend.user.repository import UserRepository
+from meeting.repository import MeetingRepository
+from user.domain import User
+from user.exceptions import IdentifierNotFoundException
+from user.repository import UserRepository
 
 
 class UserService:

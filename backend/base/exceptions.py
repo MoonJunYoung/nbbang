@@ -3,7 +3,7 @@ import traceback
 
 from fastapi import HTTPException, Request
 
-logging.basicConfig(filename="./backend_error.log", level=logging.ERROR)
+logging.basicConfig(filename="./error.log", level=logging.ERROR)
 logging.error(traceback.format_exc())
 
 
