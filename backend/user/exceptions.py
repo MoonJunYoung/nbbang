@@ -1,4 +1,4 @@
-from backend.base.exceptions import CustomException
+from base.exceptions import CustomException
 
 
 class IdentifierAlreadyException(CustomException):

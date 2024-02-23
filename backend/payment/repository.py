@@ -1,8 +1,8 @@
 import json
 
-from backend.base.database_connector import MysqlCRUDTemplate
-from backend.base.database_model import PaymentModel
-from backend.payment.domain import Payment
+from base.database_connector import MysqlCRUDTemplate
+from base.database_model import PaymentModel
+from payment.domain import Payment
 
 
 def _json_encoding_attend_member_ids(attend_member_ids):

@@ -1,5 +1,5 @@
-from backend.member.domain import Member
-from backend.payment.domain import Payment
+from member.domain import Member
+from payment.domain import Payment
 
 
 class Calculate:

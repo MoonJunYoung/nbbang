@@ -1,11 +1,10 @@
 from typing import Optional
 
+from base.exceptions import catch_exception
+from base.token import Token
 from fastapi import APIRouter, Header, Request, Response
+from meeting.service import MeetingService
 from pydantic import BaseModel
-
-from backend.base.exceptions import catch_exception
-from backend.base.token import Token
-from backend.meeting.service import MeetingService
 
 meeting_service = MeetingService()
 

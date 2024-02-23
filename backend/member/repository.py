@@ -1,6 +1,6 @@
-from backend.base.database_connector import MysqlCRUDTemplate
-from backend.base.database_model import MemberModel
-from backend.member.domain import Member
+from base.database_connector import MysqlCRUDTemplate
+from base.database_model import MemberModel
+from member.domain import Member
 
 
 class MemberRepository:

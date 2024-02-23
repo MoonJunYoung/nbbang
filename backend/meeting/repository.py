@@ -1,6 +1,6 @@
-from backend.base.database_connector import MysqlCRUDTemplate
-from backend.base.database_model import MeetingModel
-from backend.meeting.domain import Meeting
+from base.database_connector import MysqlCRUDTemplate
+from base.database_model import MeetingModel
+from meeting.domain import Meeting
 
 
 class MeetingRepository:

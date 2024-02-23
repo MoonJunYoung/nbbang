@@ -1,8 +1,8 @@
 import math
 from urllib import parse
 
-from backend.base.exceptions import MemberIsLeaderDeleteExcption
-from backend.meeting.domain import Meeting
+from base.exceptions import MemberIsLeaderDeleteExcption
+from meeting.domain import Meeting
 
 
 class Member:

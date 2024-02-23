@@ -2,9 +2,9 @@ import datetime
 import re
 import uuid
 
-from backend.base.exceptions import MeetingUserMismatchException
-from backend.base.vo import KakaoDepositInformation, TossDepositInformation
-from backend.user.domain import User
+from base.exceptions import MeetingUserMismatchException
+from base.vo import KakaoDepositInformation, TossDepositInformation
+from user.domain import User
 
 
 class Meeting:

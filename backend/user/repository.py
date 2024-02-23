@@ -1,6 +1,6 @@
-from backend.base.database_connector import MysqlCRUDTemplate
-from backend.base.database_model import UserModel
-from backend.user.domain import User
+from base.database_connector import MysqlCRUDTemplate
+from base.database_model import UserModel
+from user.domain import User
 
 
 class UserRepository:

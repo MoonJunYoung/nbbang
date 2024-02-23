@@ -1,5 +1,5 @@
-from backend.base.exceptions import PaymentInMemberDeleteExcption
-from backend.member.domain import Member
+from base.exceptions import PaymentInMemberDeleteExcption
+from member.domain import Member
 
 
 class Payment:
