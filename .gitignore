@@ -4,3 +4,4 @@ __pycache__/
 .env
 backend_error.log
 test/
+node_modules
