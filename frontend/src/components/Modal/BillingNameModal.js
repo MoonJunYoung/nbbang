@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -30,7 +30,7 @@ const Modal = styled.div`
   width: 250px;
   background: white;
   border-radius: 8px;
-  transition: all 400ms ease-in-out 2s;
+  transition: all 400ms ease-in-out;
   animation: fadeIn 400ms;
   @keyframes fadeIn {
     from {
@@ -44,11 +44,13 @@ const Modal = styled.div`
   }
 `;
 
-const ModalClose = styled.span`
+const ModalClose = styled.button`
   cursor: pointer;
   position: absolute;
   top: 0;
   right: 8px;
+  background: none;
+  border: none;
 `;
 
 const FormContainer = styled.form`
@@ -95,13 +97,7 @@ const Input = styled.input`
 `;
 
 const BillingName = ({ setOpenModal, MainMeetingId, MainMeetingName }) => {
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth() + 1;
-  const day = currentDate.getDate();
-  const formattedDay = day < 10 ? `0${day}` : day;
-
-  const initialDate = new Date(`${year}-${month}-${formattedDay}`);
+  const initialDate = new Date();
 
   const [formData, setFormData] = useState({
     name: MainMeetingName,
@@ -109,7 +105,6 @@ const BillingName = ({ setOpenModal, MainMeetingId, MainMeetingName }) => {
   });
 
   const { meetingId } = useParams();
-
   const [notAllow, setNotAllow] = useState(true);
 
   const handleInputChange = (e) => {
@@ -137,21 +132,14 @@ const BillingName = ({ setOpenModal, MainMeetingId, MainMeetingName }) => {
         }
       }
     } catch (error) {
-      console.log("Api 데이터 수정 실패");
+      alert("Api 데이터 수정 실패"); // 사용자 피드백 추가
+      console.log("Api 데이터 수정 실패", error);
     }
   };
 
   useEffect(() => {
-    if (formData.name.length > 0) {
-      setNotAllow(false);
-      return;
-    }
-    setNotAllow(true);
+    setNotAllow(formData.name.length === 0);
   }, [formData.name]);
-
-  const handleInputClick = (e) => {
-    e.preventDefault();
-  };
 
   return (
     <BillingNameModalContainer>
@@ -168,7 +156,6 @@ const BillingName = ({ setOpenModal, MainMeetingId, MainMeetingName }) => {
                 placeholder="모임명을 입력해주세요"
                 maxLength="22"
                 autoComplete="off"
-                onClick={handleInputClick}
               />
             </InputBox>
             <StyledDatePickerBox>
@@ -180,14 +167,9 @@ const BillingName = ({ setOpenModal, MainMeetingId, MainMeetingName }) => {
                     date,
                   })
                 }
-                inputMode="none"
               />
             </StyledDatePickerBox>
-            <BillingPixButton
-              type="submit"
-              disabled={notAllow}
-              onClick={handlePutData}
-            >
+            <BillingPixButton disabled={notAllow}>
               모임명 등록하기
             </BillingPixButton>
           </FormContainer>
