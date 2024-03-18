@@ -121,18 +121,19 @@ const UserSeting = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  position: sticky;
+  position: fixed;
   bottom: 0;
   font-size: 13px;
-  left: 0;
-  margin-top: 300px;
-
+  left: 50;
+  width: 670px;
+  transform: translateX(-50%);
   @media (max-width: 768px) {
     position: fixed;
     bottom: 0;
     font-size: 13px;
     left: 0;
     width: 100%;
+    transform: none;
   }
 `;
 
