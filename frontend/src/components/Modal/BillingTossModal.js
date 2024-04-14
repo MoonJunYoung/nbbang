@@ -120,6 +120,12 @@ const BillingTossModal = ({ setTossModalOpen, meetingName }) => {
     bank: meetingName.toss_deposit_information.bank,
   });
 
+  const handleNumericInput = (event) => {
+    // 입력된 값이 숫자가 아니면 입력을 막습니다.
+    if (!/^\d*$/.test(event.target.value)) {
+      event.target.value = event.target.value.replace(/[^0-9]/g, "");
+    }
+  };
 
   const handlePutBankData = async (e, action) => {
     e.preventDefault();
@@ -198,11 +204,12 @@ const BillingTossModal = ({ setTossModalOpen, meetingName }) => {
           <Form onSubmit={handlePutBankData}>
             <InputBox>
               <Input
-                type="number"
+                type="text"
                 name="account_number"
                 value={formData.account_number || ""}
                 placeholder="계좌번호를 입력해주세요"
                 onChange={handleInputChange}
+                onInput={handleNumericInput} // 숫자 이외의 입력을 필터링
                 maxLength="20"
                 autoComplete="off"
                 onTouchStart={(e) => e.preventDefault()}
