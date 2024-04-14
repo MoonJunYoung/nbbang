@@ -7,10 +7,7 @@ const UsersBankData = [
   { bank: "우리은행" },
   { bank: "KB국민은행" },
   { bank: "카카오뱅크" },
+  { bank: "토스뱅크" },
 ];
 
-
-
-export default UsersBankData
-
-
+export default UsersBankData;
