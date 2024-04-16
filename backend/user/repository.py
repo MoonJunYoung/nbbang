@@ -1,10 +1,9 @@
-from base.database_connector import MysqlConnector, MysqlCRUDTemplate
 from base.database_model import UserModel
 from sqlalchemy.orm import Session
 from user.domain import User
 
 
-class UserRepository(MysqlConnector):
+class UserRepository:
     def create(self, user: User, db_session: Session):
         user_model = UserModel(
             id=None,
