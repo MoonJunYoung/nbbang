@@ -15,8 +15,8 @@ class MemberService:
         self.member_repository = MemberRepository()
         self.payment_repository = PaymentRepository()
 
-    def create(self, name, leader, meeting_id, user_id):
-        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
+    def create(self, name, leader, meeting_id, user_id, db_session):
+        meeting = self.meeting_repository.read_by_id(meeting_id, db_session)
         meeting.is_user_of_meeting(user_id)
         member = Member(
             id=None,
@@ -25,13 +25,15 @@ class MemberService:
             meeting_id=meeting_id,
         )
         if member.leader:
-            if self.member_repository.ReadLeaderByMeetingID(member.meeting_id).run():
+            if self.member_repository.read_list_by_meeting_id(
+                member.meeting_id, db_session
+            ):
                 raise LeaderAlreadyException
-        self.member_repository.Create(member).run()
+        self.member_repository.create(member, db_session)
         return member
 
-    def update(self, id, name, leader, meeting_id, user_id):
-        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
+    def update(self, id, name, leader, meeting_id, user_id, db_session):
+        meeting = self.meeting_repository.read_by_id(meeting_id, db_session)
         meeting.is_user_of_meeting(user_id)
         member = Member(
             id=id,
@@ -40,37 +42,38 @@ class MemberService:
             meeting_id=meeting_id,
         )
         if member.leader:
-            pre_leader_member: Member = self.member_repository.ReadLeaderByMeetingID(
-                member.meeting_id
-            ).run()
+            pre_leader_member = self.member_repository.read_leader_member_by_meeting_id(
+                member.meeting_id, db_session
+            )
             pre_leader_member.leader = False
-            self.member_repository.Update(pre_leader_member).run()
-        self.member_repository.Update(member).run()
+            self.member_repository.update(pre_leader_member, db_session)
+        self.member_repository.update(member, db_session)
 
-    def delete(self, id, meeting_id, user_id):
-        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
+    def delete(self, member_id, meeting_id, user_id, db_session):
+        meeting = self.meeting_repository.read_by_id(meeting_id, db_session)
         meeting.is_user_of_meeting(user_id)
-        member: Member = self.member_repository.ReadByID(id).run()
+        member = self.member_repository.read_by_id(member_id, db_session)
         member.delete_member_if_not_leader()
-        payments: list[Payment] = self.payment_repository.ReadByMeetingID(
-            meeting_id
-        ).run()
+        payments: list[Payment] = self.payment_repository.read_by_meeting_id(
+            meeting_id, db_session
+        )
         for payment in payments:
             payment.check_in_member(member)
-        self.member_repository.Delete(member).run()
+        self.member_repository.delete(member, db_session)
 
-    def read(self, meeting_id, user_id):
-        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
+    def read(self, meeting_id, user_id, db_session):
+        meeting: Meeting = self.meeting_repository.read_by_id(meeting_id, db_session)
         meeting.is_user_of_meeting(user_id)
-        members: list[Member] = self.member_repository.ReadByMeetingID(meeting_id).run()
-        payments: list[Payment] = self.payment_repository.ReadByMeetingID(
-            meeting_id
-        ).run()
+        members: list[Member] = self.member_repository.read_list_by_meeting_id(
+            meeting_id, db_session
+        )
+        payments: list[Payment] = self.payment_repository.read_list_by_meeting_id(
+            meeting_id, db_session
+        )
         if not payments:
             return members
 
         calculate = Calculate(members=members, payments=payments)
         calculate.split_members()
-        members = calculate.members
 
         return set_DTO(MemberDTO, members)
