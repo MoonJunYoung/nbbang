@@ -26,7 +26,7 @@ class User:
         self.kakao_deposit_information = KakaoDepositInformation(kakao_deposit_id)
 
     def identifier_is_not_unique(self):
-        raise IdentifierAlreadyException
+        raise IdentifierAlreadyException(self.identifier)
 
     def password_encryption(self):
         salt = bcrypt.gensalt()
