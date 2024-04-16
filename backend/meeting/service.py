@@ -18,7 +18,7 @@ class MeetingService:
         self.user_repository = UserRepository()
 
     async def add(self, user_id, db_session):
-        user = await self.user_repository.read_by_user_id(user_id)
+        user = await self.user_repository.read_by_user_id(user_id, db_session)
         meeting = Meeting.create_template(user_id)
         meeting.load_user_deposit_information(user)
         await self.meeting_repository.create(meeting, db_session)
