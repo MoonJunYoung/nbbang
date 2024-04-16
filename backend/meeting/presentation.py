@@ -33,7 +33,7 @@ class MeetingPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            meeting = meeting_service.add(user_id, db_session)
+            meeting = await meeting_service.add(user_id, db_session)
 
             response.headers["Location"] = f"meeting/{meeting.id}"
         except Exception as e:
@@ -45,7 +45,7 @@ class MeetingPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            meetings = meeting_service.read_meetings(user_id, db_session)
+            meetings = await meeting_service.read_meetings(user_id, db_session)
             return meetings
         except Exception as e:
             catch_exception(e)
@@ -53,7 +53,7 @@ class MeetingPresentation:
     @router.get("/share-page", status_code=200)
     async def read_share_page(uuid: str, db_session=Depends(get_db_session)):
         try:
-            share_page = meeting_service.read_share_page(uuid, db_session)
+            share_page = await meeting_service.read_share_page(uuid, db_session)
             return share_page
 
         except Exception as e:
@@ -65,7 +65,7 @@ class MeetingPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            meeting = meeting_service.read(
+            meeting = await meeting_service.read(
                 id=meeting_id, user_id=user_id, db_session=db_session
             )
             return meeting
@@ -81,7 +81,7 @@ class MeetingPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            meeting_service.edit_information(
+            await meeting_service.edit_information(
                 id=meeting_id,
                 name=meeting_data.name,
                 date=meeting_data.date,
@@ -97,7 +97,7 @@ class MeetingPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            meeting_service.remove(
+            await meeting_service.remove(
                 id=meeting_id, user_id=user_id, db_session=db_session
             )
         except Exception as e:
@@ -112,7 +112,7 @@ class MeetingPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            meeting_service.edit_kakao_deposit(
+            await meeting_service.edit_kakao_deposit(
                 id=meeting_id,
                 user_id=user_id,
                 kakao_deposit_id=deposit_information_data.kakao_deposit_id,
@@ -130,7 +130,7 @@ class MeetingPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            meeting_service.edit_toss_deposit(
+            await meeting_service.edit_toss_deposit(
                 id=meeting_id,
                 user_id=user_id,
                 bank=deposit_information_data.bank,

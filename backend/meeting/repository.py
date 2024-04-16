@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 
 class MeetingRepository:
-    def create(self, meeting: Meeting, db_session: Session):
+    async def create(self, meeting: Meeting, db_session: Session):
         meeting_model = MeetingModel(
             id=None,
             name=meeting.name,
@@ -19,7 +19,7 @@ class MeetingRepository:
         db_session.commit()
         meeting.id = meeting_model.id
 
-    def update_information(self, meeting: Meeting, db_session: Session):
+    async def update_information(self, meeting: Meeting, db_session: Session):
         meeting_model = (
             db_session.query(MeetingModel).filter(MeetingModel.id == meeting.id).first()
         )
@@ -27,7 +27,7 @@ class MeetingRepository:
         meeting_model.date = meeting.date
         db_session.commit()
 
-    def update_toss_deposit(self, meeting: Meeting, db_session: Session):
+    async def update_toss_deposit(self, meeting: Meeting, db_session: Session):
         meeting_model = (
             db_session.query(MeetingModel).filter(MeetingModel.id == meeting.id).first()
         )
@@ -35,7 +35,7 @@ class MeetingRepository:
         meeting_model.account_number = meeting.toss_deposit_information.account_number
         db_session.commit()
 
-    def update_kakao_deposit(self, meeting: Meeting, db_session: Session):
+    async def update_kakao_deposit(self, meeting: Meeting, db_session: Session):
         meeting_model = (
             db_session.query(MeetingModel).filter(MeetingModel.id == meeting.id).first()
         )
@@ -44,14 +44,14 @@ class MeetingRepository:
         )
         db_session.commit()
 
-    def delete(self, meeting: Meeting, db_session: Session):
+    async def delete(self, meeting: Meeting, db_session: Session):
         meeting_model = (
             db_session.query(MeetingModel).filter(MeetingModel.id == meeting.id).first()
         )
         db_session.delete(meeting_model)
         db_session.commit()
 
-    def read_list_by_user_id(self, user_id, db_session: Session):
+    async def read_list_by_user_id(self, user_id, db_session: Session):
         meetings = list()
         meeting_models = (
             db_session.query(MeetingModel)
@@ -72,7 +72,7 @@ class MeetingRepository:
             meetings.append(meeting)
         return meetings
 
-    def read_by_id(self, meeting_id, db_session: Session):
+    async def read_by_id(self, meeting_id, db_session: Session):
         meeting_model = (
             db_session.query(MeetingModel).filter(MeetingModel.id == meeting_id).first()
         )
@@ -90,7 +90,7 @@ class MeetingRepository:
         )
         return meeting
 
-    def read_by_uuid(self, meeting_uuid, db_session: Session):
+    async def read_by_uuid(self, meeting_uuid, db_session: Session):
         meeting_model = (
             db_session.query(MeetingModel)
             .filter(MeetingModel.uuid == meeting_uuid)

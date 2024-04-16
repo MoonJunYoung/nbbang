@@ -6,3 +6,4 @@ backend_error.log
 test/
 node_modules
 develop.db
+error.log

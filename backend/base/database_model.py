@@ -93,9 +93,3 @@ class PaymentModel(Base):
         self.pay_member_id = pay_member_id
         self.attend_member_ids = attend_member_ids
         self.meeting_id = meeting_id
-
-
-from base.database_connector import MysqlConnector
-
-engine = MysqlConnector.engine
-Base.metadata.create_all(engine)

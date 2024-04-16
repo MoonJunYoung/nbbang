@@ -17,7 +17,7 @@ def _json_decoding_attend_member_ids(attend_member_ids):
 
 
 class PaymentRepository:
-    def create(self, payment: Payment, db_session: Session):
+    async def create(self, payment: Payment, db_session: Session):
         payment_model = PaymentModel(
             id=None,
             place=payment.place,
@@ -32,7 +32,7 @@ class PaymentRepository:
         db_session.commit()
         payment.id = payment_model.id
 
-    def update(self, payment: Payment, db_session: Session):
+    async def update(self, payment: Payment, db_session: Session):
         payment_model = (
             db_session.query(PaymentModel).filter(PaymentModel.id == payment.id).first()
         )
@@ -44,14 +44,14 @@ class PaymentRepository:
         )
         db_session.commit()
 
-    def delete(self, payment: Payment, db_session: Session):
+    async def delete(self, payment: Payment, db_session: Session):
         payment_model = (
             db_session.query(PaymentModel).filter(PaymentModel.id == payment.id).first()
         )
         db_session.delete(payment_model)
         db_session.commit()
 
-    def read_list_by_meeting_id(self, meeting_id, db_session: Session):
+    async def read_list_by_meeting_id(self, meeting_id, db_session: Session):
         payments = list()
         payment_models: list[PaymentModel] = (
             db_session.query(PaymentModel)
@@ -75,7 +75,7 @@ class PaymentRepository:
 
         return payments
 
-    def delete_by_meeting_id(self, meeting_id, db_session: Session):
+    async def delete_by_meeting_id(self, meeting_id, db_session: Session):
         db_session.query(PaymentModel).filter(
             PaymentModel.meeting_id == meeting_id
         ).delete()

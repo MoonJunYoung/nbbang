@@ -35,7 +35,7 @@ class UserPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(Authorization)
-            return user_service.read(user_id, db_session)
+            return await user_service.read(user_id, db_session)
 
         except Exception as e:
             catch_exception(e)
@@ -43,7 +43,7 @@ class UserPresentation:
     @router.post("/sign-up", status_code=201)
     async def sign_up(login_data: LogInData, db_session=Depends(get_db_session)):
         try:
-            user_id = user_service.sign_up(
+            user_id = await user_service.sign_up(
                 identifier=login_data.identifier,
                 password=login_data.password,
                 name=login_data.name,
@@ -57,7 +57,7 @@ class UserPresentation:
     @router.post("/sign-in", status_code=201)
     async def sign_in(login_data: LogInData, db_session=Depends(get_db_session)):
         try:
-            user_id = user_service.sign_in(
+            user_id = await user_service.sign_in(
                 identifier=login_data.identifier,
                 password=login_data.password,
                 db_session=db_session,
@@ -70,10 +70,12 @@ class UserPresentation:
     async def google_login(oauth: OauthData, db_session=Depends(get_db_session)):
         try:
             platform = "google"
-            name, platform_id = Token.get_user_name_and_platform_id_by_google_oauth(
-                oauth.token
+            name, platform_id = (
+                await Token.get_user_name_and_platform_id_by_google_oauth(oauth.token)
             )
-            user_id = user_service.oauth_login(name, platform_id, platform, db_session)
+            user_id = await user_service.oauth_login(
+                name, platform_id, platform, db_session
+            )
             return Token.create_token_by_user_id(user_id)
 
         except Exception as e:
@@ -83,10 +85,12 @@ class UserPresentation:
     async def kakao_login(oauth: OauthData, db_session=Depends(get_db_session)):
         try:
             platform = "kakao"
-            name, platform_id = Token.get_user_name_and_platform_id_by_kakao_oauth(
-                oauth.token
+            name, platform_id = (
+                await Token.get_user_name_and_platform_id_by_kakao_oauth(oauth.token)
             )
-            user_id = user_service.oauth_login(name, platform_id, platform, db_session)
+            user_id = await user_service.oauth_login(
+                name, platform_id, platform, db_session
+            )
             return Token.create_token_by_user_id(user_id)
 
         except Exception as e:
@@ -96,10 +100,12 @@ class UserPresentation:
     async def naver_login(oauth: OauthData, db_session=Depends(get_db_session)):
         try:
             platform = "naver"
-            name, platform_id = Token.get_user_name_and_platform_id_by_naver_oauth(
-                oauth.token
+            name, platform_id = (
+                await Token.get_user_name_and_platform_id_by_naver_oauth(oauth.token)
             )
-            user_id = user_service.oauth_login(name, platform_id, platform, db_session)
+            user_id = await user_service.oauth_login(
+                name, platform_id, platform, db_session
+            )
             return Token.create_token_by_user_id(user_id)
 
         except Exception as e:
@@ -113,7 +119,7 @@ class UserPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            user_service.edit_kakao_deposit(
+            await user_service.edit_kakao_deposit(
                 user_id=user_id,
                 kakao_deposit_id=deposit_information_data.kakao_deposit_id,
                 db_session=db_session,
@@ -129,7 +135,7 @@ class UserPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            user_service.edit_toss_deposit(
+            await user_service.edit_toss_deposit(
                 user_id=user_id,
                 bank=deposit_information_data.bank,
                 account_number=deposit_information_data.account_number,

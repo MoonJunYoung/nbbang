@@ -35,7 +35,7 @@ class Token:
         token_user_id = token_info.get("id")
         return token_user_id
 
-    def get_user_name_and_platform_id_by_google_oauth(token):
+    async def get_user_name_and_platform_id_by_google_oauth(token):
         google_user_data = json.loads(
             requests.get(
                 f"https://www.googleapis.com/oauth2/v1/userinfo?access_token={token}"
@@ -45,7 +45,7 @@ class Token:
         platform_id = google_user_data.get("id")
         return name, platform_id
 
-    def get_user_name_and_platform_id_by_kakao_oauth(token):
+    async def get_user_name_and_platform_id_by_kakao_oauth(token):
         def _get_user_access_token_by_kakao_oauth(token):
             data = {
                 "grant_type": "authorization_code",
@@ -70,7 +70,7 @@ class Token:
         name = kakao_user_data.get("kakao_account").get("profile").get("nickname")
         return name, platform_id
 
-    def get_user_name_and_platform_id_by_naver_oauth(token):
+    async def get_user_name_and_platform_id_by_naver_oauth(token):
         def _get_user_access_token_by_naver_oauth(token):
             naver_token_data = json.loads(
                 requests.post(

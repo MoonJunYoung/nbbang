@@ -25,7 +25,7 @@ class MemberPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            member_service.create(
+            await member_service.create(
                 name=member_data.name,
                 leader=member_data.leader,
                 meeting_id=meeting_id,
@@ -41,7 +41,7 @@ class MemberPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            members = member_service.read(
+            members = await member_service.read(
                 meeting_id, user_id=user_id, db_session=db_session
             )
             return members
@@ -58,7 +58,7 @@ class MemberPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            member_service.update(
+            await member_service.update(
                 id=member_id,
                 name=member_data.name,
                 leader=member_data.leader,
@@ -78,7 +78,7 @@ class MemberPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            member_service.delete(
+            await member_service.delete(
                 id=member_id,
                 meeting_id=meeting_id,
                 user_id=user_id,

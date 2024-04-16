@@ -27,7 +27,7 @@ class PaymentPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            payment_service.create(
+            await payment_service.create(
                 place=payment_data.place,
                 price=payment_data.price,
                 pay_member_id=payment_data.pay_member_id,
@@ -45,7 +45,7 @@ class PaymentPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            payments = payment_service.read(
+            payments = await payment_service.read(
                 meeting_id=meeting_id, user_id=user_id, db_session=db_session
             )
             return payments
@@ -62,7 +62,7 @@ class PaymentPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            payment_service.update(
+            await payment_service.update(
                 id=payment_id,
                 place=payment_data.place,
                 price=payment_data.price,
@@ -84,7 +84,7 @@ class PaymentPresentation:
     ):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            payment_service.delete(
+            await payment_service.delete(
                 id=payment_id,
                 meeting_id=meeting_id,
                 user_id=user_id,

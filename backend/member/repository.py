@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 
 class MemberRepository:
-    def create(self, member: Member, db_session: Session):
+    async def create(self, member: Member, db_session: Session):
         member_model = MemberModel(
             id=None,
             name=member.name,
@@ -16,7 +16,7 @@ class MemberRepository:
         db_session.commit()
         member.id = member_model.id
 
-    def update(self, member: Member, db_session: Session):
+    async def update(self, member: Member, db_session: Session):
         member_model = (
             db_session.query(MemberModel).filter(MemberModel.id == member.id).first()
         )
@@ -24,14 +24,14 @@ class MemberRepository:
         member_model.leader = member.leader
         db_session.commit()
 
-    def delete(self, member: Member, db_session: Session):
+    async def delete(self, member: Member, db_session: Session):
         member_model = (
             db_session.query(MemberModel).filter(MemberModel.id == member.id).first()
         )
         db_session.delete(member_model)
         db_session.commit()
 
-    def read_by_id(self, member_id, db_session: Session):
+    async def read_by_id(self, member_id, db_session: Session):
         member_model = (
             db_session.query(MemberModel).filter(MemberModel.id == member_id).first()
         )
@@ -45,7 +45,7 @@ class MemberRepository:
         )
         return member
 
-    def read_list_by_meeting_id(self, meeting_id, db_session: Session):
+    async def read_list_by_meeting_id(self, meeting_id, db_session: Session):
         members = list()
         member_models = (
             db_session.query(MemberModel)
@@ -72,7 +72,7 @@ class MemberRepository:
                 members.insert(0, member)
         return members
 
-    def read_leader_member_by_meeting_id(self, meeting_id, db_session: Session):
+    async def read_leader_member_by_meeting_id(self, meeting_id, db_session: Session):
         member_model = (
             db_session.query(MemberModel)
             .filter(MemberModel.meeting_id == meeting_id)
@@ -89,7 +89,7 @@ class MemberRepository:
         )
         return member
 
-    def delete_by_meeting_id(self, meeting_id, db_session: Session):
+    async def delete_by_meeting_id(self, meeting_id, db_session: Session):
         db_session.query(MemberModel).filter(
             MemberModel.meeting_id == meeting_id
         ).delete()
