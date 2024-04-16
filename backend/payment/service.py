@@ -15,9 +15,16 @@ class PaymentService:
         self.memeber_repository = MemberRepository()
 
     def create(
-        self, place, price, pay_member_id, attend_member_ids, meeting_id, user_id
+        self,
+        place,
+        price,
+        pay_member_id,
+        attend_member_ids,
+        meeting_id,
+        user_id,
+        db_session,
     ):
-        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
+        meeting = self.meeting_repository.read_by_id(meeting_id, db_session)
         meeting.is_user_of_meeting(user_id)
         payment = Payment(
             id=None,
@@ -27,13 +34,21 @@ class PaymentService:
             attend_member_ids=attend_member_ids,
             meeting_id=meeting_id,
         )
-        self.payment_repository.Create(payment).run()
+        self.payment_repository.create(payment, db_session)
         return payment
 
     def update(
-        self, id, place, price, pay_member_id, attend_member_ids, meeting_id, user_id
+        self,
+        id,
+        place,
+        price,
+        pay_member_id,
+        attend_member_ids,
+        meeting_id,
+        user_id,
+        db_session,
     ):
-        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
+        meeting = self.meeting_repository.read_by_id(meeting_id, db_session)
         meeting.is_user_of_meeting(user_id)
         payment = Payment(
             id=id,
@@ -43,10 +58,10 @@ class PaymentService:
             attend_member_ids=attend_member_ids,
             meeting_id=meeting_id,
         )
-        self.payment_repository.Update(payment).run()
+        self.payment_repository.update(payment, db_session)
 
-    def delete(self, id, meeting_id, user_id):
-        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
+    def delete(self, id, meeting_id, user_id, db_session):
+        meeting = self.meeting_repository.read_by_id(meeting_id, db_session)
         meeting.is_user_of_meeting(user_id)
         payment = Payment(
             id=id,
@@ -56,19 +71,18 @@ class PaymentService:
             attend_member_ids=None,
             meeting_id=meeting_id,
         )
-        self.payment_repository.Delete(payment).run()
+        self.payment_repository.delete(payment, db_session)
 
-    def read(self, meeting_id, user_id):
-        meeting: Meeting = self.meeting_repository.ReadByID(meeting_id).run()
+    def read(self, meeting_id, user_id, db_session):
+        meeting = self.meeting_repository.read_by_id(meeting_id, db_session)
         meeting.is_user_of_meeting(user_id)
-        payments: list[Payment] = self.payment_repository.ReadByMeetingID(
-            meeting.id
-        ).run()
-        members: list[Member] = self.memeber_repository.ReadByMeetingID(
-            meeting.id
-        ).run()
+        payments: list[Payment] = self.payment_repository.read_list_by_meeting_id(
+            meeting.id, db_session
+        )
+        members: list[Member] = self.memeber_repository.read_list_by_meeting_id(
+            meeting.id, db_session
+        )
         calculate = Calculate(members=members, payments=payments)
         calculate.split_payments()
-        payments = calculate.payments
 
         return set_DTO(PaymentDTO, payments)

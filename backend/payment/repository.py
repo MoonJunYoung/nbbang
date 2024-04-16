@@ -3,6 +3,7 @@ import json
 from base.database_connector import MysqlCRUDTemplate
 from base.database_model import PaymentModel
 from payment.domain import Payment
+from sqlalchemy.orm import Session
 
 
 def _json_encoding_attend_member_ids(attend_member_ids):
@@ -16,95 +17,66 @@ def _json_decoding_attend_member_ids(attend_member_ids):
 
 
 class PaymentRepository:
-    class Create(MysqlCRUDTemplate):
-        def __init__(self, payment: Payment) -> None:
-            self.payment = payment
-            super().__init__()
+    def create(self, payment: Payment, db_session: Session):
+        payment_model = PaymentModel(
+            id=None,
+            place=payment.place,
+            price=payment.price,
+            pay_member_id=payment.pay_member_id,
+            attend_member_ids=_json_encoding_attend_member_ids(
+                payment.attend_member_ids
+            ),
+            meeting_id=payment.meeting_id,
+        )
+        db_session.add(payment_model)
+        db_session.commit()
+        payment.id = payment_model.id
 
-        def execute(self):
-            payment_model = PaymentModel(
-                id=None,
-                place=self.payment.place,
-                price=self.payment.price,
-                pay_member_id=self.payment.pay_member_id,
-                attend_member_ids=_json_encoding_attend_member_ids(
-                    self.payment.attend_member_ids
-                ),
-                meeting_id=self.payment.meeting_id,
-            )
-            self.session.add(payment_model)
-            self.session.commit()
-            self.payment.id = payment_model.id
+    def update(self, payment: Payment, db_session: Session):
+        payment_model = (
+            db_session.query(PaymentModel).filter(PaymentModel.id == payment.id).first()
+        )
+        payment_model.place = payment.place
+        payment_model.price = payment.price
+        payment_model.pay_member_id = payment.pay_member_id
+        payment_model.attend_member_ids = _json_encoding_attend_member_ids(
+            payment.attend_member_ids
+        )
+        db_session.commit()
 
-    class Update(MysqlCRUDTemplate):
-        def __init__(self, payment: Payment) -> None:
-            self.payment = payment
-            super().__init__()
+    def delete(self, payment: Payment, db_session: Session):
+        payment_model = (
+            db_session.query(PaymentModel).filter(PaymentModel.id == payment.id).first()
+        )
+        db_session.delete(payment_model)
+        db_session.commit()
 
-        def execute(self):
-            payment_model = (
-                self.session.query(PaymentModel)
-                .filter(PaymentModel.id == self.payment.id)
-                .first()
-            )
-            payment_model.place = self.payment.place
-            payment_model.price = self.payment.price
-            payment_model.pay_member_id = self.payment.pay_member_id
-            payment_model.attend_member_ids = _json_encoding_attend_member_ids(
-                self.payment.attend_member_ids
-            )
-            self.session.commit()
-
-    class Delete(MysqlCRUDTemplate):
-        def __init__(self, payment: Payment) -> None:
-            self.payment = payment
-            super().__init__()
-
-        def execute(self):
-            payment_model = (
-                self.session.query(PaymentModel)
-                .filter(PaymentModel.id == self.payment.id)
-                .first()
-            )
-            self.session.delete(payment_model)
-            self.session.commit()
-
-    class ReadByMeetingID(MysqlCRUDTemplate):
-        def __init__(self, meeting_id) -> None:
-            self.meeting_id = meeting_id
-            super().__init__()
-
-        def execute(self):
-            payments = list()
-            payment_models: list[PaymentModel] = (
-                self.session.query(PaymentModel)
-                .filter(PaymentModel.meeting_id == self.meeting_id)
-                .all()
-            )
-            if not payment_models:
-                return payments
-            for payment_model in payment_models:
-                payment = Payment(
-                    id=payment_model.id,
-                    place=payment_model.place,
-                    price=payment_model.price,
-                    pay_member_id=payment_model.pay_member_id,
-                    attend_member_ids=_json_decoding_attend_member_ids(
-                        payment_model.attend_member_ids
-                    ),
-                    meeting_id=payment_model.meeting_id,
-                )
-                payments.append(payment)
-
+    def read_list_by_meeting_id(self, meeting_id, db_session: Session):
+        payments = list()
+        payment_models: list[PaymentModel] = (
+            db_session.query(PaymentModel)
+            .filter(PaymentModel.meeting_id == meeting_id)
+            .all()
+        )
+        if not payment_models:
             return payments
+        for payment_model in payment_models:
+            payment = Payment(
+                id=payment_model.id,
+                place=payment_model.place,
+                price=payment_model.price,
+                pay_member_id=payment_model.pay_member_id,
+                attend_member_ids=_json_decoding_attend_member_ids(
+                    payment_model.attend_member_ids
+                ),
+                meeting_id=payment_model.meeting_id,
+            )
+            payments.append(payment)
 
-    class DeleteByMeetingID(MysqlCRUDTemplate):
-        def __init__(self, meeting_id) -> None:
-            self.meeting_id = meeting_id
-            super().__init__()
+        return payments
 
-        def execute(self):
-            self.session.query(PaymentModel).filter(
-                PaymentModel.meeting_id == self.meeting_id
-            ).delete()
-            self.session.commit()
+    def delete_by_meeting_id(self, meeting_id, db_session: Session):
+        db_session.query(PaymentModel).filter(
+            PaymentModel.meeting_id == meeting_id
+        ).delete()
+        db_session.commit()
