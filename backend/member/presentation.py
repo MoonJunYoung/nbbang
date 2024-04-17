@@ -79,7 +79,7 @@ class MemberPresentation:
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
             await member_service.delete(
-                id=member_id,
+                member_id=member_id,
                 meeting_id=meeting_id,
                 user_id=user_id,
                 db_session=db_session,

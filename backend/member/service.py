@@ -56,7 +56,7 @@ class MemberService:
         meeting.is_user_of_meeting(user_id)
         member = await self.member_repository.read_by_id(member_id, db_session)
         member.delete_member_if_not_leader()
-        payments = await self.payment_repository.read_by_meeting_id(
+        payments = await self.payment_repository.read_list_by_meeting_id(
             meeting_id, db_session
         )
         for payment in payments:
