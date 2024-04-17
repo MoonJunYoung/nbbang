@@ -51,9 +51,11 @@ class PaymentRepository:
         db_session.delete(payment_model)
         db_session.commit()
 
-    async def read_list_by_meeting_id(self, meeting_id, db_session: Session):
+    async def read_list_by_meeting_id(
+        self, meeting_id, db_session: Session
+    ) -> list[Payment]:
         payments = list()
-        payment_models: list[PaymentModel] = (
+        payment_models = (
             db_session.query(PaymentModel)
             .filter(PaymentModel.meeting_id == meeting_id)
             .all()
@@ -72,7 +74,6 @@ class PaymentRepository:
                 meeting_id=payment_model.meeting_id,
             )
             payments.append(payment)
-
         return payments
 
     async def delete_by_meeting_id(self, meeting_id, db_session: Session):
