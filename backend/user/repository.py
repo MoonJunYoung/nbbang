@@ -20,6 +20,11 @@ class UserRepository:
         db_session.commit()
         user.id = user_model.id
 
+    async def delete(self, user_id, db_session: Session):
+        user_model = db_session.query(UserModel).filter(UserModel.id == user_id).first()
+        db_session.delete(user_model)
+        db_session.commit()
+
     async def read_by_identifier(self, identifier, db_session: Session):
         user_model = (
             db_session.query(UserModel)

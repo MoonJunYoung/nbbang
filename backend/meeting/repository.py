@@ -51,7 +51,7 @@ class MeetingRepository:
         db_session.delete(meeting_model)
         db_session.commit()
 
-    async def read_list_by_user_id(self, user_id, db_session: Session):
+    async def read_list_by_user_id(self, user_id, db_session: Session) -> list[Meeting]:
         meetings = list()
         meeting_models = (
             db_session.query(MeetingModel)
