@@ -1,3 +1,5 @@
+from meeting.repository import MeetingRepository
+from meeting.service import MeetingService
 from user.domain import User
 from user.exceptions import IdentifierNotFoundException
 from user.repository import UserRepository
@@ -6,6 +8,8 @@ from user.repository import UserRepository
 class UserService:
     def __init__(self) -> None:
         self.user_repository = UserRepository()
+        self.meeting_repository = MeetingRepository()
+        self.meeting_service = MeetingService()
 
     async def sign_up(self, identifier, password, name, db_session):
         user = User(
@@ -70,3 +74,14 @@ class UserService:
         )
         user.update_toss_deposit_information(bank, account_number)
         await self.user_repository.update_toss_deposit(user, db_session=db_session)
+
+    async def delete(self, user_id, db_session):
+        user = await self.user_repository.read_by_user_id(
+            user_id, db_session=db_session
+        )
+        meetings = await self.meeting_repository.read_list_by_user_id(
+            user.id, db_session
+        )
+        for meeting in meetings:
+            await self.meeting_service.remove(meeting.id, user.id, db_session)
+        await self.user_repository.delete(user.id, db_session)

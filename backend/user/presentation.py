@@ -40,6 +40,17 @@ class UserPresentation:
         except Exception as e:
             catch_exception(e)
 
+    @router.delete("", status_code=204)
+    async def delete(
+        Authorization: str = Header(None), db_session=Depends(get_db_session)
+    ):
+        try:
+            user_id = Token.get_user_id_by_token(Authorization)
+            await user_service.delete(user_id, db_session)
+
+        except Exception as e:
+            catch_exception(e)
+
     @router.post("/sign-up", status_code=201)
     async def sign_up(login_data: LogInData, db_session=Depends(get_db_session)):
         try:
