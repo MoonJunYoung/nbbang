@@ -8,8 +8,8 @@ from user.presentation import UserPresentation
 app = FastAPI()
 
 
-origins = ["https://nbbang.shop"]
-
+# origins = ["https://nbbang.shop"]
+origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
