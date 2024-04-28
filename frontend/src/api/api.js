@@ -26,6 +26,9 @@ export const postSignUpData = (data) => {
 export const getUserData = (query) => {
   return axiosData().get(query);
 };
+export const deleteUser = () => {
+  return axiosData().delete(`/user`);
+};
 
 //meeting
 

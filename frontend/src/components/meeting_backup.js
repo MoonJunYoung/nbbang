@@ -10,7 +10,6 @@ import {
 import Cookies from "js-cookie";
 import Nav from "./Nav";
 import BillingNameModal from "./Modal/BillingNameModal";
-import UserSettingModal from "./Modal/UserSettingModal";
 
 const MainContainer = styled.div`
   position: relative;
@@ -28,20 +27,13 @@ const MeetingContainer = styled.div`
   }
 `;
 
-const UserSeting = styled.div`
-  box-shadow: 0px 2px 3px #c3a99759;
-  border-radius: 12px;
-  border: 1px solid #e6e6e666;
-  margin-bottom: 10px;
-  width: 105px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
+const LogOut = styled.div`
+  height: 100%;
+  width: 10px;
+  border-left: 1px solid #e6e6e666;
   cursor: pointer;
   img {
-    margin: 5px;
+    margin: 5px 0px 0px 7px;
     width: 20px;
   }
 `;
@@ -113,6 +105,19 @@ const NavContainer = styled.div`
 
 const UserId = styled.p`
   font-size: 14px;
+`;
+
+const UserSeting = styled.div`
+  box-shadow: 0px 2px 3px #c3a99759;
+  border-radius: 12px;
+  border: 1px solid #e6e6e666;
+  margin-bottom: 10px;
+  width: 105px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 `;
 
 const StyledLink = styled(Link)`
@@ -244,6 +249,11 @@ const Meeting = ({ user }) => {
     }
   };
 
+  const handleLogOut = () => {
+    Cookies.remove("authToken");
+    navigate("/signd");
+  };
+
   const handleToggleMenu = (meetingId) => {
     setMeetings((prevMeetings) =>
       prevMeetings.map((meeting) =>
@@ -261,11 +271,16 @@ const Meeting = ({ user }) => {
     <MainContainer>
       <NavContainer>
         <Nav />
-        <UserSeting onClick={handleClick}>
+        <UserSeting>
           <UserId>{user.name}</UserId>
-          <img alt="Setting" src="/images/Setting.png" />
+          <LogOut onClick={handleLogOut}>
+            <img
+              alt="logOut"
+              src="/images/Logout.png"
+              onClick={() => (window.location.href = "/")}
+            />
+          </LogOut>
         </UserSeting>
-        {openModal && <UserSettingModal setOpenModal={setOpenModal} />}
       </NavContainer>
       <MeetingContainer>
         {meetings.map((data) => (
