@@ -121,3 +121,10 @@ export const Valid = styled.div`
   height: 35px;
   font-size: 13px;
 `;
+
+export const SignUpLink = styled.div`
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  margin: 15px;
+`;
