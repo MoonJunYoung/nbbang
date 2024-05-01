@@ -35,7 +35,7 @@ class UserService:
         user.check_password_match(password)
         return user.id
 
-    async def oauth_login(self, name, platform_id, platform, db_session):
+    async def oauth_signin(self, name, platform_id, platform, db_session):
         user = User(
             id=None,
             name=name,
@@ -49,10 +49,21 @@ class UserService:
             platform=user.platform,
             db_session=db_session,
         )
-        if existing_user:
-            return existing_user.id
+        if not existing_user:
+            return None
+        return existing_user
+
+    async def oauth_signup(self, name, platform_id, platform, db_session):
+        user = User(
+            id=None,
+            name=name,
+            platform_id=platform_id,
+            platform=platform,
+            identifier=None,
+            password=None,
+        )
         await self.user_repository.create(user, db_session=db_session)
-        return user.id
+        return user
 
     async def read(self, user_id, db_session):
         user = await self.user_repository.read_by_user_id(

@@ -1,6 +1,11 @@
 from sqlalchemy import Boolean, Column, Integer, LargeBinary, String
 from sqlalchemy.ext.declarative import declarative_base
+import os
+from base.database_connector import engine
 
+from dotenv import load_dotenv
+
+load_dotenv()
 Base = declarative_base()
 
 
@@ -93,3 +98,8 @@ class PaymentModel(Base):
         self.pay_member_id = pay_member_id
         self.attend_member_ids = attend_member_ids
         self.meeting_id = meeting_id
+
+
+status = os.environ.get("STATUS")
+if status == "development":
+    Base.metadata.create_all(engine)

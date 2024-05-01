@@ -17,13 +17,50 @@ class LogInData(BaseModel):
 
 
 class OauthData(BaseModel):
-    token: str
+    token: str = None
+    platform: str = None
+    platform_id: str = None
+    name: str = None
+    agreement: bool = None
 
 
 class DepositInformationData(BaseModel):
     bank: Optional[str] = None
     account_number: Optional[str] = None
     kakao_deposit_id: Optional[str] = None
+
+
+async def oauth_login(platform, oauth: OauthData, db_session):
+    if platform == "kakao":
+        get_user_platform_information = (
+            Token.get_user_name_and_platform_id_by_kakao_oauth
+        )
+    elif platform == "naver":
+        get_user_platform_information = (
+            Token.get_user_name_and_platform_id_by_naver_oauth
+        )
+    elif platform == "google":
+        get_user_platform_information = (
+            Token.get_user_name_and_platform_id_by_google_oauth
+        )
+
+    if oauth.token:
+        name, platform_id = await get_user_platform_information(oauth.token)
+        user = await user_service.oauth_signin(name, platform_id, platform, db_session)
+        if not user:
+            return {
+                "platform": platform,
+                "platform_id": platform_id,
+                "name": name,
+                "agreement": False,
+            }
+        return Token.create_token_by_user_id(user.id)
+
+    elif oauth.platform and oauth.platform_id and oauth.name and oauth.agreement:
+        user = await user_service.oauth_signup(
+            oauth.name, oauth.platform_id, oauth.platform, db_session
+        )
+        return Token.create_token_by_user_id(user.id)
 
 
 class UserPresentation:
@@ -81,13 +118,7 @@ class UserPresentation:
     async def google_login(oauth: OauthData, db_session=Depends(get_db_session)):
         try:
             platform = "google"
-            name, platform_id = (
-                await Token.get_user_name_and_platform_id_by_google_oauth(oauth.token)
-            )
-            user_id = await user_service.oauth_login(
-                name, platform_id, platform, db_session
-            )
-            return Token.create_token_by_user_id(user_id)
+            oauth_login(platform, oauth, db_session)
 
         except Exception as e:
             catch_exception(e)
@@ -96,14 +127,7 @@ class UserPresentation:
     async def kakao_login(oauth: OauthData, db_session=Depends(get_db_session)):
         try:
             platform = "kakao"
-            name, platform_id = (
-                await Token.get_user_name_and_platform_id_by_kakao_oauth(oauth.token)
-            )
-            user_id = await user_service.oauth_login(
-                name, platform_id, platform, db_session
-            )
-            return Token.create_token_by_user_id(user_id)
-
+            oauth_login(platform, oauth, db_session)
         except Exception as e:
             catch_exception(e)
 
@@ -111,14 +135,7 @@ class UserPresentation:
     async def naver_login(oauth: OauthData, db_session=Depends(get_db_session)):
         try:
             platform = "naver"
-            name, platform_id = (
-                await Token.get_user_name_and_platform_id_by_naver_oauth(oauth.token)
-            )
-            user_id = await user_service.oauth_login(
-                name, platform_id, platform, db_session
-            )
-            return Token.create_token_by_user_id(user_id)
-
+            oauth_login(platform, oauth, db_session)
         except Exception as e:
             catch_exception(e)
 
