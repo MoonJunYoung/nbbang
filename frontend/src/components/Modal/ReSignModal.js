@@ -57,23 +57,49 @@ const TextContainer = styled.div`
   margin-left: 10px;
   margin-right: 10px;
 `;
+const ButtonContainer = styled.div`
+  display: flex;
+  margin-left: 10px;
+  margin-right: 10px;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const Text = styled.p`
   margin: 3px;
   text-align: left;
 `;
 
-const Button = styled.div`
-  cursor: pointer;
-  box-shadow: 0px 2px 3px #c3a99759;
-  border-radius: 12px;
-  border: 1px solid #e6e6e666;
-  width: 105px;
+const Button = styled.button`
+  margin-top: 10px;
+  border: 1px solid lightgray;
+  font-weight: 600;
+  width: 160px;
   height: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  border-bottom: 1px solid #e1e1e1a8;
+  box-shadow: 3px 4px 4px 0px #c6c6c666;
+  border-radius: 12px;
+
+  &:not(:disabled) {
+    background-color: #0066ffd4;
+    border: 1px solid lightgray;
+    border-bottom: 1px solid #e1e1e1a8;
+    box-shadow: 3px 4px 4px 0px #c6c6c666;
+    color: white;
+    cursor: pointer;
+    border-radius: 12px;
+
+  &:disabled {
+    background-color: #d3d3d3;
+    color: #c9c9c9;
+  }
 `;
+
+const Agreement = styled.input``;
+
 const ReSign = ({ setOpenModal }) => {
+  const [ReSginAgreement, setReSginAgreement] = useState(false);
+  const [notAllow, setNotAllow] = useState(true);
   const navigate = useNavigate();
   const handleReSign = async () => {
     try {
@@ -84,6 +110,13 @@ const ReSign = ({ setOpenModal }) => {
     Cookies.remove("authToken");
     navigate("/signd");
   };
+  useEffect(() => {
+    if (ReSginAgreement) {
+      setNotAllow(false);
+    } else {
+      setNotAllow(true);
+    }
+  }, [ReSginAgreement]);
 
   return (
     <ReSignModalContainer>
@@ -100,17 +133,30 @@ const ReSign = ({ setOpenModal }) => {
               </Text>
               <Text>
                 삭제되는 정산 관련 정보는 아래 항목을 확인해주시기 바랍니다.
-                탈퇴 후 해당 정보는 모두 삭제되어 이용할 수 없으며 복구가 불가능
-                합니다.
+                탈퇴 후 해당 정보는 모두 삭제되어 이용할 수 없으며 복구가
+                불가능합니다.
                 <br></br>- 회원 데이터
                 <br></br>- 생성한 모임 데이터
                 <br></br>- 모임의 멤버 데이터
-                <br></br>- 모임의 결젠내역 데이터
+                <br></br>- 모임의 결제내역 데이터
                 <br></br>- 공유된 정산결과 데이터
+                <br></br>
               </Text>
             </div>
           </TextContainer>
-          <Button onClick={handleReSign}>회원탈퇴</Button>
+          <ButtonContainer>
+            <div>
+              <Agreement
+                type="checkbox"
+                checked={ReSginAgreement}
+                onChange={(e) => setReSginAgreement(e.target.checked)}
+              />
+              - 안내 사항을 모두 확인하였으며, 이에 동의합니다.
+            </div>
+            <Button disabled={notAllow} onClick={handleReSign}>
+              회원탈퇴
+            </Button>
+          </ButtonContainer>
         </Modal>
       </WrapperModal>
     </ReSignModalContainer>
