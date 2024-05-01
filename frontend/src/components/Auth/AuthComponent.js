@@ -14,6 +14,8 @@ import {
   PlatformSignd,
   Valid,
   SignUpLink,
+  AgreementContainer,
+  AgreementChenckBox,
 } from "./AuthComponent.styled";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -36,6 +38,7 @@ const AuthComponent = ({
   const [isIdentifierValid, setIsIdentifierValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [SingUpLink] = useState(false);
+  const [SginAgreement, setSginAgreement] = useState(false);
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -74,12 +77,12 @@ const AuthComponent = ({
   };
 
   useEffect(() => {
-    if (isIdentifierValid && isPasswordValid) {
+    if (isIdentifierValid && isPasswordValid && SginAgreement) {
       setNotAllow(false);
       return;
     }
     setNotAllow(true);
-  }, [isIdentifierValid, isPasswordValid]);
+  }, [isIdentifierValid, isPasswordValid, SginAgreement]);
 
   return (
     <>
@@ -140,6 +143,23 @@ const AuthComponent = ({
                 />
               </InputBox>
             ))}
+            {title === "회원가입" && (
+              <AgreementContainer>
+                <AgreementChenckBox
+                  type="checkbox"
+                  checked={SginAgreement}
+                  onChange={(e) => setSginAgreement(e.target.checked)}
+                />
+                <a
+                  href="http://localhost:3000/user-protocol"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  회원가입 및 이용약관
+                </a>
+                <a>을 모두 확인하였으며, 이에 동의합니다.</a>
+              </AgreementContainer>
+            )}
             <SignInButton type="submit" disabled={notAllow}>
               {title}
             </SignInButton>

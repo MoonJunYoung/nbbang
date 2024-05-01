@@ -67,7 +67,6 @@ export const SignInButton = styled.button`
   width: 290px;
   height: 40px;
   border-radius: 5px;
-  cursor: pointer;
 
   &:not(:disabled) {
     background-color: #0066ffd4;
@@ -128,3 +127,8 @@ export const SignUpLink = styled.div`
   line-height: 1rem;
   margin: 15px;
 `;
+export const AgreementContainer = styled.div`
+  font-size: 0.75rem;
+`;
+
+export const AgreementChenckBox = styled.input``;
