@@ -77,13 +77,20 @@ const AuthComponent = ({
   };
 
   useEffect(() => {
-    if (isIdentifierValid && isPasswordValid && SginAgreement) {
-      setNotAllow(false);
-      return;
+    if (title === "회원가입") {
+      if (isIdentifierValid && isPasswordValid && SginAgreement) {
+        setNotAllow(false);
+        return;
+      }
+      setNotAllow(true);
+    } else if (title === "로그인") {
+      if (isIdentifierValid && isPasswordValid) {
+        setNotAllow(false);
+        return;
+      }
+      setNotAllow(true);
     }
-    setNotAllow(true);
-  }, [isIdentifierValid, isPasswordValid, SginAgreement]);
-
+  }, [title, isIdentifierValid, isPasswordValid, SginAgreement]);
   return (
     <>
       <TopBar>

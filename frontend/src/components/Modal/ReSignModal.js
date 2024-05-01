@@ -27,6 +27,7 @@ const Modal = styled.div`
   gap: 15px;
   height: auto;
   width: auto;
+  max-width: 650px;
   background: white;
   border-radius: 8px;
   transition: all 400ms ease-in-out;
@@ -99,15 +100,17 @@ const ReSign = ({ setOpenModal }) => {
   const [ReSginAgreement, setReSginAgreement] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
   const navigate = useNavigate();
+
   const handleReSign = async () => {
     try {
       await deleteUser();
+      Cookies.remove("authToken");
+      navigate("/signd");
     } catch (error) {
       console.log("Api 데이터 삭제 실패");
     }
-    Cookies.remove("authToken");
-    navigate("/signd");
   };
+
   useEffect(() => {
     if (ReSginAgreement) {
       setNotAllow(false);
@@ -149,7 +152,7 @@ const ReSign = ({ setOpenModal }) => {
                 checked={ReSginAgreement}
                 onChange={(e) => setReSginAgreement(e.target.checked)}
               />
-              - 안내 사항을 모두 확인하였으며, 이에 동의합니다.
+              안내 사항을 모두 확인하였으며, 이에 동의합니다.
             </div>
             <Button disabled={notAllow} onClick={handleReSign}>
               회원탈퇴
