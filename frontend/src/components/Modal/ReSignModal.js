@@ -25,8 +25,8 @@ const Modal = styled.div`
   justify-content: center;
   align-items: center;
   gap: 15px;
-  height: 350px;
-  width: 500px;
+  height: auto;
+  width: auto;
   background: white;
   border-radius: 8px;
   transition: all 400ms ease-in-out;
@@ -53,12 +53,14 @@ const ModalClose = styled.button`
 `;
 
 const TextContainer = styled.div`
+  margin-top: 15px;
   display: flex;
   margin-left: 10px;
   margin-right: 10px;
 `;
 const ButtonContainer = styled.div`
   display: flex;
+  margin-bottom: 10px;
   margin-left: 10px;
   margin-right: 10px;
   flex-direction: column;

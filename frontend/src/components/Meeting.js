@@ -33,12 +33,13 @@ const UserSeting = styled.div`
   border-radius: 12px;
   border: 1px solid #e6e6e666;
   margin-bottom: 10px;
-  width: 105px;
+  margin-right: 5px;
+  width: auto;
   height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 3px;
   cursor: pointer;
   img {
     margin: 5px;
@@ -113,6 +114,7 @@ const NavContainer = styled.div`
 
 const UserId = styled.p`
   font-size: 14px;
+  padding-left: 10px;
 `;
 
 const StyledLink = styled(Link)`
