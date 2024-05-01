@@ -78,18 +78,14 @@ const Button = styled.button`
   font-weight: 600;
   width: 160px;
   height: 30px;
-  border-bottom: 1px solid #e1e1e1a8;
+  border-bottom: 1px solid #e1e1e1a8; 
   box-shadow: 3px 4px 4px 0px #c6c6c666;
   border-radius: 12px;
 
   &:not(:disabled) {
     background-color: #0066ffd4;
-    border: 1px solid lightgray;
-    border-bottom: 1px solid #e1e1e1a8;
-    box-shadow: 3px 4px 4px 0px #c6c6c666;
     color: white;
     cursor: pointer;
-    border-radius: 12px;
 
   &:disabled {
     background-color: #d3d3d3;
