@@ -17,8 +17,8 @@ const GooglesRedirect = () => {
 
 const NaverRedirect = () => {
   const navigate = useNavigate();
-  const queryParams = new URLSearchParams(window.location.hash.substring(1));
-  const accessToken = queryParams.get("access_token");
+  const queryParams = new URLSearchParams(window.location.search);
+  const accessToken = queryParams.get("code");
   const apiUrl = "https://nbbang.shop/api/user/naver-login";
 
   return (
@@ -30,8 +30,8 @@ const NaverRedirect = () => {
 
 const KakaoRedirect = () => {
   const navigate = useNavigate();
-  const queryParams = new URLSearchParams(window.location.hash.substring(1));
-  const accessToken = queryParams.get("access_token");
+  const queryParams = new URLSearchParams(window.location.search);
+  const accessToken = queryParams.get("code");
   const apiUrl = "https://nbbang.shop/api/user/kakao-login";
 
   return (
