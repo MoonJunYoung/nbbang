@@ -196,6 +196,9 @@ const BillingLink = styled.div`
   }
 `;
 
+const Text = styled.p`
+  font-weight: 600;
+`;
 export const truncate = (str, n) => {
   return str?.length > n ? str.substring(0, n) + "..." : str;
 };
@@ -204,7 +207,6 @@ const Meeting = ({ user }) => {
   const [meetings, setMeetings] = useState([]);
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
-
   const handleGetData = async () => {
     try {
       const responseGetData = await getMeetingData("meeting");
@@ -313,6 +315,7 @@ const Meeting = ({ user }) => {
             )}
           </BillingLink>
         ))}
+        {!meetings.length && <Text> 모임을 생성해주세요 </Text>}
       </MeetingContainer>
       <StyledLink>
         <MeetingAddButton onClick={handleAddBilling}>
