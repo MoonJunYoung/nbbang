@@ -6,6 +6,7 @@ const GooglesRedirect = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(window.location.hash.substring(1));
   const accessToken = queryParams.get("access_token");
+  // const apiUrl = "http://localhost:8000/api/user/google-login";
   const apiUrl = "https://nbbang.shop/api/user/google-login";
 
   return (

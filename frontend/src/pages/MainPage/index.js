@@ -30,10 +30,7 @@ const MainPage = () => {
       const response = await getUserData("user");
       setUser(response.data);
     } catch (error) {
-      if (
-        error.response.request.responseText ==
-        '{"detail":"invalid authorization token."}'
-      ) {
+      if (error.response.status !== 200) {
         Cookies.remove("authToken");
       }
       console.log("Api 요청 실패");

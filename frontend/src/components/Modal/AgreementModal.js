@@ -128,12 +128,15 @@ const Agreement = ({ setOpenModal, userData, navigate, apiUrl }) => {
       console.log("Api 데이터 보내기 실패");
     }
   };
+  const cancel = () => {
+    navigate("/");
+  };
 
   return (
     <AgreementModalContainer>
       <WrapperModal>
         <Modal>
-          <ModalClose onClick={() => setOpenModal(false)}>X</ModalClose>
+          <ModalClose onClick={cancel}>X</ModalClose>
           <AgreementContainer>
             <AgreementChenckBox
               type="checkbox"
