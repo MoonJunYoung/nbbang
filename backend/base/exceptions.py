@@ -116,3 +116,11 @@ class IncompleteShareExcption(CustomException):
 
     status_code = 204
     detail = "This sharing page is not complete"
+
+
+class NotAgerrmentExcption(CustomException):
+    def __init__(self) -> None:
+        super().__init__(f"need Agreement")
+
+    status_code = 403
+    detail = "This sharing page is not complete"

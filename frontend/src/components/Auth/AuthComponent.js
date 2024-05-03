@@ -69,7 +69,6 @@ const AuthComponent = ({
       Cookies.set("authToken", response.data, {
         expires: 30,
       });
-      console.log("sdkfnmdskn");
       navigate("/");
     } catch (error) {
       alert("실패했습니다. 다시 시도하세요.");
@@ -158,7 +157,7 @@ const AuthComponent = ({
                   onChange={(e) => setSginAgreement(e.target.checked)}
                 />
                 <a
-                  href="http://localhost:3000/user-protocol"
+                  href="https://nbbang.shop/user-protocol"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

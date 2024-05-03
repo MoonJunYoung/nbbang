@@ -52,7 +52,7 @@ const GoogleLogin = () => {
       backgroundColor: "white",
     },
     imgStyle: {
-      imgWidth: "18px"
+      imgWidth: "18px",
     },
 
     buttonStyle: {

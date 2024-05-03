@@ -1,11 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  NaverLogin,
-  KakaoLogin,
-  GoogleLogin,
-} from "../../components/SocialLogin/SocialPlatformLogin";
-import { Link } from "react-router-dom";
 
 const UserProtocolContainer = styled.div`
   display: inline-block;
@@ -21,36 +15,6 @@ const MainLogo = styled.a`
     display: block;
     width: 100%;
   }
-`;
-const UserProtocolTopLine = styled.div`
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 15px;
-`;
-
-const UserProtocolLine = styled.div`
-  border-top: 1px solid silver;
-  width: 135px;
-
-  margin-top: 10px;
-  @media (max-width: 768px) {
-    width: 150px;
-  }
-`;
-
-const UserProtocolLineComent = styled.span`
-  margin: 0 10px;
-  font-size: 14px;
-  color: silver;
-  font-weight: 800;
-`;
-
-const SingndLink = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
 `;
 
 const UserProtocolPage = () => {
