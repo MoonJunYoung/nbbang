@@ -17,38 +17,28 @@ const GooglesRedirect = () => {
 
 const NaverRedirect = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const accessToken = queryParams.get("code");
+  const queryParams = new URLSearchParams(window.location.hash.substring(1));
+  const accessToken = queryParams.get("access_token");
+  const apiUrl = "https://nbbang.shop/api/user/naver-login";
 
-    if (accessToken) {
-      sendAccessToken(
-        accessToken,
-        "https://nbbang.shop/api/user/naver-login",
-        navigate
-      );
-    }
-  }, []);
-
-  return <></>;
+  return (
+    <>
+      <Redirect accessToken={accessToken} apiUrl={apiUrl} navigate={navigate} />
+    </>
+  );
 };
 
 const KakaoRedirect = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const accessToken = queryParams.get("code");
+  const queryParams = new URLSearchParams(window.location.hash.substring(1));
+  const accessToken = queryParams.get("access_token");
+  const apiUrl = "https://nbbang.shop/api/user/kakao-login";
 
-    if (accessToken) {
-      sendAccessToken(
-        accessToken,
-        "https://nbbang.shop/api/user/kakao-login",
-        navigate
-      );
-    }
-  }, []);
-
-  return <></>;
+  return (
+    <>
+      <Redirect accessToken={accessToken} apiUrl={apiUrl} navigate={navigate} />
+    </>
+  );
 };
 
 export { KakaoRedirect, NaverRedirect, GooglesRedirect };
