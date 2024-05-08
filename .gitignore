@@ -8,3 +8,5 @@ node_modules
 develop.db
 error.log
 development.db
+*.keystore
+pwa
