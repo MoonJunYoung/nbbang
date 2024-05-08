@@ -3,6 +3,6 @@
       "target": {
         "namespace": "android_app",
         "package_name": "shop.nbbang.twa",
-        "sha256_cert_fingerprints": ["CC:19:21:8F:BC:10:C9:CC:7A:65:5E:C0:80:94:64:A0:B3:56:EC:1F:8E:66:81:3C:1A:55:F6:42:7C:D5:FC:DF"]
+        "sha256_cert_fingerprints": ["4D:6B:68:C7:45:7A:84:78:C9:CD:29:79:9F:96:53:7A:E7:2F:DA:A9:2B:DA:B3:EA:52:E6:EE:AD:B2:55:A1:E7"]
       }
     }]
