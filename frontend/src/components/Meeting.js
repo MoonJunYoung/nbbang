@@ -206,7 +206,9 @@ export const truncate = (str, n) => {
 const Meeting = ({ user }) => {
   const [meetings, setMeetings] = useState([]);
   const navigate = useNavigate();
-  const [openModal, setOpenModal] = useState(false);
+  const [openMenuModal, setOpenMenuModal] = useState(false);
+  const [openUserSettingModal, setUserSettingModal] = useState(false);
+
   const handleGetData = async () => {
     try {
       const responseGetData = await getMeetingData("meeting");
@@ -221,10 +223,10 @@ const Meeting = ({ user }) => {
   }, []);
 
   useEffect(() => {
-    if (!openModal) {
+    if (!openMenuModal) {
       handleGetData();
     }
-  }, [openModal]);
+  }, [openMenuModal]);
 
   const handleAddBilling = async () => {
     try {
@@ -256,20 +258,23 @@ const Meeting = ({ user }) => {
     );
   };
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    setOpenModal(true);
+  const handleClickMenuModal = () => {
+    setOpenMenuModal(true);
   };
+
+  const handleClickUserSettingModal = ()=> {
+    setUserSettingModal(true)
+  }
 
   return (
     <MainContainer>
       <NavContainer>
         <Nav />
-        <UserSeting onClick={handleClick}>
+        <UserSeting onClick={handleClickUserSettingModal}>
           <UserId>{user.name}</UserId>
           <img alt="Setting" src="/images/Setting.png" />
         </UserSeting>
-        {openModal && <UserSettingModal setOpenModal={setOpenModal} />}
+        {openUserSettingModal && <UserSettingModal setUserSettingModal={setUserSettingModal} />}
       </NavContainer>
       <MeetingContainer>
         {meetings.map((data) => (
@@ -284,12 +289,12 @@ const Meeting = ({ user }) => {
             </Billing>
             {data.menu ? (
               <MenuContainer>
-                <MenuOpenModal onClick={handleClick}>
+                <MenuOpenModal onClick={handleClickMenuModal}>
                   <img alt="fix" src="/images/fix.png" />
                 </MenuOpenModal>
-                {openModal && (
+                {openMenuModal && (
                   <BillingNameModal
-                    setOpenModal={setOpenModal}
+                    setOpenMenuModal={setOpenMenuModal}
                     MainMeetingId={data.id}
                     MainMeetingName={data.name}
                   />

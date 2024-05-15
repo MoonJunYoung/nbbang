@@ -47,8 +47,9 @@ const Modal = styled.div`
 const ModalClose = styled.button`
   cursor: pointer;
   position: absolute;
-  top: 0;
-  right: 8px;
+  font-size: 16px;
+  top: 5px;
+  right: 6px;
   background: none;
   border: none;
 `;
@@ -96,9 +97,8 @@ const Input = styled.input`
   width: 150px;
 `;
 
-const BillingName = ({ setOpenModal, MainMeetingId, MainMeetingName }) => {
+const BillingName = ({ setOpenMenuModal, MainMeetingId, MainMeetingName }) => {
   const initialDate = new Date();
-
   const [formData, setFormData] = useState({
     name: MainMeetingName,
     date: initialDate,
@@ -128,7 +128,7 @@ const BillingName = ({ setOpenModal, MainMeetingId, MainMeetingName }) => {
             ...prevData,
             name: "",
           }));
-          setOpenModal(false);
+          setOpenMenuModal(false);
         }
       }
     } catch (error) {
@@ -145,7 +145,7 @@ const BillingName = ({ setOpenModal, MainMeetingId, MainMeetingName }) => {
     <BillingNameModalContainer>
       <WrapperModal>
         <Modal>
-          <ModalClose onClick={() => setOpenModal(false)}>X</ModalClose>
+          <ModalClose onClick={() => setOpenMenuModal(false)}>X</ModalClose>
           <FormContainer onSubmit={handlePutData}>
             <InputBox>
               <Input

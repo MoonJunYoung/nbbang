@@ -2,31 +2,23 @@ import React from "react";
 import styled from "styled-components";
 
 const UserProtocolContainer = styled.div`
-  display: inline-block;
-  position: relative;
   text-align: start;
+  padding: 10px;
 `;
 
-const MainLogo = styled.a`
-  display: inline-block;
+const MainLogo = styled.img`
   width: 75px;
-  margin: 20px;
-  img {
-    display: block;
-    width: 100%;
-  }
+  margin: 5px;
 `;
 
 const UserProtocolPage = () => {
   return (
     <UserProtocolContainer>
-      <MainLogo>
-        <img
-          alt="Nbbang"
-          src="/images/nbbang.png"
-          onClick={() => (window.location.href = "/")}
-        />
-      </MainLogo>
+      <MainLogo 
+        alt="Nbbang"
+        src="/images/nbbang.png"
+        onClick={() => (window.location.href = "/")}
+      />
       <h1>서비스 이용약관</h1>
       <h2>제 1장 총칙</h2>
       <h3>제 1조 (목적)</h3>

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
 import Cookies from "js-cookie";
-import { deleteUser } from "../../api/api";
+import { deleteUser,Token } from "../../api/api";
 const ReSignModalContainer = styled.div`
   z-index: 10;
   position: absolute;
@@ -47,8 +47,9 @@ const Modal = styled.div`
 const ModalClose = styled.button`
   cursor: pointer;
   position: absolute;
+  font-size: 16px;
   top: 0;
-  right: 8px;
+  right: 5px;
   background: none;
   border: none;
 `;
@@ -92,14 +93,16 @@ const Button = styled.button`
     background-color: #d3d3d3;
     color: #c9c9c9;
   }
+}
 `;
 
 const Agreement = styled.input``;
 
-const ReSign = ({ setOpenModal }) => {
+const ReSignModal = ({ secondSetOpenModal }) => {
+  const navigate = useNavigate();
+  const authToken = Token();
   const [ReSginAgreement, setReSginAgreement] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
-  const navigate = useNavigate();
 
   const handleReSign = async () => {
     try {
@@ -110,6 +113,8 @@ const ReSign = ({ setOpenModal }) => {
       console.log("Api 데이터 삭제 실패");
     }
   };
+
+
 
   useEffect(() => {
     if (ReSginAgreement) {
@@ -123,7 +128,7 @@ const ReSign = ({ setOpenModal }) => {
     <ReSignModalContainer>
       <WrapperModal>
         <Modal>
-          <ModalClose onClick={() => setOpenModal(false)}>X</ModalClose>
+          <ModalClose onClick={() => secondSetOpenModal(false)}>X</ModalClose>
           <TextContainer>
             <div>
               <Text style={{ fontWeight: "bold" }}>
@@ -164,4 +169,4 @@ const ReSign = ({ setOpenModal }) => {
   );
 };
 
-export default ReSign;
+export default ReSignModal;

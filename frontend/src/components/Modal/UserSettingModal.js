@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
 import Cookies from "js-cookie";
-import ReSingModal from "./ReSignModal";
+import ReSignModal from "./ReSignModal";
+
 const UserSettingModalContainer = styled.div`
   z-index: 10;
   position: absolute;
@@ -25,8 +26,8 @@ const Modal = styled.div`
   justify-content: center;
   align-items: center;
   gap: 15px;
-  height: 180px;
-  width: 250px;
+  height: 150px;
+  width: 200px;
   background: white;
   border-radius: 8px;
   transition: all 400ms ease-in-out;
@@ -46,8 +47,9 @@ const Modal = styled.div`
 const ModalClose = styled.button`
   cursor: pointer;
   position: absolute;
-  top: 0;
-  right: 8px;
+  font-size: 16px;
+  top: 5px;
+  right: 7px;
   background: none;
   border: none;
 `;
@@ -69,15 +71,14 @@ const SettingContainer = styled.form`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 `;
 
-const UserSetting = ({ setOpenModal }) => {
+const UserSetting = ({ setUserSettingModal }) => {
   const navigate = useNavigate();
   const [openModal, secondSetOpenModal] = useState(false);
 
-  const handleClick = (e) => {
-    e.preventDefault();
+  const handleClick = () => {
     secondSetOpenModal(true);
   };
 
@@ -90,11 +91,11 @@ const UserSetting = ({ setOpenModal }) => {
     <UserSettingModalContainer>
       <WrapperModal>
         <Modal>
-          <ModalClose onClick={() => setOpenModal(false)}>X</ModalClose>
+          <ModalClose onClick={() => setUserSettingModal(false)}>X</ModalClose>
           <SettingContainer>
             <Button onClick={handleLogOut}>로그아웃</Button>
             <Button onClick={handleClick}>회원탈퇴</Button>
-            {openModal && <ReSingModal setOpenModal={secondSetOpenModal} />}
+            {openModal && <ReSignModal secondSetOpenModal={secondSetOpenModal} />}
           </SettingContainer>
         </Modal>
       </WrapperModal>

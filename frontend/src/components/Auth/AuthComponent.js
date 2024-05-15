@@ -16,6 +16,7 @@ import {
   SignUpLink,
   AgreementContainer,
   AgreementChenckBox,
+  LinkStyle
 } from "./AuthComponent.styled";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -156,14 +157,12 @@ const AuthComponent = ({
                   checked={SginAgreement}
                   onChange={(e) => setSginAgreement(e.target.checked)}
                 />
-                <a
-                  href="https://nbbang.shop/user-protocol"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/user-protocol"
                 >
                   회원가입 및 이용약관
-                </a>
-                <a>을 모두 확인하였으며, 이에 동의합니다.</a>
+                </Link>
+                <span>을 모두 확인하였으며, 이에 동의합니다.</span>
               </AgreementContainer>
             )}
             <SignInButton type="submit" disabled={notAllow}>
@@ -175,17 +174,17 @@ const AuthComponent = ({
       {title === "로그인" && (
         <SignUpLink>
           <span>아이디가 없으신가요?</span>
-          <a href="/sign-up" style={{ margin: "5px" }}>
+          <LinkStyle to="/sign-up" style={{ margin: "5px" }}>
             회원가입 하러가기
-          </a>
+          </LinkStyle>
         </SignUpLink>
       )}
       {title === "회원가입" && (
         <SignUpLink>
           <span>아이디가 있으신가요?</span>
-          <a href="/sign-in" style={{ margin: "5px" }}>
+          <LinkStyle to="/sign-in" style={{ margin: "5px" }}>
             로그인 하러가기
-          </a>
+          </LinkStyle>
         </SignUpLink>
       )}
       <SigndTopLine>

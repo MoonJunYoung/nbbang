@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const TopBar = styled.div`
@@ -37,7 +38,6 @@ export const SigndBox = styled.div`
 `;
 
 export const Form = styled.form`
-  margin-top: 10px;
 `;
 
 export const Input = styled.input`
@@ -129,6 +129,14 @@ export const SignUpLink = styled.div`
 `;
 export const AgreementContainer = styled.div`
   font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
 `;
 
 export const AgreementChenckBox = styled.input``;
+
+
+export const LinkStyle = styled(Link)`
+  text-decoration: none;
+`

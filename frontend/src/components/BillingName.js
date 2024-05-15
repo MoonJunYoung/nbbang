@@ -47,7 +47,7 @@ const MeetingData = styled.span``;
 const BillingName = ({ meetingName, setMeetingName }) => {
   // const [meetingName, setMeetingName] = useState([]);
   const { meetingId } = useParams();
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenMenuModal] = useState(false);
 
   useEffect(() => {
     if (!openModal) {
@@ -64,7 +64,7 @@ const BillingName = ({ meetingName, setMeetingName }) => {
   }, [openModal]);
 
   const handleClick = () => {
-    setOpenModal(true);
+    setOpenMenuModal(true);
   };
 
   return (
@@ -79,7 +79,7 @@ const BillingName = ({ meetingName, setMeetingName }) => {
         </MeetingSeting>
         {openModal && (
           <BillingNameModal
-            setOpenModal={setOpenModal}
+            setOpenMenuModal={setOpenMenuModal}
             MainMeetingId={meetingName?.id}
             MainMeetingName={meetingName?.name}
           />
