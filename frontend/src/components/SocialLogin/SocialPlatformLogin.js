@@ -46,13 +46,14 @@ const GoogleLogin = () => {
     src: "/images/google.png",
     comment: "구글 로그인으로 시작하기",
     socialLoginUrl:
+      // "https://accounts.google.com/o/oauth2/v2/auth?response_type=token&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&client_id=470039216193-568hnttd1011ddmc5j22nqia9rcjm1ah.apps.googleusercontent.com&redirect_uri=http://localhost:3000/google-redirect",
       "https://accounts.google.com/o/oauth2/v2/auth?response_type=token&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&client_id=470039216193-568hnttd1011ddmc5j22nqia9rcjm1ah.apps.googleusercontent.com&redirect_uri=https://nbbang.shop/google-redirect",
     containerStyle: {
       boxShadow: "#c3a99759",
       backgroundColor: "white",
     },
     imgStyle: {
-      imgWidth: "18px"
+      imgWidth: "18px",
     },
 
     buttonStyle: {

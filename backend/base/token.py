@@ -42,7 +42,7 @@ class Token:
             ).text
         )
         name = google_user_data.get("name")
-        platform_id = google_user_data.get("id")
+        platform_id = str(google_user_data.get("id"))
         return name, platform_id
 
     async def get_user_name_and_platform_id_by_kakao_oauth(token):
@@ -66,7 +66,7 @@ class Token:
         kakao_user_data = json.loads(
             requests.get(url="https://kapi.kakao.com/v2/user/me", headers=headers).text
         )
-        platform_id = kakao_user_data.get("id")
+        platform_id = str(kakao_user_data.get("id"))
         name = kakao_user_data.get("kakao_account").get("profile").get("nickname")
         return name, platform_id
 
@@ -87,6 +87,6 @@ class Token:
                 url="https://openapi.naver.com/v1/nid/me", headers=headers
             ).text
         )
-        platform_id = naver_user_data.get("response").get("id")
+        platform_id = str(naver_user_data.get("response").get("id"))
         name = naver_user_data.get("response").get("name")
         return name, platform_id

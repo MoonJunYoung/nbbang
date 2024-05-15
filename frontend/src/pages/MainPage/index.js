@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Nav from "../../components/Nav";
 import Meeting from "../../components/Meeting";
 import { getUserData, Token } from "../../api/api";
-
-
+import Cookies from "js-cookie";
 const Container = styled.div`
   width: 100%;
   margin: auto;
@@ -31,6 +29,10 @@ const MainPage = () => {
       const response = await getUserData("user");
       setUser(response.data);
     } catch (error) {
+      if (error.response.status !== 200) {
+        Cookies.remove("authToken");
+        navigate("/signd");
+      }
       console.log("Api 요청 실패");
     }
   };

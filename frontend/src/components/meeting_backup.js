@@ -10,7 +10,6 @@ import {
 import Cookies from "js-cookie";
 import Nav from "./Nav";
 import BillingNameModal from "./Modal/BillingNameModal";
-import UserSettingModal from "./Modal/UserSettingModal";
 
 const MainContainer = styled.div`
   position: relative;
@@ -28,21 +27,13 @@ const MeetingContainer = styled.div`
   }
 `;
 
-const UserSeting = styled.div`
-  box-shadow: 0px 2px 3px #c3a99759;
-  border-radius: 12px;
-  border: 1px solid #e6e6e666;
-  margin-bottom: 10px;
-  margin-right: 5px;
-  width: auto;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3px;
+const LogOut = styled.div`
+  height: 100%;
+  width: 10px;
+  border-left: 1px solid #e6e6e666;
   cursor: pointer;
   img {
-    margin: 5px;
+    margin: 5px 0px 0px 7px;
     width: 20px;
   }
 `;
@@ -114,7 +105,19 @@ const NavContainer = styled.div`
 
 const UserId = styled.p`
   font-size: 14px;
-  padding-left: 10px;
+`;
+
+const UserSeting = styled.div`
+  box-shadow: 0px 2px 3px #c3a99759;
+  border-radius: 12px;
+  border: 1px solid #e6e6e666;
+  margin-bottom: 10px;
+  width: 105px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 `;
 
 const StyledLink = styled(Link)`
@@ -196,9 +199,6 @@ const BillingLink = styled.div`
   }
 `;
 
-const Text = styled.p`
-  font-weight: 600;
-`;
 export const truncate = (str, n) => {
   return str?.length > n ? str.substring(0, n) + "..." : str;
 };
@@ -206,8 +206,7 @@ export const truncate = (str, n) => {
 const Meeting = ({ user }) => {
   const [meetings, setMeetings] = useState([]);
   const navigate = useNavigate();
-  const [openMenuModal, setOpenMenuModal] = useState(false);
-  const [openUserSettingModal, setUserSettingModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const handleGetData = async () => {
     try {
@@ -223,10 +222,10 @@ const Meeting = ({ user }) => {
   }, []);
 
   useEffect(() => {
-    if (!openMenuModal) {
+    if (!openModal) {
       handleGetData();
     }
-  }, [openMenuModal]);
+  }, [openModal]);
 
   const handleAddBilling = async () => {
     try {
@@ -250,6 +249,11 @@ const Meeting = ({ user }) => {
     }
   };
 
+  const handleLogOut = () => {
+    Cookies.remove("authToken");
+    navigate("/signd");
+  };
+
   const handleToggleMenu = (meetingId) => {
     setMeetings((prevMeetings) =>
       prevMeetings.map((meeting) =>
@@ -258,23 +262,25 @@ const Meeting = ({ user }) => {
     );
   };
 
-  const handleClickMenuModal = () => {
-    setOpenMenuModal(true);
+  const handleClick = (e) => {
+    e.preventDefault();
+    setOpenModal(true);
   };
-
-  const handleClickUserSettingModal = ()=> {
-    setUserSettingModal(true)
-  }
 
   return (
     <MainContainer>
       <NavContainer>
         <Nav />
-        <UserSeting onClick={handleClickUserSettingModal}>
+        <UserSeting>
           <UserId>{user.name}</UserId>
-          <img alt="Setting" src="/images/Setting.png" />
+          <LogOut onClick={handleLogOut}>
+            <img
+              alt="logOut"
+              src="/images/Logout.png"
+              onClick={() => (window.location.href = "/")}
+            />
+          </LogOut>
         </UserSeting>
-        {openUserSettingModal && <UserSettingModal setUserSettingModal={setUserSettingModal} />}
       </NavContainer>
       <MeetingContainer>
         {meetings.map((data) => (
@@ -289,12 +295,12 @@ const Meeting = ({ user }) => {
             </Billing>
             {data.menu ? (
               <MenuContainer>
-                <MenuOpenModal onClick={handleClickMenuModal}>
+                <MenuOpenModal onClick={handleClick}>
                   <img alt="fix" src="/images/fix.png" />
                 </MenuOpenModal>
-                {openMenuModal && (
+                {openModal && (
                   <BillingNameModal
-                    setOpenMenuModal={setOpenMenuModal}
+                    setOpenModal={setOpenModal}
                     MainMeetingId={data.id}
                     MainMeetingName={data.name}
                   />
@@ -320,7 +326,6 @@ const Meeting = ({ user }) => {
             )}
           </BillingLink>
         ))}
-        {!meetings.length && <Text> 모임을 생성해주세요 </Text>}
       </MeetingContainer>
       <StyledLink>
         <MeetingAddButton onClick={handleAddBilling}>

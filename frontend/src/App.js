@@ -4,6 +4,7 @@ import SigndPage from "./pages/SigndPage";
 import MainPage from "./pages/MainPage";
 import BillingPage from "./pages/BillingPage";
 import ResultPage from "./pages/ResultPage";
+import UserProtocolPage from "./pages/UserProtocolPage";
 
 import SignIn from "./components/Auth/SignIn";
 import SignUp from "./components/Auth/SignUp";
@@ -27,6 +28,7 @@ function App() {
           <Route path="/share" element={<ResultPage />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/user-protocol" element={<UserProtocolPage />} />
         </Routes>
       </Router>
     </div>

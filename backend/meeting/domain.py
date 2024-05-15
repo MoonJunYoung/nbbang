@@ -34,7 +34,7 @@ class Meeting:
             name="모임명을 설정해주세요",
             date=datetime.date.isoformat(datetime.date.today()),
             user_id=user_id,
-            uuid=uuid.uuid4(),
+            uuid=str(uuid.uuid4()),
         )
 
     def load_user_deposit_information(self, user: User):

@@ -44,10 +44,16 @@ const SingndLink = styled.div`
   gap: 5px;
 `;
 
+const Notice = styled.p`
+  font-size: 11px;
+  color: gray;
+`
+
 const SigndPage = () => {
   return (
     <SigndContainer>
       <SigndLogo />
+      <Notice>회원님의 개인정보 보호를 위해 가입 시 이름 정보만 저장됩니다.</Notice>
       {navigator.userAgent.includes("KAKAOTALK") ? null : <GoogleLogin />}
       <KakaoLogin />
       <NaverLogin />

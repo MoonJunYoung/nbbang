@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "shop.nbbang.twa",
+        "sha256_cert_fingerprints": ["4D:6B:68:C7:45:7A:84:78:C9:CD:29:79:9F:96:53:7A:E7:2F:DA:A9:2B:DA:B3:EA:52:E6:EE:AD:B2:55:A1:E7"]
+      }
+    }]

@@ -1,9 +1,10 @@
+import json
 from typing import Optional
 
 from base.database_connector import get_db_session
-from base.exceptions import catch_exception
+from base.exceptions import NotAgerrmentExcption, catch_exception
 from base.token import Token
-from fastapi import APIRouter, Depends, Header
+from fastapi import APIRouter, Depends, Header, Response, status, Request
 from pydantic import BaseModel
 from user.service import UserService
 
@@ -17,13 +18,58 @@ class LogInData(BaseModel):
 
 
 class OauthData(BaseModel):
-    token: str
+    token: str = None
+    platform: str = None
+    platform_id: str = None
+    name: str = None
+    agreement: bool = None
 
 
 class DepositInformationData(BaseModel):
     bank: Optional[str] = None
     account_number: Optional[str] = None
     kakao_deposit_id: Optional[str] = None
+
+
+async def oauth_login(platform, oauth: OauthData, request: Request, db_session):
+    if platform == "kakao":
+        get_user_platform_information = (
+            Token.get_user_name_and_platform_id_by_kakao_oauth
+        )
+    elif platform == "naver":
+        get_user_platform_information = (
+            Token.get_user_name_and_platform_id_by_naver_oauth
+        )
+    elif platform == "google":
+        get_user_platform_information = (
+            Token.get_user_name_and_platform_id_by_google_oauth
+        )
+
+    if oauth.token:
+        name, platform_id = await get_user_platform_information(oauth.token)
+        user = await user_service.oauth_signin(name, platform_id, platform, db_session)
+        if not user:
+            return Response(
+                content=json.dumps(
+                    {
+                        "platform": platform,
+                        "platform_id": platform_id,
+                        "name": name,
+                        "agreement": False,
+                    }
+                ),
+                status_code=status.HTTP_202_ACCEPTED,
+                headers={"Location": str(request.url)},
+            )
+        return Token.create_token_by_user_id(user.id)
+
+    elif oauth.agreement and oauth.platform and oauth.platform_id and oauth.name:
+        user = await user_service.oauth_signup(
+            oauth.name, oauth.platform_id, oauth.platform, db_session
+        )
+        return Token.create_token_by_user_id(user.id)
+    else:
+        raise NotAgerrmentExcption
 
 
 class UserPresentation:
@@ -78,47 +124,39 @@ class UserPresentation:
             catch_exception(e)
 
     @router.post("/google-login", status_code=201)
-    async def google_login(oauth: OauthData, db_session=Depends(get_db_session)):
+    async def google_login(
+        oauth: OauthData,
+        request: Request,
+        db_session=Depends(get_db_session),
+    ):
         try:
             platform = "google"
-            name, platform_id = (
-                await Token.get_user_name_and_platform_id_by_google_oauth(oauth.token)
-            )
-            user_id = await user_service.oauth_login(
-                name, platform_id, platform, db_session
-            )
-            return Token.create_token_by_user_id(user_id)
+            return await oauth_login(platform, oauth, request, db_session)
 
         except Exception as e:
             catch_exception(e)
 
     @router.post("/kakao-login", status_code=201)
-    async def kakao_login(oauth: OauthData, db_session=Depends(get_db_session)):
+    async def kakao_login(
+        oauth: OauthData,
+        request: Request,
+        db_session=Depends(get_db_session),
+    ):
         try:
             platform = "kakao"
-            name, platform_id = (
-                await Token.get_user_name_and_platform_id_by_kakao_oauth(oauth.token)
-            )
-            user_id = await user_service.oauth_login(
-                name, platform_id, platform, db_session
-            )
-            return Token.create_token_by_user_id(user_id)
-
+            return await oauth_login(platform, oauth, request, db_session)
         except Exception as e:
             catch_exception(e)
 
     @router.post("/naver-login", status_code=201)
-    async def naver_login(oauth: OauthData, db_session=Depends(get_db_session)):
+    async def naver_login(
+        oauth: OauthData,
+        request: Request,
+        db_session=Depends(get_db_session),
+    ):
         try:
             platform = "naver"
-            name, platform_id = (
-                await Token.get_user_name_and_platform_id_by_naver_oauth(oauth.token)
-            )
-            user_id = await user_service.oauth_login(
-                name, platform_id, platform, db_session
-            )
-            return Token.create_token_by_user_id(user_id)
-
+            return await oauth_login(platform, oauth, request, db_session)
         except Exception as e:
             catch_exception(e)
 

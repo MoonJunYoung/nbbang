@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const TopBar = styled.div`
@@ -37,7 +38,6 @@ export const SigndBox = styled.div`
 `;
 
 export const Form = styled.form`
-  margin-top: 10px;
 `;
 
 export const Input = styled.input`
@@ -67,7 +67,6 @@ export const SignInButton = styled.button`
   width: 290px;
   height: 40px;
   border-radius: 5px;
-  cursor: pointer;
 
   &:not(:disabled) {
     background-color: #0066ffd4;
@@ -121,3 +120,23 @@ export const Valid = styled.div`
   height: 35px;
   font-size: 13px;
 `;
+
+export const SignUpLink = styled.div`
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  margin: 15px;
+`;
+export const AgreementContainer = styled.div`
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+`;
+
+export const AgreementChenckBox = styled.input``;
+
+
+export const LinkStyle = styled(Link)`
+  text-decoration: none;
+`

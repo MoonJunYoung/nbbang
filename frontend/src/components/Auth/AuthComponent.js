@@ -13,6 +13,10 @@ import {
   SigndLineComent,
   PlatformSignd,
   Valid,
+  SignUpLink,
+  AgreementContainer,
+  AgreementChenckBox,
+  LinkStyle
 } from "./AuthComponent.styled";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -34,6 +38,8 @@ const AuthComponent = ({
   const [notAllow, setNotAllow] = useState(true);
   const [isIdentifierValid, setIsIdentifierValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [SingUpLink] = useState(false);
+  const [SginAgreement, setSginAgreement] = useState(false);
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -64,7 +70,6 @@ const AuthComponent = ({
       Cookies.set("authToken", response.data, {
         expires: 30,
       });
-      console.log("sdkfnmdskn");
       navigate("/");
     } catch (error) {
       alert("실패했습니다. 다시 시도하세요.");
@@ -72,13 +77,20 @@ const AuthComponent = ({
   };
 
   useEffect(() => {
-    if (isIdentifierValid && isPasswordValid) {
-      setNotAllow(false);
-      return;
+    if (title === "회원가입") {
+      if (isIdentifierValid && isPasswordValid && SginAgreement) {
+        setNotAllow(false);
+        return;
+      }
+      setNotAllow(true);
+    } else if (title === "로그인") {
+      if (isIdentifierValid && isPasswordValid) {
+        setNotAllow(false);
+        return;
+      }
+      setNotAllow(true);
     }
-    setNotAllow(true);
-  }, [isIdentifierValid, isPasswordValid]);
-
+  }, [title, isIdentifierValid, isPasswordValid, SginAgreement]);
   return (
     <>
       <TopBar>
@@ -138,12 +150,43 @@ const AuthComponent = ({
                 />
               </InputBox>
             ))}
+            {title === "회원가입" && (
+              <AgreementContainer>
+                <AgreementChenckBox
+                  type="checkbox"
+                  checked={SginAgreement}
+                  onChange={(e) => setSginAgreement(e.target.checked)}
+                />
+                <Link
+                  to="/user-protocol"
+                >
+                  회원가입 및 이용약관
+                </Link>
+                <span>을 모두 확인하였으며, 이에 동의합니다.</span>
+              </AgreementContainer>
+            )}
             <SignInButton type="submit" disabled={notAllow}>
               {title}
             </SignInButton>
           </Form>
         </SigndBox>
       </SigndContainer>
+      {title === "로그인" && (
+        <SignUpLink>
+          <span>아이디가 없으신가요?</span>
+          <LinkStyle to="/sign-up" style={{ margin: "5px" }}>
+            회원가입 하러가기
+          </LinkStyle>
+        </SignUpLink>
+      )}
+      {title === "회원가입" && (
+        <SignUpLink>
+          <span>아이디가 있으신가요?</span>
+          <LinkStyle to="/sign-in" style={{ margin: "5px" }}>
+            로그인 하러가기
+          </LinkStyle>
+        </SignUpLink>
+      )}
       <SigndTopLine>
         <SigndLine></SigndLine>
         <SigndLineComent>or</SigndLineComent>
