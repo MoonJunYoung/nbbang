@@ -10,3 +10,5 @@ error.log
 development.db
 *.keystore
 pwa
+template
+build
