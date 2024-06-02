@@ -12,9 +12,7 @@ import Constants from "expo-constants";
 
 export default function App(props) {
   const webviewRef = useRef(null);
-  // const uri = "https://nbbang.shop";
-  const uri = "http://localhost:3000";
-
+  const uri = "https://nbbang.shop";
   const onAndroidBackPress = useCallback(() => {
     if (webviewRef.current) {
       webviewRef.current.goBack();

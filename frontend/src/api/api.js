@@ -11,6 +11,11 @@ const axiosData = () =>
     },
   });
 
+// loging
+export const PostLogData = (logData) => {
+  return axiosData().post(`/log`, { data: logData });
+};
+
 // signd
 
 export const postSignInData = (data) => {
