@@ -1,13 +1,6 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { WebView } from "react-native-webview";
-import {
-  SafeAreaView,
-  BackHandler,
-  Platform,
-  StyleSheet,
-  Linking,
-  Alert,
-} from "react-native";
+import { SafeAreaView, BackHandler, StyleSheet } from "react-native";
 import Constants from "expo-constants";
 
 export default function App(props) {
@@ -16,7 +9,7 @@ export default function App(props) {
   const onAndroidBackPress = useCallback(() => {
     if (webviewRef.current) {
       webviewRef.current.goBack();
-      return true; // prevent default behavior (exit app)
+      return true;
     }
     return false;
   }, []);
@@ -35,8 +28,11 @@ export default function App(props) {
           props.allowsBackForwardNavigationGestures ?? true
         }
         ref={webviewRef}
-        //style={styles.container}
+        style={styles.container}
         source={{ uri: uri }}
+        userAgent={
+          "Mozilla/5.0 (Linux; Android 13; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36"
+        }
       />
     </SafeAreaView>
   );
@@ -45,6 +41,6 @@ export default function App(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Constants.statusBarHeight,
+    marginTop: Constants.statusBarHeight / 2,
   },
 });

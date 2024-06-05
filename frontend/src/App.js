@@ -13,10 +13,8 @@ import {
   GooglesRedirect,
   NaverRedirect,
 } from "./components/SocialLogin/SocialPlatformRedirect";
-import { PostLogData } from "./api/api";
 
 function App() {
-  PostLogData(navigator.userAgent);
   return (
     <div className="App">
       <Router>

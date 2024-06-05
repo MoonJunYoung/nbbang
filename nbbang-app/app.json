@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "nbbang-app",
-    "slug": "nbbang-app",
-    "version": "1.0.0",
+    "name": "엔빵",
+    "slug": "nbbang",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,20 +15,21 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "middle.nbbang"
+      "package": "nbbang.middle"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "owner": "moonjunyoung",
     "extra": {
       "eas": {
-        "projectId": "e70b1944-262f-4db0-8e4b-d7ae64751de2"
+        "projectId": "74e62581-bf35-43db-b531-3d847c03f099"
       }
-    },
-    "owner": "moonjunyoung"
+    }
   }
 }
