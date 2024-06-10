@@ -371,6 +371,28 @@ const MainLogo = styled.a`
   }
 `;
 
+const ToastMessage = styled.div`
+  opacity: 0;
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  padding: 10px 50px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 100px;
+  color: #fff;
+  box-shadow: 3px 4px 11px 0px #00000040;
+  transition: all 0.5s;
+  font-size: 10px;
+
+  ${({ active }) =>
+    active &&
+    css`
+      opacity: 1;
+      bottom: 50px;
+    `}
+`;
+
 function SharePage() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -386,6 +408,7 @@ function SharePage() {
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent
     );
+  const isApple = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   useEffect(() => {
     const handleGetData = async () => {
@@ -447,8 +470,20 @@ function SharePage() {
     );
   };
 
+  const [active, setActive] = useState(false);
+
+  const showToast = () => {
+    setActive(true);
+    setTimeout(() => {
+      setActive(false);
+    }, 1500);
+  };
+
   const DepositInformationCopy = async (deposit_copy_text) => {
     await navigator.clipboard.writeText(deposit_copy_text);
+    if (isApple) {
+      showToast();
+    }
   };
 
   return (
@@ -673,6 +708,7 @@ function SharePage() {
       >
         서비스 이용하러 가기
       </Link>
+      <ToastMessage active={active}>클립보드에 복사되었어요.</ToastMessage>
     </ResultContaner>
   );
 }
