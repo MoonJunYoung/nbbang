@@ -54,7 +54,7 @@ class Member:
                 meeting.toss_deposit_information.bank,
                 meeting.toss_deposit_information.account_number,
             )
-            self.tipped_depoist_copy_text = self._create_deposit_copy_text(
+            self.tipped_deposit_copy_text = self._create_deposit_copy_text(
                 self.tipped_amount,
                 meeting.toss_deposit_information.bank,
                 meeting.toss_deposit_information.account_number,
