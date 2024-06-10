@@ -234,17 +234,21 @@ const Billings = styled.div`
 const Remittance = styled.div`
   @media (max-width: 768px) {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: 15px;
-    width: 80%;
+    gap: 10px;
+    width: 95%;
+    flex-wrap: wrap;
+    flex-direction: row;
   }
   @media (max-width: 900px) {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    justify-content: flex-start;
+    gap: 10px;
     align-items: center;
-    width: 80%;
+    width: 95%;
+    flex-wrap: wrap;
+    flex-direction: row;
   }
 `;
 
@@ -258,26 +262,24 @@ const DepositCopyContaner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
+  width: 130px;
   border-radius: 15px;
   height: 30px;
   border: 1px solid #938282;
   background-color: #ffffff;
   font-size: 12px;
   color: #938282;
-  margin-bottom: 10px;
 `;
 
 const TossPayContaner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
+  width: 130px;
   border-radius: 15px;
   height: 30px;
   border: 1px solid #1849fd;
   background-color: #1849fd;
-  margin-bottom: 10px;
   @media (max-width: 360px) {
     width: 120px;
   }
@@ -306,11 +308,10 @@ const KakaoContaner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
+  width: 130px;
   border-radius: 15px;
   height: 30px;
   background-color: #ffeb3c;
-  margin-bottom: 10px;
   @media (max-width: 360px) {
     width: 120px;
   }
