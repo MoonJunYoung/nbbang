@@ -91,4 +91,4 @@ class Member:
         return send_link
 
     def _create_deposit_copy_text(self, amount, bank, account_number):
-        return f"{bank} {account_number} {amount}원"
+        return f"{bank} {account_number} {int(amount)}원"
