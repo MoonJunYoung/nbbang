@@ -233,6 +233,7 @@ const Meeting = ({ user }) => {
       const response = await postMeetingrData("meeting");
       if (response.status === 201) {
         handleGetData();
+        console.log(response)
         const responseHeaders = response.headers.get("Location");
         navigate(`/${responseHeaders}`);
       }
