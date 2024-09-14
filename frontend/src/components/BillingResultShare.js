@@ -31,10 +31,19 @@ const BillingResultShare = ({ meetingName }) => {
 
   const getApiDataShare = async () => {
     try {
-      if (navigator.share) {
-        await navigator.share({
+      if (window.navigator.share) {
+        await window.navigator.share({
           text: meetingName.share_link,
         });
+      } else if (
+        window.ReactNativeWebView &&
+        window.ReactNativeWebView.postMessage
+      ) {
+        const message = {
+          type: "share",
+          content: meetingName.share_link,
+        };
+        window.ReactNativeWebView.postMessage(JSON.stringify(message));
       } else {
         alert(
           "Web Share API를 지원하지 않는 브라우저이므로 텍스트를 복사합니다."

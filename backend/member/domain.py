@@ -6,13 +6,25 @@ from meeting.domain import Meeting
 
 
 class Member:
-    def __init__(self, id, name, leader, meeting_id, amount=0, tipped_amount=0) -> None:
+    def __init__(
+        self,
+        id,
+        name,
+        leader,
+        meeting_id,
+        amount=0,
+        tipped_amount=0,
+        deposit_copy_data=None,
+        tipped_deposit_copy_data=None,
+    ) -> None:
         self.id = id
         self.name = name
         self.leader = leader
         self.meeting_id = meeting_id
         self.amount = amount
         self.tipped_amount = tipped_amount
+        self.deposit_copy_data = deposit_copy_data
+        self.tipped_deposit_copy_data = tipped_deposit_copy_data
 
     def delete_member_if_not_leader(self):
         if self.leader:
@@ -33,6 +45,16 @@ class Member:
                 meeting.toss_deposit_information.account_number,
             )
             self.tipped_toss_deposit_link = self._create_toss_deposit_link(
+                self.tipped_amount,
+                meeting.toss_deposit_information.bank,
+                meeting.toss_deposit_information.account_number,
+            )
+            self.deposit_copy_text = self._create_deposit_copy_text(
+                self.amount,
+                meeting.toss_deposit_information.bank,
+                meeting.toss_deposit_information.account_number,
+            )
+            self.tipped_deposit_copy_text = self._create_deposit_copy_text(
                 self.tipped_amount,
                 meeting.toss_deposit_information.bank,
                 meeting.toss_deposit_information.account_number,
@@ -67,3 +89,6 @@ class Member:
             hex_amount=hex_amount,
         )
         return send_link
+
+    def _create_deposit_copy_text(self, amount, bank, account_number):
+        return f"{bank} {account_number} {int(amount)}원"

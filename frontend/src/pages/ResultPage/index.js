@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import { getBillingResultPage } from "../../api/api";
 import React, { useEffect, useState } from "react";
 import { truncate } from "../../components/Meeting";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Nav from "../../components/Nav";
 import SlideCheckbox from "../../components/SlideCheckBox";
 import { Link, useNavigate } from "react-router-dom";
@@ -234,17 +234,21 @@ const Billings = styled.div`
 const Remittance = styled.div`
   @media (max-width: 768px) {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: 15px;
-    width: 80%;
+    gap: 10px;
+    width: 95%;
+    flex-wrap: wrap;
+    flex-direction: row;
   }
   @media (max-width: 900px) {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    justify-content: flex-start;
+    gap: 10px;
     align-items: center;
-    width: 80%;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-direction: row;
   }
 `;
 
@@ -254,16 +258,28 @@ const MemberContainer = styled.div`
   align-items: flex-start;
 `;
 
+const DepositCopyContaner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 130px;
+  border-radius: 15px;
+  height: 30px;
+  border: 1px solid #938282;
+  background-color: #ffffff;
+  font-size: 12px;
+  color: #938282;
+`;
+
 const TossPayContaner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
+  width: 130px;
   border-radius: 15px;
   height: 30px;
   border: 1px solid #1849fd;
   background-color: #1849fd;
-  margin-bottom: 10px;
   @media (max-width: 360px) {
     width: 120px;
   }
@@ -292,11 +308,10 @@ const KakaoContaner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
+  width: 130px;
   border-radius: 15px;
   height: 30px;
   background-color: #ffeb3c;
-  margin-bottom: 10px;
   @media (max-width: 360px) {
     width: 120px;
   }
@@ -356,6 +371,28 @@ const MainLogo = styled.a`
   }
 `;
 
+const ToastMessage = styled.div`
+  opacity: 0;
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  padding: 10px 50px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 100px;
+  color: #fff;
+  box-shadow: 3px 4px 11px 0px #00000040;
+  transition: all 0.5s;
+  font-size: 10px;
+
+  ${({ active }) =>
+    active &&
+    css`
+      opacity: 1;
+      bottom: 50px;
+    `}
+`;
+
 function SharePage() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -371,6 +408,7 @@ function SharePage() {
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent
     );
+  const isApple = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   useEffect(() => {
     const handleGetData = async () => {
@@ -432,6 +470,22 @@ function SharePage() {
     );
   };
 
+  const [active, setActive] = useState(false);
+
+  const showToast = () => {
+    setActive(true);
+    setTimeout(() => {
+      setActive(false);
+    }, 1500);
+  };
+
+  const DepositInformationCopy = async (deposit_copy_text) => {
+    await navigator.clipboard.writeText(deposit_copy_text);
+    if (isApple) {
+      showToast();
+    }
+  };
+
   return (
     <ResultContaner>
       <MainLogo>
@@ -466,7 +520,6 @@ function SharePage() {
                   인당 {paymentdata.split_price.toLocaleString()}원
                 </PaymentHistory>
               </Payment>
-              {/* </PaymentResultContainer> */}
               <PaymentMembers>
                 {paymentdata.attend_member.map((attendMemberdata, index) => (
                   <div key={index}>
@@ -585,6 +638,17 @@ function SharePage() {
                                   </a>
                                 </TossPayContaner>
                               )}
+                              {data.tipped_deposit_copy_text && (
+                                <DepositCopyContaner
+                                  onClick={() =>
+                                    DepositInformationCopy(
+                                      data.tipped_deposit_copy_text
+                                    )
+                                  }
+                                >
+                                  계좌&금액 복사하기
+                                </DepositCopyContaner>
+                              )}
                             </Remittance>
                           ) : (
                             <Remittance>
@@ -606,6 +670,17 @@ function SharePage() {
                                     <span>송금하기</span>
                                   </a>
                                 </TossPayContaner>
+                              )}
+                              {data.amount > 0 && data.deposit_copy_text && (
+                                <DepositCopyContaner
+                                  onClick={() =>
+                                    DepositInformationCopy(
+                                      data.deposit_copy_text
+                                    )
+                                  }
+                                >
+                                  계좌&금액 복사하기
+                                </DepositCopyContaner>
                               )}
                             </Remittance>
                           )}
@@ -633,6 +708,7 @@ function SharePage() {
       >
         서비스 이용하러 가기
       </Link>
+      <ToastMessage active={active}>클립보드에 복사되었어요.</ToastMessage>
     </ResultContaner>
   );
 }

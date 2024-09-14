@@ -61,6 +61,7 @@ const KakaoShare = ({ meetingName }) => {
           },
         },
       ],
+      installTalk: true,
     });
   };
 

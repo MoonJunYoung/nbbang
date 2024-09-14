@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from meeting.presentation import MeetingPresentation
 from member.presentation import MemberPresentation
 from payment.presentation import PaymentPresentation
@@ -23,6 +24,15 @@ app.add_middleware(
 @app.get("/", status_code=200)
 def haelth_check():
     return "haelth_check"
+
+
+class LogData(BaseModel):
+    data: str
+
+
+@app.post("/api/log", status_code=201)
+def print_log(log_data: LogData):
+    print(log_data)
 
 
 app.include_router(UserPresentation.router)
