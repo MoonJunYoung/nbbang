@@ -5,7 +5,6 @@ import MainPage from "./pages/MainPage";
 import BillingPage from "./pages/BillingPage";
 import ResultPage from "./pages/ResultPage";
 import UserProtocolPage from "./pages/UserProtocolPage";
-
 import SignIn from "./components/Auth/SignIn";
 import SignUp from "./components/Auth/SignUp";
 import {
@@ -13,6 +12,7 @@ import {
   GooglesRedirect,
   NaverRedirect,
 } from "./components/SocialLogin/SocialPlatformRedirect";
+
 
 function App() {
   return (

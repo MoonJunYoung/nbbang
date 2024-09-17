@@ -1,24 +1,17 @@
 import React from "react";
 import styled from "styled-components";
+import Logo from "../../components/Logo";
 
 const UserProtocolContainer = styled.div`
   text-align: start;
   padding: 10px;
 `;
 
-const MainLogo = styled.img`
-  width: 75px;
-  margin: 5px;
-`;
 
 const UserProtocolPage = () => {
   return (
     <UserProtocolContainer>
-      <MainLogo 
-        alt="Nbbang"
-        src="/images/nbbang.png"
-        onClick={() => (window.location.href = "/")}
-      />
+      <Logo />
       <h1>서비스 이용약관</h1>
       <h2>제 1장 총칙</h2>
       <h3>제 1조 (목적)</h3>

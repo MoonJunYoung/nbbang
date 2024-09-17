@@ -100,12 +100,12 @@ const Agreement = styled.input``;
 
 const ReSignModal = ({ secondSetOpenModal }) => {
   const navigate = useNavigate();
-  const authToken = Token();
   const [ReSginAgreement, setReSginAgreement] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
 
   const handleReSign = async () => {
     try {
+      console.log("ofnsdfbndsofsdbof")
       await deleteUser();
       Cookies.remove("authToken");
       navigate("/signd");

@@ -37,7 +37,7 @@ const UserSeting = styled.div`
   width: auto;
   height: 30px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 3px;
   cursor: pointer;
@@ -100,10 +100,8 @@ const BillingDeleteButton = styled.div`
 `;
 
 const NavContainer = styled.div`
-  background-color: white;
-  position: sticky;
-  top: 0;
-  z-index: 1;
+  background-color: #0044FE;
+  padding: 0px 10px;
   height: 60px;
   border-bottom: 1px solid #e1e1e1a8;
   box-shadow: 0px 2px 4px 0px #d9d9d980;
@@ -113,7 +111,8 @@ const NavContainer = styled.div`
 `;
 
 const UserId = styled.p`
-  font-size: 14px;
+  color: white;
+  font-size: 16px;
   padding-left: 10px;
 `;
 
@@ -199,9 +198,16 @@ const BillingLink = styled.div`
 const Text = styled.p`
   font-weight: 600;
 `;
+
+const SettingIcon = styled.img`
+  cursor: pointer;
+  width: 30px;
+`
+
 export const truncate = (str, n) => {
   return str?.length > n ? str.substring(0, n) + "..." : str;
 };
+
 
 const Meeting = ({ user }) => {
   const [meetings, setMeetings] = useState([]);
@@ -233,7 +239,6 @@ const Meeting = ({ user }) => {
       const response = await postMeetingrData("meeting");
       if (response.status === 201) {
         handleGetData();
-        console.log(response)
         const responseHeaders = response.headers.get("Location");
         navigate(`/${responseHeaders}`);
       }
@@ -270,11 +275,8 @@ const Meeting = ({ user }) => {
   return (
     <MainContainer>
       <NavContainer>
-        <Nav />
-        <UserSeting onClick={handleClickUserSettingModal}>
-          <UserId>{user.name}</UserId>
-          <img alt="Setting" src="/images/Setting.png" />
-        </UserSeting>
+        <UserId>안녕하세요 {user.name}님 👋</UserId>
+        <SettingIcon alt="Setting" src="/images/Setting.png" onClick={handleClickUserSettingModal} />
         {openUserSettingModal && <UserSettingModal setUserSettingModal={setUserSettingModal} />}
       </NavContainer>
       <MeetingContainer>

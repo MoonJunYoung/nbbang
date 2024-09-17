@@ -1,27 +1,32 @@
 import React from "react";
 import styled from "styled-components";
 
+
+const SigndLogoContainer = styled.div`
+  margin-top: 100px;
+`
+
 const SigndLogoImg = styled.img`
-  width: 140px;
-  margin: 50px 0px 10px 0px;
+  width: 90px;
+  border-radius: 25px;
 `;
 
 const SigndComent = styled.p`
-  margin: 20px 0px 60px;
-  font-size: 15px;
-  font-weight: 600;
+  margin: 25px 0px 15px;
+  font-size: 22px;
+  font-weight: bold;
 `;
 
 const SigndLogo = () => {
   return (
-    <div>
+    <SigndLogoContainer>
       <SigndLogoImg
         alt="nbbang"
         src="/images/nbbang.png"
         onClick={() => (window.location.href = "/")}
       />
-      <SigndComent>모두가 편리하게 정산하자!</SigndComent>
-    </div>
+      <SigndComent>빠른 정산, 원클릭 송금</SigndComent>
+    </SigndLogoContainer>
   );
 };
 

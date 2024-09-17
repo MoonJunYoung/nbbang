@@ -1,32 +1,27 @@
 import {
-  TopBar,
-  TopComent,
-  TopIcon,
   SigndContainer,
   SigndBox,
   Form,
   Input,
   InputBox,
   SignInButton,
-  SigndTopLine,
-  SigndLine,
-  SigndLineComent,
-  PlatformSignd,
   Valid,
-  SignUpLink,
   AgreementContainer,
   AgreementChenckBox,
-  LinkStyle
+  NavBar,
+  NavComent,
+  NavIcon,
+  AuthenticationTitleContainer,
+  AuthenticationTitle,
+  AuthenticationSubtitle,
+  ResetButton,
+  LinkStyle,
+  AuthRequestContainer
 } from "./AuthComponent.styled";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import SigndLogo from "./SigndLogo";
-import {
-  NaverLogin,
-  KakaoLogin,
-  GoogleLogin,
-} from "../SocialLogin/SocialPlatformLogin";
+import TostPopUp from "../TostPopUp";
 
 const AuthComponent = ({
   title,
@@ -40,6 +35,7 @@ const AuthComponent = ({
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [SingUpLink] = useState(false);
   const [SginAgreement, setSginAgreement] = useState(false);
+  const [tostPopUp, setTostPopUp] = useState(false)
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -72,7 +68,26 @@ const AuthComponent = ({
       });
       navigate("/");
     } catch (error) {
-      alert("실패했습니다. 다시 시도하세요.");
+      if (error.response.status === 401 || 409 ) {
+        setTostPopUp(true)
+      } else {
+        alert("실패했습니다. 다시 시도하세요.");
+      }
+    }
+  };
+
+  const handleReset = (name) => {
+    setFormData({
+      ...formData,
+      [name]: "",
+    });
+
+    if (name === "identifier") {
+      setIsIdentifierValid(false);
+    }
+
+    if (name === "password") {
+      setIsPasswordValid(false);
     }
   };
 
@@ -91,9 +106,12 @@ const AuthComponent = ({
       setNotAllow(true);
     }
   }, [title, isIdentifierValid, isPasswordValid, SginAgreement]);
+
+
+
   return (
     <>
-      <TopBar>
+      <NavBar>
         <Link
           to="/signd"
           style={{
@@ -101,104 +119,111 @@ const AuthComponent = ({
             left: "0",
           }}
         >
-          <TopIcon alt="beck" src="/images/beck.png" />
+          <NavIcon alt="beck" src="/images/beck.png" />
         </Link>
-        <TopComent>{title}</TopComent>
-      </TopBar>
-
-      <SigndLogo />
-      <SigndContainer>
-        <SigndBox>
-          <Form onSubmit={handleSubmit}>
-            <InputBox>
-              <Input
-                type="text"
-                name="identifier"
-                placeholder=" 아이디를 입력해주세요"
-                value={formData.identifier}
-                onChange={handleInputChange}
-                autoComplete="off"
-              />
-            </InputBox>
-            {!isIdentifierValid && formData.identifier.length > 0 && (
-              <Valid>소문자, 숫자를 포함하고 최소 5자 이상 이어야합니다</Valid>
-            )}
-            <InputBox>
-              <Input
-                type="password"
-                name="password"
-                placeholder=" 비밀번호를 입력해주세요"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
-            </InputBox>
-            {!isPasswordValid && formData.password.length > 0 && (
-              <Valid>
-                비밀번호는 소문자, 숫자, 특수문자를 포함하고 최소 8자 이상이어야
-                합니다.
-              </Valid>
-            )}
-            {additionalFields.map((field) => (
-              <InputBox key={field.name}>
+        <NavComent>{title}</NavComent>
+      </NavBar>
+      <div style={{ margin: '0px 20px 20px 20px' }}>
+        {title === "회원가입" && (
+          <AuthenticationTitleContainer>
+            <AuthenticationTitle>
+              반갑습니다😃
+            </AuthenticationTitle>
+            <AuthenticationTitle>
+              이름을 알려주세요
+            </AuthenticationTitle>
+            <AuthenticationSubtitle>
+              별명이나 애칭도 좋아요
+            </AuthenticationSubtitle>
+          </AuthenticationTitleContainer>
+        )}
+        {additionalFields.map((field) => (
+          <InputBox key={field.name}>
+            <Input
+              type={field.type}
+              name={field.name}
+              value={formData[field.name]}
+              onChange={handleInputChange}
+              autoComplete="off"
+              placeholder={field.placeholder}
+            />
+            <ResetButton onClick={() => handleReset(field.name)}>X</ResetButton>
+          </InputBox>
+        ))}
+        <SigndContainer>
+          <AuthenticationTitleContainer>
+            <AuthenticationTitle>
+              아이디와 비밀번호를
+            </AuthenticationTitle>
+            <AuthenticationTitle>
+              입력해주세요
+            </AuthenticationTitle>
+          </AuthenticationTitleContainer>
+          <SigndBox>
+            <Form onSubmit={handleSubmit}>
+              <InputBox>
                 <Input
-                  type={field.type}
-                  name={field.name}
-                  placeholder={field.placeholder}
-                  value={formData[field.name]}
+                  type="text"
+                  name="identifier"
+                  value={formData.identifier}
                   onChange={handleInputChange}
                   autoComplete="off"
+                  placeholder=" 아이디를 입력해주세요"
                 />
+                <ResetButton  onClick={() => handleReset('identifier')}>X</ResetButton>
               </InputBox>
-            ))}
-            {title === "회원가입" && (
-              <AgreementContainer>
-                <AgreementChenckBox
-                  type="checkbox"
-                  checked={SginAgreement}
-                  onChange={(e) => setSginAgreement(e.target.checked)}
+              {!isIdentifierValid && formData.identifier.length > 0 && (
+                <Valid>소문자, 숫자를 포함하고 최소 5자 이상 이어야합니다</Valid>
+              )}
+              <InputBox>
+                <Input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  placeholder=" 비밀번호를 입력해주세요"
                 />
-                <Link
-                  to="/user-protocol"
-                >
-                  회원가입 및 이용약관
-                </Link>
-                <span>을 모두 확인하였으며, 이에 동의합니다.</span>
-              </AgreementContainer>
-            )}
-            <SignInButton type="submit" disabled={notAllow}>
-              {title}
-            </SignInButton>
-          </Form>
-        </SigndBox>
-      </SigndContainer>
-      {title === "로그인" && (
-        <SignUpLink>
-          <span>아이디가 없으신가요?</span>
-          <LinkStyle to="/sign-up" style={{ margin: "5px" }}>
-            회원가입 하러가기
-          </LinkStyle>
-        </SignUpLink>
-      )}
-      {title === "회원가입" && (
-        <SignUpLink>
-          <span>아이디가 있으신가요?</span>
-          <LinkStyle to="/sign-in" style={{ margin: "5px" }}>
-            로그인 하러가기
-          </LinkStyle>
-        </SignUpLink>
-      )}
-      <SigndTopLine>
-        <SigndLine></SigndLine>
-        <SigndLineComent>or</SigndLineComent>
-        <SigndLine></SigndLine>
-      </SigndTopLine>
-      <PlatformSignd>
-        {navigator.userAgent.includes("KAKAOTALK") ? null : <GoogleLogin />}
-        <KakaoLogin />
-        <NaverLogin />
-      </PlatformSignd>
+                <ResetButton onClick={() => handleReset('password')}>X</ResetButton>
+                
+              </InputBox>
+              {!isPasswordValid && formData.password.length > 0 && (
+                <Valid>
+                  비밀번호는 소문자, 숫자, 특수문자를 포함하고 최소 8자 이상이어야
+                  합니다.
+                </Valid>
+              )}
+               <AuthRequestContainer title={title === "로그인"}>
+                {title === "회원가입" && (
+                  <AgreementContainer >
+                    <AgreementChenckBox
+                      type="checkbox"
+                      checked={SginAgreement}
+                      onChange={(e) => setSginAgreement(e.target.checked)}
+                    />
+                    <LinkStyle
+                      to="/user-protocol"
+                    >
+                      회원가입 및 이용약관
+                    </LinkStyle>
+                    <span>을 모두 확인하였으며, 이에 동의합니다.</span>
+                  </AgreementContainer>
+                )}
+                  <SignInButton type="submit" disabled={notAllow}>
+                    {title}
+                  </SignInButton>
+              </AuthRequestContainer>
+            </Form>
+          </SigndBox>
+        </SigndContainer>
+        {tostPopUp &&
+        <TostPopUp
+         message={"아이디와 비밀번호를 확인해 주세요."}
+         setTostPopUp={setTostPopUp}
+        />}
+      </div>    
     </>
   );
 };
+
 
 export default AuthComponent;

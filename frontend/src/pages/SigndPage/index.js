@@ -13,40 +13,39 @@ const SigndContainer = styled.div`
   position: relative;
 `;
 
-const SigndTopLine = styled.div`
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 15px;
-`;
+const OAuthContainer = styled.div`
+  margin-top: 100px;
+`
 
-const SigndLine = styled.div`
-  border-top: 1px solid silver;
-  width: 135px;
 
-  margin-top: 10px;
-  @media (max-width: 768px) {
-    width: 150px;
-  }
-`;
-
-const SigndLineComent = styled.span`
-  margin: 0 10px;
+const SigndLineComent = styled.p`
+  margin: 30px 0px;
   font-size: 14px;
   color: silver;
-  font-weight: 800;
+  font-weight: 700;
 `;
 
-const SingndLink = styled.div`
+const SingnUpLink = styled(Link)`
+  display: inline-block;
+  border-radius: 10px;
+  width: 340px;
+  height: 45px;
+  border: 1px solid #E5E7EB;
+  text-align: center;
+  align-content: center;
+`;
+
+const SingnInLink = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 5px;
 `;
 
 const Notice = styled.p`
-  font-size: 11px;
-  color: gray;
+  font-size: 12px;
+  font-weight: 600;
+  color: #9CA3AF;
 `
 
 const SigndPage = () => {
@@ -54,15 +53,25 @@ const SigndPage = () => {
     <SigndContainer>
       <SigndLogo />
       <Notice>회원님의 개인정보 보호를 위해 가입 시 이름 정보만 저장됩니다.</Notice>
-      {navigator.userAgent.includes("KAKAOTALK") ? null : <GoogleLogin />}
-      <KakaoLogin />
-      <NaverLogin />
-      <SigndTopLine>
-        <SigndLine></SigndLine>
-        <SigndLineComent>or</SigndLineComent>
-        <SigndLine></SigndLine>
-      </SigndTopLine>
-      <SingndLink>
+      <OAuthContainer>
+        <KakaoLogin />
+        <NaverLogin />
+        {navigator.userAgent.includes("KAKAOTALK") ? null : <GoogleLogin />}
+      </OAuthContainer>
+      <SigndLineComent>또는</SigndLineComent>
+      <SingnUpLink
+          to="/sign-up"
+          style={{
+            textDecoration: "none",
+            color: "black",
+            fontWeight: "bold",
+            fontSize: "13px",
+          }}
+        >
+         아이디로 가입하기
+      </SingnUpLink>
+      <SingnInLink>
+        <SigndLineComent>이미 아이디가 있으신가요?</SigndLineComent>
         <Link
           to="/sign-in"
           style={{
@@ -72,21 +81,9 @@ const SigndPage = () => {
             fontSize: "13px",
           }}
         >
-          로그인 하러가기
+          로그인하기
         </Link>
-        <span style={{ marginBottom: "4px" }}>/</span>
-        <Link
-          to="/sign-up"
-          style={{
-            textDecoration: "none",
-            color: "black",
-            fontWeight: "bold",
-            fontSize: "13px",
-          }}
-        >
-          간편 회원가입 하러가기
-        </Link>
-      </SingndLink>
+      </SingnInLink>
     </SigndContainer>
   );
 };

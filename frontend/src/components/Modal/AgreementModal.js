@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { LinkStyle } from "../Auth/AuthComponent.styled";
 
 const AgreementModalContainer = styled.div`
   z-index: 10;
@@ -47,28 +47,35 @@ const Modal = styled.div`
 
 const ModalClose = styled.button`
   cursor: pointer;
-  position: absolute;
-  top: 0;
-  right: 8px;
-  background: none;
-  border: none;
+  margin-top: 10px;
+  border: 1px solid lightgray;
+  font-weight: 600;
+  width: 150px;
+  height: 40px;
+  color: #0044FE;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 3px 4px 4px 0px #c6c6c666;
 `;
 
 const AgreementContainer = styled.form`
   display: flex;
-  flex-direction: row;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
 `;
-const AgreementChenckBox = styled.input``;
+const AgreementChenckBox = styled.input`
+  border-radius: 100%;
+`;
 
 const SignUpButton = styled.button`
   color: white;
   margin-top: 10px;
   border: 1px solid lightgray;
   font-weight: 600;
-  width: 290px;
+  width: 150px;
   height: 40px;
   border-radius: 5px;
+  
 
   &:not(:disabled) {
     background-color: #0066ffd4;
@@ -86,23 +93,71 @@ const SignUpButton = styled.button`
 `;
 const TextBox = styled.div`
   display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-`;
-
-const Button = styled.div`
-  cursor: pointer;
-  box-shadow: 0px 2px 3px #c3a99759;
-  border-radius: 12px;
-  border: 1px solid #e6e6e666;
-  width: 105px;
-  height: 30px;
-  display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
 `;
 
-const Agreement = ({ setOpenModal, userData, navigate, apiUrl }) => {
+export const TermsOfUseComment = styled.span`
+  color: #949292;
+  font-weight: 700;
+`
+
+const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0px;
+`;
+
+const HiddenCheckbox = styled.input`
+  border: 0;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+`;
+
+const StyledCheckbox = styled.label`
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%; 
+  border: 1px solid #ccc;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  margin-right: 8px; 
+
+
+  ${HiddenCheckbox}:checked + & {
+    background: blue;
+    border-color: blue;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%; 
+    }
+  }
+`;
+
+const LabelText = styled.span`
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+`;
+
+
+const Agreement = ({  userData, navigate, apiUrl }) => {
   const [notAllow, setNotAllow] = useState(true);
   const [SginAgreement, setSginAgreement] = useState(false);
   useEffect(() => {
@@ -136,31 +191,39 @@ const Agreement = ({ setOpenModal, userData, navigate, apiUrl }) => {
     <AgreementModalContainer>
       <WrapperModal>
         <Modal>
-          <ModalClose onClick={cancel}>X</ModalClose>
           <AgreementContainer>
-            <AgreementChenckBox
-              type="checkbox"
-              checked={SginAgreement}
-              onChange={(e) => setSginAgreement(e.target.checked)}
-            />
             <TextBox>
-              <a
-                href="https://nbbang.shop/user-protocol"
+              <TermsOfUseComment>
+                엔빵 서비스
+              </TermsOfUseComment>
+              <LinkStyle
+                to="/user-protocol"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                회원가입 및 이용약관
-              </a>
-              <a>을 모두 확인하였으며, 이에 동의합니다.</a>
+                회원가입 이용약관
+              </LinkStyle>
             </TextBox>
+            <TermsOfUseComment>을 모두 확인하였으며, 이에 동의합니다.</TermsOfUseComment>
           </AgreementContainer>
-          <SignUpButton
-            onClick={handleSingUp}
-            type="submit"
-            disabled={notAllow}
-          >
-            가입하기
-          </SignUpButton>
+          <CheckboxContainer>
+            <HiddenCheckbox 
+              type="checkbox" id="custom-checkbox"   
+              checked={SginAgreement}
+              onChange={(e) => setSginAgreement(e.target.checked)}  />
+            <StyledCheckbox htmlFor="custom-checkbox" />
+            <LabelText>동의합니다</LabelText>
+          </CheckboxContainer>
+          <div style={{ display : "flex" , gap : '10px'}}>
+            <SignUpButton
+              onClick={handleSingUp}
+              type="submit"
+              disabled={notAllow}
+            >
+              가입하기
+            </SignUpButton>
+            <ModalClose onClick={cancel}>취소</ModalClose>
+          </div>
         </Modal>
       </WrapperModal>
     </AgreementModalContainer>
