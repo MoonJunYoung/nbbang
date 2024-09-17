@@ -145,7 +145,7 @@ const Agreement = ({ setOpenModal, userData, navigate, apiUrl }) => {
             />
             <TextBox>
               <a
-                href="https://nbbang.shop/user-protocol"
+                href="https://nbbang.life/user-protocol"
                 target="_blank"
                 rel="noopener noreferrer"
               >

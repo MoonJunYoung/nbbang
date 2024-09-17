@@ -4,7 +4,7 @@ import axios from "axios";
 export let Token = () => Cookies.get("authToken");
 const axiosData = () =>
   axios.create({
-    baseURL: "https://nbbang.shop/api/",
+    baseURL: "https://nbbang.life/api/",
     // baseURL: "http://localhost:8000/api/",
     headers: {
       Authorization: Token(),

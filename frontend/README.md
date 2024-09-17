@@ -7,7 +7,7 @@
   
 ## Link
   
-> __서비스 주소__ : [https://nbbang.shop/](https://nbbang.shop/)
+> __서비스 주소__ : [https://nbbang.life/](https://nbbang.life/)
 
 <br/>
 
