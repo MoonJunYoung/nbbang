@@ -38,9 +38,7 @@ class Meeting:
         )
 
     def load_user_deposit_information(self, user: User):
-        self.kakao_deposit_information = KakaoDepositInformation(
-            user.kakao_deposit_information.kakao_deposit_id
-        )
+        self.kakao_deposit_information = KakaoDepositInformation(user.kakao_deposit_information.kakao_deposit_id)
         self.toss_deposit_information = TossDepositInformation(
             user.toss_deposit_information.bank,
             user.toss_deposit_information.account_number,
@@ -61,14 +59,12 @@ class Meeting:
             raise MeetingUserMismatchException(user_id, self.id)
 
     def create_share_link(self):
-        self.share_link = f"https://nbbang.shop/share?meeting={self.uuid}"
+        self.share_link = f"https://nbbang.life/share?meeting={self.uuid}"
 
 
 class Date:
     def __init__(self, date) -> None:
         self.date = date
-        if self.date and re.match(
-            r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$", self.date
-        ):
+        if self.date and re.match(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$", self.date):
             dt = datetime.datetime.strptime(self.date, "%Y-%m-%dT%H:%M:%S.%fZ")
             self.date = dt.strftime("%Y-%m-%d")

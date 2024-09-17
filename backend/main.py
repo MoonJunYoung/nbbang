@@ -1,16 +1,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 from meeting.presentation import MeetingPresentation
 from member.presentation import MemberPresentation
 from payment.presentation import PaymentPresentation
+from pydantic import BaseModel
 from user.presentation import UserPresentation
 
 app = FastAPI()
 
 
-# origins = ["https://nbbang.shop"]
-origins = ["*"]
+origins = ["https://nbbang.life"]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
