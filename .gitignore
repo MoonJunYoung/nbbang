@@ -12,3 +12,6 @@ development.db
 pwa
 template
 build
+.vscode
+.venv
+.expo
