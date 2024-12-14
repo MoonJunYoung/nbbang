@@ -9,7 +9,7 @@ from user.presentation import UserPresentation
 app = FastAPI()
 
 
-origins = ["https://nbbang.life"]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -30,7 +30,7 @@ class LogData(BaseModel):
     data: str
 
 
-@app.post("/api/log", status_code=201)
+@app.post("/log", status_code=201)
 def print_log(log_data: LogData):
     print(log_data)
 

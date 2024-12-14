@@ -16,7 +16,7 @@ class PaymentData(BaseModel):
 
 
 class PaymentPresentation:
-    router = APIRouter(prefix="/api/meeting/{meeting_id}/payment")
+    router = APIRouter(prefix="/meeting/{meeting_id}/payment")
 
     @router.post("", status_code=201)
     async def create(
@@ -40,14 +40,10 @@ class PaymentPresentation:
             catch_exception(e)
 
     @router.get("", status_code=200)
-    async def read(
-        meeting_id, Authorization=Header(None), db_session=Depends(get_db_session)
-    ):
+    async def read(meeting_id, Authorization=Header(None), db_session=Depends(get_db_session)):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            payments = await payment_service.read(
-                meeting_id=meeting_id, user_id=user_id, db_session=db_session
-            )
+            payments = await payment_service.read(meeting_id=meeting_id, user_id=user_id, db_session=db_session)
             return payments
         except Exception as e:
             catch_exception(e)

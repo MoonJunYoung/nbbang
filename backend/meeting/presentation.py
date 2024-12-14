@@ -22,7 +22,7 @@ class DepositInformationData(BaseModel):
 
 
 class MeetingPresentation:
-    router = APIRouter(prefix="/api/meeting")
+    router = APIRouter(prefix="/meeting")
 
     @router.post("", status_code=201)
     async def add(
@@ -40,9 +40,7 @@ class MeetingPresentation:
             catch_exception(e, request)
 
     @router.get("", status_code=200)
-    async def read_meetings(
-        Authorization=Header(None), db_session=Depends(get_db_session)
-    ):
+    async def read_meetings(Authorization=Header(None), db_session=Depends(get_db_session)):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
             meetings = await meeting_service.read_meetings(user_id, db_session)
@@ -60,14 +58,10 @@ class MeetingPresentation:
             catch_exception(e)
 
     @router.get("/{meeting_id}", status_code=200)
-    async def read(
-        meeting_id: int, Authorization=Header(None), db_session=Depends(get_db_session)
-    ):
+    async def read(meeting_id: int, Authorization=Header(None), db_session=Depends(get_db_session)):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            meeting = await meeting_service.read(
-                id=meeting_id, user_id=user_id, db_session=db_session
-            )
+            meeting = await meeting_service.read(id=meeting_id, user_id=user_id, db_session=db_session)
             return meeting
         except Exception as e:
             catch_exception(e)
@@ -92,14 +86,10 @@ class MeetingPresentation:
             catch_exception(e)
 
     @router.delete("/{meeting_id}", status_code=200)
-    async def remove(
-        meeting_id: int, Authorization=Header(None), db_session=Depends(get_db_session)
-    ):
+    async def remove(meeting_id: int, Authorization=Header(None), db_session=Depends(get_db_session)):
         try:
             user_id = Token.get_user_id_by_token(token=Authorization)
-            await meeting_service.remove(
-                id=meeting_id, user_id=user_id, db_session=db_session
-            )
+            await meeting_service.remove(id=meeting_id, user_id=user_id, db_session=db_session)
         except Exception as e:
             catch_exception(e)
 
