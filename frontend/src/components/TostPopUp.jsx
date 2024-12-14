@@ -56,7 +56,7 @@ const TostPopUp = ({ message, setTostPopUp }) => {
   }, [setTostPopUp]);
 
   return (
-    <PopUpContainer isLeaving={isLeaving}>
+    <PopUpContainer isLeaving={isLeaving} {...{ isLeaving: undefined }}>
       <PopUpMessage>{message}</PopUpMessage>
     </PopUpContainer>
   );
