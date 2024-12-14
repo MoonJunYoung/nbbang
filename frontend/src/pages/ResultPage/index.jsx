@@ -368,13 +368,13 @@ function SharePage() {
   const isApple = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   useEffect(() => {
-    const handleGetData = async () => {
+    const handleGetData = async (retryCount = 0) => {
       try {
         const responseGetData = await getBillingResultPage(meeting);
         if (responseGetData.status === 200) {
           setMembers(responseGetData.data.members);
           setPayments(responseGetData.data.payments);
-          setMeetings(responseGetData.data.meeting);
+          setMeetings(responseGetData.data.payments);
         } else if (responseGetData.status === 204) {
           setBillingRequestFailed(true);
           console.log("데이터 값이 없습니다");
@@ -390,6 +390,11 @@ function SharePage() {
         } else {
           console.log("API 데이터 불러오기 실패");
         }
+      }
+
+      if ((members.length === 0 && payments.length === 0) && retryCount < 3) {
+        console.log(`재요청 중... 시도 횟수: ${retryCount + 1}`);
+        setTimeout(() => handleGetData(retryCount + 1), 1000);
       }
     };
 

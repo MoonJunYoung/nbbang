@@ -253,7 +253,7 @@ const AuthComponent = ({
                 </AnimatePresence>
               </motion.div>
               <motion.div variants={itemVariants}>
-                <AuthRequestContainer title={title === "로그인"}>
+                <AuthRequestContainer title={title === "로그인" ? "true" : "false"}>
                   {title === "회원가입" && (
                     <AgreementContainer>
                       <AgreementChenckBox

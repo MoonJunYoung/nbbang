@@ -6,7 +6,7 @@ const GooglesRedirect = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(window.location.hash.substring(1));
   const accessToken = queryParams.get("access_token");
-  const apiUrl = "https://nbbang.life/api/user/google-login";
+  const apiUrl = "https://api.nbbang.life/user/google-login";
 
   return (
     <>
@@ -19,7 +19,7 @@ const NaverRedirect = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(window.location.search);
   const accessToken = queryParams.get("code");
-  const apiUrl = "https://nbbang.life/api/user/naver-login";
+  const apiUrl = "https://api.nbbang.life/user/naver-login";
 
   return (
     <>
@@ -32,7 +32,7 @@ const KakaoRedirect = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(window.location.search);
   const accessToken = queryParams.get("code");
-  const apiUrl = "https://nbbang.life/api/user/kakao-login";
+  const apiUrl = "https://api.nbbang.life/user/kakao-login";
 
   return (
     <>
