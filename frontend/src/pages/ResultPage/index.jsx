@@ -8,7 +8,7 @@ import Lottie from "lottie-react";
 import animationData from "../../assets/animations/money.json";
 import animationData2 from '../../assets/animations/start.json';
 import { Link, useNavigate } from "react-router-dom";
-
+import LoadingPage from "../../components/LodingPage";
 const ResultContaner = styled.div`
 
 `;
@@ -121,6 +121,7 @@ const BillingContainer = styled.div`
 
 
 const Member = styled.p`
+  white-space: nowrap;
   font-size: 16px;
   margin: 8px 0px;
   color: #0044FE;
@@ -360,6 +361,8 @@ function SharePage() {
   const [members, setMembers] = useState([]);
   const [payments, setPayments] = useState([]);
   const [meetings, setMeetings] = useState([]);
+  const [loading, setLoading] = useState(true); 
+  const [active, setActive] = useState(false);
 
   const isMobile =
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -368,20 +371,19 @@ function SharePage() {
   const isApple = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   useEffect(() => {
-    const handleGetData = async (retryCount = 0) => {
+    const handleGetData = async () => {
       try {
         const responseGetData = await getBillingResultPage(meeting);
         if (responseGetData.status === 200) {
           setMembers(responseGetData.data.members);
           setPayments(responseGetData.data.payments);
-          setMeetings(responseGetData.data.payments);
+          setMeetings(responseGetData.data.meeting);
         } else if (responseGetData.status === 204) {
           setBillingRequestFailed(true);
           console.log("데이터 값이 없습니다");
         }
       } catch (error) {
         console.error(error);
-
         if (error.response && error.response.status === 404) {
           setApiRequestFailed(true);
           setTimeout(() => {
@@ -390,16 +392,17 @@ function SharePage() {
         } else {
           console.log("API 데이터 불러오기 실패");
         }
-      }
-
-      if ((members.length === 0 && payments.length === 0) && retryCount < 3) {
-        console.log(`재요청 중... 시도 횟수: ${retryCount + 1}`);
-        setTimeout(() => handleGetData(retryCount + 1), 1000);
+      } finally {
+        setLoading(false); 
       }
     };
 
     handleGetData();
   }, [meeting]);
+
+  if (loading) {
+    return <LoadingPage />; 
+  }
 
   if (apiRequestFailed) {
     return (
@@ -431,7 +434,6 @@ function SharePage() {
     );
   };
 
-  const [active, setActive] = useState(false);
 
   const showToast = () => {
     setActive(true);
@@ -446,6 +448,7 @@ function SharePage() {
       showToast();
     }
   };
+  console.log(meetings.name)
 
   return (
     <ResultContaner>
@@ -578,57 +581,20 @@ function SharePage() {
                     <MemberContainer>
                       {isMobile ? (
                         <>
-
-                          {data.amount > 0 && data.tipCheck ? (
+                          {data.amount > 0 && (
                             <Remittance>
-                              <RemittanceTitle>송금</RemittanceTitle>
-                              <RemittanceContainer>
-                                {data.tipped_kakao_deposit_link && (
-                                  <KakaoContaner>
-                                    <a href={data.tipped_kakao_deposit_link}>
-                                      <img
-                                        alt="kakao"
-                                        src="/images/kakao 2.png"
-                                      />
-                                    </a>
-                                  </KakaoContaner>
-                                )}
-                                {data.tipped_toss_deposit_link && (
-                                  <TossPayContaner>
-                                    <a href={data.tipped_toss_deposit_link}>
-                                      <img alt="Toss" src="/images/result_toss.png" />
-                                    </a>
-                                  </TossPayContaner>
-                                )}
-                              </RemittanceContainer>
-                              {data.tipped_deposit_copy_text && (
-                                <DepositCopyContaner
-                                  onClick={() =>
-                                    DepositInformationCopy(
-                                      data.tipped_deposit_copy_text
-                                    )
-                                  }
-                                >
-                                  계좌&금액 복사하기
-                                </DepositCopyContaner>
+                              {(data.kakao_deposit_link || data.toss_deposit_link) && (
+                                <RemittanceTitle>송금</RemittanceTitle>
                               )}
-                            </Remittance>
-                          ) : (
-                            <Remittance>
-                              <RemittanceTitle>송금</RemittanceTitle>
                               <RemittanceContainer>
-                                {data.amount > 0 && data.kakao_deposit_link && (
+                                {data.kakao_deposit_link && (
                                   <KakaoContaner>
                                     <a href={data.kakao_deposit_link}>
-                                      <img
-                                        alt="kakao"
-                                        src="/images/kakao 2.png"
-                                      />
+                                      <img alt="kakao" src="/images/kakao 2.png" />
                                     </a>
                                   </KakaoContaner>
                                 )}
-
-                                {data.amount > 0 && data.toss_deposit_link && (
+                                {data.toss_deposit_link && (
                                   <TossPayContaner>
                                     <a href={data.toss_deposit_link}>
                                       <img alt="Toss" src="/images/result_toss.png" />
@@ -636,15 +602,11 @@ function SharePage() {
                                   </TossPayContaner>
                                 )}
                               </RemittanceContainer>
-                              {data.amount > 0 && data.deposit_copy_text && (
-                                <DepositCopyContaner 
-                                  onClick={() =>
-                                    DepositInformationCopy(
-                                      data.deposit_copy_text
-                                    )
-                                  }
+                              {data.deposit_copy_text && (
+                                <DepositCopyContaner
+                                  onClick={() => DepositInformationCopy(data.deposit_copy_text)}
                                 >
-                                  <span>계좌&금액 복사하기</span>
+                                  <span>계좌&금액</span>
                                   <img src="/images/copy.png" alt="copy" />
                                 </DepositCopyContaner>
                               )}
