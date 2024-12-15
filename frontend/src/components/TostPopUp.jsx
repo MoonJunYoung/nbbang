@@ -38,6 +38,7 @@ const PopUpContainer = styled.div`
 const PopUpMessage = styled.span`
   font-size: 14px;
   color: white;
+  white-space: nowrap;
 `;
 
 const TostPopUp = ({ message, setTostPopUp }) => {

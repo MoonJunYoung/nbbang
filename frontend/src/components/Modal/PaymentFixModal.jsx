@@ -41,12 +41,6 @@ const ModalClose = styled.button`
   border: none;
   font-size: 20px;
   color: #666;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    color: #000;
-    transform: rotate(90deg);
-  }
 `;
 
 const PayMentFixInput = styled.input`

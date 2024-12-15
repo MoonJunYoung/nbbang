@@ -9,8 +9,11 @@ import animationData from "../../assets/animations/money.json";
 import animationData2 from '../../assets/animations/start.json';
 import { Link, useNavigate } from "react-router-dom";
 import LoadingPage from "../../components/LodingPage";
-const ResultContaner = styled.div`
 
+const ResultContaner = styled.div`
+  font-family: 'Noto Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 `;
 
 const MeetingContaner = styled.div`
@@ -170,7 +173,6 @@ const LeaderBillingMoney = styled.span`
 const BillingLine = styled.div`
   border: none;
   overflow: hidden;
-  border-radius: 28px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -448,7 +450,7 @@ function SharePage() {
       showToast();
     }
   };
-  console.log(meetings.name)
+
 
   return (
     <ResultContaner>

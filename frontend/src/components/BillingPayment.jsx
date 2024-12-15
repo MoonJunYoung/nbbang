@@ -52,15 +52,6 @@ const BillingAddPayment = styled.button`
   background-color: #3182F6;
   color: white;
   cursor: pointer;
-  
-  &:hover {
-    background-color: #1B64DA;
-  }
-
-  &:disabled {
-    background-color: #F2F4F6;
-    color: #AEB5BC;
-  }
 `;
 
 const PaymentList = styled(motion.div)`
@@ -136,6 +127,7 @@ const PaymentPrice = styled.span`
   font-weight: 700;
   color: black;
   text-align: right;
+  white-space: nowrap;
 `;
 
 const PaymentSplitPrice = styled.span`
@@ -186,16 +178,7 @@ const PaymentDelete = styled.button`
   color: #8B95A1;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-  &:hover {
-    background: #FF3B30;
-    color: white;
-    transform: rotate(90deg);
-  }
 `;
 
 const PaymentHistory = styled.span`

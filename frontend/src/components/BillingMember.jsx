@@ -42,14 +42,6 @@ const BillingAddMember = styled.button`
   color: white;
   cursor: pointer;
   
-  &:hover {
-    background-color: #1B64DA;
-  }
-
-  &:disabled {
-    background-color: #F2F4F6;
-    color: #AEB5BC;
-  }
 `;
 
 const MemberContainer = styled.div`
@@ -69,12 +61,8 @@ const MemberList = styled.div`
   border-radius: 20px;
   border: 1px solid #F2F4F6;
   padding: 12px 16px;
-  transition: all 0.2s;
-  &:hover {
-    border-color: #3182F6;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  }
-`;
+  `;
+
 
 const Leader = styled.span`
   font-size: 13px;
@@ -99,12 +87,6 @@ const MemberDelete = styled.p`
   background: #F2F4F6;
   color: #8B95A1;
   cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background: #E5E8EB;
-    color: #4E5968;
-  }
 `;
 
 const Title = styled.h2`
@@ -151,9 +133,6 @@ const ClearButton = styled.button`
   font-size: 20px;
   padding: 6px;
   
-  &:hover {
-    color: #8B95A1;
-  }
 `;
 
 const LottieContainer = styled.div`
@@ -175,6 +154,7 @@ const BillingMember = ({ member, setMember }) => {
   const [openModal, setOpenModal] = useState(false);
   const [memberSelected, setMemberSelected] = useState({});
   const [notAllow, setNotAllow] = useState(true);
+  const [tostPopUp, setTostPopUp] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
   });
@@ -184,7 +164,9 @@ const BillingMember = ({ member, setMember }) => {
       const responseGetData = await getMemberData(meetingId);
       setMember(responseGetData.data);
     } catch (error) {
-      console.log("데이터를 불러오는데 실패했습니다");
+      if (error.response?.data?.status === 409) {
+        setTostPopUp(true);
+      }
     }
   };
 
@@ -228,8 +210,6 @@ const BillingMember = ({ member, setMember }) => {
       setMember(member.filter((data) => data.id !== memberId));
     } catch (error) {
       if (error.response?.data?.detail === "the leader member cannot be deleted.") {
-        setTostPopUp(true);
-      } else if (error.response?.data?.detail === "it is not possible to delete the member you want to delete because it is included in the payment.") {
         setTostPopUp(true);
       }
     }
@@ -306,6 +286,7 @@ const BillingMember = ({ member, setMember }) => {
       <BillingAddMember type="submit" disabled={notAllow} onClick={handleAddMember}>
         멤버 추가하기
       </BillingAddMember>
+      {tostPopUp && <TostPopUp message="결제 내역에 포함된 멤버는 삭제할 수 없습니다." setTostPopUp={setTostPopUp} />}
     </BillingMemberContainer>
   );
 };
